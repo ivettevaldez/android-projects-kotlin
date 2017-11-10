@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Ressi-Kotlin</string>
+
+    <!-- SplashActivity-->
+    <string name="splash_copyright">© 2017 Silvia Valdez</string>
+
+</resources>

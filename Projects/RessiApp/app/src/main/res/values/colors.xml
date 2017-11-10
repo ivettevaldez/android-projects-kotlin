@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- COLOR PALETTE -->
+
+    <color name="white">#ffffff</color>
+    <color name="steel_grey_70">#b3757f7c</color>
+
+    <color name="caribbean_green">#0fc38e</color>
+
+    <color name="colorPrimary">@color/white</color>
+    <color name="colorPrimaryDark">@color/white</color>
+    <color name="colorAccent">@color/caribbean_green</color>
+    <color name="colorDark">@color/steel_grey_70</color>
+
+</resources>
