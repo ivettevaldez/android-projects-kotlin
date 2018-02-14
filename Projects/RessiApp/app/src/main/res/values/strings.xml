@@ -2,20 +2,31 @@
 
     <string name="app_name">Ressi-Kotlin</string>
 
-    <!-- SplashActivity-->
+    <!-- Defaults -->
+    <string name="default_user">silvia.valdez.e@gmail.com</string>
+    <string name="default_password">userpass</string>
+
+    <!-- Actions -->
+    <string name="action_sign_up">Regístrate</string>
+    <string name="action_sign_in">Inicia sesión</string>
+    <string name="action_sign_in_short">Ingresar</string>
+
+    <!-- Errors -->
+    <string name="error_field_required">Este campo es requerido</string>
+    <string name="error_invalid_user">El usuario es inválido</string>
+    <string name="error_invalid_password">La contraseña es demasiado corta</string>
+    <string name="error_incorrect_password">La contraseña es incorrecta</string>
+
+    <!-- SplashActivity -->
     <string name="splash_copyright">© 2018 Silvia Valdez</string>
 
-    <!-- LoginActivity-->
-    <string name="login_title">Sign in</string>
-
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions." </string>
+    <!-- LoginActivity -->
+    <string name="login_user">Usuario</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_no_account">¿Aún no tienes una cuenta?</string>
+    <string name="login_contacts_permission_rationale">"Los permisos para contactos son necesarios
+        para proporcionar autocompletado de email"
+    </string>
 
 </resources>

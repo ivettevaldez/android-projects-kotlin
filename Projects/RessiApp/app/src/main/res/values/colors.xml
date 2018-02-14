@@ -7,8 +7,11 @@
     <color name="steel_grey_70">#b3757f7c</color>
     <color name="steel_grey_50">#80757f7c</color>
     <color name="charcoal_grey">#444847</color>
+    <color name="black_10">#1e000000</color>
 
+    <color name="aqua_marine">#1fe2a9</color>
     <color name="caribbean_green">#0fc38e</color>
+    <color name="aqua_marine_30">#4c0a7b59</color>
 
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/white</color>
