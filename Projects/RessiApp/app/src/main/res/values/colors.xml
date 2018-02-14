@@ -5,6 +5,8 @@
 
     <color name="white">#ffffff</color>
     <color name="steel_grey_70">#b3757f7c</color>
+    <color name="steel_grey_50">#80757f7c</color>
+    <color name="charcoal_grey">#444847</color>
 
     <color name="caribbean_green">#0fc38e</color>
 
