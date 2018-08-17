@@ -1,0 +1,25 @@
+<resources>
+
+    <string name="app_name">SampleApp</string>
+
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_logout">Cerrar sesión</string>
+
+    <string name="message_logout_confirmation">¿Seguro que desea cerrar sesión?</string>
+
+    <string name="error_unauthorized">Su usuario o contraseña son inválidos</string>
+    <string name="error_wrong_user_name">
+        Un nombre de usuario solo puede contener caracteres alfanuméricos (a-Z, 0-9)
+    </string>
+    <string name="error_empty_username">Debe ingresar un nombre de usuario</string>
+    <string name="error_empty_password">Debe ingresar una contraseña</string>
+
+    <!-- LoginActivity -->
+    <string name="login_title">Iniciar sesión</string>
+    <string name="login_user">Usuario</string>
+    <string name="login_password">Contraseña</string>
+
+    <!-- MainActivity -->
+    <string name="main_title">Dashboard</string>
+
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="white_smoke">#f7f7f7</color>
+    <color name="grey_suit">#97959d</color>
+    <color name="mulled_wine">#4e4d4f</color>
+
+    <color name="dodger_blue">#0097fe</color>
+    <color name="prussian_blue">#013469</color>
+
+    <color name="color_primary">@color/white</color>
+    <color name="color_primary_dark">@color/white_smoke</color>
+    <color name="color_accent">@color/prussian_blue</color>
+
+</resources>
