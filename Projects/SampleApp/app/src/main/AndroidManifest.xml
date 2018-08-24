@@ -15,7 +15,7 @@
 
         <!-- SplashActivity -->
         <activity
-            android:name=".SplashActivity"
+            android:name=".views.activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -27,14 +27,14 @@
 
         <!-- LoginActivity -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".views.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <!-- MainActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".views.activities.MainActivity"
             android:label="@string/main_title"
             android:screenOrientation="portrait" />
 

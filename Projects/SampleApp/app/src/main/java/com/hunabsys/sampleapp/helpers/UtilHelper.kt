@@ -1,4 +1,4 @@
-package com.hunabsys.sampleapp
+package com.hunabsys.sampleapp.helpers
 
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +7,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.view.WindowManager
+import com.hunabsys.sampleapp.R
+import com.hunabsys.sampleapp.views.activities.LoginActivity
 
 class UtilHelper {
 
@@ -20,7 +22,7 @@ class UtilHelper {
     fun changeStatusBarColor(activity: Activity) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         activity.window.statusBarColor =
-                ContextCompat.getColor(activity.applicationContext, R.color.color_primary)
+                ContextCompat.getColor(activity.applicationContext, R.color.black)
     }
 
     fun showLogoutAlert(activity: Activity, progressView: View) {

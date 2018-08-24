@@ -5,12 +5,35 @@
     <color name="white_smoke">#f7f7f7</color>
     <color name="grey_suit">#97959d</color>
     <color name="mulled_wine">#4e4d4f</color>
-
-    <color name="dodger_blue">#0097fe</color>
-    <color name="prussian_blue">#013469</color>
+    <color name="black">#000000</color>
 
     <color name="color_primary">@color/white</color>
-    <color name="color_primary_dark">@color/white_smoke</color>
-    <color name="color_accent">@color/prussian_blue</color>
+    <color name="color_primary_dark">@color/white</color>
+    <color name="color_accent">@color/black</color>
+
+    <!--
+       Alpha Prefixes
+        100% — FF (Opaque)
+         95% — F2
+         90% — E6
+         85% — D9
+         80% — CC
+         75% — BF
+         70% — B3
+         65% — A6
+         60% — 99
+         55% — 8C
+         50% — 80
+         45% — 73
+         40% — 66
+         35% — 59
+         30% — 4D
+         25% — 40
+         20% — 33
+         15% — 26
+         10% — 1A
+          5% — 0D
+          0% — 00 (Transparent)
+                    -->
 
 </resources>

@@ -1,9 +1,13 @@
-package com.hunabsys.sampleapp
+package com.hunabsys.sampleapp.views.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.hunabsys.sampleapp.helpers.AnimationHelper
+import com.hunabsys.sampleapp.helpers.PreferencesHelper
+import com.hunabsys.sampleapp.R
+import com.hunabsys.sampleapp.helpers.UtilHelper
 
 private const val DELAY: Long = 2000L
 

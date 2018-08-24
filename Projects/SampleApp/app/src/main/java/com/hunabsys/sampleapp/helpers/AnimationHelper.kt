@@ -1,4 +1,4 @@
-package com.hunabsys.sampleapp
+package com.hunabsys.sampleapp.helpers
 
 import android.app.Activity
 
