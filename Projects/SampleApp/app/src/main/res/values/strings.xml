@@ -2,24 +2,35 @@
 
     <string name="app_name">SampleApp</string>
 
-    <string name="action_cancel">Cancelar</string>
-    <string name="action_logout">Cerrar sesión</string>
+    <!-- DEFAULTS -->
+    <string name="default_item">Item</string>
+    <string name="default_subitem">Sub Item</string>
 
-    <string name="message_logout_confirmation">¿Seguro que desea cerrar sesión?</string>
+    <!-- ACTIONS -->
+    <string name="action_cancel">Cancel</string>
+    <string name="action_logout">Sign out</string>
 
-    <string name="error_unauthorized">Su usuario o contraseña son inválidos</string>
+    <!-- MESSAGES -->
+    <string name="message_logout_confirmation">Are you sure that you want to sign out?</string>
+    <string name="message_i_do_nothing">I do nothing!</string>
+
+    <!-- ERRORS -->
+    <string name="error_empty_username">Must provide a username</string>
+    <string name="error_empty_password">Must provide a password</string>
+    <string name="error_unauthorized">Invalid user or password</string>
     <string name="error_wrong_user_name">
-        Un nombre de usuario solo puede contener caracteres alfanuméricos (a-Z, 0-9)
+        A username only should contain alphanumeric characters (a-Z, 0-9)
     </string>
-    <string name="error_empty_username">Debe ingresar un nombre de usuario</string>
-    <string name="error_empty_password">Debe ingresar una contraseña</string>
 
     <!-- LoginActivity -->
-    <string name="login_title">Iniciar sesión</string>
-    <string name="login_user">Usuario</string>
-    <string name="login_password">Contraseña</string>
+    <string name="login_title">Sign in</string>
+    <string name="login_user">User</string>
+    <string name="login_password">Password</string>
 
     <!-- MainActivity -->
     <string name="main_title">Dashboard</string>
+
+    <!-- ListActivity -->
+    <string name="list_title">List</string>
 
 </resources>

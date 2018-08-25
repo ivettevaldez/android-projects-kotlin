@@ -96,7 +96,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/selector_primary_button_background_black"
         android:text="@string/login_title"
-        android:textColor="@drawable/selector_primary_button_text_color_black"
+        android:textColor="@drawable/selector_primary_button_text_color_white"
         android:textSize="14sp" />
 
     <ProgressBar
