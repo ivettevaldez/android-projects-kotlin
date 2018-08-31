@@ -13,8 +13,8 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         setUpList()
     }
 

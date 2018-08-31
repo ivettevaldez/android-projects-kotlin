@@ -30,7 +30,7 @@
             android:name=".views.activities.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <!-- MainActivity -->
         <activity
@@ -42,14 +42,15 @@
         <activity
             android:name=".views.activities.FormActivity"
             android:label="@string/form_title"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <!-- ListActivity -->
         <activity
             android:name=".views.activities.ListActivity"
             android:label="@string/list_title"
             android:screenOrientation="portrait" />
-        
+
     </application>
 
 </manifest>

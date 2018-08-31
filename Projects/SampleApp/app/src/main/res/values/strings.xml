@@ -7,8 +7,9 @@
     <string name="default_subitem">Sub Item</string>
 
     <!-- ACTIONS -->
-    <string name="action_cancel">Cancel</string>
     <string name="action_logout">Sign out</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
 
     <!-- MESSAGES -->
     <string name="message_logout_confirmation">Are you sure that you want to sign out?</string>
@@ -35,5 +36,20 @@
 
     <!-- FormActivity -->
     <string name="form_title">Form</string>
+    <string name="form_name">Name</string>
+    <string name="form_last_name">Last name</string>
+    <string name="form_email">Email</string>
+    <string name="form_age">Age</string>
+    <string name="form_address">Address</string>
+    <string name="form_city">City</string>
+    <string name="form_country">Country</string>
+    <string name="form_job">Job</string>
+    <string name="form_gender">Gender</string>
+    <string-array name="form_genders">
+        <item>Gender…</item>
+        <item>Female</item>
+        <item>Male</item>
+        <item>Other</item>
+    </string-array>
 
 </resources>
