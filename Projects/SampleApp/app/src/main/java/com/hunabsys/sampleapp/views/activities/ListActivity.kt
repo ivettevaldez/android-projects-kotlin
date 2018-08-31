@@ -33,7 +33,7 @@ class ListActivity : AppCompatActivity() {
         val items = ArrayList<ItemList>()
         var item: ItemList
 
-        for (i in 1 until 10) {
+        for (i in 1..10) {
             item = ItemList("Dummy title $i", "Also, a dummy subtitle $i")
             items.add(item)
         }
