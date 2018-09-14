@@ -1,5 +1,6 @@
 package com.hunabsys.sampleapp.views.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.hunabsys.sampleapp.R
@@ -16,6 +17,7 @@ class ListActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         setUpList()
+        setUpAddButton()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -39,5 +41,13 @@ class ListActivity : AppCompatActivity() {
         }
 
         list_items.adapter = ListAdapter(this, items)
+    }
+
+    private fun setUpAddButton() {
+        list_fab_add.setOnClickListener {
+            val intent = Intent(this, FormActivity::class.java)
+            startActivity(intent)
+            AnimationHelper().enterTransition(this)
+        }
     }
 }

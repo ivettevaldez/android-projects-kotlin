@@ -32,12 +32,13 @@
 
     <!-- MainActivity -->
     <string name="main_title">Dashboard</string>
+    <string name="main_list_form">List &amp; Form</string>
 
     <!-- ListActivity -->
-    <string name="list_title">List</string>
+    <string name="list_title">People</string>
 
     <!-- FormActivity -->
-    <string name="form_title">Form</string>
+    <string name="form_title">Basic information</string>
     <string name="form_name">Name</string>
     <string name="form_last_name">Last name</string>
     <string name="form_email">Email</string>

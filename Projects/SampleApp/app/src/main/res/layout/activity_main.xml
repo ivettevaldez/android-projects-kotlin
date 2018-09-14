@@ -14,23 +14,13 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/main_button_form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/selector_primary_button_background_black"
-            android:text="@string/form_title"
-            android:textColor="@drawable/selector_primary_button_text_color_white" />
-
-        <Button
             android:id="@+id/main_button_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/selector_primary_button_background_black"
-            android:text="@string/list_title"
+            android:text="@string/main_list_form"
             android:textColor="@drawable/selector_primary_button_text_color_white" />
 
     </LinearLayout>
