@@ -1,4 +1,4 @@
-package com.hunabsys.sampleapp.views.activities
+package com.silviavaldez.sampleapp.views.activities
 
 import android.os.Bundle
 import android.os.Handler
@@ -6,8 +6,8 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ArrayAdapter
-import com.hunabsys.sampleapp.R
-import com.hunabsys.sampleapp.helpers.AnimationHelper
+import com.silviavaldez.sampleapp.R
+import com.silviavaldez.sampleapp.helpers.AnimationHelper
 import kotlinx.android.synthetic.main.activity_form.*
 
 private const val DELAY = 1000L

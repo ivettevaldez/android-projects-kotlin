@@ -1,4 +1,4 @@
-package com.hunabsys.sampleapp.helpers
+package com.silviavaldez.sampleapp.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -8,7 +8,7 @@ import android.content.SharedPreferences
  * Created by Silvia Valdez on 8/1/18.
  */
 
-private const val PREFS_FILE_NAME = "com.hunabsys.sampleapp.prefs"
+private const val PREFS_FILE_NAME = "com.silviavaldez.sampleapp.prefs"
 private const val PREFS_SESSION_ACTIVE = "PREFS_SESSION_ACTIVE"
 
 class PreferencesHelper(context: Context) {

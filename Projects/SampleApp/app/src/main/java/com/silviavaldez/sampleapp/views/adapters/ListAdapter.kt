@@ -1,4 +1,4 @@
-package com.hunabsys.sampleapp.views.adapters
+package com.silviavaldez.sampleapp.views.adapters
 
 import android.app.Activity
 import android.support.design.widget.Snackbar
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.hunabsys.sampleapp.R
-import com.hunabsys.sampleapp.pojos.ItemList
+import com.silviavaldez.sampleapp.R
+import com.silviavaldez.sampleapp.pojos.ItemList
 
 class ListAdapter(private val context: Activity,
                   private val values: ArrayList<ItemList>) : BaseAdapter() {

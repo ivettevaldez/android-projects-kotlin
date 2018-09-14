@@ -1,12 +1,12 @@
-package com.hunabsys.sampleapp.views.activities
+package com.silviavaldez.sampleapp.views.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.hunabsys.sampleapp.R
-import com.hunabsys.sampleapp.helpers.AnimationHelper
-import com.hunabsys.sampleapp.pojos.ItemList
-import com.hunabsys.sampleapp.views.adapters.ListAdapter
+import com.silviavaldez.sampleapp.R
+import com.silviavaldez.sampleapp.helpers.AnimationHelper
+import com.silviavaldez.sampleapp.pojos.ItemList
+import com.silviavaldez.sampleapp.views.adapters.ListAdapter
 import kotlinx.android.synthetic.main.activity_list.*
 
 class ListActivity : AppCompatActivity() {

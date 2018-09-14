@@ -1,13 +1,13 @@
-package com.hunabsys.sampleapp.views.activities
+package com.silviavaldez.sampleapp.views.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.hunabsys.sampleapp.R
-import com.hunabsys.sampleapp.helpers.AnimationHelper
-import com.hunabsys.sampleapp.helpers.UtilHelper
+import com.silviavaldez.sampleapp.R
+import com.silviavaldez.sampleapp.helpers.AnimationHelper
+import com.silviavaldez.sampleapp.helpers.UtilHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

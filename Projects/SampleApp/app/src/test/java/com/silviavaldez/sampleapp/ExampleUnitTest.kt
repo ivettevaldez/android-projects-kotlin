@@ -1,4 +1,4 @@
-package com.hunabsys.sampleapp
+package com.silviavaldez.sampleapp
 
 import org.junit.Test
 
