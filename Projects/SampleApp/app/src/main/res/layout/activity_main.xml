@@ -7,15 +7,33 @@
     android:padding="32dp"
     tools:context=".views.activities.MainActivity">
 
-    <Button
-        android:id="@+id/main_button_list"
+    <LinearLayout
+        android:id="@+id/main_layout_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/selector_primary_button_background_black"
-        android:text="@string/list_title"
-        android:textColor="@drawable/selector_primary_button_text_color_white" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/main_button_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_primary_button_background_black"
+            android:text="@string/form_title"
+            android:textColor="@drawable/selector_primary_button_text_color_white" />
+
+        <Button
+            android:id="@+id/main_button_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/selector_primary_button_background_black"
+            android:text="@string/list_title"
+            android:textColor="@drawable/selector_primary_button_text_color_white" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/main_progress"

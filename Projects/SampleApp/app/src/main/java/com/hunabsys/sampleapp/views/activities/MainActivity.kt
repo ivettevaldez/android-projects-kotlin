@@ -35,6 +35,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setListenersToMenuButtons() {
+        // Form
+        main_button_form.setOnClickListener {
+            val intent = Intent(this, FormActivity::class.java)
+            startActivity(intent)
+            AnimationHelper().enterTransition(this)
+        }
+
         // List
         main_button_list.setOnClickListener {
             val intent = Intent(this, ListActivity::class.java)

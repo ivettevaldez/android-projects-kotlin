@@ -38,12 +38,18 @@
             android:label="@string/main_title"
             android:screenOrientation="portrait" />
 
+        <!-- FormActivity -->
+        <activity
+            android:name=".views.activities.FormActivity"
+            android:label="@string/form_title"
+            android:screenOrientation="portrait" />
+
         <!-- ListActivity -->
         <activity
             android:name=".views.activities.ListActivity"
             android:label="@string/list_title"
             android:screenOrientation="portrait" />
-
+        
     </application>
 
 </manifest>
