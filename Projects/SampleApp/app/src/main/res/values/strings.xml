@@ -15,6 +15,7 @@
     <string name="message_logout_confirmation">Are you sure that you want to sign out?</string>
     <string name="message_i_do_nothing">I do nothing!</string>
     <string name="message_all_saved">All changes saved</string>
+    <string name="message_no_people_added">You should\nadd people here</string>
 
     <!-- ERRORS -->
     <string name="error_empty_username">Must provide a username</string>

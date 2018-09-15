@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.ArrayAdapter
 import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.AnimationHelper
+import com.silviavaldez.sampleapp.models.daos.PersonDao
+import com.silviavaldez.sampleapp.models.datamodels.Person
 import kotlinx.android.synthetic.main.activity_form.*
 
 private const val DELAY = 1000L
@@ -48,7 +50,8 @@ class FormActivity : AppCompatActivity() {
                 form_edit_address.text.isBlank() ||
                 form_edit_city.text.isBlank() ||
                 form_edit_country.text.isBlank() ||
-                form_edit_job.text.isBlank()
+                form_edit_job.text.isBlank() ||
+                form_spinner_gender.selectedItemPosition == 0
     }
 
     private fun showProgress(show: Boolean) {
@@ -61,11 +64,29 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveData() {
-        // TODO: Missing implementation of a real database
-        showProgress(true)
+    private fun createPerson() {
+        val person = Person()
+        val personDao = PersonDao()
 
-        // Dummy functionality
+        person.id = personDao.getNextId()
+        person.name = form_edit_name.text.toString()
+        person.lastName = form_edit_last_name.text.toString()
+        person.email = form_edit_email.text.toString()
+        person.age = form_edit_age.text.toString().toInt()
+        person.address = form_edit_address.text.toString()
+        person.city = form_edit_city.text.toString()
+        person.country = form_edit_country.text.toString()
+        person.profession = form_edit_job.text.toString()
+        person.gender = form_spinner_gender.selectedItemPosition
+
+        personDao.create(person)
+    }
+
+    private fun savePerson() {
+        showProgress(true)
+        createPerson()
+
+        // A bit of lag to show progress
         Handler().postDelayed({
             showProgress(false)
 
@@ -73,6 +94,7 @@ class FormActivity : AppCompatActivity() {
                     getString(R.string.message_all_saved),
                     Snackbar.LENGTH_SHORT).show()
 
+            // A bit of lag to show the success message
             Handler().postDelayed({
                 finish()
             }, DELAY)
@@ -86,7 +108,7 @@ class FormActivity : AppCompatActivity() {
                         getString(R.string.error_all_fields_required),
                         Snackbar.LENGTH_SHORT).show()
             } else {
-                saveData()
+                savePerson()
             }
         }
     }

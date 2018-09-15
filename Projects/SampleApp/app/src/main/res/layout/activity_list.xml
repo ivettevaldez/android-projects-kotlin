@@ -14,6 +14,18 @@
         android:paddingBottom="4dp"
         android:paddingTop="4dp" />
 
+    <TextView
+        android:id="@+id/list_text_nothing_to_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:paddingBottom="24dp"
+        android:text="@string/message_no_people_added"
+        android:textColor="@color/grey_suit"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/list_fab_add"
         android:layout_width="wrap_content"

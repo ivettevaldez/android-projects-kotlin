@@ -9,10 +9,11 @@ import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.silviavaldez.sampleapp.R
-import com.silviavaldez.sampleapp.pojos.ItemList
+import com.silviavaldez.sampleapp.models.datamodels.Person
+import io.realm.RealmResults
 
 class ListAdapter(private val context: Activity,
-                  private val values: ArrayList<ItemList>) : BaseAdapter() {
+                  private val values: RealmResults<Person>) : BaseAdapter() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -20,7 +21,7 @@ class ListAdapter(private val context: Activity,
         return values.size
     }
 
-    override fun getItem(position: Int): ItemList? {
+    override fun getItem(position: Int): Person? {
         return values[position]
     }
 
@@ -30,14 +31,14 @@ class ListAdapter(private val context: Activity,
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val view: View?
-        val viewHolder: PatientsRowHolder
+        val viewHolder: PersonRowHolder
         if (convertView == null) {
             view = this.inflater.inflate(R.layout.item_list, parent, false)
-            viewHolder = PatientsRowHolder(view)
+            viewHolder = PersonRowHolder(view)
             view.tag = viewHolder
         } else {
             view = convertView
-            viewHolder = view.tag as PatientsRowHolder
+            viewHolder = view.tag as PersonRowHolder
         }
 
         val item = getItem(position)
@@ -46,10 +47,11 @@ class ListAdapter(private val context: Activity,
         return view
     }
 
-    private fun setValues(viewHolder: PatientsRowHolder, item: ItemList?) {
+    private fun setValues(viewHolder: PersonRowHolder, item: Person?) {
         if (item != null) {
-            viewHolder.textItem.text = item.item
-            viewHolder.textSubItem.text = item.subitem
+            val fullName = "${item.name} ${item.lastName}"
+            viewHolder.textItem.text = fullName
+            viewHolder.textSubItem.text = item.profession
 
             viewHolder.layoutView.setOnClickListener {
                 Snackbar.make(viewHolder.layoutView,
@@ -60,7 +62,7 @@ class ListAdapter(private val context: Activity,
     }
 }
 
-private class PatientsRowHolder(row: View?) {
+private class PersonRowHolder(row: View?) {
 
     val layoutView: LinearLayout = row?.findViewById(R.id.item_list_layout) as LinearLayout
     val textItem: TextView = row?.findViewById(R.id.item_list_text_item) as TextView
