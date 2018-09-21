@@ -2,19 +2,20 @@ package com.silviavaldez.sampleapp.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.AnimationHelper
 import com.silviavaldez.sampleapp.helpers.PreferencesHelper
-import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.UtilHelper
+import com.silviavaldez.sampleapp.services.delegates.ISignInDelegate
+import com.silviavaldez.sampleapp.services.rest.SignInService
 import kotlinx.android.synthetic.main.activity_login.*
+import org.json.JSONObject
 
 private const val MIN_LENGTH: Int = 6
-private const val DELAY: Long = 1500L
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), ISignInDelegate {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,25 +30,43 @@ class LoginActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+    override fun onSignInSuccess() {
+        PreferencesHelper(this).login()
+        showProgress(false)
+        goToDashboard()
+    }
+
+    override fun onSignInFailure(error: String) {
+        showProgress(false)
+        showMessage(error, Snackbar.LENGTH_LONG)
+    }
+
+    private fun getJsonCredentials(email: String, password: String): String {
+        return JSONObject()
+                .put("email", email)
+                .put("password", password)
+                .toString()
+    }
+
     private fun setListenerToLoginButton() {
         login_button_login.setOnClickListener {
-            showProgress(true)
+            Thread {
+                val userName = login_auto_user_name.text.toString().trim()
+                val password = login_edit_password.text.toString().trim()
 
-            val userName = login_auto_user_name.text.toString().trim()
-            val password = login_edit_password.text.toString().trim()
+                val validCredentials = validateCredentials(userName, password)
 
-            val validCredentials = validateCredentials(userName, password)
+                if (validCredentials) {
+                    val jsonCredentials = getJsonCredentials(userName, password)
+                    val signingIn = SignInService(this).signIn(jsonCredentials)
 
-            if (validCredentials) {
-                PreferencesHelper(this).login()
-
-                Handler().postDelayed({
-                    showProgress(false)
-                    goToDashboard()
-                }, DELAY)
-            } else {
-                showProgress(false)
-            }
+                    if (signingIn) {
+                        showProgress(true)
+                    } else {
+                        showMessage(R.string.error_no_internet_connection, Snackbar.LENGTH_LONG)
+                    }
+                }
+            }.start()
         }
     }
 
@@ -58,8 +77,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showProgress(show: Boolean) {
-        UtilHelper().showView(login_progress, show)
-        enableViews(!show)
+        runOnUiThread {
+            UtilHelper().showView(login_progress, show)
+            enableViews(!show)
+        }
     }
 
     private fun validateCredentials(userName: String, password: String): Boolean {
@@ -70,27 +91,19 @@ class LoginActivity : AppCompatActivity() {
         val regex = Regex("^[a-zA-Z0-9]*$")
         when {
             userName.isEmpty() -> {
-                Snackbar.make(login_layout_container,
-                        R.string.error_empty_username,
-                        Snackbar.LENGTH_SHORT).show()
+                showMessage(R.string.error_empty_username, Snackbar.LENGTH_SHORT)
                 return false
             }
             userName.length < MIN_LENGTH -> {
-                Snackbar.make(login_layout_container,
-                        R.string.error_unauthorized,
-                        Snackbar.LENGTH_SHORT).show()
+                showMessage(R.string.error_unauthorized, Snackbar.LENGTH_SHORT)
                 return false
             }
             userName.contains("@") -> {
-                Snackbar.make(login_layout_container,
-                        R.string.error_wrong_user_name,
-                        Snackbar.LENGTH_LONG).show()
+                showMessage(R.string.error_wrong_user_name, Snackbar.LENGTH_LONG)
                 return false
             }
             !userName.matches(regex = regex) -> {
-                Snackbar.make(login_layout_container,
-                        R.string.error_wrong_user_name,
-                        Snackbar.LENGTH_LONG).show()
+                showMessage(R.string.error_wrong_user_name, Snackbar.LENGTH_LONG)
                 return false
             }
         }
@@ -100,15 +113,11 @@ class LoginActivity : AppCompatActivity() {
     private fun validatePassword(pass: String): Boolean {
         when {
             pass.isEmpty() -> {
-                Snackbar.make(login_layout_container,
-                        R.string.error_empty_password,
-                        Snackbar.LENGTH_SHORT).show()
+                showMessage(R.string.error_empty_password, Snackbar.LENGTH_SHORT)
                 return false
             }
             pass.length < MIN_LENGTH -> {
-                Snackbar.make(login_layout_container,
-                        R.string.error_unauthorized,
-                        Snackbar.LENGTH_SHORT).show()
+                showMessage(R.string.error_unauthorized, Snackbar.LENGTH_SHORT)
                 return false
             }
         }
@@ -120,5 +129,17 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
         AnimationHelper().enterTransition(this)
+    }
+
+    private fun showMessage(message: Int, length: Int) {
+        runOnUiThread {
+            Snackbar.make(login_layout, message, length).show()
+        }
+    }
+
+    private fun showMessage(message: String, length: Int) {
+        runOnUiThread {
+            Snackbar.make(login_layout, message, length).show()
+        }
     }
 }

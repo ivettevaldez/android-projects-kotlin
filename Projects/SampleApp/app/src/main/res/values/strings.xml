@@ -18,6 +18,8 @@
     <string name="message_no_people_added">You should\nadd people here</string>
 
     <!-- ERRORS -->
+    <string name="error_default">An error occurred, try again</string>
+    <string name="error_not_found">Oops! Not found</string>
     <string name="error_empty_username">Must provide a username</string>
     <string name="error_empty_password">Must provide a password</string>
     <string name="error_unauthorized">Invalid user or password</string>
@@ -25,6 +27,7 @@
         A username only should contain alphanumeric characters (a-Z, 0-9)
     </string>
     <string name="error_all_fields_required">All fields required</string>
+    <string name="error_no_internet_connection">Please, check your Internet connection</string>
 
     <!-- LoginActivity -->
     <string name="login_title">Sign in</string>
