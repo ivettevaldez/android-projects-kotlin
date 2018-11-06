@@ -43,14 +43,14 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun hasEmptyFields(): Boolean {
-        return form_edit_name.text.isBlank() ||
-                form_edit_last_name.text.isBlank() ||
-                form_edit_email.text.isBlank() ||
-                form_edit_age.text.isBlank() ||
-                form_edit_address.text.isBlank() ||
-                form_edit_city.text.isBlank() ||
-                form_edit_country.text.isBlank() ||
-                form_edit_job.text.isBlank() ||
+        return form_edit_name.text!!.isBlank() ||
+                form_edit_last_name.text!!.isBlank() ||
+                form_edit_email.text!!.isBlank() ||
+                form_edit_age.text!!.isBlank() ||
+                form_edit_address.text!!.isBlank() ||
+                form_edit_city.text!!.isBlank() ||
+                form_edit_country.text!!.isBlank() ||
+                form_edit_job.text!!.isBlank() ||
                 form_spinner_gender.selectedItemPosition == 0
     }
 

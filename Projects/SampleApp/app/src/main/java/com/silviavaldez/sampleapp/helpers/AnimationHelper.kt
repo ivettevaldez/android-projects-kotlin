@@ -3,7 +3,7 @@ package com.silviavaldez.sampleapp.helpers
 import android.app.Activity
 
 /**
- * Helper class for activities animations and transitions.
+ * Helper class for using animations and transitions in activities.
  * Created by Silvia Valdez on 1/18/18.
  */
 class AnimationHelper {

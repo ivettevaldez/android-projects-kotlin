@@ -10,7 +10,7 @@ import org.json.JSONObject
  */
 class JsonValidationHelper {
 
-    val tag = JsonValidationHelper::class.simpleName
+    private val tag = JsonValidationHelper::class.simpleName
 
     /**
      * Gets a String value from the given JSONObject.

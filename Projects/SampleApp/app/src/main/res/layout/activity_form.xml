@@ -28,9 +28,9 @@
                     android:id="@+id/form_text_input_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="5"
                     android:minWidth="60dp"
                     android:theme="@style/MaterialFieldTextLabel">
@@ -55,9 +55,9 @@
                     android:id="@+id/form_text_input_last_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="5"
                     android:minWidth="60dp"
                     android:theme="@style/MaterialFieldTextLabel">
@@ -90,9 +90,9 @@
                     android:id="@+id/form_text_input_email"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="10"
                     android:minWidth="60dp"
                     android:theme="@style/MaterialFieldTextLabel">
@@ -117,9 +117,9 @@
                     android:id="@+id/form_text_input_age"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="1"
                     android:theme="@style/MaterialFieldTextLabel">
 
@@ -151,8 +151,8 @@
                     android:id="@+id/form_text_input_address"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="10"
                     android:minWidth="60dp"
                     android:theme="@style/MaterialFieldTextLabel">
@@ -185,9 +185,9 @@
                     android:id="@+id/form_text_input_city"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="5"
                     android:minWidth="60dp"
                     android:theme="@style/MaterialFieldTextLabel">
@@ -212,9 +212,9 @@
                     android:id="@+id/form_text_input_country"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="5"
                     android:minWidth="60dp"
                     android:theme="@style/MaterialFieldTextLabel">
@@ -247,9 +247,9 @@
                     android:id="@+id/form_text_input_job"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="10"
                     android:minWidth="60dp"
                     android:theme="@style/MaterialFieldTextLabel">
@@ -275,8 +275,8 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="-16dp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="-16dp" />
 
             </LinearLayout>
 

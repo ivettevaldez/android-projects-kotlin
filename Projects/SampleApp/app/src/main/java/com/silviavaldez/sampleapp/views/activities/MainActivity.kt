@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.AnimationHelper
-import com.silviavaldez.sampleapp.helpers.UtilHelper
+import com.silviavaldez.sampleapp.helpers.SignOutHelper
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -32,8 +32,9 @@ class MainActivity : AppCompatActivity() {
         val id = item.itemId
 
         if (id == R.id.action_logout) {
-            UtilHelper().showLogoutAlert(this, main_progress)
+            SignOutHelper(this).showLogoutAlert(main_layout, main_progress)
         }
+
         return super.onOptionsItemSelected(item)
     }
 
