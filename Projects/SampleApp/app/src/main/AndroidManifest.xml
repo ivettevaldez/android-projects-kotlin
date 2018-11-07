@@ -53,6 +53,12 @@
             android:label="@string/list_title"
             android:screenOrientation="portrait" />
 
+        <!-- AccelerometerActivity -->
+        <activity
+            android:name=".views.activities.AccelerometerActivity"
+            android:label="@string/accelerometer_title"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

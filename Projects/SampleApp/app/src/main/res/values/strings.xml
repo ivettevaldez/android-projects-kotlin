@@ -58,6 +58,9 @@
     <!-- ListActivity -->
     <string name="list_title">People</string>
 
+    <!-- AccelerometerActivity -->
+    <string name="accelerometer_title">Accelerometer</string>
+
     <!-- FormActivity -->
     <string name="form_title">Basic information</string>
     <string name="form_name">Name</string>

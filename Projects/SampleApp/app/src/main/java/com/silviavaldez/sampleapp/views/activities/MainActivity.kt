@@ -45,5 +45,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             AnimationHelper().enterTransition(this)
         }
+
+        // Accelerometer
+        main_button_list.setOnClickListener {
+            val intent = Intent(this, ListActivity::class.java)
+            startActivity(intent)
+            AnimationHelper().enterTransition(this)
+        }
     }
 }
