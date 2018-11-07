@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity(), ISignInDelegate {
                     if (signingIn) {
                         showProgress(true)
                     } else {
-                        showMessage(R.string.error_no_internet_connection, Snackbar.LENGTH_LONG)
+                        showMessage(R.string.error_msg_no_internet_connection, Snackbar.LENGTH_LONG)
                     }
                 }
             }.start()

@@ -45,7 +45,7 @@ class SignOutHelper(private val activity: Activity) : ISignOutDelegate {
             activity.runOnUiThread {
                 if (!isSigningOut) {
                     Snackbar.make(rootView,
-                            R.string.error_no_internet_connection,
+                            R.string.error_msg_no_internet_connection,
                             Snackbar.LENGTH_LONG).show()
                 } else {
                     UtilHelper().showView(progressView, true)

@@ -5,21 +5,29 @@
     <!-- DEFAULTS -->
     <string name="default_item">Item</string>
     <string name="default_subitem">Sub Item</string>
+    <string name="default_notification_title">Default notification</string>
 
     <!-- ACTIONS -->
     <string name="action_logout">Sign out</string>
     <string name="action_save">Save</string>
+    <string name="action_retry">Retry</string>
     <string name="action_cancel">Cancel</string>
+    <string name="action_exit">Exit</string>
 
     <!-- MESSAGES -->
     <string name="message_logout_confirmation">Are you sure that you want to sign out?</string>
     <string name="message_i_do_nothing">I do nothing!</string>
     <string name="message_all_saved">All changes saved</string>
     <string name="message_no_people_added">You should\nadd people here</string>
+    <string name="message_unsaved_changes">
+        If you continue, you\'ll lose any changes you made
+    </string>
+    <string name="message_open_settings">Do you want to open GPS settings?</string>
 
     <!-- ERRORS -->
     <string name="error_default">An error occurred, try again</string>
     <string name="error_not_found">Oops! Not found</string>
+    <string name="error_empty_field">Must provide some text!</string>
     <string name="error_empty_username">Must provide a username</string>
     <string name="error_empty_password">Must provide a password</string>
     <string name="error_unauthorized">Invalid user or password</string>
@@ -27,7 +35,16 @@
         A username only should contain alphanumeric characters (a-Z, 0-9)
     </string>
     <string name="error_all_fields_required">All fields required</string>
-    <string name="error_no_internet_connection">Please, check your Internet connection</string>
+    <string name="error_title_no_internet_connection">No Internet connection</string>
+    <string name="error_msg_no_internet_connection">
+        Please, check your Internet connection and try again
+    </string>
+    <string name="error_title_disabled_gps">Disabled GPS</string>
+    <string name="error_msg_disabled_gps">
+        Please, enable GPS to continue
+    </string>
+    <string name="error_title_empty_field">Text something :)</string>
+    <string name="error_msg_empty_field">Must provide some text to continue</string>
 
     <!-- LoginActivity -->
     <string name="login_title">Sign in</string>
