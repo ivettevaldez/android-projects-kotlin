@@ -10,6 +10,7 @@ import android.view.TouchDelegate
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.Toast
 import com.silviavaldez.sampleapp.R
 
@@ -82,8 +83,26 @@ class UtilHelper {
         UtilHelper().showExitAlert(activity, title, message)
     }
 
+    fun setListViewDynamicHeight(listView: ListView) {
+        val listAdapter = listView.adapter ?: return
+        val unboundedMeasure =
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+
+        var totalHeight = 0
+        for (i in 0 until listAdapter.count) {
+            val listItem = listAdapter.getView(i, null, listView)
+            listItem.measure(unboundedMeasure, unboundedMeasure)
+            totalHeight += listItem.measuredHeight
+        }
+
+        val params = listView.layoutParams
+        params.height = (totalHeight + 16) + listView.dividerHeight *
+                (listAdapter.count - 1)
+        listView.layoutParams = params
+    }
+
     fun enlargeHitArea(button: ImageButton) {
-        // Enlarge hit area for the button
+        // Enlarge hit area for a button
         val buttonParent = button.parent as View  // The view to enlarge hit area
         buttonParent.post {
             val rect = Rect()
