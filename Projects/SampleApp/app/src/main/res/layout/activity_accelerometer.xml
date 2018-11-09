@@ -1,9 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
     tools:context=".views.activities.AccelerometerActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/acceleromter_text_x_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:paddingStart="5dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:text="@string/accelerometer_x"
+            android:textColor="@color/grey_suit"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/acceleromter_text_x_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/default_zero"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/acceleromter_text_y_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:paddingStart="5dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:text="@string/accelerometer_y"
+            android:textColor="@color/grey_suit"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/acceleromter_text_y_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/default_zero"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/acceleromter_text_z_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:paddingStart="5dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="10dp"
+            android:text="@string/accelerometer_z"
+            android:textColor="@color/grey_suit"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/acceleromter_text_z_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/default_zero"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.2" />
+</LinearLayout>

@@ -3,6 +3,7 @@
     <string name="app_name">SampleApp</string>
 
     <!-- DEFAULTS -->
+    <string name="default_zero">0.0</string>
     <string name="default_item">Item</string>
     <string name="default_subitem">Sub Item</string>
     <string name="default_notification_title">Default notification</string>
@@ -60,6 +61,9 @@
 
     <!-- AccelerometerActivity -->
     <string name="accelerometer_title">Accelerometer</string>
+    <string name="accelerometer_x">x =</string>
+    <string name="accelerometer_y">y =</string>
+    <string name="accelerometer_z">z =</string>
 
     <!-- FormActivity -->
     <string name="form_title">Basic information</string>
