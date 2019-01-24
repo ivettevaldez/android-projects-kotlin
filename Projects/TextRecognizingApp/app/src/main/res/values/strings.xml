@@ -5,6 +5,7 @@
 
     <!-- Errors -->
     <string name="error_opening_camera">Something went wrong when opening the camera :(</string>
+    <string name="error_loading_picture">Something went wrong when loading the picture :(</string>
     <string name="error_missing_permissions">Please, grant the required permissions to continue</string>
 
     <!-- MainActivity -->

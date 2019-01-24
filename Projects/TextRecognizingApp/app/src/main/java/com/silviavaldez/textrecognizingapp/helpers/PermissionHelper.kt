@@ -1,4 +1,4 @@
-package com.silviavaldez.textrecognizingapp
+package com.silviavaldez.textrecognizingapp.helpers
 
 import android.Manifest
 import android.app.Activity
@@ -34,7 +34,9 @@ class PermissionHelper(private val activity: Activity) {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
 
-            ActivityCompat.requestPermissions(activity, permissions, REQUEST_PERMISSIONS)
+            ActivityCompat.requestPermissions(activity, permissions,
+                REQUEST_PERMISSIONS
+            )
             false
         }
     }

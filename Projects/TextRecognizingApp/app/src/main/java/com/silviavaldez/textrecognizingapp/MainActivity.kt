@@ -2,39 +2,34 @@ package com.silviavaldez.textrecognizingapp
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
-import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import com.google.firebase.FirebaseApp
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.text.FirebaseVisionText
+import com.silviavaldez.textrecognizingapp.helpers.FileHelper
+import com.silviavaldez.textrecognizingapp.helpers.PermissionHelper
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.File
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 const val CAMERA_REQUEST_CODE = 1
-
-private const val FILENAME_PREFIX = "JPEG"
-private const val FILENAME_SUFFIX = ".jpg"
-private const val TIMESTAMP_FORMAT = "yyyyMMdd_HHmmSS"
 
 class MainActivity : AppCompatActivity() {
 
     private val classTag = MainActivity::class.simpleName
-    private var imageFilePath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        FirebaseApp.initializeApp(this)
         setCamera()
     }
 
@@ -65,70 +60,73 @@ class MainActivity : AppCompatActivity() {
                     // Hide instruction
                     main_text_instruction.visibility = View.GONE
 
-                    showBitmap()
+                    val photo = showBitmap()
+                    if (photo != null) {
+                        readText(photo)
+                    }
                 }
             }
         }
     }
 
-    private fun showBitmap() {
+    private fun showBitmap(): Bitmap? {
+        var photo: Bitmap? = null
+
         try {
-            val photo = BitmapFactory.decodeFile(imageFilePath)
+            photo = BitmapFactory.decodeFile(FileHelper.imageFilePath)
             main_image_photo.setImageBitmap(photo)
 
             // Show text
             main_text_title.visibility = View.VISIBLE
             main_text_content.visibility = View.VISIBLE
         } catch (ex: Exception) {
-            Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show()
-            Log.d(classTag, "Failed to load", ex)
+            Log.d(classTag, "Failed to load picture", ex)
+            Snackbar.make(main_layout, R.string.error_loading_picture, Snackbar.LENGTH_SHORT).show()
         }
+
+        return photo
     }
 
-    private fun validateDirectory(): File? {
-        val directory: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        if (directory != null && !directory.exists()) {
-            val created = directory.mkdirs()
+    private fun getInfoFromText(result: FirebaseVisionText) {
+        for (block in result.textBlocks) {
+            val blockText = block.text
+            val blockCornerPoints = block.cornerPoints
+            val blockFrame = block.boundingBox
 
-            if (!created) {
-                Log.e(classTag, "Can't create files directory")
-                Snackbar.make(main_layout, R.string.error_opening_camera, Snackbar.LENGTH_LONG).show()
-                return null
+            Log.i(classTag, "BlockText: $blockText, BlockCornerPoints: $blockCornerPoints, BlockFrame: $blockFrame")
+
+            for (line in block.lines) {
+                val lineText = line.text
+                val lineCornerPoints = line.cornerPoints
+                val lineFrame = line.boundingBox
+
+                Log.i(classTag, "LineText: $lineText, LineCornerPoints: $lineCornerPoints, LineFrame: $lineFrame")
+
+                for (element in line.elements) {
+                    val elementText = element.text
+                    val elementCornerPoints = element.cornerPoints
+                    val elementFrame = element.boundingBox
+
+                    Log.i(
+                        classTag,
+                        "ElementText: $elementText, ElementCornerPoints: $elementCornerPoints, ElementFrame: $elementFrame"
+                    )
+                }
             }
         }
-
-        Log.d(classTag, "Directory: $directory")
-        return directory
     }
 
-    private fun createImageFile(): File? {
-        val timeStamp: String = SimpleDateFormat(TIMESTAMP_FORMAT, Locale.getDefault()).format(Date())
-        val fileName = "${FILENAME_PREFIX}_$timeStamp"
-        val directory = validateDirectory()
-        val file = File.createTempFile(fileName, FILENAME_SUFFIX, directory)
-        Log.d(classTag, "File name: ${file.name}")
-
-        // Save a reference to the absolute path
-        imageFilePath = file.absolutePath
-
-        return file
-    }
-
-    private fun createImageUri(): Uri? {
-        var imageUri: Uri? = null
-        val imageFile = createImageFile()
-
-        if (imageFile != null) {
-            imageUri = FileProvider.getUriForFile(
-                applicationContext,
-                "$packageName.fileprovider",
-                imageFile
-            )
-        } else {
-            Log.e(classTag, "Can't create uri: file is NULL")
-        }
-
-        return imageUri
+    private fun readText(photo: Bitmap) {
+        val image = FirebaseVisionImage.fromBitmap(photo)
+        val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
+        detector.processImage(image)
+            .addOnSuccessListener { firebaseVisionText ->
+                main_text_content.text = firebaseVisionText.text
+                getInfoFromText(firebaseVisionText)
+            }
+            .addOnFailureListener {
+                Log.e(classTag, "Failed to process image", it)
+            }
     }
 
     private fun startCameraIntent() {
@@ -136,7 +134,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
             if (intent.resolveActivity(packageManager) != null) {
-                val imageUri = createImageUri()
+                val imageUri = FileHelper(this).createImageUri()
 
                 if (imageUri != null) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
@@ -168,6 +166,7 @@ class MainActivity : AppCompatActivity() {
     private fun setCamera() {
         main_fab?.setOnClickListener {
             if (PermissionHelper(this).checkAllPermissions()) {
+                main_text_content.text = ""
                 startCameraIntent()
             }
         }
