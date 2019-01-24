@@ -1,3 +1,14 @@
 <resources>
+
+    <!-- Defaults -->
     <string name="app_name">Text Recognition</string>
+
+    <!-- Errors -->
+    <string name="error_opening_camera">Something went wrong when opening the camera :(</string>
+    <string name="error_missing_permissions">Please, grant the required permissions to continue</string>
+
+    <!-- MainActivity -->
+    <string name="main_take_picture">Take a picture!</string>
+    <string name="main_recognized">Read text:</string>
+
 </resources>
