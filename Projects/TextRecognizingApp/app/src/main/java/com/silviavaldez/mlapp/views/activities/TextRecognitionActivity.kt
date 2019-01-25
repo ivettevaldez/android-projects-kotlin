@@ -1,4 +1,4 @@
-package com.silviavaldez.textrecognizingapp.views.activities
+package com.silviavaldez.mlapp.views.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -10,27 +10,25 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
-import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
-import com.silviavaldez.textrecognizingapp.R
-import com.silviavaldez.textrecognizingapp.helpers.FileHelper
-import com.silviavaldez.textrecognizingapp.helpers.PermissionHelper
-import kotlinx.android.synthetic.main.activity_main.*
+import com.silviavaldez.mlapp.R
+import com.silviavaldez.mlapp.helpers.FileHelper
+import com.silviavaldez.mlapp.helpers.PermissionHelper
+import kotlinx.android.synthetic.main.activity_text_recognition.*
 import java.io.IOException
 
 const val CAMERA_REQUEST_CODE = 1
 
-class MainActivity : AppCompatActivity() {
+class TextRecognitionActivity : AppCompatActivity() {
 
-    private val classTag = MainActivity::class.simpleName
+    private val classTag = TextRecognitionActivity::class.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_text_recognition)
 
-        FirebaseApp.initializeApp(this)
         setCamera()
     }
 
@@ -47,8 +45,10 @@ class MainActivity : AppCompatActivity() {
                     startCameraIntent()
                 } else {
                     Log.e(classTag, "Permission denied :(")
-                    Snackbar.make(main_layout,
-                        R.string.error_missing_permissions, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                        recognition_layout,
+                        R.string.error_missing_permissions, Snackbar.LENGTH_LONG
+                    ).show()
                 }
         }
     }
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             CAMERA_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     // Hide instruction
-                    main_text_instruction.visibility = View.GONE
+                    recognition_text_instruction.visibility = View.GONE
 
                     val photo = showBitmap()
                     if (photo != null) {
@@ -76,14 +76,14 @@ class MainActivity : AppCompatActivity() {
 
         try {
             photo = BitmapFactory.decodeFile(FileHelper.imageFilePath)
-            main_image_photo.setImageBitmap(photo)
+            recognition_image_photo.setImageBitmap(photo)
 
             // Show text
-            main_text_title.visibility = View.VISIBLE
-            main_text_content.visibility = View.VISIBLE
+            recognition_text_title.visibility = View.VISIBLE
+            recognition_text_content.visibility = View.VISIBLE
         } catch (ex: Exception) {
             Log.d(classTag, "Failed to load picture", ex)
-            Snackbar.make(main_layout, R.string.error_loading_picture, Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(recognition_layout, R.string.error_loading_picture, Snackbar.LENGTH_SHORT).show()
         }
 
         return photo
@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity() {
         val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
         detector.processImage(image)
             .addOnSuccessListener { firebaseVisionText ->
-                main_text_content.text = firebaseVisionText.text
+                recognition_text_content.text = firebaseVisionText.text
                 getInfoFromText(firebaseVisionText)
             }
             .addOnFailureListener {
@@ -140,7 +140,8 @@ class MainActivity : AppCompatActivity() {
 
                 if (imageUri != null) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                    startActivityForResult(intent,
+                    startActivityForResult(
+                        intent,
                         CAMERA_REQUEST_CODE
                     )
                     return
@@ -164,13 +165,13 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Snackbar.make(main_layout, R.string.error_opening_camera, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(recognition_layout, R.string.error_opening_camera, Snackbar.LENGTH_LONG).show()
     }
 
     private fun setCamera() {
-        main_fab?.setOnClickListener {
+        recognition_fab?.setOnClickListener {
             if (PermissionHelper(this).checkAllPermissions()) {
-                main_text_content.text = ""
+                recognition_text_content.text = ""
                 startCameraIntent()
             }
         }

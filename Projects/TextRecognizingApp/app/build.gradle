@@ -9,8 +9,8 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.silviavaldez.textrecognizingapp"
-        minSdkVersion 21
+        applicationId "com.silviavaldez.mlapp"
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"

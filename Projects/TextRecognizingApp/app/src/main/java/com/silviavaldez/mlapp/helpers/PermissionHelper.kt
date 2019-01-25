@@ -1,4 +1,4 @@
-package com.silviavaldez.textrecognizingapp.helpers
+package com.silviavaldez.mlapp.helpers
 
 import android.Manifest
 import android.app.Activity

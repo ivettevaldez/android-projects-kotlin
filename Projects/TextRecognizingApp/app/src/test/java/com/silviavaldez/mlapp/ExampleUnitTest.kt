@@ -1,4 +1,4 @@
-package com.silviavaldez.textrecognizingapp
+package com.silviavaldez.mlapp
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

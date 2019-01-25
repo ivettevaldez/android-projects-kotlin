@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Defaults -->
-    <string name="app_name">Text Recognition</string>
+    <string name="app_name">ML App</string>
 
     <!-- Errors -->
     <string name="error_opening_camera">Something went wrong when opening the camera :(</string>
@@ -11,5 +11,8 @@
     <!-- MainActivity -->
     <string name="main_take_picture">Take a picture!</string>
     <string name="main_recognized">Read text:</string>
+
+    <!-- TextRecognitionActivity -->
+    <string name="title_activity_text_recognition">Text Recognition</string>
 
 </resources>
