@@ -8,11 +8,13 @@
     <string name="error_loading_picture">Something went wrong when loading the picture :(</string>
     <string name="error_missing_permissions">Please, grant the required permissions to continue</string>
 
-    <!-- MainActivity -->
-    <string name="main_take_picture">Take a picture!</string>
-    <string name="main_recognized">Read text:</string>
-
     <!-- TextRecognitionActivity -->
-    <string name="title_activity_text_recognition">Text Recognition</string>
+    <string name="recognition_title">Text Recognition</string>
+    <string name="recognition_take_picture">Take a picture of a text!</string>
+    <string name="recognition_read">Read text:</string>
+
+    <!-- FaceDetectionActivity -->
+    <string name="face_detection_title">Face Detection</string>
+    <string name="face_detection_take_picture">Take a picture of a face!</string>
 
 </resources>

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -14,10 +13,10 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.silviavaldez.mlapp.R
+import com.silviavaldez.mlapp.helpers.CameraHelper
 import com.silviavaldez.mlapp.helpers.FileHelper
 import com.silviavaldez.mlapp.helpers.PermissionHelper
 import kotlinx.android.synthetic.main.activity_text_recognition.*
-import java.io.IOException
 
 const val CAMERA_REQUEST_CODE = 1
 
@@ -25,11 +24,13 @@ class TextRecognitionActivity : AppCompatActivity() {
 
     private val classTag = TextRecognitionActivity::class.simpleName
 
+    private val cameraHelper: CameraHelper = CameraHelper(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_text_recognition)
 
-        setCamera()
+        cameraHelper.setCamera(recognition_fab)
     }
 
     override fun onRequestPermissionsResult(
@@ -42,7 +43,7 @@ class TextRecognitionActivity : AppCompatActivity() {
                 // If request is cancelled, the result arrays are empty.
                 if (PermissionHelper(this).validatePermissionResult(grantResults)) {
                     Log.e(classTag, "Permission granted! :D")
-                    startCameraIntent()
+                    cameraHelper.startCameraIntent()
                 } else {
                     Log.e(classTag, "Permission denied :(")
                     Snackbar.make(
@@ -129,51 +130,5 @@ class TextRecognitionActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.e(classTag, "Failed to process image", it)
             }
-    }
-
-    private fun startCameraIntent() {
-        try {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
-            if (intent.resolveActivity(packageManager) != null) {
-                val imageUri = FileHelper(this).createImageUri()
-
-                if (imageUri != null) {
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                    startActivityForResult(
-                        intent,
-                        CAMERA_REQUEST_CODE
-                    )
-                    return
-                } else {
-                    Log.e(classTag, "Can't call intent: uri is NULL")
-                }
-            } else {
-                Log.e(classTag, "Can't resolve activity")
-            }
-        } catch (ex: Exception) {
-            when (ex) {
-                is IOException -> {
-                    Log.e(classTag, "Attempting to create image file", ex)
-                }
-                is SecurityException -> {
-                    Log.e(classTag, "Attempting to call camera without explicit permission", ex)
-                }
-                else -> {
-                    Log.e(classTag, "Attempting to call camera intent", ex)
-                }
-            }
-        }
-
-        Snackbar.make(recognition_layout, R.string.error_opening_camera, Snackbar.LENGTH_LONG).show()
-    }
-
-    private fun setCamera() {
-        recognition_fab?.setOnClickListener {
-            if (PermissionHelper(this).checkAllPermissions()) {
-                recognition_text_content.text = ""
-                startCameraIntent()
-            }
-        }
     }
 }

@@ -34,7 +34,8 @@ class PermissionHelper(private val activity: Activity) {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
 
-            ActivityCompat.requestPermissions(activity, permissions,
+            ActivityCompat.requestPermissions(
+                activity, permissions,
                 REQUEST_PERMISSIONS
             )
             false

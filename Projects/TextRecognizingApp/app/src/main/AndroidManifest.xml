@@ -34,7 +34,6 @@
             android:name=".views.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,7 +43,12 @@
 
         <activity
             android:name=".views.activities.TextRecognitionActivity"
-            android:label="@string/title_activity_text_recognition"
+            android:label="@string/recognition_title"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".views.activities.FaceDetectionActivity"
+            android:label="@string/face_detection_title"
             android:screenOrientation="portrait" />
     </application>
 

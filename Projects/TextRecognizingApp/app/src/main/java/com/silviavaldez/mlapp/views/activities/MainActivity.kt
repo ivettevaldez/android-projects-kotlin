@@ -9,6 +9,7 @@ import com.silviavaldez.mlapp.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TEXT_RECOGNITION = 1
+private const val FACE_DETECTION = 2
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,21 +22,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun goToModule(module: Int) {
-        when (module) {
+        val intent: Intent = when (module) {
             TEXT_RECOGNITION -> {
-                val intent = Intent(this, TextRecognitionActivity::class.java)
-                startActivity(intent)
+                Intent(this, TextRecognitionActivity::class.java)
+            }
+            FACE_DETECTION -> {
+                Intent(this, FaceDetectionActivity::class.java)
+            }
+            else -> {
+                Intent(this, TextRecognitionActivity::class.java)
             }
         }
+        startActivity(intent)
     }
 
     private val buttonListener = View.OnClickListener { view ->
-        when (view.id) {
-            R.id.main_button_recognition -> goToModule(TEXT_RECOGNITION)
+        val module: Int = when (view.id) {
+            R.id.main_button_recognition -> {
+                TEXT_RECOGNITION
+            }
+            R.id.main_button_face_detection -> {
+                FACE_DETECTION
+            }
+            else -> {
+                TEXT_RECOGNITION
+            }
         }
+        goToModule(module)
     }
 
     private fun setListenersToViews() {
         main_button_recognition.setOnClickListener(buttonListener)
+        main_button_face_detection.setOnClickListener(buttonListener)
     }
 }

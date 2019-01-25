@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="56dp"
+    android:layout_margin="48dp"
+    android:orientation="vertical"
     tools:context=".views.activities.MainActivity">
 
     <Button
@@ -13,5 +13,14 @@
         style="@android:style/Widget.Material.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_text_recognition" />
-</RelativeLayout>
+        android:layout_marginBottom="32dp"
+        android:text="@string/recognition_title" />
+
+    <Button
+        android:id="@+id/main_button_face_detection"
+        style="@android:style/Widget.Material.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/face_detection_title" />
+</LinearLayout>
