@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    tools:context=".MainActivity">
+    tools:context=".views.activities.MainActivity">
 
     <ImageView
         android:id="@+id/main_image_photo"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="230dp"
         android:layout_gravity="center_horizontal|top"
         tools:ignore="ContentDescription" />
 
@@ -22,22 +22,34 @@
         android:layout_below="@+id/main_image_photo"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
-        android:padding="24dp"
+        android:padding="16dp"
         android:text="@string/main_recognized"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone" />
 
 
-    <TextView
-        android:id="@+id/main_text_content"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/main_text_title"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:textSize="16sp"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_fab"
+        android:layout_below="@+id/main_text_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/main_text_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/main_text_instruction"
@@ -56,10 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_margin="8dp"
         android:background="@color/colorAccent"
         android:baselineAlignBottom="false"
         android:clickable="true"

@@ -1,4 +1,4 @@
-package com.silviavaldez.textrecognizingapp
+package com.silviavaldez.textrecognizingapp.views.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -14,6 +14,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
+import com.silviavaldez.textrecognizingapp.R
 import com.silviavaldez.textrecognizingapp.helpers.FileHelper
 import com.silviavaldez.textrecognizingapp.helpers.PermissionHelper
 import kotlinx.android.synthetic.main.activity_main.*
@@ -46,7 +47,8 @@ class MainActivity : AppCompatActivity() {
                     startCameraIntent()
                 } else {
                     Log.e(classTag, "Permission denied :(")
-                    Snackbar.make(main_layout, R.string.error_missing_permissions, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(main_layout,
+                        R.string.error_missing_permissions, Snackbar.LENGTH_LONG).show()
                 }
         }
     }
@@ -138,7 +140,9 @@ class MainActivity : AppCompatActivity() {
 
                 if (imageUri != null) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-                    startActivityForResult(intent, CAMERA_REQUEST_CODE)
+                    startActivityForResult(intent,
+                        CAMERA_REQUEST_CODE
+                    )
                     return
                 } else {
                     Log.e(classTag, "Can't call intent: uri is NULL")
