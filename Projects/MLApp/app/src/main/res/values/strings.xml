@@ -3,6 +3,9 @@
     <!-- Defaults -->
     <string name="app_name">ML App</string>
 
+    <!-- Messages -->
+    <string name="msg_please_wait">The operation might take some minutes… Take it easy :)</string>
+
     <!-- Errors -->
     <string name="error_opening_camera">Something went wrong when opening the camera :(</string>
     <string name="error_loading_picture">Something went wrong when loading the picture :(</string>

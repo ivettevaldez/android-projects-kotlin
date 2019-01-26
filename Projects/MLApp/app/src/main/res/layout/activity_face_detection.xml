@@ -67,4 +67,12 @@
         tools:layout_editor_absoluteX="335dp"
         tools:layout_editor_absoluteY="668dp" />
 
+    <ProgressBar
+        android:id="@+id/face_detection_progress"
+        style="@android:style/Widget.Material.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

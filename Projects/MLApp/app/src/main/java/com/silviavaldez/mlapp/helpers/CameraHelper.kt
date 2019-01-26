@@ -2,11 +2,15 @@ package com.silviavaldez.mlapp.helpers
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
-import com.silviavaldez.mlapp.views.activities.CAMERA_REQUEST_CODE
+import android.widget.ImageView
 import java.io.IOException
+
+const val CAMERA_REQUEST_CODE = 1
 
 class CameraHelper(private val activity: Activity) {
 
@@ -54,5 +58,18 @@ class CameraHelper(private val activity: Activity) {
             }
         }
         return false
+    }
+
+    fun showBitmap(imageView: ImageView): Bitmap? {
+        var photo: Bitmap? = null
+
+        try {
+            photo = BitmapFactory.decodeFile(FileHelper.imageFilePath)
+            imageView.setImageBitmap(photo)
+        } catch (ex: Exception) {
+            Log.d(classTag, "Failed to load picture", ex)
+        }
+
+        return photo
     }
 }

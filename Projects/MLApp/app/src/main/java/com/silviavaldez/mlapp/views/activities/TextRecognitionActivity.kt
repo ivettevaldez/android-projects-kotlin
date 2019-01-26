@@ -3,7 +3,6 @@ package com.silviavaldez.mlapp.views.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -13,12 +12,10 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionText
 import com.silviavaldez.mlapp.R
+import com.silviavaldez.mlapp.helpers.CAMERA_REQUEST_CODE
 import com.silviavaldez.mlapp.helpers.CameraHelper
-import com.silviavaldez.mlapp.helpers.FileHelper
 import com.silviavaldez.mlapp.helpers.PermissionHelper
 import kotlinx.android.synthetic.main.activity_text_recognition.*
-
-const val CAMERA_REQUEST_CODE = 1
 
 class TextRecognitionActivity : AppCompatActivity() {
 
@@ -42,7 +39,7 @@ class TextRecognitionActivity : AppCompatActivity() {
                 // If request is cancelled, the result arrays are empty.
                 if (PermissionHelper(this).validatePermissionResult(grantResults)) {
                     Log.e(classTag, "Permission granted! :D")
-                    
+
                     val startedIntent = cameraHelper.startCameraIntent()
                     if (!startedIntent) {
                         Snackbar.make(recognition_layout, R.string.error_opening_camera, Snackbar.LENGTH_SHORT).show()
@@ -63,34 +60,46 @@ class TextRecognitionActivity : AppCompatActivity() {
         when (requestCode) {
             CAMERA_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    // Hide instruction
-                    recognition_text_instruction.visibility = View.GONE
+                    lockViews(true)
 
-                    val photo = showBitmap()
+                    val photo = cameraHelper.showBitmap(recognition_image_photo)
                     if (photo != null) {
                         readText(photo)
+                    } else {
+                        showProgress(false)
+                        Snackbar.make(recognition_layout, R.string.error_loading_picture, Snackbar.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
 
-    private fun showBitmap(): Bitmap? {
-        var photo: Bitmap? = null
+    private fun showProgress(show: Boolean) {
+        when {
+            show -> {
+                recognition_progress.visibility = View.VISIBLE
+                recognition_fab.isEnabled = false
+            }
+            else -> {
+                recognition_progress.visibility = View.GONE
+                recognition_fab.isEnabled = true
+            }
+        }
+    }
 
-        try {
-            photo = BitmapFactory.decodeFile(FileHelper.imageFilePath)
-            recognition_image_photo.setImageBitmap(photo)
+    private fun lockViews(lock: Boolean) {
+        if (lock) {
+            showProgress(true)
 
-            // Show text
+            recognition_text_title.visibility = View.GONE
+            recognition_text_content.visibility = View.GONE
+            recognition_text_instruction.visibility = View.GONE
+        } else {
+            showProgress(false)
+
             recognition_text_title.visibility = View.VISIBLE
             recognition_text_content.visibility = View.VISIBLE
-        } catch (ex: Exception) {
-            Log.d(classTag, "Failed to load picture", ex)
-            Snackbar.make(recognition_layout, R.string.error_loading_picture, Snackbar.LENGTH_SHORT).show()
         }
-
-        return photo
     }
 
     private fun getInfoFromText(result: FirebaseVisionText) {
@@ -128,10 +137,12 @@ class TextRecognitionActivity : AppCompatActivity() {
         detector.processImage(image)
             .addOnSuccessListener { firebaseVisionText ->
                 recognition_text_content.text = firebaseVisionText.text
+                lockViews(false)
                 getInfoFromText(firebaseVisionText)
             }
             .addOnFailureListener {
                 Log.e(classTag, "Failed to process image", it)
+                showProgress(false)
             }
     }
 }
