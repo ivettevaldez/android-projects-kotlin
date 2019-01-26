@@ -22,8 +22,7 @@ const val CAMERA_REQUEST_CODE = 1
 
 class TextRecognitionActivity : AppCompatActivity() {
 
-    private val classTag = TextRecognitionActivity::class.simpleName
-
+    private val classTag: String? = TextRecognitionActivity::class.simpleName
     private val cameraHelper: CameraHelper = CameraHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +42,11 @@ class TextRecognitionActivity : AppCompatActivity() {
                 // If request is cancelled, the result arrays are empty.
                 if (PermissionHelper(this).validatePermissionResult(grantResults)) {
                     Log.e(classTag, "Permission granted! :D")
-                    cameraHelper.startCameraIntent()
+                    
+                    val startedIntent = cameraHelper.startCameraIntent()
+                    if (!startedIntent) {
+                        Snackbar.make(recognition_layout, R.string.error_opening_camera, Snackbar.LENGTH_SHORT).show()
+                    }
                 } else {
                     Log.e(classTag, "Permission denied :(")
                     Snackbar.make(

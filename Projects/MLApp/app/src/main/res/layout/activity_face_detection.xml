@@ -23,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:padding="16dp"
-        android:text="@string/recognition_read"
+        android:text="@string/face_detection_result"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone" />

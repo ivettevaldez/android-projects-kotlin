@@ -16,5 +16,6 @@
     <!-- FaceDetectionActivity -->
     <string name="face_detection_title">Face Detection</string>
     <string name="face_detection_take_picture">Take a picture of a face!</string>
+    <string name="face_detection_result">Face:</string>
 
 </resources>
