@@ -99,13 +99,11 @@ class FaceDetectionActivity : AppCompatActivity() {
         if (lock) {
             showProgress(true)
 
-            face_detection_text_title.visibility = View.GONE
             face_detection_text_content.visibility = View.GONE
             face_detection_text_instruction.visibility = View.GONE
         } else {
             showProgress(false)
 
-            face_detection_text_title.visibility = View.VISIBLE
             face_detection_text_content.visibility = View.VISIBLE
         }
     }
@@ -125,8 +123,10 @@ class FaceDetectionActivity : AppCompatActivity() {
             }
 
             // If contour detection was enabled:
-            val leftEyeContour = face.getContour(FirebaseVisionFaceContour.LEFT_EYE).points
-            val upperLipBottomContour = face.getContour(FirebaseVisionFaceContour.UPPER_LIP_BOTTOM).points
+            val leftEyeContour =
+                face.getContour(FirebaseVisionFaceContour.LEFT_EYE).points
+            val upperLipBottomContour =
+                face.getContour(FirebaseVisionFaceContour.UPPER_LIP_BOTTOM).points
 
             // If classification was enabled:
             if (face.smilingProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
@@ -151,25 +151,52 @@ class FaceDetectionActivity : AppCompatActivity() {
         }
     }
 
+    private fun recognizeMood(faces: List<FirebaseVisionFace>): String {
+        for (face in faces) {
+            if (face.smilingProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
+                val smileProb = face.smilingProbability
+                Log.e(classTag, "SmileProb: $smileProb")
+
+                return if (smileProb > 0.9) {
+                    "Looks very happy! :)"
+                } else if (smileProb > 0.7 && smileProb <= 0.9) {
+                    "Looks happy :)"
+                } else if (smileProb > 0.4 && smileProb <= 0.7) {
+                    "Looks not so happy :|"
+                } else {
+                    "Looks so sad :("
+                }
+            }
+        }
+        return "It doesn't look like anything to me."
+    }
+
     private fun detectFaces(photo: Bitmap) {
         val image = FirebaseVisionImage.fromBitmap(photo)
 
-        // Real-time contour detection of multiple faces
-        val options = FirebaseVisionFaceDetectorOptions.Builder()
-            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
-            .build()
-
-//        // High-accuracy landmark detection and face classification
+//        // Real-time contour detection of multiple faces
 //        val options = FirebaseVisionFaceDetectorOptions.Builder()
-//            .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
-//            .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
-//            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
+//            .setContourMode(FirebaseVisionFaceDetectorOptions.ALL_CONTOURS)
+//            .enableTracking()
 //            .build()
+
+        // High-accuracy landmark detection and face classification
+        val options = FirebaseVisionFaceDetectorOptions.Builder()
+            .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
+            .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
+            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
+            .setMinFaceSize(0.15f)
+            .enableTracking()
+            .build()
 
         val detector = FirebaseVision.getInstance().getVisionFaceDetector(options)
         detector.detectInImage(image)
             .addOnSuccessListener { faces ->
                 lockViews(false)
+
+                val mood = recognizeMood(faces)
+                face_detection_text_content.text = mood
+
                 getInfoFromFaces(faces)
             }
             .addOnFailureListener {
