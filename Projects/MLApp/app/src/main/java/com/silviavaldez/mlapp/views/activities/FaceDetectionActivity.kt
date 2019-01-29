@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.face.FirebaseVisionFace
@@ -18,6 +17,7 @@ import com.silviavaldez.mlapp.R
 import com.silviavaldez.mlapp.helpers.CAMERA_REQUEST_CODE
 import com.silviavaldez.mlapp.helpers.CameraHelper
 import com.silviavaldez.mlapp.helpers.PermissionHelper
+import com.silviavaldez.mlapp.helpers.UtilHelper
 import kotlinx.android.synthetic.main.activity_face_detection.*
 
 class FaceDetectionActivity : AppCompatActivity() {
@@ -25,11 +25,20 @@ class FaceDetectionActivity : AppCompatActivity() {
     private val classTag: String? = FaceDetectionActivity::class.simpleName
     private val cameraHelper: CameraHelper = CameraHelper(this)
 
+    private var utilHelper: UtilHelper? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_face_detection)
 
         cameraHelper.setCamera(face_detection_fab)
+        utilHelper = UtilHelper(
+            face_detection_progress,
+            face_detection_fab,
+            face_detection_text_instruction,
+            null,
+            face_detection_text_content
+        )
     }
 
     override fun onRequestPermissionsResult(
@@ -38,23 +47,13 @@ class FaceDetectionActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         when (requestCode) {
-            PermissionHelper.REQUEST_PERMISSIONS ->
-                // If request is cancelled, the result arrays are empty.
-                if (PermissionHelper(this).validatePermissionResult(grantResults)) {
-                    Log.e(classTag, "Permission granted! :D")
+            PermissionHelper.REQUEST_PERMISSIONS -> {
+                val result = cameraHelper.openCamera(grantResults)
 
-                    val startedIntent = cameraHelper.startCameraIntent()
-                    if (!startedIntent) {
-                        Snackbar.make(face_detection_layout, R.string.error_opening_camera, Snackbar.LENGTH_SHORT)
-                            .show()
-                    }
-                } else {
-                    Log.e(classTag, "Permission denied :(")
-                    Snackbar.make(
-                        face_detection_layout,
-                        R.string.error_missing_permissions, Snackbar.LENGTH_SHORT
-                    ).show()
+                if (result != 0) {
+                    Snackbar.make(face_detection_layout, result, Snackbar.LENGTH_SHORT).show()
                 }
+            }
         }
     }
 
@@ -64,7 +63,7 @@ class FaceDetectionActivity : AppCompatActivity() {
         when (requestCode) {
             CAMERA_REQUEST_CODE -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    lockViews(true)
+                    utilHelper?.lockViews(true)
 
                     val photo = cameraHelper.showBitmap(face_detection_image_photo)
                     if (photo != null) {
@@ -73,7 +72,7 @@ class FaceDetectionActivity : AppCompatActivity() {
 
                         detectFaces(photo)
                     } else {
-                        showProgress(false)
+                        utilHelper?.showProgress(false)
                         Snackbar.make(face_detection_layout, R.string.error_loading_picture, Snackbar.LENGTH_SHORT)
                             .show()
                     }
@@ -82,33 +81,7 @@ class FaceDetectionActivity : AppCompatActivity() {
         }
     }
 
-    private fun showProgress(show: Boolean) {
-        when {
-            show -> {
-                face_detection_progress.visibility = View.VISIBLE
-                face_detection_fab.isEnabled = false
-            }
-            else -> {
-                face_detection_progress.visibility = View.GONE
-                face_detection_fab.isEnabled = true
-            }
-        }
-    }
-
-    private fun lockViews(lock: Boolean) {
-        if (lock) {
-            showProgress(true)
-
-            face_detection_text_content.visibility = View.GONE
-            face_detection_text_instruction.visibility = View.GONE
-        } else {
-            showProgress(false)
-
-            face_detection_text_content.visibility = View.VISIBLE
-        }
-    }
-
-    private fun getInfoFromFaces(faces: List<FirebaseVisionFace>) {
+    private fun getDataFromFaces(faces: List<FirebaseVisionFace>) {
         for (face in faces) {
             val bounds = face.boundingBox
             val rotY = face.headEulerAngleY  // Head is rotated to the right rotY degrees
@@ -152,23 +125,25 @@ class FaceDetectionActivity : AppCompatActivity() {
     }
 
     private fun recognizeMood(faces: List<FirebaseVisionFace>): String {
+        var mood: Int = R.string.face_detection_anything
+
         for (face in faces) {
             if (face.smilingProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                 val smileProb = face.smilingProbability
-                Log.e(classTag, "SmileProb: $smileProb")
 
-                return if (smileProb > 0.9) {
-                    "Looks very happy! :)"
+                mood = if (smileProb > 0.9) {
+                    R.string.face_detection_very_happy
                 } else if (smileProb > 0.7 && smileProb <= 0.9) {
-                    "Looks happy :)"
+                    R.string.face_detection_happy
                 } else if (smileProb > 0.4 && smileProb <= 0.7) {
-                    "Looks not so happy :|"
+                    R.string.face_detection_not_so_happy
                 } else {
-                    "Looks so sad :("
+                    R.string.face_detection_so_sad
                 }
             }
         }
-        return "It doesn't look like anything to me."
+
+        return getString(mood)
     }
 
     private fun detectFaces(photo: Bitmap) {
@@ -192,16 +167,16 @@ class FaceDetectionActivity : AppCompatActivity() {
         val detector = FirebaseVision.getInstance().getVisionFaceDetector(options)
         detector.detectInImage(image)
             .addOnSuccessListener { faces ->
-                lockViews(false)
+                utilHelper?.lockViews(false)
 
                 val mood = recognizeMood(faces)
                 face_detection_text_content.text = mood
 
-                getInfoFromFaces(faces)
+                getDataFromFaces(faces)
             }
             .addOnFailureListener {
                 Log.e(classTag, "Failed to process image", it)
-                showProgress(false)
+                utilHelper?.showProgress(false)
             }
     }
 }

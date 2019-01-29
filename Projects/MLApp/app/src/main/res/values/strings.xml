@@ -19,6 +19,11 @@
     <!-- FaceDetectionActivity -->
     <string name="face_detection_title">Face Detection</string>
     <string name="face_detection_take_picture">Take a picture of a face!</string>
+    <string name="face_detection_very_happy">Looks very happy! :)</string>
+    <string name="face_detection_happy">Looks happy :)</string>
+    <string name="face_detection_not_so_happy">Looks not so happy :|</string>
+    <string name="face_detection_so_sad">Looks so sad :(</string>
+    <string name="face_detection_anything">It doesn\'t look like anything to me.</string>
 
     <!-- ImageLabellingActivity -->
     <string name="image_labelling_title">Image Labelling</string>

@@ -21,8 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/face_detection_image_photo"
-        android:padding="16dp"
+        android:gravity="center"
+        android:padding="24dp"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:visibility="gone" />
 
     <TextView

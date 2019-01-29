@@ -8,6 +8,7 @@ import android.provider.MediaStore
 import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.widget.ImageView
+import com.silviavaldez.mlapp.R
 import java.io.IOException
 
 const val CAMERA_REQUEST_CODE = 1
@@ -16,15 +17,7 @@ class CameraHelper(private val activity: Activity) {
 
     private val classTag = CameraHelper::class.simpleName
 
-    fun setCamera(fab: FloatingActionButton) {
-        fab.setOnClickListener {
-            if (PermissionHelper(activity).checkAllPermissions()) {
-                startCameraIntent()
-            }
-        }
-    }
-
-    fun startCameraIntent(): Boolean {
+    private fun startCameraIntent(): Boolean {
         try {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 
@@ -58,6 +51,30 @@ class CameraHelper(private val activity: Activity) {
             }
         }
         return false
+    }
+
+    fun openCamera(grantResults: IntArray): Int {
+        // If request is cancelled, the result arrays are empty.
+        if (PermissionHelper(activity).validatePermissionResult(grantResults)) {
+            Log.e(classTag, "Permission granted! :D")
+
+            val startedIntent = startCameraIntent()
+            if (!startedIntent) {
+                return R.string.error_opening_camera
+            }
+        } else {
+            Log.e(classTag, "Permission denied :(")
+            return R.string.error_missing_permissions
+        }
+        return 0
+    }
+
+    fun setCamera(fab: FloatingActionButton) {
+        fab.setOnClickListener {
+            if (PermissionHelper(activity).checkAllPermissions()) {
+                startCameraIntent()
+            }
+        }
     }
 
     fun showBitmap(imageView: ImageView): Bitmap? {
