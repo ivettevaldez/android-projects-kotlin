@@ -49,7 +49,7 @@ class ImageLabelingActivity : AppCompatActivity() {
                 val result = cameraHelper.openCamera(grantResults)
 
                 if (result != 0) {
-                    Snackbar.make(image_labelling_layout, result, Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(image_labelling_layout, result, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -79,15 +79,19 @@ class ImageLabelingActivity : AppCompatActivity() {
     private fun getDataFromLabels(labels: List<FirebaseVisionLabel>): String {
         var result = ""
 
-        for (label in labels) {
-            val entity = label.label
-            val confidence = label.confidence * 100
+        if (labels.isEmpty()) {
+            result += getString(R.string.face_detection_anything)
+        } else {
+            for (label in labels) {
+                val entity = label.label
+                val confidence = label.confidence * 100
 //            val entityId = label.entityId
 
-            val info = String.format("- Entity: %s, I'm %.2f%% sure.\n", entity, confidence)
-            result += info
+                val info = String.format("- Entity: %s, I'm %.2f%% sure.\n", entity, confidence)
+                result += info
 
-            Log.e(classTag, info)
+                Log.e(classTag, info)
+            }
         }
 
         return result.trim()
