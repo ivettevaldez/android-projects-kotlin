@@ -2,9 +2,15 @@ package com.silviavaldez.mlapp.views.activities
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.label.FirebaseVisionLabel
+import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetectorOptions
 import com.silviavaldez.mlapp.R
 import com.silviavaldez.mlapp.helpers.CAMERA_REQUEST_CODE
 import com.silviavaldez.mlapp.helpers.CameraHelper
@@ -28,7 +34,7 @@ class ImageLabelingActivity : AppCompatActivity() {
             image_labelling_progress,
             image_labelling_fab,
             image_labelling_text_instruction,
-            null,
+            image_labelling_text_title,
             image_labelling_text_content
         )
     }
@@ -59,11 +65,7 @@ class ImageLabelingActivity : AppCompatActivity() {
 
                     val photo = cameraHelper.showBitmap(image_labelling_image_photo)
                     if (photo != null) {
-                        Snackbar.make(image_labelling_layout, R.string.msg_please_wait, Snackbar.LENGTH_LONG)
-                            .show()
-
-                        // TODO: Label objects
-//                        labelImages(photo)
+                        labelImage(photo)
                     } else {
                         utilHelper?.showProgress(false)
                         Snackbar.make(image_labelling_layout, R.string.error_loading_picture, Snackbar.LENGTH_SHORT)
@@ -72,5 +74,42 @@ class ImageLabelingActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun getDataFromLabels(labels: List<FirebaseVisionLabel>): String {
+        var result = ""
+
+        for (label in labels) {
+            val entity = label.label
+            val confidence = label.confidence * 100
+//            val entityId = label.entityId
+
+            val info = String.format("- Entity: %s, I'm %.2f%% sure.\n", entity, confidence)
+            result += info
+
+            Log.e(classTag, info)
+        }
+
+        return result.trim()
+    }
+
+    private fun labelImage(photo: Bitmap) {
+        val image = FirebaseVisionImage.fromBitmap(photo)
+        val options = FirebaseVisionLabelDetectorOptions.Builder()
+            .setConfidenceThreshold(0.75f)
+            .build()
+
+        val detector = FirebaseVision.getInstance().getVisionLabelDetector(options)
+        detector.detectInImage(image)
+            .addOnSuccessListener { labels ->
+                utilHelper?.lockViews(false)
+
+                val data = getDataFromLabels(labels)
+                image_labelling_text_content.text = data
+            }
+            .addOnFailureListener {
+                Log.e(classTag, "Failed to process image", it)
+                utilHelper?.showProgress(false)
+            }
     }
 }
