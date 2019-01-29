@@ -11,6 +11,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 private const val TEXT_RECOGNITION = 1
 private const val FACE_DETECTION = 2
 private const val IMAGE_LABELLING = 3
+private const val LANDMARK_RECOGNITION = 4
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
             IMAGE_LABELLING -> {
                 Intent(this, ImageLabelingActivity::class.java)
             }
+            LANDMARK_RECOGNITION -> {
+                Intent(this, LandmarkRecognitionActivity::class.java)
+            }
             else -> {
                 Intent(this, TextRecognitionActivity::class.java)
             }
@@ -51,6 +55,9 @@ class MainActivity : AppCompatActivity() {
             R.id.main_button_image_labelling -> {
                 IMAGE_LABELLING
             }
+            R.id.main_button_landmark -> {
+                LANDMARK_RECOGNITION
+            }
             else -> {
                 TEXT_RECOGNITION
             }
@@ -62,5 +69,6 @@ class MainActivity : AppCompatActivity() {
         main_button_recognition.setOnClickListener(buttonListener)
         main_button_face_detection.setOnClickListener(buttonListener)
         main_button_image_labelling.setOnClickListener(buttonListener)
+        main_button_landmark.setOnClickListener(buttonListener)
     }
 }

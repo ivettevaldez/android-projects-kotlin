@@ -30,4 +30,8 @@
     <string name="image_labelling_take_picture">Take a picture of whatever!</string>
     <string name="image_labelling_identified">Identified entities:</string>
 
+    <!-- LandmarkRecognitionActivity -->
+    <string name="landmark_title">Landmark Recognition</string>
+    <string name="landmark_take_picture">Take a picture of a place!</string>
+
 </resources>

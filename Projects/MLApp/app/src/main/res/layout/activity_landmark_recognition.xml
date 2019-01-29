@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/landmark_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    tools:context=".views.activities.LandmarkRecognitionActivity">
+
+    <ImageView
+        android:id="@+id/landmark_image_photo"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_gravity="center_horizontal|top"
+        tools:ignore="ContentDescription" />
+
+
+    <TextView
+        android:id="@+id/landmark_text_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/landmark_image_photo"
+        android:gravity="center"
+        android:padding="24dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/landmark_text_instruction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:text="@string/landmark_take_picture"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/landmark_fab"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:background="@color/colorAccent"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:cropToPadding="false"
+        android:focusable="true"
+        android:foregroundTint="@color/san_felix"
+        android:src="@mipmap/ic_camera_white"
+        app:fabSize="auto"
+        tools:layout_editor_absoluteX="335dp"
+        tools:layout_editor_absoluteY="668dp" />
+
+    <ProgressBar
+        android:id="@+id/landmark_progress"
+        style="@android:style/Widget.Material.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>
