@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 private const val TEXT_RECOGNITION = 1
 private const val FACE_DETECTION = 2
+private const val IMAGE_LABELLING = 3
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,9 @@ class MainActivity : AppCompatActivity() {
             FACE_DETECTION -> {
                 Intent(this, FaceDetectionActivity::class.java)
             }
+            IMAGE_LABELLING -> {
+                Intent(this, ImageLabelingActivity::class.java)
+            }
             else -> {
                 Intent(this, TextRecognitionActivity::class.java)
             }
@@ -44,6 +48,9 @@ class MainActivity : AppCompatActivity() {
             R.id.main_button_face_detection -> {
                 FACE_DETECTION
             }
+            R.id.main_button_image_labelling -> {
+                IMAGE_LABELLING
+            }
             else -> {
                 TEXT_RECOGNITION
             }
@@ -54,5 +61,6 @@ class MainActivity : AppCompatActivity() {
     private fun setListenersToViews() {
         main_button_recognition.setOnClickListener(buttonListener)
         main_button_face_detection.setOnClickListener(buttonListener)
+        main_button_image_labelling.setOnClickListener(buttonListener)
     }
 }

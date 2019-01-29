@@ -19,6 +19,9 @@
     <!-- FaceDetectionActivity -->
     <string name="face_detection_title">Face Detection</string>
     <string name="face_detection_take_picture">Take a picture of a face!</string>
-    <string name="face_detection_result">Face:</string>
+
+    <!-- ImageLabellingActivity -->
+    <string name="image_labelling_title">Image Labelling</string>
+    <string name="image_labelling_take_picture">Take a picture of whatever!</string>
 
 </resources>
