@@ -19,6 +19,7 @@ import com.silviavaldez.mlapp.helpers.CameraHelper
 import com.silviavaldez.mlapp.helpers.PermissionHelper
 import com.silviavaldez.mlapp.helpers.UtilHelper
 import kotlinx.android.synthetic.main.activity_face_detection.*
+import kotlinx.android.synthetic.main.activity_landmark_recognition.*
 
 class FaceDetectionActivity : AppCompatActivity() {
 
@@ -125,7 +126,7 @@ class FaceDetectionActivity : AppCompatActivity() {
     }
 
     private fun recognizeMood(faces: List<FirebaseVisionFace>): String {
-        var mood: Int = R.string.face_detection_anything
+        var mood: Int = R.string.msg_detection_anything
 
         for (face in faces) {
             if (face.smilingProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
@@ -176,6 +177,7 @@ class FaceDetectionActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.e(classTag, "Failed to process image", it)
+                Snackbar.make(landmark_layout, R.string.error_processing_picture, Snackbar.LENGTH_LONG).show()
                 utilHelper?.showProgress(false)
             }
     }

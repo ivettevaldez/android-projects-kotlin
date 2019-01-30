@@ -15,6 +15,7 @@ import com.silviavaldez.mlapp.helpers.CAMERA_REQUEST_CODE
 import com.silviavaldez.mlapp.helpers.CameraHelper
 import com.silviavaldez.mlapp.helpers.PermissionHelper
 import com.silviavaldez.mlapp.helpers.UtilHelper
+import kotlinx.android.synthetic.main.activity_landmark_recognition.*
 import kotlinx.android.synthetic.main.activity_text_recognition.*
 
 class TextRecognitionActivity : AppCompatActivity() {
@@ -121,6 +122,7 @@ class TextRecognitionActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.e(classTag, "Failed to process image", it)
+                Snackbar.make(landmark_layout, R.string.error_processing_picture, Snackbar.LENGTH_LONG).show()
                 utilHelper?.showProgress(false)
             }
     }

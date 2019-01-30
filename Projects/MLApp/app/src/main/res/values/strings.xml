@@ -5,10 +5,12 @@
 
     <!-- Messages -->
     <string name="msg_please_wait">The operation might take some minutes… Take it easy :)</string>
+    <string name="msg_detection_anything">It doesn\'t look like anything to me.</string>
 
     <!-- Errors -->
     <string name="error_opening_camera">Something went wrong when opening the camera :(</string>
     <string name="error_loading_picture">Something went wrong when loading the picture :(</string>
+    <string name="error_processing_picture">Something went wrong when processing the picture :(</string>
     <string name="error_missing_permissions">Please, grant the required permissions to continue</string>
 
     <!-- TextRecognitionActivity -->
@@ -19,11 +21,10 @@
     <!-- FaceDetectionActivity -->
     <string name="face_detection_title">Face Detection</string>
     <string name="face_detection_take_picture">Take a picture of a face!</string>
-    <string name="face_detection_very_happy">Looks very happy! :)</string>
+    <string name="face_detection_very_happy">Looks very happy! :D</string>
     <string name="face_detection_happy">Looks happy :)</string>
     <string name="face_detection_not_so_happy">Looks not so happy :|</string>
     <string name="face_detection_so_sad">Looks so sad :(</string>
-    <string name="face_detection_anything">It doesn\'t look like anything to me.</string>
 
     <!-- ImageLabellingActivity -->
     <string name="image_labelling_title">Image Labelling</string>
@@ -33,5 +34,6 @@
     <!-- LandmarkRecognitionActivity -->
     <string name="landmark_title">Landmark Recognition</string>
     <string name="landmark_take_picture">Take a picture of a place!</string>
+    <string name="error_missing_cloud_permissions">Don\'t have enough GCloud permissions</string>
 
 </resources>

@@ -17,6 +17,7 @@ import com.silviavaldez.mlapp.helpers.CameraHelper
 import com.silviavaldez.mlapp.helpers.PermissionHelper
 import com.silviavaldez.mlapp.helpers.UtilHelper
 import kotlinx.android.synthetic.main.activity_image_labeling.*
+import kotlinx.android.synthetic.main.activity_landmark_recognition.*
 
 class ImageLabelingActivity : AppCompatActivity() {
 
@@ -80,7 +81,7 @@ class ImageLabelingActivity : AppCompatActivity() {
         var result = ""
 
         if (labels.isEmpty()) {
-            result += getString(R.string.face_detection_anything)
+            result += getString(R.string.msg_detection_anything)
         } else {
             for (label in labels) {
                 val entity = label.label
@@ -113,6 +114,7 @@ class ImageLabelingActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.e(classTag, "Failed to process image", it)
+                Snackbar.make(landmark_layout, R.string.error_processing_picture, Snackbar.LENGTH_LONG).show()
                 utilHelper?.showProgress(false)
             }
     }
