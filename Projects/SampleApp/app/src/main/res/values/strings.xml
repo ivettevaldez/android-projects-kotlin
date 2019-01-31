@@ -24,6 +24,8 @@
         If you continue, you\'ll lose any changes you made
     </string>
     <string name="message_open_settings">Do you want to open GPS settings?</string>
+    <string name="message_disable_location">GPS is disabled, do you want to enable it?</string>
+    <string name="message_enable_location">Enable GPS</string>
 
     <!-- ERRORS -->
     <string name="error_default">An error occurred, try again</string>

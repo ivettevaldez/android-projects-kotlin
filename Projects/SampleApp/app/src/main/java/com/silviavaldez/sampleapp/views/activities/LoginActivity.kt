@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.AnimationHelper
 import com.silviavaldez.sampleapp.helpers.PreferencesHelper
+import com.silviavaldez.sampleapp.helpers.TypefaceHelper
 import com.silviavaldez.sampleapp.helpers.UtilHelper
 import com.silviavaldez.sampleapp.services.delegates.ISignInDelegate
 import com.silviavaldez.sampleapp.services.rest.SignInService
@@ -22,6 +23,7 @@ class LoginActivity : AppCompatActivity(), ISignInDelegate {
         setContentView(R.layout.activity_login)
 
         setListenerToLoginButton()
+        setUpTypefaces()
     }
 
     override fun onBackPressed() {
@@ -39,6 +41,14 @@ class LoginActivity : AppCompatActivity(), ISignInDelegate {
     override fun onSignInFailure(error: String) {
         showProgress(false)
         showMessage(error, Snackbar.LENGTH_LONG)
+    }
+
+    private fun setUpTypefaces() {
+        val typefaceHelper = TypefaceHelper(this)
+        typefaceHelper.overrideAllTypefaces()
+
+        login_text_app_name.typeface = typefaceHelper.black
+        login_button_login.typeface = typefaceHelper.black
     }
 
     private fun getJsonCredentials(email: String, password: String): String {
