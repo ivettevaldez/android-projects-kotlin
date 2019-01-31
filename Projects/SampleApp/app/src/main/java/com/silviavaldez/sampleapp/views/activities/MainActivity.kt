@@ -24,8 +24,9 @@ class MainActivity : AppCompatActivity() {
 
         Realm.init(this)
 
-        setListenersToMenuButtons()
+        setUpActionBar()
         setUpTypefaces()
+        setListenersToMenuButtons()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,10 +69,9 @@ class MainActivity : AppCompatActivity() {
         textView.layoutParams = layoutParams
         textView.text = title
         textView.textSize = 20f
-        textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+        textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.black))
 
-        val typeRegular = TypefaceHelper(this).regular
-        textView.typeface = typeRegular
+        textView.typeface = TypefaceHelper(this).regular
 
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar?.customView = textView
@@ -79,9 +79,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpTypefaces() {
         val typefaceHelper = TypefaceHelper(this)
-        main_button_list.typeface = typefaceHelper.black
-        main_button_accelerometer.typeface = typefaceHelper.black
-
-
+        main_button_list.typeface = typefaceHelper.regular
+        main_button_accelerometer.typeface = typefaceHelper.regular
     }
 }

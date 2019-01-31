@@ -13,6 +13,8 @@ import android.widget.TextView
  */
 class TypefaceHelper(private val context: Activity) {
 
+    // TODO: Implement typeface in the whole app
+
     val regular: Typeface
     val italic: Typeface
     val hairline: Typeface
