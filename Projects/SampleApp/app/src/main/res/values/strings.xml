@@ -85,4 +85,7 @@
         <item>Other</item>
     </string-array>
 
+    <!-- CameraActivity -->
+    <string name="camera_title">Camera</string>
+
 </resources>

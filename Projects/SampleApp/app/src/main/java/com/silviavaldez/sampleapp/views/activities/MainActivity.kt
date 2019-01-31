@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.silviavaldez.sampleapp.R
@@ -16,6 +17,10 @@ import com.silviavaldez.sampleapp.helpers.TypefaceHelper
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
+private const val LIST_AND_FORM = 1
+private const val CAMERA = 2
+private const val ACCELEROMETER = 3
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,10 +28,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Realm.init(this)
+        TypefaceHelper(this).overrideAllTypefaces()
 
         setUpActionBar()
-        setUpTypefaces()
-        setListenersToMenuButtons()
+        setListenersToViews()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -45,22 +50,6 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setListenersToMenuButtons() {
-        // List & form
-        main_button_list.setOnClickListener {
-            val intent = Intent(this, ListActivity::class.java)
-            startActivity(intent)
-            AnimationHelper().enterTransition(this)
-        }
-
-        // Accelerometer
-        main_button_accelerometer.setOnClickListener {
-            val intent = Intent(this, AccelerometerActivity::class.java)
-            startActivity(intent)
-            AnimationHelper().enterTransition(this)
-        }
-    }
-
     private fun setUpActionBar() {
         val layoutParams = RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
                 ActionBar.LayoutParams.WRAP_CONTENT)
@@ -71,15 +60,38 @@ class MainActivity : AppCompatActivity() {
         textView.textSize = 20f
         textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.black))
 
-        textView.typeface = TypefaceHelper(this).regular
+        textView.typeface = TypefaceHelper(this).bold
 
         supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
         supportActionBar?.customView = textView
     }
 
-    private fun setUpTypefaces() {
-        val typefaceHelper = TypefaceHelper(this)
-        main_button_list.typeface = typefaceHelper.regular
-        main_button_accelerometer.typeface = typefaceHelper.regular
+    private fun goToModule(module: Int) {
+        val intent: Intent = when (module) {
+            LIST_AND_FORM -> Intent(this, ListActivity::class.java)
+            CAMERA -> Intent(this, CameraActivity::class.java)
+            ACCELEROMETER -> Intent(this, AccelerometerActivity::class.java)
+            else -> Intent(this, ListActivity::class.java)
+        }
+
+        startActivity(intent)
+        AnimationHelper().enterTransition(this)
+    }
+
+    private val buttonListener = View.OnClickListener { view ->
+        val module: Int = when (view.id) {
+            R.id.main_button_list -> LIST_AND_FORM
+            R.id.main_button_camera -> CAMERA
+            R.id.main_button_accelerometer -> ACCELEROMETER
+            else -> LIST_AND_FORM
+        }
+
+        goToModule(module)
+    }
+
+    private fun setListenersToViews() {
+        main_button_list.setOnClickListener(buttonListener)
+        main_button_camera.setOnClickListener(buttonListener)
+        main_button_accelerometer.setOnClickListener(buttonListener)
     }
 }
