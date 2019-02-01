@@ -9,13 +9,14 @@ import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.silviavaldez.sampleapp.R
+import com.silviavaldez.sampleapp.helpers.TypefaceHelper
 import com.silviavaldez.sampleapp.models.datamodels.Person
 import io.realm.RealmResults
 
-class ListAdapter(private val context: Activity,
+class ListAdapter(private val activity: Activity,
                   private val values: RealmResults<Person>) : BaseAdapter() {
 
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private val inflater: LayoutInflater = LayoutInflater.from(activity)
 
     override fun getCount(): Int {
         return values.size
@@ -43,6 +44,7 @@ class ListAdapter(private val context: Activity,
 
         val item = getItem(position)
         setValues(viewHolder, item)
+        setUpTypefaces(viewHolder)
 
         return view
     }
@@ -55,10 +57,15 @@ class ListAdapter(private val context: Activity,
 
             viewHolder.layoutView.setOnClickListener {
                 Snackbar.make(viewHolder.layoutView,
-                        context.getString(R.string.message_i_do_nothing),
+                        activity.getString(R.string.message_i_do_nothing),
                         Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun setUpTypefaces(viewHolder: PersonRowHolder) {
+        val typefaceHelper = TypefaceHelper(activity)
+        typefaceHelper.overrideAllTypefaces(viewHolder.layoutView)
     }
 }
 

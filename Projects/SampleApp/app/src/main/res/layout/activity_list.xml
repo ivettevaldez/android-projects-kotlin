@@ -15,7 +15,7 @@
         android:paddingBottom="4dp" />
 
     <TextView
-        android:id="@+id/list_text_nothing_to_show"
+        android:id="@+id/list_text_instruction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -23,7 +23,7 @@
         android:paddingBottom="24dp"
         android:text="@string/message_no_people_added"
         android:textColor="@color/grey_suit"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton

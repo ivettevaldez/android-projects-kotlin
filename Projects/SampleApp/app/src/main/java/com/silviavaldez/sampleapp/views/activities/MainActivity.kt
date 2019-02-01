@@ -76,7 +76,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpTypefaces() {
         val typefaceHelper = TypefaceHelper(this)
-        typefaceHelper.overrideAllTypefaces()
-        typefaceHelper.setUpActionBar(title.toString())
+        typefaceHelper.setUpActionBar(title.toString(), false)
+
+        main_button_list.typeface = typefaceHelper.bold
+        main_button_camera.typeface = typefaceHelper.bold
+        main_button_accelerometer.typeface = typefaceHelper.bold
     }
 }

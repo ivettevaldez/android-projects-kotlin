@@ -6,13 +6,12 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.Window
 import com.silviavaldez.sampleapp.R
-import com.silviavaldez.sampleapp.helpers.AnimationHelper
+import com.silviavaldez.sampleapp.helpers.TypefaceHelper
 import kotlinx.android.synthetic.main.activity_accelerometer.*
 
-class AccelerometerActivity : AppCompatActivity(), SensorEventListener {
+class AccelerometerActivity : BaseActivity(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometer: Sensor
@@ -22,6 +21,7 @@ class AccelerometerActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accelerometer)
 
+        setUpTypefaces()
         getSensor()
     }
 
@@ -34,17 +34,6 @@ class AccelerometerActivity : AppCompatActivity(), SensorEventListener {
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        AnimationHelper().exitTransition(this)
-        return true
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        AnimationHelper().exitTransition(this)
     }
 
     override fun onAccuracyChanged(event: Sensor?, accuracy: Int) {
@@ -64,5 +53,11 @@ class AccelerometerActivity : AppCompatActivity(), SensorEventListener {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         // Focus in accelerometer
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+    }
+
+    private fun setUpTypefaces() {
+        val typefaceHelper = TypefaceHelper(this)
+        typefaceHelper.overrideAllTypefaces()
+        typefaceHelper.setUpActionBar(title.toString(), true)
     }
 }

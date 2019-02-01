@@ -18,8 +18,6 @@ import com.silviavaldez.sampleapp.R
  */
 class TypefaceHelper(private val context: Activity) {
 
-    // TODO: Implement typeface in the whole app
-
     val regular: Typeface
     val italic: Typeface
     val hairline: Typeface
@@ -82,7 +80,7 @@ class TypefaceHelper(private val context: Activity) {
         }
     }
 
-    fun setUpActionBar(title: String) {
+    fun setUpActionBar(title: String, enableUpNavigation: Boolean) {
         if (context is AppCompatActivity) {
             val layoutParams = RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
                     ActionBar.LayoutParams.WRAP_CONTENT)
@@ -91,12 +89,15 @@ class TypefaceHelper(private val context: Activity) {
             textView.layoutParams = layoutParams
             textView.text = title
             textView.textSize = 20f
-            textView.setTextColor(ContextCompat.getColor(context, R.color.black))
-
             textView.typeface = bold
+            textView.setTextColor(ContextCompat.getColor(context, R.color.black))
 
             context.supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
             context.supportActionBar?.customView = textView
+
+            if (enableUpNavigation) {
+                context.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            }
         }
     }
 

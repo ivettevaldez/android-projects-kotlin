@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.CAMERA_REQUEST_CODE
@@ -13,7 +12,7 @@ import com.silviavaldez.sampleapp.helpers.PermissionHelper
 import com.silviavaldez.sampleapp.helpers.TypefaceHelper
 import kotlinx.android.synthetic.main.activity_camera.*
 
-class CameraActivity : AppCompatActivity() {
+class CameraActivity : BaseActivity() {
 
     private val cameraHelper: CameraHelper = CameraHelper(this)
 
@@ -62,7 +61,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun setUpTypefaces() {
         val typefaceHelper = TypefaceHelper(this)
-        typefaceHelper.setUpActionBar(title.toString())
+        typefaceHelper.setUpActionBar(title.toString(), true)
 
         camera_text_instruction.typeface = typefaceHelper.bold
     }

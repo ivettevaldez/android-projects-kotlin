@@ -7,9 +7,7 @@ import android.os.Handler
 import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.AnimationHelper
 import com.silviavaldez.sampleapp.helpers.PreferencesHelper
-import com.silviavaldez.sampleapp.helpers.TypefaceHelper
 import com.silviavaldez.sampleapp.helpers.UtilHelper
-import kotlinx.android.synthetic.main.activity_splash.*
 
 private const val DELAY: Long = 2000L
 
@@ -20,7 +18,6 @@ class SplashActivity : Activity() {
         setContentView(R.layout.activity_splash)
 
         UtilHelper().changeStatusBarColor(this)
-        splash_text_app_name.typeface = TypefaceHelper(this).bold
 
         Handler().postDelayed({
             validateSession()

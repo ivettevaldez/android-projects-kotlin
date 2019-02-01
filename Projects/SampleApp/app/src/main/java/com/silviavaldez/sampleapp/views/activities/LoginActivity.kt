@@ -48,7 +48,7 @@ class LoginActivity : AppCompatActivity(), ISignInDelegate {
         typefaceHelper.overrideAllTypefaces()
 
         login_text_app_name.typeface = typefaceHelper.black
-        login_button_login.typeface = typefaceHelper.black
+        login_button_login.typeface = typefaceHelper.bold
     }
 
     private fun getJsonCredentials(email: String, password: String): String {

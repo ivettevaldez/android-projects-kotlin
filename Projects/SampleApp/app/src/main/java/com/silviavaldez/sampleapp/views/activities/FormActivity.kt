@@ -3,18 +3,17 @@ package com.silviavaldez.sampleapp.views.activities
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ArrayAdapter
 import com.silviavaldez.sampleapp.R
-import com.silviavaldez.sampleapp.helpers.AnimationHelper
+import com.silviavaldez.sampleapp.helpers.TypefaceHelper
 import com.silviavaldez.sampleapp.models.daos.PersonDao
 import com.silviavaldez.sampleapp.models.datamodels.Person
 import kotlinx.android.synthetic.main.activity_form.*
 
 private const val DELAY = 1000L
 
-class FormActivity : AppCompatActivity() {
+class FormActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,17 +22,7 @@ class FormActivity : AppCompatActivity() {
 
         setUpGenders()
         setUpSaveButton()
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        AnimationHelper().exitTransition(this)
-        return true
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        AnimationHelper().exitTransition(this)
+        setUpTypefaces()
     }
 
     private fun setUpGenders() {
@@ -111,5 +100,13 @@ class FormActivity : AppCompatActivity() {
                 savePerson()
             }
         }
+    }
+
+    private fun setUpTypefaces() {
+        val typefaceHelper = TypefaceHelper(this)
+        typefaceHelper.overrideAllTypefaces()
+        typefaceHelper.setUpActionBar(title.toString(), true)
+
+        form_button_save.typeface = typefaceHelper.bold
     }
 }
