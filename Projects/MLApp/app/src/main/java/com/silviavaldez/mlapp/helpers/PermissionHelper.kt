@@ -54,5 +54,4 @@ class PermissionHelper(private val activity: Activity) {
         return writeExternal == PackageManager.PERMISSION_GRANTED
                 && readExternal == PackageManager.PERMISSION_GRANTED
     }
-
 }

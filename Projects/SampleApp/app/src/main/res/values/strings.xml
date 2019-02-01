@@ -48,6 +48,11 @@
     </string>
     <string name="error_title_empty_field">Text something :)</string>
     <string name="error_msg_empty_field">Must provide some text to continue</string>
+    <string name="error_opening_camera">Something went wrong when opening the camera :(</string>
+    <string name="error_loading_picture">Something went wrong when loading the picture :(</string>
+    <string name="error_missing_permissions">
+        Please, grant the required permissions to continue
+    </string>
 
     <!-- LoginActivity -->
     <string name="login_title">Sign in</string>
@@ -87,5 +92,6 @@
 
     <!-- CameraActivity -->
     <string name="camera_title">Camera</string>
+    <string name="camera_take_picture">Take a picture!</string>
 
 </resources>

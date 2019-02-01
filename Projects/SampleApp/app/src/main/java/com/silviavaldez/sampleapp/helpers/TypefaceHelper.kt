@@ -2,10 +2,15 @@ package com.silviavaldez.sampleapp.helpers
 
 import android.app.Activity
 import android.graphics.Typeface
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
+import com.silviavaldez.sampleapp.R
 
 /**
  * Typeface helper.
@@ -74,6 +79,24 @@ class TypefaceHelper(private val context: Activity) {
             overrideTypefaces(view, regular)
         } catch (ex: Exception) {
             Log.e(tag, "Attempting to override all typefaces", ex)
+        }
+    }
+
+    fun setUpActionBar(title: String) {
+        if (context is AppCompatActivity) {
+            val layoutParams = RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
+                    ActionBar.LayoutParams.WRAP_CONTENT)
+
+            val textView = TextView(context)
+            textView.layoutParams = layoutParams
+            textView.text = title
+            textView.textSize = 20f
+            textView.setTextColor(ContextCompat.getColor(context, R.color.black))
+
+            textView.typeface = bold
+
+            context.supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+            context.supportActionBar?.customView = textView
         }
     }
 

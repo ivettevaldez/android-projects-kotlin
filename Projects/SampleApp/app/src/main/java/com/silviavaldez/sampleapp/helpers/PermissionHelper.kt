@@ -20,6 +20,18 @@ class PermissionHelper(val activity: Activity) {
         const val PERMISSION_CAMERA_CODE = 1003
     }
 
+    fun validatePermissionResult(grantResults: IntArray): Boolean {
+        var position = 0
+        for (permission in grantResults) {
+            if (grantResults[position] == PackageManager.PERMISSION_GRANTED) {
+                position++
+            } else {
+                return false
+            }
+        }
+        return true
+    }
+
     fun requestAllPermissions(): Boolean {
         return if (checkCameraPermissions()
                 && checkLocationPermissions()

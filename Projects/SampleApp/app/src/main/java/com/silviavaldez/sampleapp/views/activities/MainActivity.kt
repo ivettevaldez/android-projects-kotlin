@@ -2,14 +2,10 @@ package com.silviavaldez.sampleapp.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.RelativeLayout
-import android.widget.TextView
 import com.silviavaldez.sampleapp.R
 import com.silviavaldez.sampleapp.helpers.AnimationHelper
 import com.silviavaldez.sampleapp.helpers.SignOutHelper
@@ -28,9 +24,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Realm.init(this)
-        TypefaceHelper(this).overrideAllTypefaces()
 
-        setUpActionBar()
+        setUpTypefaces()
         setListenersToViews()
     }
 
@@ -48,22 +43,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun setUpActionBar() {
-        val layoutParams = RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.WRAP_CONTENT)
-
-        val textView = TextView(applicationContext)
-        textView.layoutParams = layoutParams
-        textView.text = title
-        textView.textSize = 20f
-        textView.setTextColor(ContextCompat.getColor(applicationContext, R.color.black))
-
-        textView.typeface = TypefaceHelper(this).bold
-
-        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar?.customView = textView
     }
 
     private fun goToModule(module: Int) {
@@ -93,5 +72,11 @@ class MainActivity : AppCompatActivity() {
         main_button_list.setOnClickListener(buttonListener)
         main_button_camera.setOnClickListener(buttonListener)
         main_button_accelerometer.setOnClickListener(buttonListener)
+    }
+
+    private fun setUpTypefaces() {
+        val typefaceHelper = TypefaceHelper(this)
+        typefaceHelper.overrideAllTypefaces()
+        typefaceHelper.setUpActionBar(title.toString())
     }
 }
