@@ -1,2 +1,2 @@
-# AndroidProjects-Kotlin
-All related to Android (Kotlin) projects.
+# Android Projects (Kotlin)
+All related to Android & Kotlin.
