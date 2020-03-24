@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ivettevaldez.multithreading.R;
-import com.ivettevaldez.multithreading.ui.exerciseone.ExerciseOneFragment;
+import com.ivettevaldez.multithreading.ui.exercise1.Exercise1Fragment;
 
 public class MainFragment extends Fragment {
 
@@ -30,12 +30,12 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.main_fragment, container, false);
+        View view = inflater.inflate(R.layout.main_fragment, container, false);
 
-        initViews(layout);
+        initViews(view);
         initListeners();
 
-        return layout;
+        return view;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            goToFragment(new ExerciseOneFragment());
+            goToFragment(Exercise1Fragment.newInstance());
         }
     };
 
