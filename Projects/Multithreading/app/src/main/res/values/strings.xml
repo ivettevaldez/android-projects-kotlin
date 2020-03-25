@@ -13,4 +13,8 @@
     <string name="ui_thread_demo">UI Thread Demo</string>
     <string name="ui_thread_demo_callback_check">Callback check</string>
 
+    <!-- Custom Handler Demo -->
+    <string name="custom_handler_demo">Custom Handler Demo</string>
+    <string name="custom_handler_demo_send_job">Send Job</string>
+
 </resources>

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ivettevaldez.multithreading.R;
+import com.ivettevaldez.multithreading.demos.CustomHandlerDemoFragment;
 import com.ivettevaldez.multithreading.demos.UiThreadDemoFragment;
 import com.ivettevaldez.multithreading.exercises.Exercise1Fragment;
 import com.ivettevaldez.multithreading.exercises.Exercise2Fragment;
@@ -24,6 +25,7 @@ public class MainFragment extends Fragment {
     private Button btnExercise1;
     private Button btnExercise2;
     private Button btnUiThreadDemo;
+    private Button btnCustomHandlerDemo;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -69,6 +71,9 @@ public class MainFragment extends Fragment {
             case R.id.main_button_ui_thread_demo:
                 fragment = UiThreadDemoFragment.newInstance();
                 break;
+            case R.id.main_button_custom_handler_demo:
+                fragment = CustomHandlerDemoFragment.newInstance();
+                break;
             default:
                 fragment = Exercise1Fragment.newInstance();
                 break;
@@ -89,11 +94,13 @@ public class MainFragment extends Fragment {
         btnExercise1 = layout.findViewById(R.id.main_button_ex_1);
         btnExercise2 = layout.findViewById(R.id.main_button_ex_2);
         btnUiThreadDemo = layout.findViewById(R.id.main_button_ui_thread_demo);
+        btnCustomHandlerDemo = layout.findViewById(R.id.main_button_custom_handler_demo);
     }
 
     private void initListeners() {
         btnExercise1.setOnClickListener(btnListener);
         btnExercise2.setOnClickListener(btnListener);
         btnUiThreadDemo.setOnClickListener(btnListener);
+        btnCustomHandlerDemo.setOnClickListener(btnListener);
     }
 }
