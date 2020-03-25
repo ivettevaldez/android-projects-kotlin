@@ -1,4 +1,4 @@
-package com.ivettevaldez.multithreading.home;
+package com.ivettevaldez.multithreading;
 
 import androidx.appcompat.app.AppCompatActivity;
 
