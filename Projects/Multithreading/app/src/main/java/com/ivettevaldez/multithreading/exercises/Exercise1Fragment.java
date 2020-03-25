@@ -1,6 +1,8 @@
 package com.ivettevaldez.multithreading.exercises;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.ivettevaldez.multithreading.R;
 
+import java.util.Locale;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link Exercise1Fragment#newInstance} factory method to
@@ -20,6 +24,9 @@ public class Exercise1Fragment extends Fragment {
 
     private static final String TAG = Exercise1Fragment.class.getSimpleName();
     private static final int ITERATIONS_COUNTER_DURATION_SEC = 10;
+
+    private Button btnCountIterations;
+    private Handler uiHandler = new Handler(Looper.getMainLooper());
 
     public Exercise1Fragment() {
         // Required empty public constructor
@@ -36,7 +43,7 @@ public class Exercise1Fragment extends Fragment {
         // Inflate the view for this fragment
         View view = inflater.inflate(R.layout.exercise1_fragment, container, false);
 
-        Button btnCountIterations = view.findViewById(R.id.exercise1_button_iterations);
+        btnCountIterations = view.findViewById(R.id.exercise1_button_iterations);
         btnCountIterations.setOnClickListener(buttonListener);
 
         return view;
@@ -59,6 +66,22 @@ public class Exercise1Fragment extends Fragment {
                         String.format("Iterations in %d seconds: %d",
                                 ITERATIONS_COUNTER_DURATION_SEC, iterationsCount)
                 );
+
+                final int iterationsCountFinal = iterationsCount;
+
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        // UI changes can only be made on the Main Thread.
+                        btnCountIterations.setText(
+                                String.format(
+                                        Locale.getDefault(),
+                                        "Iterations: %d",
+                                        iterationsCountFinal
+                                )
+                        );
+                    }
+                });
             }
         };
 
