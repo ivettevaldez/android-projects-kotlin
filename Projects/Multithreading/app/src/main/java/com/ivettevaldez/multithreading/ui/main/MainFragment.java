@@ -14,12 +14,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ivettevaldez.multithreading.R;
 import com.ivettevaldez.multithreading.ui.exercise1.Exercise1Fragment;
+import com.ivettevaldez.multithreading.ui.exercise2.Exercise2Fragment;
 
 public class MainFragment extends Fragment {
 
     private static String TAG = MainFragment.class.getSimpleName();
 
     private Button btnExercise1;
+    private Button btnExercise2;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -55,18 +57,37 @@ public class MainFragment extends Fragment {
         }
     }
 
+    private Fragment getFragment(int viewId) {
+        Fragment fragment;
+
+        switch (viewId) {
+            case R.id.main_button_ex_2:
+                fragment = Exercise2Fragment.newInstance();
+                break;
+
+            default:
+                fragment = Exercise1Fragment.newInstance();
+                break;
+        }
+
+        return fragment;
+    }
+
     private View.OnClickListener btnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            goToFragment(Exercise1Fragment.newInstance());
+            Fragment fragment = getFragment(view.getId());
+            goToFragment(fragment);
         }
     };
 
     private void initViews(View layout) {
         btnExercise1 = layout.findViewById(R.id.main_button_ex_1);
+        btnExercise2 = layout.findViewById(R.id.main_button_ex_2);
     }
 
     private void initListeners() {
         btnExercise1.setOnClickListener(btnListener);
+        btnExercise2.setOnClickListener(btnListener);
     }
 }

@@ -6,4 +6,7 @@
     <string name="ex_1">Exercise 1</string>
     <string name="ex_1_count_iterations">Count iterations</string>
 
+    <!-- Exercise 2 -->
+    <string name="ex_2">Exercise 2</string>
+
 </resources>
