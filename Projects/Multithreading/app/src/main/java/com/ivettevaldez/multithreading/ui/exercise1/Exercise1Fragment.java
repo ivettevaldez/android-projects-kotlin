@@ -18,29 +18,15 @@ import com.ivettevaldez.multithreading.R;
  */
 public class Exercise1Fragment extends Fragment {
 
-    private static final int ITERATIONS_COUNTER_DURATION_SEC = 10;
     private static final String TAG = Exercise1Fragment.class.getSimpleName();
+    private static final int ITERATIONS_COUNTER_DURATION_SEC = 10;
 
     public Exercise1Fragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment Exercise1Fragment.
-     */
     public static Exercise1Fragment newInstance() {
-        Exercise1Fragment fragment = new Exercise1Fragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        return new Exercise1Fragment();
     }
 
     @Override
