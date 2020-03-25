@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.main.MainFragment">
+    tools:context=".home.MainFragment">
 
     <Button
         android:id="@+id/main_button_ex_1"
@@ -24,4 +24,14 @@
         android:background="@android:color/white"
         android:padding="24dp"
         android:text="@string/ex_2" />
+
+    <Button
+        android:id="@+id/main_button_ui_thread_demo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:text="@string/ui_thread_demo" />
 </LinearLayout>

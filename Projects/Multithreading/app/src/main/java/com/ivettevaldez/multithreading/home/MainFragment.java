@@ -1,4 +1,4 @@
-package com.ivettevaldez.multithreading.ui.main;
+package com.ivettevaldez.multithreading.home;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ivettevaldez.multithreading.R;
-import com.ivettevaldez.multithreading.ui.exercise1.Exercise1Fragment;
-import com.ivettevaldez.multithreading.ui.exercise2.Exercise2Fragment;
+import com.ivettevaldez.multithreading.demos.UiThreadDemoFragment;
+import com.ivettevaldez.multithreading.exercises.Exercise1Fragment;
+import com.ivettevaldez.multithreading.exercises.Exercise2Fragment;
 
 public class MainFragment extends Fragment {
 
@@ -22,6 +23,7 @@ public class MainFragment extends Fragment {
 
     private Button btnExercise1;
     private Button btnExercise2;
+    private Button btnUiThreadDemo;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -64,7 +66,9 @@ public class MainFragment extends Fragment {
             case R.id.main_button_ex_2:
                 fragment = Exercise2Fragment.newInstance();
                 break;
-
+            case R.id.main_button_ui_thread_demo:
+                fragment = UiThreadDemoFragment.newInstance();
+                break;
             default:
                 fragment = Exercise1Fragment.newInstance();
                 break;
@@ -84,10 +88,12 @@ public class MainFragment extends Fragment {
     private void initViews(View layout) {
         btnExercise1 = layout.findViewById(R.id.main_button_ex_1);
         btnExercise2 = layout.findViewById(R.id.main_button_ex_2);
+        btnUiThreadDemo = layout.findViewById(R.id.main_button_ui_thread_demo);
     }
 
     private void initListeners() {
         btnExercise1.setOnClickListener(btnListener);
         btnExercise2.setOnClickListener(btnListener);
+        btnUiThreadDemo.setOnClickListener(btnListener);
     }
 }

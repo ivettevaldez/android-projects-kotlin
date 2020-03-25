@@ -1,4 +1,4 @@
-package com.ivettevaldez.multithreading.ui.exercise2;
+package com.ivettevaldez.multithreading.exercises;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -65,7 +65,7 @@ public class Exercise2Fragment extends Fragment {
                     }
 
                     screenTimeSeconds++;
-                    Log.d(TAG, String.format("Screen time: %d", screenTimeSeconds));
+                    Log.d(TAG, String.format("Screen time: %d s", screenTimeSeconds));
                 }
             }
         }).start();

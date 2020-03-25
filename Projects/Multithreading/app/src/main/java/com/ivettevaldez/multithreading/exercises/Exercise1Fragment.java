@@ -1,4 +1,4 @@
-package com.ivettevaldez.multithreading.ui.exercise1;
+package com.ivettevaldez.multithreading.exercises;
 
 import android.os.Bundle;
 import android.util.Log;

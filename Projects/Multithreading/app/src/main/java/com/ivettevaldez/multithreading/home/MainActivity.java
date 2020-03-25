@@ -1,10 +1,11 @@
-package com.ivettevaldez.multithreading;
+package com.ivettevaldez.multithreading.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.ivettevaldez.multithreading.ui.main.MainFragment;
+import com.ivettevaldez.multithreading.R;
+import com.ivettevaldez.multithreading.home.MainFragment;
 
 public class MainActivity extends AppCompatActivity {
 

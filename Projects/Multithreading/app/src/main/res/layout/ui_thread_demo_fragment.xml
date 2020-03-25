@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/exercise1_layout"
+    android:id="@+id/ui_thread_demo_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".exercises.Exercise1Fragment">
+    tools:context=".demos.UiThreadDemoFragment">
 
     <Button
-        android:id="@+id/exercise1_button_iterations"
+        android:id="@+id/ui_thread_demo_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@android:color/white"
         android:padding="24dp"
-        android:text="@string/ex_1_count_iterations" />
+        android:text="@string/ui_thread_demo_callback_check" />
 </FrameLayout>
