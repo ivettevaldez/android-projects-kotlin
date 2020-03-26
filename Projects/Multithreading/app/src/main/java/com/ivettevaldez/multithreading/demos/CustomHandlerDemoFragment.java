@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 
 import com.ivettevaldez.multithreading.R;
 
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -83,6 +82,8 @@ public class CustomHandlerDemoFragment extends Fragment {
 
                     Log.d(TAG, String.format("Iteration: %d", i + 1));
                 }
+
+                Log.d(TAG, "Finished job");
             }
         });
     }
@@ -95,9 +96,10 @@ public class CustomHandlerDemoFragment extends Fragment {
             }
         };
 
-        private LinkedBlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+        private LinkedBlockingQueue<Runnable> queue;
 
         CustomHandler() {
+            queue = new LinkedBlockingQueue<>();
             initWorkerThread();
         }
 
@@ -105,30 +107,39 @@ public class CustomHandlerDemoFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Runnable runnable;
+                    Log.d(TAG, "Initializing worker (looper) thread...");
 
-                    try {
-                        runnable = queue.take();
-                    } catch (InterruptedException e) {
-                        return;
+                    while (true) {
+                        Runnable runnable;
+
+                        try {
+                            runnable = queue.take();
+                        } catch (InterruptedException ex) {
+                            Log.e(TAG, ex.toString());
+                            return;
+                        }
+
+                        if (runnable == POISON) {
+                            Log.d(TAG, "Poison data detected: Terminating worker thread!");
+                            return;
+                        }
+
+                        runnable.run();
                     }
-
-                    if (runnable == POISON) {
-                        return;
-                    }
-
-                    runnable.run();
                 }
             }).start();
         }
 
-        private void stop() {
-            queue.clear();
-            queue.add(POISON);
+        private void post(Runnable job) {
+            Log.d(TAG, "Adding a new job");
+            queue.add(job);
         }
 
-        private void post(Runnable job) {
-            queue.add(job);
+        private void stop() {
+            Log.d(TAG, "Injecting poison data into the queue...");
+
+            queue.clear();
+            queue.add(POISON);
         }
     }
 }

@@ -15,6 +15,6 @@
 
     <!-- Custom Handler Demo -->
     <string name="custom_handler_demo">Custom Handler Demo</string>
-    <string name="custom_handler_demo_send_job">Send Job</string>
+    <string name="custom_handler_demo_send_job">Add Job</string>
 
 </resources>
