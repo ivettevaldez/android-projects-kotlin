@@ -13,5 +13,5 @@
         android:layout_gravity="center"
         android:background="@android:color/white"
         android:padding="24dp"
-        android:text="@string/ex_1_count_iterations" />
+        android:text="@string/exercise1_count_iterations" />
 </FrameLayout>

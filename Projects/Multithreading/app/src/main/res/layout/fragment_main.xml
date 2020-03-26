@@ -8,38 +8,38 @@
     tools:context=".home.MainFragment">
 
     <Button
-        android:id="@+id/main_button_ex_1"
+        android:id="@+id/main_button_exercise1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:background="@android:color/white"
         android:padding="24dp"
-        android:text="@string/ex_1" />
+        android:text="@string/exercise1_title" />
 
     <Button
-        android:id="@+id/main_button_ex_2"
+        android:id="@+id/main_button_exercise2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:background="@android:color/white"
         android:padding="24dp"
-        android:text="@string/ex_2" />
+        android:text="@string/exercise2_title" />
 
     <Button
-        android:id="@+id/main_button_ui_thread_demo"
+        android:id="@+id/main_button_demo_ui_thread"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:background="@android:color/white"
         android:padding="24dp"
-        android:text="@string/ui_thread_demo" />
+        android:text="@string/demo_ui_thread_title" />
 
     <Button
-        android:id="@+id/main_button_custom_handler_demo"
+        android:id="@+id/main_button_demo_custom_handler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="1dp"
         android:background="@android:color/white"
         android:padding="24dp"
-        android:text="@string/custom_handler_demo" />
+        android:text="@string/demo_custom_handler_title" />
 </LinearLayout>

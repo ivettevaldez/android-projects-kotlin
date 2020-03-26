@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/custom_handler_demo_layout"
+    android:id="@+id/ui_thread_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".demos.CustomHandlerDemoFragment">
+    tools:context=".demos.DemoUiThreadFragment">
 
     <Button
-        android:id="@+id/custom_handler_demo_button"
+        android:id="@+id/ui_thread_button_callback_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@android:color/white"
         android:padding="24dp"
-        android:text="@string/custom_handler_demo_send_job" />
+        android:text="@string/demo_ui_thread_callback_check" />
 </FrameLayout>

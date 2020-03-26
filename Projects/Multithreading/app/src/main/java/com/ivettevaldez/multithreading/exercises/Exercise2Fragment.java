@@ -34,7 +34,7 @@ public class Exercise2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         dummyData = new byte[100 * 1000 * 1000];
-        return inflater.inflate(R.layout.exercise2_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_exercise2, container, false);
     }
 
     @Override

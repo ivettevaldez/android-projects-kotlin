@@ -15,24 +15,24 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CustomHandlerDemoFragment#newInstance} factory method to
+ * Use the {@link DemoCustomHandlerFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CustomHandlerDemoFragment extends Fragment {
+public class DemoCustomHandlerFragment extends Fragment {
 
-    private static final String TAG = CustomHandlerDemoFragment.class.getSimpleName();
+    private static final String TAG = DemoCustomHandlerFragment.class.getSimpleName();
 
     private static final int ONE_SECOND = 1000; // Milliseconds.
     private static final int SECONDS_TO_COUNT = 5;
 
     private CustomHandler customHandler;
 
-    public CustomHandlerDemoFragment() {
+    public DemoCustomHandlerFragment() {
         // Required empty public constructor
     }
 
-    public static CustomHandlerDemoFragment newInstance() {
-        return new CustomHandlerDemoFragment();
+    public static DemoCustomHandlerFragment newInstance() {
+        return new DemoCustomHandlerFragment();
     }
 
     @Override
@@ -44,9 +44,9 @@ public class CustomHandlerDemoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.custom_handler_demo_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_demo_custom_handler, container, false);
 
-        Button btnSendJob = view.findViewById(R.id.custom_handler_demo_button);
+        Button btnSendJob = view.findViewById(R.id.custom_handler_button_add_job);
         btnSendJob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

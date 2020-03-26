@@ -27,6 +27,12 @@ public class Exercise1Fragment extends Fragment {
 
     private Button btnCountIterations;
     private Handler uiHandler = new Handler(Looper.getMainLooper());
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            countIterations();
+        }
+    };
 
     public Exercise1Fragment() {
         // Required empty public constructor
@@ -41,7 +47,7 @@ public class Exercise1Fragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the view for this fragment
-        View view = inflater.inflate(R.layout.exercise1_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_exercise1, container, false);
 
         btnCountIterations = view.findViewById(R.id.exercise1_button_iterations);
         btnCountIterations.setOnClickListener(buttonListener);
@@ -88,11 +94,4 @@ public class Exercise1Fragment extends Fragment {
         Thread thread = new Thread(runnable);
         thread.start();
     }
-
-    private View.OnClickListener buttonListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            countIterations();
-        }
-    };
 }

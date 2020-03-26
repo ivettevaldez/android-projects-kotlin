@@ -1,20 +1,20 @@
 <resources>
 
-    <string name="app_name">Multithreading</string>
+    <string name="app_name">Multithreading Samples</string>
 
-    <!-- Exercise 1 -->
-    <string name="ex_1">Exercise 1</string>
-    <string name="ex_1_count_iterations">Count iterations</string>
+    <!-- Exercise1Fragment -->
+    <string name="exercise1_title">Exercise 1</string>
+    <string name="exercise1_count_iterations">Count iterations</string>
 
-    <!-- Exercise 2 -->
-    <string name="ex_2">Exercise 2</string>
+    <!-- Exercise2Fragment -->
+    <string name="exercise2_title">Exercise 2</string>
 
-    <!-- UI Thread Demo -->
-    <string name="ui_thread_demo">UI Thread Demo</string>
-    <string name="ui_thread_demo_callback_check">Callback check</string>
+    <!-- DemoUiThreadFragment -->
+    <string name="demo_ui_thread_title">UI Thread Demo</string>
+    <string name="demo_ui_thread_callback_check">Callback check</string>
 
-    <!-- Custom Handler Demo -->
-    <string name="custom_handler_demo">Custom Handler Demo</string>
-    <string name="custom_handler_demo_send_job">Add Job</string>
+    <!-- DemoCustomHandlerFragment -->
+    <string name="demo_custom_handler_title">Custom Handler Demo</string>
+    <string name="demo_custom_handler_add_job">Add Job</string>
 
 </resources>

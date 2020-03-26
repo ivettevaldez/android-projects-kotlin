@@ -15,19 +15,19 @@ import com.ivettevaldez.multithreading.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link UiThreadDemoFragment#newInstance} factory method to
+ * Use the {@link DemoUiThreadFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UiThreadDemoFragment extends Fragment {
+public class DemoUiThreadFragment extends Fragment {
 
-    private static final String TAG = UiThreadDemoFragment.class.getSimpleName();
+    private static final String TAG = DemoUiThreadFragment.class.getSimpleName();
 
-    public UiThreadDemoFragment() {
+    public DemoUiThreadFragment() {
         // Required empty public constructor
     }
 
-    public static UiThreadDemoFragment newInstance() {
-        return new UiThreadDemoFragment();
+    public static DemoUiThreadFragment newInstance() {
+        return new DemoUiThreadFragment();
     }
 
     @Override
@@ -39,9 +39,9 @@ public class UiThreadDemoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.ui_thread_demo_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_demo_ui_thread, container, false);
 
-        Button buttonCallback = view.findViewById(R.id.ui_thread_demo_button);
+        Button buttonCallback = view.findViewById(R.id.ui_thread_button_callback_check);
         buttonCallback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
