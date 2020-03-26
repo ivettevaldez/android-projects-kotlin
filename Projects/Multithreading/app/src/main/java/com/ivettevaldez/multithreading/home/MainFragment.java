@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.ivettevaldez.multithreading.R;
+import com.ivettevaldez.multithreading.demos.DemoAtomicityFragment;
 import com.ivettevaldez.multithreading.demos.DemoCustomHandlerFragment;
 import com.ivettevaldez.multithreading.demos.DemoUiThreadFragment;
 import com.ivettevaldez.multithreading.exercises.Exercise1Fragment;
@@ -28,6 +29,7 @@ public class MainFragment extends Fragment {
     private Button btnExercise3;
     private Button btnDemoUiThread;
     private Button btnDemoCustomHandler;
+    private Button btnDemoAtomicity;
 
     private View.OnClickListener listener = new View.OnClickListener() {
         @Override
@@ -87,6 +89,9 @@ public class MainFragment extends Fragment {
             case R.id.main_button_exercise3:
                 fragment = Exercise3Fragment.newInstance();
                 break;
+            case R.id.main_button_demo_atomicity:
+                fragment = DemoAtomicityFragment.newInstance();
+                break;
             default:
                 fragment = Exercise1Fragment.newInstance();
                 break;
@@ -101,6 +106,7 @@ public class MainFragment extends Fragment {
         btnExercise3 = layout.findViewById(R.id.main_button_exercise3);
         btnDemoUiThread = layout.findViewById(R.id.main_button_demo_ui_thread);
         btnDemoCustomHandler = layout.findViewById(R.id.main_button_demo_custom_handler);
+        btnDemoAtomicity = layout.findViewById(R.id.main_button_demo_atomicity);
     }
 
     private void initListeners() {
@@ -109,5 +115,6 @@ public class MainFragment extends Fragment {
         btnExercise3.setOnClickListener(listener);
         btnDemoUiThread.setOnClickListener(listener);
         btnDemoCustomHandler.setOnClickListener(listener);
+        btnDemoAtomicity.setOnClickListener(listener);
     }
 }

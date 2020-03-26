@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/demo_atomicity_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".demos.DemoAtomicityFragment">
+
+    <Button
+        android:id="@+id/demo_atomicity_button_start_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:text="@string/demo_atomicity_start_counters" />
+
+    <TextView
+        android:id="@+id/demo_atomicity_text_final_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/demo_atomicity_button_start_count"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="@string/default_zero" />
+</RelativeLayout>
