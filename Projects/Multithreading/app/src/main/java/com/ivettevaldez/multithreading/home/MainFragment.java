@@ -17,6 +17,7 @@ import com.ivettevaldez.multithreading.demos.DemoCustomHandlerFragment;
 import com.ivettevaldez.multithreading.demos.DemoUiThreadFragment;
 import com.ivettevaldez.multithreading.exercises.Exercise1Fragment;
 import com.ivettevaldez.multithreading.exercises.Exercise2Fragment;
+import com.ivettevaldez.multithreading.exercises.Exercise3Fragment;
 
 public class MainFragment extends Fragment {
 
@@ -24,9 +25,11 @@ public class MainFragment extends Fragment {
 
     private Button btnExercise1;
     private Button btnExercise2;
-    private Button btnUiThreadDemo;
-    private Button btnCustomHandlerDemo;
-    private View.OnClickListener btnListener = new View.OnClickListener() {
+    private Button btnExercise3;
+    private Button btnDemoUiThread;
+    private Button btnDemoCustomHandler;
+
+    private View.OnClickListener listener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Fragment fragment = getFragment(view.getId());
@@ -81,6 +84,9 @@ public class MainFragment extends Fragment {
             case R.id.main_button_demo_custom_handler:
                 fragment = DemoCustomHandlerFragment.newInstance();
                 break;
+            case R.id.main_button_exercise3:
+                fragment = Exercise3Fragment.newInstance();
+                break;
             default:
                 fragment = Exercise1Fragment.newInstance();
                 break;
@@ -92,14 +98,16 @@ public class MainFragment extends Fragment {
     private void initViews(View layout) {
         btnExercise1 = layout.findViewById(R.id.main_button_exercise1);
         btnExercise2 = layout.findViewById(R.id.main_button_exercise2);
-        btnUiThreadDemo = layout.findViewById(R.id.main_button_demo_ui_thread);
-        btnCustomHandlerDemo = layout.findViewById(R.id.main_button_demo_custom_handler);
+        btnExercise3 = layout.findViewById(R.id.main_button_exercise3);
+        btnDemoUiThread = layout.findViewById(R.id.main_button_demo_ui_thread);
+        btnDemoCustomHandler = layout.findViewById(R.id.main_button_demo_custom_handler);
     }
 
     private void initListeners() {
-        btnExercise1.setOnClickListener(btnListener);
-        btnExercise2.setOnClickListener(btnListener);
-        btnUiThreadDemo.setOnClickListener(btnListener);
-        btnCustomHandlerDemo.setOnClickListener(btnListener);
+        btnExercise1.setOnClickListener(listener);
+        btnExercise2.setOnClickListener(listener);
+        btnExercise3.setOnClickListener(listener);
+        btnDemoUiThread.setOnClickListener(listener);
+        btnDemoCustomHandler.setOnClickListener(listener);
     }
 }

@@ -42,4 +42,13 @@
         android:background="@android:color/white"
         android:padding="24dp"
         android:text="@string/demo_custom_handler_title" />
+
+    <Button
+        android:id="@+id/main_button_exercise3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:text="@string/exercise3_title" />
 </LinearLayout>

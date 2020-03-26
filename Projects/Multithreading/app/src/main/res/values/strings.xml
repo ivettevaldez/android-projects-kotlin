@@ -17,4 +17,9 @@
     <string name="demo_custom_handler_title">Custom Handler Demo</string>
     <string name="demo_custom_handler_add_job">Add Job</string>
 
+    <!-- Exercise3Fragment -->
+    <string name="exercise3_title">Exercise 3</string>
+    <string name="exercise3_count_seconds">Count seconds</string>
+    <string name="exercise3_zero_seconds">0 s</string>
+
 </resources>
