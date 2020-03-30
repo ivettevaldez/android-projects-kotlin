@@ -2,7 +2,9 @@ package com.ivettevaldez.multithreading.demos;
 
 public class DemoVisibility {
 
-    private static volatile int count = 0;
+    private static final Object LOCK = new Object();
+
+    private static int count = 0;
 
     public static void main(String[] args) {
         new Consumer().start();
@@ -22,12 +24,13 @@ public class DemoVisibility {
             int localValue = -1;
 
             while (true) {
-                if (localValue != count) {
-                    System.out.println("Consumer: detected count change " + count);
-                    localValue = count;
-                }
-                if (count >= 5) {
-                    break;
+                synchronized (LOCK) {
+                    if (localValue != count) {
+                        System.out.println("Consumer: detected count change " + count);
+                        localValue = count;
+                    }
+
+                    if (count >= 5) break;
                 }
             }
 
@@ -38,18 +41,23 @@ public class DemoVisibility {
     static class Producer extends Thread {
         @Override
         public void run() {
-            while (count < 5) {
-                int localValue = count;
-                localValue++;
+            while (true) {
+                synchronized (LOCK) {
 
-                System.out.println("Producer: incrementing count to " + localValue);
+                    int localValue = count;
+                    localValue++;
 
-                count = localValue;
+                    System.out.println("Producer: incrementing count to " + localValue);
 
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    return;
+                    count = localValue;
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        return;
+                    }
+
+                    if (count >= 5) break;
                 }
             }
 
