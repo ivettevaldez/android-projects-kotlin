@@ -19,6 +19,7 @@ import com.ivettevaldez.multithreading.demos.DemoUiThreadFragment;
 import com.ivettevaldez.multithreading.exercises.Exercise1Fragment;
 import com.ivettevaldez.multithreading.exercises.Exercise2Fragment;
 import com.ivettevaldez.multithreading.exercises.Exercise3Fragment;
+import com.ivettevaldez.multithreading.exercises.Exercise4Fragment;
 
 public class MainFragment extends Fragment {
 
@@ -27,6 +28,7 @@ public class MainFragment extends Fragment {
     private Button btnExercise1;
     private Button btnExercise2;
     private Button btnExercise3;
+    private Button btnExercise4;
     private Button btnDemoUiThread;
     private Button btnDemoCustomHandler;
     private Button btnDemoAtomicity;
@@ -61,16 +63,24 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    private void goToFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
-        if (getActivity() != null && fragmentManager != null) {
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, fragment, "findThisFragment")
-                    .addToBackStack(null)
-                    .commit();
-        } else {
-            Log.e(TAG, "NULL Activity or FragmentManager");
-        }
+    private void initViews(View layout) {
+        btnExercise1 = layout.findViewById(R.id.main_button_exercise1);
+        btnExercise2 = layout.findViewById(R.id.main_button_exercise2);
+        btnExercise3 = layout.findViewById(R.id.main_button_exercise3);
+        btnExercise4 = layout.findViewById(R.id.main_button_exercise4);
+        btnDemoUiThread = layout.findViewById(R.id.main_button_demo_ui_thread);
+        btnDemoCustomHandler = layout.findViewById(R.id.main_button_demo_custom_handler);
+        btnDemoAtomicity = layout.findViewById(R.id.main_button_demo_atomicity);
+    }
+
+    private void initListeners() {
+        btnExercise1.setOnClickListener(listener);
+        btnExercise2.setOnClickListener(listener);
+        btnExercise3.setOnClickListener(listener);
+        btnExercise4.setOnClickListener(listener);
+        btnDemoUiThread.setOnClickListener(listener);
+        btnDemoCustomHandler.setOnClickListener(listener);
+        btnDemoAtomicity.setOnClickListener(listener);
     }
 
     private Fragment getFragment(int viewId) {
@@ -92,6 +102,9 @@ public class MainFragment extends Fragment {
             case R.id.main_button_demo_atomicity:
                 fragment = DemoAtomicityFragment.newInstance();
                 break;
+            case R.id.main_button_exercise4:
+                fragment = Exercise4Fragment.newInstance();
+                break;
             default:
                 fragment = Exercise1Fragment.newInstance();
                 break;
@@ -100,21 +113,15 @@ public class MainFragment extends Fragment {
         return fragment;
     }
 
-    private void initViews(View layout) {
-        btnExercise1 = layout.findViewById(R.id.main_button_exercise1);
-        btnExercise2 = layout.findViewById(R.id.main_button_exercise2);
-        btnExercise3 = layout.findViewById(R.id.main_button_exercise3);
-        btnDemoUiThread = layout.findViewById(R.id.main_button_demo_ui_thread);
-        btnDemoCustomHandler = layout.findViewById(R.id.main_button_demo_custom_handler);
-        btnDemoAtomicity = layout.findViewById(R.id.main_button_demo_atomicity);
-    }
-
-    private void initListeners() {
-        btnExercise1.setOnClickListener(listener);
-        btnExercise2.setOnClickListener(listener);
-        btnExercise3.setOnClickListener(listener);
-        btnDemoUiThread.setOnClickListener(listener);
-        btnDemoCustomHandler.setOnClickListener(listener);
-        btnDemoAtomicity.setOnClickListener(listener);
+    private void goToFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        if (getActivity() != null && fragmentManager != null) {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, fragment, "findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            Log.e(TAG, "NULL Activity or FragmentManager");
+        }
     }
 }

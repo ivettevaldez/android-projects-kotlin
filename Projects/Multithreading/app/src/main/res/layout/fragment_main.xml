@@ -1,63 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_layout"
+    android:id="@+id/main_scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".home.MainFragment">
 
-    <Button
-        android:id="@+id/main_button_exercise1"
+    <LinearLayout
+        android:id="@+id/main_layout_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:background="@android:color/white"
-        android:padding="24dp"
-        android:text="@string/exercise1_title" />
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/main_button_exercise2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:background="@android:color/white"
-        android:padding="24dp"
-        android:text="@string/exercise2_title" />
+        <Button
+            android:id="@+id/main_button_exercise1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/exercise1_title" />
 
-    <Button
-        android:id="@+id/main_button_demo_ui_thread"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:background="@android:color/white"
-        android:padding="24dp"
-        android:text="@string/demo_ui_thread_title" />
+        <Button
+            android:id="@+id/main_button_exercise2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/exercise2_title" />
 
-    <Button
-        android:id="@+id/main_button_demo_custom_handler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:background="@android:color/white"
-        android:padding="24dp"
-        android:text="@string/demo_custom_handler_title" />
+        <Button
+            android:id="@+id/main_button_demo_ui_thread"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/demo_ui_thread_title" />
 
-    <Button
-        android:id="@+id/main_button_exercise3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:background="@android:color/white"
-        android:padding="24dp"
-        android:text="@string/exercise3_title" />
+        <Button
+            android:id="@+id/main_button_demo_custom_handler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/demo_custom_handler_title" />
 
-    <Button
-        android:id="@+id/main_button_demo_atomicity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:background="@android:color/white"
-        android:padding="24dp"
-        android:text="@string/demo_atomicity_title" />
-</LinearLayout>
+        <Button
+            android:id="@+id/main_button_exercise3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/exercise3_title" />
+
+        <Button
+            android:id="@+id/main_button_demo_atomicity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/demo_atomicity_title" />
+
+        <Button
+            android:id="@+id/main_button_exercise4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/exercise4_title" />
+
+    </LinearLayout>
+
+</ScrollView>

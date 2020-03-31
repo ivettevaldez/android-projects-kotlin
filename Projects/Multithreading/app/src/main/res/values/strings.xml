@@ -3,13 +3,6 @@
     <string name="app_name">Multithreading Samples</string>
     <string name="default_zero">0</string>
 
-    <!-- Exercise1Fragment -->
-    <string name="exercise1_title">Exercise 1</string>
-    <string name="exercise1_count_iterations">Count iterations</string>
-
-    <!-- Exercise2Fragment -->
-    <string name="exercise2_title">Exercise 2</string>
-
     <!-- DemoUiThreadFragment -->
     <string name="demo_ui_thread_title">UI Thread Demo</string>
     <string name="demo_ui_thread_callback_check">Callback check</string>
@@ -18,13 +11,27 @@
     <string name="demo_custom_handler_title">Custom Handler Demo</string>
     <string name="demo_custom_handler_add_job">Add Job</string>
 
+    <!-- DemoAtomicityFragment -->
+    <string name="demo_atomicity_title">Atomicity Demo</string>
+    <string name="demo_atomicity_start_counters">Start concurrent counters</string>
+
+    <!-- Exercise1Fragment -->
+    <string name="exercise1_title">Exercise 1</string>
+    <string name="exercise1_count_iterations">Count iterations</string>
+
+    <!-- Exercise2Fragment -->
+    <string name="exercise2_title">Exercise 2</string>
+
     <!-- Exercise3Fragment -->
     <string name="exercise3_title">Exercise 3</string>
     <string name="exercise3_count_seconds">Count seconds</string>
     <string name="exercise3_zero_seconds">0 s</string>
 
-    <!-- DemoAtomicityFragment -->
-    <string name="demo_atomicity_title">Atomicity Demo</string>
-    <string name="demo_atomicity_start_counters">Start concurrent counters</string>
+    <!-- Exercise4Fragment -->
+    <string name="exercise4_title">Exercise 4</string>
+    <string name="exercise4_hint_number">0</string>
+    <string name="exercise4_hint_timeout">Timeout in ms (optional)</string>
+    <string name="exercise4_calculate">Calculate factorial</string>
+    <string name="exercise4_result">Result: %d</string>
 
 </resources>
