@@ -32,7 +32,7 @@ public class DemoAtomicityFragment extends Fragment {
 
     private Handler uiHandler = new Handler(Looper.getMainLooper());
 
-    private volatile AtomicInteger count = new AtomicInteger(0);
+    private final AtomicInteger count = new AtomicInteger(0);
 
     public DemoAtomicityFragment() {
         // Required empty public constructor

@@ -4,7 +4,7 @@ public class DemoVisibility {
 
     private static final Object LOCK = new Object();
 
-    private static int count = 0;
+    private static volatile int count = 0;
 
     public static void main(String[] args) {
         new Consumer().start();
@@ -43,6 +43,7 @@ public class DemoVisibility {
         public void run() {
             while (true) {
                 synchronized (LOCK) {
+                    if (count >= 5) break;
 
                     int localValue = count;
                     localValue++;
@@ -50,14 +51,12 @@ public class DemoVisibility {
                     System.out.println("Producer: incrementing count to " + localValue);
 
                     count = localValue;
+                }
 
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        return;
-                    }
-
-                    if (count >= 5) break;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    return;
                 }
             }
 
