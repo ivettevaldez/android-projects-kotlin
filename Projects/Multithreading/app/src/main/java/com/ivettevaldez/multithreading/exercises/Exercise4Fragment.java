@@ -19,7 +19,6 @@ import androidx.fragment.app.Fragment;
 import com.ivettevaldez.multithreading.R;
 
 import java.math.BigInteger;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,10 +28,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Exercise4Fragment extends Fragment {
 
     private final static int MAX_TIMEOUT_MS = 1000;
+    private final static Object THREADS_COMPLETION_LOCK = new Object();
 
     private final String TAG = this.getClass().getSimpleName();
     private final Handler uiHandler = new Handler(Looper.getMainLooper());
-    private final AtomicInteger numberOfFinishedThreads = new AtomicInteger(0);
 
     // UI Thread related
     private EditText editArgument;
@@ -41,6 +40,7 @@ public class Exercise4Fragment extends Fragment {
     private TextView textResult;
 
     private int numberOfThreads;
+    private int numberOfFinishedThreads;
     private long computationTimeout;
 
     private ComputationRange[] threadsComputationRanges;
@@ -100,7 +100,11 @@ public class Exercise4Fragment extends Fragment {
 
     private void initParams(int argument, long timeout) {
         numberOfThreads = argument < 20 ? 1 : Runtime.getRuntime().availableProcessors();
-        numberOfFinishedThreads.set(0);
+
+        synchronized (THREADS_COMPLETION_LOCK) {
+            numberOfFinishedThreads = 0;
+        }
+
         abortComputation = false;
         computationTimeout = System.currentTimeMillis() + timeout;
         threadsComputationResults = new BigInteger[numberOfThreads];
@@ -126,7 +130,11 @@ public class Exercise4Fragment extends Fragment {
                     }
 
                     threadsComputationResults[threadIndex] = product;
-                    numberOfFinishedThreads.getAndIncrement();
+
+                    synchronized (THREADS_COMPLETION_LOCK) {
+                        numberOfFinishedThreads++;
+                        THREADS_COMPLETION_LOCK.notifyAll();
+                    }
                 }
             }).start();
         }
@@ -136,21 +144,21 @@ public class Exercise4Fragment extends Fragment {
         return System.currentTimeMillis() >= computationTimeout;
     }
 
+    private long getRemainingMillisToTimeout() {
+        return computationTimeout - System.currentTimeMillis();
+    }
+
     @WorkerThread
     private void waitForThreadsResultsOrTimeoutOrAbort() {
-        while (true) {
-            if (numberOfFinishedThreads.get() == numberOfThreads) {
-                break;
-            } else if (abortComputation) {
-                break;
-            } else if (isTimeout()) {
-                break;
-            } else {
+        synchronized (THREADS_COMPLETION_LOCK) {
+            while (numberOfFinishedThreads != numberOfThreads
+                    && !abortComputation
+                    && !isTimeout()) {
                 try {
-                    Thread.sleep(100);
+                    THREADS_COMPLETION_LOCK.wait(getRemainingMillisToTimeout());
                 } catch (InterruptedException ex) {
-                    // Do nothing and keep looping.
                     Log.e(TAG, ex.toString());
+                    return;
                 }
             }
         }
