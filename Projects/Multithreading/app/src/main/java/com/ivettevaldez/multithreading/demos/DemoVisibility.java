@@ -1,12 +1,17 @@
 package com.ivettevaldez.multithreading.demos;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class DemoVisibility {
 
     private static final Object LOCK = new Object();
+    private static final AtomicBoolean PRODUCER_FLAG = new AtomicBoolean(false);
 
     private static volatile int count = 0;
 
     public static void main(String[] args) {
+        System.out.println("Main: starts");
+
         new Consumer().start();
 
         try {
@@ -18,13 +23,32 @@ public class DemoVisibility {
         Thread producer = new Producer();
         producer.start();
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            return;
+        synchronized (PRODUCER_FLAG) {
+            while (!PRODUCER_FLAG.get()) {
+                try {
+                    PRODUCER_FLAG.wait();
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
         }
 
-        producer.interrupt();
+//        try {
+//            // Recommended approach.
+//            producer.join();
+//        } catch (InterruptedException e) {
+//            return;
+//        }
+
+//        try {
+//            Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//            return;
+//        }
+//
+//        producer.interrupt();
+
+        System.out.println("Main: returns");
     }
 
     static class Consumer extends Thread {
@@ -76,6 +100,11 @@ public class DemoVisibility {
             }
 
             System.out.println("Producer: terminating");
+
+            synchronized (PRODUCER_FLAG) {
+                PRODUCER_FLAG.set(true);
+                PRODUCER_FLAG.notifyAll();
+            }
         }
     }
 }
