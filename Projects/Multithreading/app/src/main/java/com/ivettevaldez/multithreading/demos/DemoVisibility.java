@@ -15,7 +15,16 @@ public class DemoVisibility {
             return;
         }
 
-        new Producer().start();
+        Thread producer = new Producer();
+        producer.start();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            return;
+        }
+
+        producer.interrupt();
     }
 
     static class Consumer extends Thread {
@@ -53,9 +62,15 @@ public class DemoVisibility {
                     count = localValue;
                 }
 
+                if (isInterrupted()) {
+                    System.out.println("Producer: interrupted flag was set");
+                    return;
+                }
+
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
+                    System.out.println("Producer: interrupted during sleep");
                     return;
                 }
             }
