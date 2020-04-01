@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.ivettevaldez.multithreading.R;
 
 import java.math.BigInteger;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,24 +28,25 @@ import java.math.BigInteger;
  */
 public class Exercise4Fragment extends Fragment {
 
-    private final String TAG = this.getClass().getSimpleName();
     private final static int MAX_TIMEOUT_MS = 1000;
 
-    private Handler uiHandler = new Handler(Looper.getMainLooper());
+    private final String TAG = this.getClass().getSimpleName();
+    private final Handler uiHandler = new Handler(Looper.getMainLooper());
+    private final AtomicInteger numberOfFinishedThreads = new AtomicInteger(0);
 
+    // UI Thread related
     private EditText editArgument;
     private EditText editTimeout;
     private Button buttonCalculate;
     private TextView textResult;
 
     private int numberOfThreads;
-    private int numberOfFinishedThreads;
     private long computationTimeout;
 
     private ComputationRange[] threadsComputationRanges;
-    private BigInteger[] threadsComputationResults;
+    private volatile BigInteger[] threadsComputationResults;
 
-    private boolean abortComputation;
+    private volatile boolean abortComputation;
 
     public Exercise4Fragment() {
         // Required empty public constructor
@@ -98,7 +100,7 @@ public class Exercise4Fragment extends Fragment {
 
     private void initParams(int argument, long timeout) {
         numberOfThreads = argument < 20 ? 1 : Runtime.getRuntime().availableProcessors();
-        numberOfFinishedThreads = 0;
+        numberOfFinishedThreads.set(0);
         abortComputation = false;
         computationTimeout = System.currentTimeMillis() + timeout;
         threadsComputationResults = new BigInteger[numberOfThreads];
@@ -124,7 +126,7 @@ public class Exercise4Fragment extends Fragment {
                     }
 
                     threadsComputationResults[threadIndex] = product;
-                    numberOfFinishedThreads++;
+                    numberOfFinishedThreads.getAndIncrement();
                 }
             }).start();
         }
@@ -137,7 +139,7 @@ public class Exercise4Fragment extends Fragment {
     @WorkerThread
     private void waitForThreadsResultsOrTimeoutOrAbort() {
         while (true) {
-            if (numberOfFinishedThreads == numberOfThreads) {
+            if (numberOfFinishedThreads.get() == numberOfThreads) {
                 break;
             } else if (abortComputation) {
                 break;
