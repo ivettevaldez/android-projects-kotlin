@@ -4,7 +4,7 @@
     android:id="@+id/exercise3_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".exercises.Exercise3Fragment">
+    tools:context=".exercises.exercise3.Exercise3Fragment">
 
     <Button
         android:id="@+id/exercise3_button_count_seconds"

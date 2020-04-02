@@ -1,4 +1,4 @@
-package com.ivettevaldez.multithreading.exercises;
+package com.ivettevaldez.multithreading.exercises.exercise4;
 
 import android.app.Activity;
 import android.os.Bundle;

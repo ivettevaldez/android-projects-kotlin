@@ -16,11 +16,11 @@ import com.ivettevaldez.multithreading.R;
 import com.ivettevaldez.multithreading.demos.DemoAtomicityFragment;
 import com.ivettevaldez.multithreading.demos.DemoCustomHandlerFragment;
 import com.ivettevaldez.multithreading.demos.DemoUiThreadFragment;
-import com.ivettevaldez.multithreading.exercises.Exercise1Fragment;
-import com.ivettevaldez.multithreading.exercises.Exercise2Fragment;
-import com.ivettevaldez.multithreading.exercises.Exercise3Fragment;
-import com.ivettevaldez.multithreading.exercises.Exercise4Fragment;
-import com.ivettevaldez.multithreading.exercises.Exercise5Fragment;
+import com.ivettevaldez.multithreading.exercises.exercise1.Exercise1Fragment;
+import com.ivettevaldez.multithreading.exercises.exercise2.Exercise2Fragment;
+import com.ivettevaldez.multithreading.exercises.exercise3.Exercise3Fragment;
+import com.ivettevaldez.multithreading.exercises.exercise4.Exercise4Fragment;
+import com.ivettevaldez.multithreading.exercises.exercise5.Exercise5Fragment;
 
 public class MainFragment extends Fragment {
 
