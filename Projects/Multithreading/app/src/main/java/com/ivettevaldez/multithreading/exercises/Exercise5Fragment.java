@@ -176,8 +176,11 @@ public class Exercise5Fragment extends Fragment {
      */
     private static class MyBlockingQueue {
 
-        private final int capacity;
+        private final String TAG = this.getClass().getSimpleName();
+
+        private final Object QUEUE_LOCK = new Object();
         private final Queue<Integer> queue = new LinkedList<>();
+        private final int capacity;
 
         private int currentSize = 0;
 
@@ -192,9 +195,19 @@ public class Exercise5Fragment extends Fragment {
          * @param number the element to add.
          */
         private void put(int number) {
-            if (currentSize < capacity) {
+            synchronized (QUEUE_LOCK) {
+                while (currentSize >= capacity) {
+                    try {
+                        QUEUE_LOCK.wait();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                        return;
+                    }
+                }
+
                 queue.offer(number);
                 currentSize++;
+                QUEUE_LOCK.notifyAll();
             }
         }
 
@@ -205,14 +218,20 @@ public class Exercise5Fragment extends Fragment {
          * @return the head of the queue.
          */
         private int take() {
-            if (currentSize > 0) {
-                currentSize--;
-                Integer message = queue.poll();
-                if (message != null) {
-                    return message;
+            synchronized (QUEUE_LOCK) {
+                while (currentSize <= 0) {
+                    try {
+                        QUEUE_LOCK.wait();
+                    } catch (InterruptedException e) {
+                        Log.e(TAG, e.toString());
+                        return 0;
+                    }
                 }
+
+                currentSize--;
+                QUEUE_LOCK.notifyAll();
+                return queue.poll();
             }
-            return -1;
         }
     }
 }
