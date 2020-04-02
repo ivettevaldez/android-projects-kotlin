@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exercise5_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".exercises.Exercise5Fragment">
+
+    <Button
+        android:id="@+id/exercise5_button_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/exercise5_progress"
+        android:layout_centerInParent="false"
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/white"
+        android:padding="24dp"
+        android:text="@string/exercise5_start_messaging" />
+
+    <ProgressBar
+        android:id="@+id/exercise5_progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/exercise5_text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exercise5_progress"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/exercise5_text_messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exercise5_text_time"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
+</RelativeLayout>

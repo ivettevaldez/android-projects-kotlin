@@ -34,4 +34,8 @@
     <string name="exercise4_calculate">Calculate factorial</string>
     <string name="exercise4_result">Result: %d</string>
 
+    <!-- Exercise5Fragment -->
+    <string name="exercise5_title">Exercise 5</string>
+    <string name="exercise5_start_messaging">Start messaging</string>
+
 </resources>
