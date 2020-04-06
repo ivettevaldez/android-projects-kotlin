@@ -6,6 +6,10 @@ import android.util.Log;
 
 import com.ivettevaldez.multithreading.common.BaseObservable;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
+
 class ProducerConsumerBenchmarkUseCase extends BaseObservable<ProducerConsumerBenchmarkUseCase.Listener> {
 
     public interface Listener {
@@ -36,10 +40,17 @@ class ProducerConsumerBenchmarkUseCase extends BaseObservable<ProducerConsumerBe
     private final static int BLOCKING_QUEUE_CAPACITY = 5;
 
     private final static Object LOCK = new Object();
+    private final static Handler UI_HANDLER = new Handler(Looper.getMainLooper());
 
+    private final String classTag = this.getClass().getSimpleName();
     private final MyBlockingQueue blockingQueue = new MyBlockingQueue(BLOCKING_QUEUE_CAPACITY);
-    private final Handler uiHandler = new Handler(Looper.getMainLooper());
-    private final String TAG = this.getClass().getSimpleName();
+    private final AtomicInteger numOfThreads = new AtomicInteger(0);
+    private final ExecutorService threadPool = Executors.newCachedThreadPool(
+            runnable -> {
+                Log.d(classTag, "Thread: " + numOfThreads.incrementAndGet());
+                return new Thread(runnable);
+            }
+    );
 
     private int numOfReceivedMessages;
     private int numOfFinishedConsumers;
@@ -49,42 +60,43 @@ class ProducerConsumerBenchmarkUseCase extends BaseObservable<ProducerConsumerBe
         synchronized (LOCK) {
             numOfReceivedMessages = 0;
             numOfFinishedConsumers = 0;
+            numOfThreads.set(0);
             startTimestamp = System.currentTimeMillis();
         }
 
         // Watcher-reporter thread.
-        new Thread(() -> {
+        threadPool.execute(() -> {
             synchronized (LOCK) {
                 while (numOfFinishedConsumers < NUM_OF_MESSAGES) {
                     try {
                         LOCK.wait();
                     } catch (InterruptedException ex) {
-                        Log.e(TAG, ex.toString());
+                        Log.e(classTag, ex.toString());
                         return;
                     }
                 }
             }
 
             notifySuccess();
-        }).start();
+        });
 
         // Producers init thread.
-        new Thread(() -> {
+        threadPool.execute(() -> {
             for (int i = 0; i < NUM_OF_MESSAGES; i++) {
                 startNewProducer(i);
             }
-        }).start();
+        });
 
         // Consumers init thread.
-        new Thread(() -> {
+        threadPool.execute(() -> {
             for (int i = 0; i < NUM_OF_MESSAGES; i++) {
                 startNewConsumer();
             }
-        }).start();
+        });
     }
 
     private void notifySuccess() {
-        uiHandler.post(() -> {
+        UI_HANDLER.post(() -> {
             Result result;
 
             synchronized (LOCK) {
@@ -99,11 +111,11 @@ class ProducerConsumerBenchmarkUseCase extends BaseObservable<ProducerConsumerBe
     }
 
     private void startNewProducer(final int index) {
-        new Thread(() -> blockingQueue.put(index)).start();
+        threadPool.execute(() -> blockingQueue.put(index));
     }
 
     private void startNewConsumer() {
-        new Thread(() -> {
+        threadPool.execute(() -> {
             int message = blockingQueue.take();
 
             synchronized (LOCK) {
@@ -113,6 +125,6 @@ class ProducerConsumerBenchmarkUseCase extends BaseObservable<ProducerConsumerBe
                 numOfFinishedConsumers++;
                 LOCK.notifyAll();
             }
-        }).start();
+        });
     }
 }
