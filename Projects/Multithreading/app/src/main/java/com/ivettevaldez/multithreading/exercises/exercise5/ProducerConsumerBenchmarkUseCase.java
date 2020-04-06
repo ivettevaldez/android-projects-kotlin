@@ -13,12 +13,12 @@ class ProducerConsumerBenchmarkUseCase extends BaseObservable<ProducerConsumerBe
         void onBenchmarkCompleted(Result result);
     }
 
-    public static class Result {
+    static class Result {
 
         private final long executionTime;
         private final int numberOfMessages;
 
-        public Result(long executionTime, int numberOfMessages) {
+        Result(long executionTime, int numberOfMessages) {
             this.executionTime = executionTime;
             this.numberOfMessages = numberOfMessages;
         }
@@ -53,85 +53,65 @@ class ProducerConsumerBenchmarkUseCase extends BaseObservable<ProducerConsumerBe
         }
 
         // Watcher-reporter thread.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                synchronized (LOCK) {
-                    while (numOfFinishedConsumers < NUM_OF_MESSAGES) {
-                        try {
-                            LOCK.wait();
-                        } catch (InterruptedException ex) {
-                            Log.e(TAG, ex.toString());
-                            return;
-                        }
+        new Thread(() -> {
+            synchronized (LOCK) {
+                while (numOfFinishedConsumers < NUM_OF_MESSAGES) {
+                    try {
+                        LOCK.wait();
+                    } catch (InterruptedException ex) {
+                        Log.e(TAG, ex.toString());
+                        return;
                     }
                 }
-
-                notifySuccess();
             }
+
+            notifySuccess();
         }).start();
 
         // Producers init thread.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < NUM_OF_MESSAGES; i++) {
-                    startNewProducer(i);
-                }
+        new Thread(() -> {
+            for (int i = 0; i < NUM_OF_MESSAGES; i++) {
+                startNewProducer(i);
             }
         }).start();
 
         // Consumers init thread.
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < NUM_OF_MESSAGES; i++) {
-                    startNewConsumer();
-                }
+        new Thread(() -> {
+            for (int i = 0; i < NUM_OF_MESSAGES; i++) {
+                startNewConsumer();
             }
         }).start();
     }
 
     private void notifySuccess() {
-        uiHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                Result result;
+        uiHandler.post(() -> {
+            Result result;
 
-                synchronized (LOCK) {
-                    long executionTime = System.currentTimeMillis() - startTimestamp;
-                    result = new Result(executionTime, numOfReceivedMessages);
-                }
+            synchronized (LOCK) {
+                long executionTime = System.currentTimeMillis() - startTimestamp;
+                result = new Result(executionTime, numOfReceivedMessages);
+            }
 
-                for (Listener listener : getListeners()) {
-                    listener.onBenchmarkCompleted(result);
-                }
+            for (Listener listener : getListeners()) {
+                listener.onBenchmarkCompleted(result);
             }
         });
     }
 
     private void startNewProducer(final int index) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                blockingQueue.put(index);
-            }
-        }).start();
+        new Thread(() -> blockingQueue.put(index)).start();
     }
 
     private void startNewConsumer() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int message = blockingQueue.take();
+        new Thread(() -> {
+            int message = blockingQueue.take();
 
-                synchronized (LOCK) {
-                    if (message != -1) {
-                        numOfReceivedMessages++;
-                    }
-                    numOfFinishedConsumers++;
-                    LOCK.notifyAll();
+            synchronized (LOCK) {
+                if (message != -1) {
+                    numOfReceivedMessages++;
                 }
+                numOfFinishedConsumers++;
+                LOCK.notifyAll();
             }
         }).start();
     }
