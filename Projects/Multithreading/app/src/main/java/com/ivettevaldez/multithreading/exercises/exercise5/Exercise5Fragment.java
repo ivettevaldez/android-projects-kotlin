@@ -44,22 +44,7 @@ public class Exercise5Fragment extends Fragment implements ProducerConsumerBench
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_exercise5, container, false);
 
-        textTime = view.findViewById(R.id.exercise5_text_time);
-        textMessages = view.findViewById(R.id.exercise5_text_messages);
-        progress = view.findViewById(R.id.exercise5_progress);
-
-        buttonStart = view.findViewById(R.id.exercise5_button_start);
-        buttonStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buttonStart.setEnabled(false);
-                textTime.setText("");
-                textMessages.setText("");
-                progress.setVisibility(View.VISIBLE);
-
-                producerConsumerBenchmarkUseCase.startBenchmarkAndNotify();
-            }
-        });
+        initViews(view);
 
         return view;
     }
@@ -92,5 +77,21 @@ public class Exercise5Fragment extends Fragment implements ProducerConsumerBench
                 "Received messages: %d",
                 result.getNumberOfMessages())
         );
+    }
+
+    private void initViews(View view) {
+        textTime = view.findViewById(R.id.exercise5_text_time);
+        textMessages = view.findViewById(R.id.exercise5_text_messages);
+        progress = view.findViewById(R.id.exercise5_progress);
+
+        buttonStart = view.findViewById(R.id.exercise5_button_start);
+        buttonStart.setOnClickListener(view1 -> {
+            buttonStart.setEnabled(false);
+            textTime.setText("");
+            textMessages.setText("");
+            progress.setVisibility(View.VISIBLE);
+
+            producerConsumerBenchmarkUseCase.startBenchmarkAndNotify();
+        });
     }
 }
