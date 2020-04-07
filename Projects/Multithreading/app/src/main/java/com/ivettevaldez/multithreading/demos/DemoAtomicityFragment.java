@@ -26,13 +26,10 @@ public class DemoAtomicityFragment extends Fragment {
 
     private static final int COUNT_UP_TO = 1000;
     private static final int NUM_OF_COUNTER_THREADS = 100;
-
+    private final AtomicInteger count = new AtomicInteger(0);
     private Button btnStartCount;
     private TextView textFinalCount;
-
     private Handler uiHandler = new Handler(Looper.getMainLooper());
-
-    private final AtomicInteger count = new AtomicInteger(0);
 
     public DemoAtomicityFragment() {
         // Required empty public constructor

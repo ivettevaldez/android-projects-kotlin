@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ivettevaldez.multithreading.R;
+import com.ivettevaldez.multithreading.common.BaseFragment;
 
 import java.util.Locale;
 
@@ -20,7 +21,8 @@ import java.util.Locale;
  * Use the {@link Exercise5Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Exercise5Fragment extends Fragment implements ProducerConsumerBenchmarkUseCase.Listener {
+public class Exercise5Fragment extends BaseFragment
+        implements ProducerConsumerBenchmarkUseCase.Listener {
 
     private TextView textTime;
     private TextView textMessages;
@@ -36,7 +38,10 @@ public class Exercise5Fragment extends Fragment implements ProducerConsumerBench
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        producerConsumerBenchmarkUseCase = new ProducerConsumerBenchmarkUseCase();
+        producerConsumerBenchmarkUseCase = new ProducerConsumerBenchmarkUseCase(
+                getCompositionRoot().getUiHandler(),
+                getCompositionRoot().getThreadPool()
+        );
     }
 
     @Override

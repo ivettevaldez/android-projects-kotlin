@@ -1,7 +1,6 @@
 package com.ivettevaldez.multithreading.exercises.exercise4;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.WorkerThread;
@@ -9,6 +8,7 @@ import androidx.annotation.WorkerThread;
 import com.ivettevaldez.multithreading.common.BaseObservable;
 
 import java.math.BigInteger;
+import java.util.concurrent.ThreadPoolExecutor;
 
 class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Listener> {
 
@@ -16,7 +16,9 @@ class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Lis
     private final static Object THREADS_COMPLETION_LOCK = new Object();
 
     private final String TAG = this.getClass().getSimpleName();
-    private final Handler uiHandler = new Handler(Looper.getMainLooper());
+
+    private final Handler uiHandler;
+    private final ThreadPoolExecutor threadPool;
 
     private int numberOfThreads;
     private int numberOfFinishedThreads;
@@ -27,13 +29,9 @@ class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Lis
 
     private boolean abortComputation;
 
-    public interface Listener {
-
-        void onFactorialComputed(BigInteger result);
-
-        void onFactorialComputationTimedOut();
-
-        void onFactorialComputationAborted();
+    ComputeFactorialUseCase(Handler uiHandler, ThreadPoolExecutor threadPool) {
+        this.uiHandler = uiHandler;
+        this.threadPool = threadPool;
     }
 
     @Override
@@ -46,12 +44,12 @@ class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Lis
     }
 
     void computeFactorialAndNotify(final int argument, final String timeout) {
-        new Thread(() -> {
+        threadPool.execute(() -> {
             initParams(argument, validateTimeout(timeout));
             startComputation();
             waitForThreadsResultsOrTimeoutOrAbort();
             processResults();
-        }).start();
+        });
     }
 
     private long validateTimeout(String strTimeout) {
@@ -106,7 +104,7 @@ class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Lis
         for (int i = 0; i < numberOfThreads; i++) {
             final int threadIndex = i;
 
-            new Thread(() -> {
+            threadPool.execute(() -> {
                 long rangeStart = threadsComputationRanges[threadIndex].start;
                 long rangeEnd = threadsComputationRanges[threadIndex].end;
                 BigInteger product = new BigInteger("1");
@@ -122,7 +120,7 @@ class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Lis
                     numberOfFinishedThreads++;
                     THREADS_COMPLETION_LOCK.notifyAll();
                 }
-            }).start();
+            });
         }
     }
 
@@ -201,5 +199,14 @@ class ComputeFactorialUseCase extends BaseObservable<ComputeFactorialUseCase.Lis
                 listener.onFactorialComputationAborted();
             }
         });
+    }
+
+    public interface Listener {
+
+        void onFactorialComputed(BigInteger result);
+
+        void onFactorialComputationTimedOut();
+
+        void onFactorialComputationAborted();
     }
 }

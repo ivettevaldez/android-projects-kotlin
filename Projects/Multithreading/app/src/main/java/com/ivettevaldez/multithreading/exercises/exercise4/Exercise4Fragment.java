@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.ivettevaldez.multithreading.R;
+import com.ivettevaldez.multithreading.common.BaseFragment;
 
 import java.math.BigInteger;
 import java.util.Locale;
@@ -23,7 +24,7 @@ import java.util.Locale;
  * Use the {@link Exercise4Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Exercise4Fragment extends Fragment implements ComputeFactorialUseCase.Listener {
+public class Exercise4Fragment extends BaseFragment implements ComputeFactorialUseCase.Listener {
 
     private EditText editArgument;
     private EditText editTimeout;
@@ -43,7 +44,10 @@ public class Exercise4Fragment extends Fragment implements ComputeFactorialUseCa
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        computeFactorialUseCase = new ComputeFactorialUseCase();
+        computeFactorialUseCase = new ComputeFactorialUseCase(
+                getCompositionRoot().getUiHandler(),
+                getCompositionRoot().getThreadPool()
+        );
     }
 
     @Override
