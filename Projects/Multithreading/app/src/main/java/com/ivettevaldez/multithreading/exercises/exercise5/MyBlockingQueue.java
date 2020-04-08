@@ -1,7 +1,5 @@
 package com.ivettevaldez.multithreading.exercises.exercise5;
 
-import android.util.Log;
-
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -9,8 +7,6 @@ import java.util.Queue;
  * Simplified implementation of BlockingQueue.
  */
 class MyBlockingQueue {
-
-    private final String TAG = this.getClass().getSimpleName();
 
     private final Object QUEUE_LOCK = new Object();
     private final Queue<Integer> queue = new LinkedList<>();
@@ -34,7 +30,6 @@ class MyBlockingQueue {
                 try {
                     QUEUE_LOCK.wait();
                 } catch (InterruptedException e) {
-                    Log.e(TAG, e.toString());
                     return;
                 }
             }
@@ -57,7 +52,6 @@ class MyBlockingQueue {
                 try {
                     QUEUE_LOCK.wait();
                 } catch (InterruptedException e) {
-                    Log.e(TAG, e.toString());
                     return 0;
                 }
             }

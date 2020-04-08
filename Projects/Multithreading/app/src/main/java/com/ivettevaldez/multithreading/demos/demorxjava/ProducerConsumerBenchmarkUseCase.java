@@ -1,87 +1,36 @@
 package com.ivettevaldez.multithreading.demos.demorxjava;
 
-import android.util.Log;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 
 class ProducerConsumerBenchmarkUseCase {
 
     private final static int NUM_OF_MESSAGES = 1000;
     private final static int BLOCKING_QUEUE_CAPACITY = 5;
-    private final static Object LOCK = new Object();
 
-    private final String classTag = this.getClass().getSimpleName();
     private final MyBlockingQueue blockingQueue = new MyBlockingQueue(BLOCKING_QUEUE_CAPACITY);
-    private final AtomicInteger numOfThreads = new AtomicInteger(0);
 
-    private int numOfReceivedMessages;
-    private int numOfFinishedConsumers;
     private long startTimestamp;
 
     Observable<Result> startBenchmark() {
-        return Observable.fromCallable(
-                () -> {
-                    synchronized (LOCK) {
-                        numOfReceivedMessages = 0;
-                        numOfFinishedConsumers = 0;
-                        numOfThreads.set(0);
-                        startTimestamp = System.currentTimeMillis();
-                    }
-
-                    // Producers init thread.
-                    new Thread(() -> {
-                        for (int i = 0; i < NUM_OF_MESSAGES; i++) {
-                            startNewProducer(i);
-                        }
-                    }).start();
-
-                    // Consumers init thread.
-                    new Thread(() -> {
-                        for (int i = 0; i < NUM_OF_MESSAGES; i++) {
-                            startNewConsumer();
-                        }
-                    }).start();
-
-                    synchronized (LOCK) {
-                        while (numOfFinishedConsumers < NUM_OF_MESSAGES) {
-                            try {
-                                LOCK.wait();
-                            } catch (InterruptedException ex) {
-                                Log.e(classTag, ex.toString());
-                                return new Result(
-                                        System.currentTimeMillis() - startTimestamp,
-                                        -1
-                                );
-                            }
-                        }
-
-                        return new Result(
-                                System.currentTimeMillis() - startTimestamp,
-                                numOfReceivedMessages
-                        );
-                    }
-                }
-        );
-    }
-
-    private void startNewProducer(final int index) {
-        new Thread(() -> blockingQueue.put(index)).start();
-    }
-
-    private void startNewConsumer() {
-        new Thread(() -> {
-            int message = blockingQueue.take();
-
-            synchronized (LOCK) {
-                if (message != -1) {
-                    numOfReceivedMessages++;
-                }
-                numOfFinishedConsumers++;
-                LOCK.notifyAll();
-            }
-        }).start();
+        return Flowable.range(0, NUM_OF_MESSAGES)
+                .flatMap(id -> Flowable
+                        .fromCallable(() -> {
+                                    blockingQueue.put(id);
+                                    return id;
+                                }
+                        )
+                        .subscribeOn(Schedulers.io())
+                )
+                .parallel(NUM_OF_MESSAGES)
+                .runOn(Schedulers.io())
+                .doOnNext(msg -> blockingQueue.take())
+                .sequential()
+                .count()
+                .doOnSubscribe(s -> startTimestamp = System.currentTimeMillis())
+                .map(count -> new Result(System.currentTimeMillis() - startTimestamp, count.intValue()))
+                .toObservable();
     }
 
     static class Result {
