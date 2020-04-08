@@ -2,7 +2,6 @@ package com.ivettevaldez.multithreading.demos.demorxjava;
 
 import android.util.Log;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.reactivex.Observable;
@@ -51,12 +50,17 @@ class ProducerConsumerBenchmarkUseCase {
                                 LOCK.wait();
                             } catch (InterruptedException ex) {
                                 Log.e(classTag, ex.toString());
-                                return null;
+                                return new Result(
+                                        System.currentTimeMillis() - startTimestamp,
+                                        -1
+                                );
                             }
                         }
 
-                        long executionTime = System.currentTimeMillis() - startTimestamp;
-                        return new Result(executionTime, numOfReceivedMessages);
+                        return new Result(
+                                System.currentTimeMillis() - startTimestamp,
+                                numOfReceivedMessages
+                        );
                     }
                 }
         );

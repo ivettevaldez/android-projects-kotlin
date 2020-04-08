@@ -17,6 +17,7 @@ import com.ivettevaldez.multithreading.common.BaseFragment;
 import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -32,6 +33,9 @@ public class DemoRxJavaFragment extends BaseFragment {
     private Button buttonStart;
 
     private ProducerConsumerBenchmarkUseCase producerConsumerBenchmarkUseCase;
+
+    private @Nullable
+    Disposable disposable;
 
     public static DemoRxJavaFragment newInstance() {
         return new DemoRxJavaFragment();
@@ -54,15 +58,11 @@ public class DemoRxJavaFragment extends BaseFragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-//        producerConsumerBenchmarkUseCase.registerListener(this);
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
-//        producerConsumerBenchmarkUseCase.unregisterListener(this);
+        if (disposable != null) {
+            disposable.dispose();
+        }
     }
 
     private void onBenchmarkCompleted(ProducerConsumerBenchmarkUseCase.Result result) {
@@ -94,7 +94,7 @@ public class DemoRxJavaFragment extends BaseFragment {
             textMessages.setText("");
             progress.setVisibility(View.VISIBLE);
 
-            producerConsumerBenchmarkUseCase.startBenchmark()
+            disposable = producerConsumerBenchmarkUseCase.startBenchmark()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::onBenchmarkCompleted);
