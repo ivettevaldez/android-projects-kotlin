@@ -16,6 +16,7 @@ import com.ivettevaldez.multithreading.R;
 import com.ivettevaldez.multithreading.demos.DemoAtomicityFragment;
 import com.ivettevaldez.multithreading.demos.DemoCustomHandlerFragment;
 import com.ivettevaldez.multithreading.demos.DemoUiThreadFragment;
+import com.ivettevaldez.multithreading.demos.demoasynctask.DemoAsyncTaskFragment;
 import com.ivettevaldez.multithreading.exercises.exercise1.Exercise1Fragment;
 import com.ivettevaldez.multithreading.exercises.exercise2.Exercise2Fragment;
 import com.ivettevaldez.multithreading.exercises.exercise3.Exercise3Fragment;
@@ -34,13 +35,11 @@ public class MainFragment extends Fragment {
     private Button btnDemoUiThread;
     private Button btnDemoCustomHandler;
     private Button btnDemoAtomicity;
+    private Button btnDemoAsyncTask;
 
-    private View.OnClickListener listener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Fragment fragment = getFragment(view.getId());
-            goToFragment(fragment);
-        }
+    private View.OnClickListener listener = view -> {
+        Fragment fragment = getFragment(view.getId());
+        goToFragment(fragment);
     };
 
     public static MainFragment newInstance() {
@@ -74,6 +73,7 @@ public class MainFragment extends Fragment {
         btnDemoUiThread = layout.findViewById(R.id.main_button_demo_ui_thread);
         btnDemoCustomHandler = layout.findViewById(R.id.main_button_demo_custom_handler);
         btnDemoAtomicity = layout.findViewById(R.id.main_button_demo_atomicity);
+        btnDemoAsyncTask = layout.findViewById(R.id.main_button_demo_async_task);
     }
 
     private void initListeners() {
@@ -85,6 +85,7 @@ public class MainFragment extends Fragment {
         btnDemoUiThread.setOnClickListener(listener);
         btnDemoCustomHandler.setOnClickListener(listener);
         btnDemoAtomicity.setOnClickListener(listener);
+        btnDemoAsyncTask.setOnClickListener(listener);
     }
 
     private Fragment getFragment(int viewId) {
@@ -111,6 +112,9 @@ public class MainFragment extends Fragment {
                 break;
             case R.id.main_button_exercise5:
                 fragment = Exercise5Fragment.newInstance();
+                break;
+            case R.id.main_button_demo_async_task:
+                fragment = DemoAsyncTaskFragment.newInstance();
                 break;
             default:
                 fragment = Exercise1Fragment.newInstance();
