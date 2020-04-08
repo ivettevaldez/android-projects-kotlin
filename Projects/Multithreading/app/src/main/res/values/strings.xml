@@ -21,6 +21,9 @@
     <!-- DemoThreadPosterFragment -->
     <string name="demo_thread_poster_title">ThreadPoster Demo</string>
 
+    <!-- DemoRxJavaFragment -->
+    <string name="demo_rx_java_title">RxJava Demo</string>
+
     <!-- Exercise1Fragment -->
     <string name="exercise1_title">Exercise 1</string>
     <string name="exercise1_count_iterations">Count iterations</string>

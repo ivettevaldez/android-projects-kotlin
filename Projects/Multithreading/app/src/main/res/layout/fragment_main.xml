@@ -103,6 +103,15 @@
             android:padding="24dp"
             android:text="@string/demo_thread_poster_title" />
 
+        <Button
+            android:id="@+id/main_button_demo_rx_java"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:background="@android:color/white"
+            android:padding="24dp"
+            android:text="@string/demo_rx_java_title" />
+
     </LinearLayout>
 
 </ScrollView>
