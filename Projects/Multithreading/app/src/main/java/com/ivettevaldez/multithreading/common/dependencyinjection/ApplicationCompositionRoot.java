@@ -4,6 +4,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.techyourchance.threadposter.BackgroundThreadPoster;
+import com.techyourchance.threadposter.UiThreadPoster;
+
 import java.util.Locale;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -17,6 +20,14 @@ public class ApplicationCompositionRoot {
 
     public Handler getUiHandler() {
         return new Handler(Looper.getMainLooper());
+    }
+
+    public UiThreadPoster getUiThreadPoster() {
+        return new UiThreadPoster();
+    }
+
+    public BackgroundThreadPoster getBackgroundThreadPoster() {
+        return new BackgroundThreadPoster();
     }
 
     public ThreadPoolExecutor getThreadPool() {

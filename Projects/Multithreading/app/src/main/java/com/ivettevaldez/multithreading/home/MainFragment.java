@@ -17,6 +17,7 @@ import com.ivettevaldez.multithreading.demos.DemoAtomicityFragment;
 import com.ivettevaldez.multithreading.demos.DemoCustomHandlerFragment;
 import com.ivettevaldez.multithreading.demos.DemoUiThreadFragment;
 import com.ivettevaldez.multithreading.demos.demoasynctask.DemoAsyncTaskFragment;
+import com.ivettevaldez.multithreading.demos.demothreadposter.DemoThreadPosterFragment;
 import com.ivettevaldez.multithreading.exercises.exercise1.Exercise1Fragment;
 import com.ivettevaldez.multithreading.exercises.exercise2.Exercise2Fragment;
 import com.ivettevaldez.multithreading.exercises.exercise3.Exercise3Fragment;
@@ -36,6 +37,7 @@ public class MainFragment extends Fragment {
     private Button btnDemoCustomHandler;
     private Button btnDemoAtomicity;
     private Button btnDemoAsyncTask;
+    private Button btnDemoThreadPoster;
 
     private View.OnClickListener listener = view -> {
         Fragment fragment = getFragment(view.getId());
@@ -74,6 +76,7 @@ public class MainFragment extends Fragment {
         btnDemoCustomHandler = layout.findViewById(R.id.main_button_demo_custom_handler);
         btnDemoAtomicity = layout.findViewById(R.id.main_button_demo_atomicity);
         btnDemoAsyncTask = layout.findViewById(R.id.main_button_demo_async_task);
+        btnDemoThreadPoster = layout.findViewById(R.id.main_button_demo_thread_poster);
     }
 
     private void initListeners() {
@@ -86,6 +89,7 @@ public class MainFragment extends Fragment {
         btnDemoCustomHandler.setOnClickListener(listener);
         btnDemoAtomicity.setOnClickListener(listener);
         btnDemoAsyncTask.setOnClickListener(listener);
+        btnDemoThreadPoster.setOnClickListener(listener);
     }
 
     private Fragment getFragment(int viewId) {
@@ -115,6 +119,9 @@ public class MainFragment extends Fragment {
                 break;
             case R.id.main_button_demo_async_task:
                 fragment = DemoAsyncTaskFragment.newInstance();
+                break;
+            case R.id.main_button_demo_thread_poster:
+                fragment = DemoThreadPosterFragment.newInstance();
                 break;
             default:
                 fragment = Exercise1Fragment.newInstance();
