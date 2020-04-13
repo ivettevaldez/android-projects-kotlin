@@ -47,4 +47,7 @@
     <string name="exercise5_title">Exercise 5</string>
     <string name="exercise5_start_messaging">Start messaging</string>
 
+    <!-- Exercise6Fragment -->
+    <string name="exercise6_title">Exercise 6</string>
+
 </resources>

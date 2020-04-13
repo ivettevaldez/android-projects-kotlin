@@ -24,6 +24,7 @@ import com.ivettevaldez.multithreading.exercises.exercise2.Exercise2Fragment;
 import com.ivettevaldez.multithreading.exercises.exercise3.Exercise3Fragment;
 import com.ivettevaldez.multithreading.exercises.exercise4.Exercise4Fragment;
 import com.ivettevaldez.multithreading.exercises.exercise5.Exercise5Fragment;
+import com.ivettevaldez.multithreading.exercises.exercise6.Exercise6Fragment;
 
 public class MainFragment extends Fragment {
 
@@ -34,6 +35,7 @@ public class MainFragment extends Fragment {
     private Button btnExercise3;
     private Button btnExercise4;
     private Button btnExercise5;
+    private Button btnExercise6;
     private Button btnDemoUiThread;
     private Button btnDemoCustomHandler;
     private Button btnDemoAtomicity;
@@ -74,6 +76,7 @@ public class MainFragment extends Fragment {
         btnExercise3 = layout.findViewById(R.id.main_button_exercise3);
         btnExercise4 = layout.findViewById(R.id.main_button_exercise4);
         btnExercise5 = layout.findViewById(R.id.main_button_exercise5);
+        btnExercise6 = layout.findViewById(R.id.main_button_exercise6);
         btnDemoUiThread = layout.findViewById(R.id.main_button_demo_ui_thread);
         btnDemoCustomHandler = layout.findViewById(R.id.main_button_demo_custom_handler);
         btnDemoAtomicity = layout.findViewById(R.id.main_button_demo_atomicity);
@@ -88,6 +91,7 @@ public class MainFragment extends Fragment {
         btnExercise3.setOnClickListener(listener);
         btnExercise4.setOnClickListener(listener);
         btnExercise5.setOnClickListener(listener);
+        btnExercise6.setOnClickListener(listener);
         btnDemoUiThread.setOnClickListener(listener);
         btnDemoCustomHandler.setOnClickListener(listener);
         btnDemoAtomicity.setOnClickListener(listener);
@@ -120,6 +124,9 @@ public class MainFragment extends Fragment {
                 break;
             case R.id.main_button_exercise5:
                 fragment = Exercise5Fragment.newInstance();
+                break;
+            case R.id.main_button_exercise6:
+                fragment = Exercise6Fragment.newInstance();
                 break;
             case R.id.main_button_demo_async_task:
                 fragment = DemoAsyncTaskFragment.newInstance();

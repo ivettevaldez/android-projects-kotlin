@@ -80,13 +80,11 @@ public class Exercise4Fragment extends BaseFragment implements ComputeFactorialU
     @Override
     public void onFactorialComputationTimedOut() {
         showResult("Computation timed out");
-
     }
 
     @Override
     public void onFactorialComputationAborted() {
         showResult("Computation aborted");
-
     }
 
     private void showResult(String result) {
