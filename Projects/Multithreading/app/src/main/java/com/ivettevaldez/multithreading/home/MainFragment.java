@@ -17,6 +17,7 @@ import com.ivettevaldez.multithreading.demos.DemoAtomicityFragment;
 import com.ivettevaldez.multithreading.demos.DemoCustomHandlerFragment;
 import com.ivettevaldez.multithreading.demos.DemoUiThreadFragment;
 import com.ivettevaldez.multithreading.demos.demoasynctask.DemoAsyncTaskFragment;
+import com.ivettevaldez.multithreading.demos.democoroutines.DemoCoroutinesFragment;
 import com.ivettevaldez.multithreading.demos.demorxjava.DemoRxJavaFragment;
 import com.ivettevaldez.multithreading.demos.demothreadposter.DemoThreadPosterFragment;
 import com.ivettevaldez.multithreading.exercises.exercise1.Exercise1Fragment;
@@ -42,6 +43,7 @@ public class MainFragment extends Fragment {
     private Button btnDemoAsyncTask;
     private Button btnDemoThreadPoster;
     private Button btnDemoRxJava;
+    private Button btnCoroutinesJava;
 
     private View.OnClickListener listener = view -> {
         Fragment fragment = getFragment(view.getId());
@@ -83,6 +85,7 @@ public class MainFragment extends Fragment {
         btnDemoAsyncTask = layout.findViewById(R.id.main_button_demo_async_task);
         btnDemoThreadPoster = layout.findViewById(R.id.main_button_demo_thread_poster);
         btnDemoRxJava = layout.findViewById(R.id.main_button_demo_rx_java);
+        btnCoroutinesJava = layout.findViewById(R.id.main_button_demo_coroutines);
     }
 
     private void initListeners() {
@@ -98,6 +101,7 @@ public class MainFragment extends Fragment {
         btnDemoAsyncTask.setOnClickListener(listener);
         btnDemoThreadPoster.setOnClickListener(listener);
         btnDemoRxJava.setOnClickListener(listener);
+        btnCoroutinesJava.setOnClickListener(listener);
     }
 
     private Fragment getFragment(int viewId) {
@@ -136,6 +140,9 @@ public class MainFragment extends Fragment {
                 break;
             case R.id.main_button_demo_rx_java:
                 fragment = DemoRxJavaFragment.newInstance();
+                break;
+            case R.id.main_button_demo_coroutines:
+                fragment = DemoCoroutinesFragment.newInstance();
                 break;
             default:
                 fragment = Exercise1Fragment.newInstance();
