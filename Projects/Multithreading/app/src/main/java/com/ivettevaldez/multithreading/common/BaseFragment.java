@@ -11,7 +11,7 @@ public class BaseFragment extends Fragment {
     protected final ApplicationCompositionRoot getCompositionRoot() {
         if (applicationCompositionRoot == null) {
             applicationCompositionRoot = ((BaseApplication) requireActivity().getApplication())
-                    .getApplicationCompositionRoot();
+                    .getAppCompositionRoot();
         }
         return applicationCompositionRoot;
     }
