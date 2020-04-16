@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.ivettevaldez.multithreading.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -26,6 +27,8 @@ class DemoCoroutinesFragment : Fragment() {
     private lateinit var progress: ProgressBar
     private lateinit var buttonStart: Button
 
+    private var job: Job? = null
+
     private lateinit var producerConsumerBenchmarkUseCase: ProducerConsumerBenchmarkUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,11 @@ class DemoCoroutinesFragment : Fragment() {
         initViews(view)
 
         return view
+    }
+
+    override fun onStop() {
+        super.onStop()
+        job?.apply { cancel() }
     }
 
     private fun onBenchmarkCompleted(result: ProducerConsumerBenchmarkUseCase.Result?) {
@@ -58,7 +66,7 @@ class DemoCoroutinesFragment : Fragment() {
     }
 
     private fun startCoroutine() {
-        CoroutineScope(Dispatchers.Main).launch {
+        job = CoroutineScope(Dispatchers.Main).launch {
             val result = producerConsumerBenchmarkUseCase.startBenchmark()
             onBenchmarkCompleted(result)
         }
