@@ -10,33 +10,8 @@ import io.reactivex.schedulers.Schedulers;
 
 class ComputeFactorialUseCase {
 
-    public static class Result {
-        private final boolean isAborted;
-        private final boolean isTimedOut;
-        private final BigInteger result;
-
-        Result(boolean isAborted, boolean isTimedOut, BigInteger result) {
-            this.isAborted = isAborted;
-            this.isTimedOut = isTimedOut;
-            this.result = result;
-        }
-
-        boolean isAborted() {
-            return isAborted;
-        }
-
-        boolean isTimedOut() {
-            return isTimedOut;
-        }
-
-        public BigInteger getResult() {
-            return result;
-        }
-    }
-
     private int mNumberOfThreads;
     private ComputationRange[] mThreadsComputationRanges;
-
     private long mComputationTimeoutTime;
 
     Observable<Result> computeFactorial(final int argument, final int timeout) {
@@ -109,15 +84,12 @@ class ComputeFactorialUseCase {
         mThreadsComputationRanges[0].start = 1;
     }
 
-//    private long getRemainingMillisToTimeout() {
-//        return mComputationTimeoutTime - System.currentTimeMillis();
-//    }
-
     private boolean isTimedOut() {
         return System.currentTimeMillis() >= mComputationTimeoutTime;
     }
 
     private static class ComputationRange {
+
         private long start;
         private long end;
 
