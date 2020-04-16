@@ -9,6 +9,9 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.ivettevaldez.multithreading.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -16,7 +19,7 @@ import java.util.*
  * Use the [DemoCoroutinesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class DemoCoroutinesFragment : Fragment(), ProducerConsumerBenchmarkUseCase.Listener {
+class DemoCoroutinesFragment : Fragment() {
 
     private lateinit var textTime: TextView
     private lateinit var textMessages: TextView
@@ -39,17 +42,7 @@ class DemoCoroutinesFragment : Fragment(), ProducerConsumerBenchmarkUseCase.List
         return view
     }
 
-    override fun onStart() {
-        super.onStart()
-        producerConsumerBenchmarkUseCase.registerListener(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        producerConsumerBenchmarkUseCase.unregisterListener(this)
-    }
-
-    override fun onBenchmarkCompleted(result: ProducerConsumerBenchmarkUseCase.Result?) {
+    private fun onBenchmarkCompleted(result: ProducerConsumerBenchmarkUseCase.Result?) {
         progress.visibility = View.INVISIBLE
         buttonStart.isEnabled = true
         textTime.text = String.format(
@@ -64,6 +57,13 @@ class DemoCoroutinesFragment : Fragment(), ProducerConsumerBenchmarkUseCase.List
         )
     }
 
+    private fun startCoroutine() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = producerConsumerBenchmarkUseCase.startBenchmark()
+            onBenchmarkCompleted(result)
+        }
+    }
+
     private fun initViews(view: View) {
         textTime = view.findViewById(R.id.demo_coroutines_text_time)
         textMessages = view.findViewById(R.id.demo_coroutines_text_messages)
@@ -75,7 +75,8 @@ class DemoCoroutinesFragment : Fragment(), ProducerConsumerBenchmarkUseCase.List
             textTime.text = ""
             textMessages.text = ""
             progress.visibility = View.VISIBLE
-            producerConsumerBenchmarkUseCase.startBenchmarkAndNotify()
+
+            startCoroutine()
         }
     }
 
