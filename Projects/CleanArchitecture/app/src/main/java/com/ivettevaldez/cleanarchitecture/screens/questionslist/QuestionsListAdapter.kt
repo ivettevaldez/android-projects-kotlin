@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.TextView
-import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
 
 class QuestionsListAdapter(
     context: Context,
     private val listener: Listener
-) : ArrayAdapter<Question>(context, 0) {
+) : ArrayAdapter<Question>(context, 0),
+    IQuestionsListItemViewMvc.Listener {
 
     interface Listener {
 
@@ -21,31 +20,30 @@ class QuestionsListAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        val question = getItem(position)
 
         if (convertView == null) {
-            view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.questions_list_item, parent, false)
-
-            val viewHolder = ViewHolder(
-                view.findViewById(R.id.questions_list_item_text_title)
+            val viewMvc = QuestionsListItemViewMvcImpl(
+                LayoutInflater.from(parent.context),
+                parent
             )
-            view.tag = viewHolder
+            viewMvc.registerListener(this)
+
+            view = viewMvc.getRootView()
+            view.tag = viewMvc
         } else {
             view = convertView
         }
 
-        val viewHolder = view.tag as ViewHolder
-        viewHolder.textTitle.text = question?.title ?: ""
-        
+        val question = getItem(position)
+        val viewMvc = view.tag as QuestionsListItemViewMvcImpl
+        viewMvc.bindQuestion(question)
+
         view.setOnClickListener { onQuestionClicked(question) }
 
         return view
     }
 
-    private fun onQuestionClicked(question: Question?) {
+    override fun onQuestionClicked(question: Question?) {
         listener.onQuestionClicked(question)
     }
-
-    private class ViewHolder(val textTitle: TextView)
 }

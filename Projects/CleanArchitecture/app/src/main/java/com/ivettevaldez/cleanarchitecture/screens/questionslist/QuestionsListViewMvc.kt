@@ -16,6 +16,9 @@ interface IQuestionsListViewMvc {
         fun onQuestionClicked(question: Question?)
     }
 
+    fun getRootView(): View
+    fun registerListener(listener: Listener)
+    fun unregisterListener(listener: Listener)
     fun bindQuestions(questions: List<Question>)
 }
 
@@ -40,22 +43,21 @@ class QuestionsListViewMvcImpl(
         questionsListAdapter = QuestionsListAdapter(getContext(), this)
         listQuestions = rootView.questions_list_items
         listQuestions.adapter = questionsListAdapter
-
     }
 
     private fun getContext(): Context {
         return rootView.context
     }
 
-    fun getRootView(): View {
+    override fun getRootView(): View {
         return rootView
     }
 
-    fun registerListener(listener: IQuestionsListViewMvc.Listener) {
+    override fun registerListener(listener: IQuestionsListViewMvc.Listener) {
         listeners.add(listener)
     }
 
-    fun unregisterListener(listener: IQuestionsListViewMvc.Listener) {
+    override fun unregisterListener(listener: IQuestionsListViewMvc.Listener) {
         listeners.remove(listener)
     }
 
