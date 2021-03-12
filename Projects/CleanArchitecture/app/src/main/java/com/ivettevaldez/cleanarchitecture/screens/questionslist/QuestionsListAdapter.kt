@@ -20,13 +20,24 @@ class QuestionsListAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view: View = convertView ?: LayoutInflater.from(parent.context)
-            .inflate(R.layout.questions_list_item, parent, false)
-
+        val view: View
         val question = getItem(position)
-        val textTitle = view.findViewById<TextView>(R.id.questions_list_item_text_title)
-        textTitle?.text = question?.title ?: ""
 
+        if (convertView == null) {
+            view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.questions_list_item, parent, false)
+
+            val viewHolder = ViewHolder(
+                view.findViewById(R.id.questions_list_item_text_title)
+            )
+            view.tag = viewHolder
+        } else {
+            view = convertView
+        }
+
+        val viewHolder = view.tag as ViewHolder
+        viewHolder.textTitle.text = question?.title ?: ""
+        
         view.setOnClickListener { onQuestionClicked(question) }
 
         return view
@@ -35,4 +46,6 @@ class QuestionsListAdapter(
     private fun onQuestionClicked(question: Question?) {
         listener.onQuestionClicked(question)
     }
+
+    private class ViewHolder(val textTitle: TextView)
 }
