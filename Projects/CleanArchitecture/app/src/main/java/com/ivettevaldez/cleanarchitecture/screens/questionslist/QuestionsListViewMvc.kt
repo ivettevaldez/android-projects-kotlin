@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
+import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_questions_list.view.*
@@ -25,7 +26,8 @@ interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Liste
 
 class QuestionsListViewMvcImpl(
     inflater: LayoutInflater,
-    parent: ViewGroup?
+    parent: ViewGroup?,
+    private val viewMvcFactory: ViewMvcFactory
 ) : BaseObservableViewMvc<IQuestionsListViewMvc.Listener>(),
     IQuestionsListViewMvc,
     QuestionsRecyclerAdapter.Listener {
@@ -56,7 +58,10 @@ class QuestionsListViewMvcImpl(
     }
 
     private fun setList() {
-        questionsRecyclerAdapter = QuestionsRecyclerAdapter(this)
+        questionsRecyclerAdapter = QuestionsRecyclerAdapter(
+            this,
+            viewMvcFactory
+        )
 
         val linearLayoutManager = LinearLayoutManager(getContext())
         linearLayoutManager.isSmoothScrollbarEnabled = true

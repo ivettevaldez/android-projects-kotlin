@@ -1,8 +1,8 @@
 package com.ivettevaldez.cleanarchitecture.networking
 
+import com.ivettevaldez.cleanarchitecture.common.Constants
 import com.ivettevaldez.cleanarchitecture.networking.questions.QuestionDetailsResponseSchema
 import com.ivettevaldez.cleanarchitecture.networking.questions.QuestionsListResponseSchema
-import com.ivettevaldez.cleanarchitecture.screens.common.Constants
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

@@ -1,12 +1,13 @@
 package com.ivettevaldez.cleanarchitecture.screens.questionslist
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.questions.Question
+import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 
 class QuestionsRecyclerAdapter(
-    private val listener: Listener
+    private val listener: Listener,
+    private val viewMvcFactory: ViewMvcFactory
 ) : RecyclerView.Adapter<QuestionsRecyclerAdapter.ViewHolder>(),
     IQuestionsListItemViewMvc.Listener {
 
@@ -21,10 +22,7 @@ class QuestionsRecyclerAdapter(
         RecyclerView.ViewHolder(viewMvc.getRootView())
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewMvc = QuestionsListItemViewMvcImpl(
-            LayoutInflater.from(parent.context),
-            parent
-        )
+        val viewMvc = viewMvcFactory.getQuestionsListItemViewMvc(parent)
         viewMvc.registerListener(this)
         return ViewHolder(viewMvc)
     }
