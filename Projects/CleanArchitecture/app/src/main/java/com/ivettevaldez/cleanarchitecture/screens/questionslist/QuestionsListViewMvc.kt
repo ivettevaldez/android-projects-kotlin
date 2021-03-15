@@ -10,18 +10,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
+import com.ivettevaldez.cleanarchitecture.screens.common.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_questions_list.view.*
 
-interface IQuestionsListViewMvc {
+interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Listener> {
 
     interface Listener {
 
         fun onQuestionClicked(question: Question?)
     }
 
-    fun getRootView(): View
-    fun registerListener(listener: Listener)
-    fun unregisterListener(listener: Listener)
     fun bindQuestions(questions: List<Question>)
 }
 

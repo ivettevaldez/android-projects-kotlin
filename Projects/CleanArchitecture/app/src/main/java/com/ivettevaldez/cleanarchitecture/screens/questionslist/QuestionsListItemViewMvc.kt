@@ -6,18 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
+import com.ivettevaldez.cleanarchitecture.screens.common.IObservableViewMvc
 import kotlinx.android.synthetic.main.questions_list_item.view.*
 
-interface IQuestionsListItemViewMvc {
+interface IQuestionsListItemViewMvc : IObservableViewMvc<IQuestionsListItemViewMvc.Listener> {
 
     interface Listener {
 
         fun onQuestionClicked(question: Question?)
     }
 
-    fun getRootView(): View
-    fun registerListener(listener: Listener)
-    fun unregisterListener(listener: Listener)
     fun bindQuestion(question: Question?)
 }
 
