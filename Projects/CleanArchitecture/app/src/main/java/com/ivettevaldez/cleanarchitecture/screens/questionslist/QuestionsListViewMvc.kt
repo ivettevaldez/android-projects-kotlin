@@ -4,7 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import kotlinx.android.synthetic.main.activity_questions_list.view.*
@@ -26,13 +29,14 @@ class QuestionsListViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
 ) : IQuestionsListViewMvc,
-    QuestionsListAdapter.Listener {
+    QuestionsRecyclerAdapter.Listener {
 
     private var rootView: View
-    private var listQuestions: ListView
-    private var questionsListAdapter: QuestionsListAdapter
+    private var recyclerQuestions: RecyclerView
 
     private val listeners: MutableList<IQuestionsListViewMvc.Listener> = mutableListOf()
+
+    private lateinit var questionsRecyclerAdapter: QuestionsRecyclerAdapter
 
     init {
 
@@ -40,13 +44,9 @@ class QuestionsListViewMvcImpl(
             R.layout.activity_questions_list, parent, false
         )
 
-        questionsListAdapter = QuestionsListAdapter(getContext(), this)
-        listQuestions = rootView.questions_list_items
-        listQuestions.adapter = questionsListAdapter
-    }
+        recyclerQuestions = rootView.questions_recycler_items
 
-    private fun getContext(): Context {
-        return rootView.context
+        setList()
     }
 
     override fun getRootView(): View {
@@ -62,14 +62,45 @@ class QuestionsListViewMvcImpl(
     }
 
     override fun bindQuestions(questions: List<Question>) {
-        questionsListAdapter.clear()
-        questionsListAdapter.addAll(questions)
-        questionsListAdapter.notifyDataSetChanged()
+        questionsRecyclerAdapter.updateData(questions)
     }
 
     override fun onQuestionClicked(question: Question?) {
         for (listener in listeners) {
             listener.onQuestionClicked(question)
         }
+    }
+
+    private fun getContext(): Context {
+        return getRootView().context
+    }
+
+    private fun setList() {
+        questionsRecyclerAdapter = QuestionsRecyclerAdapter(this)
+
+        val linearLayoutManager = LinearLayoutManager(getContext())
+        linearLayoutManager.isSmoothScrollbarEnabled = true
+
+        with(recyclerQuestions) {
+            layoutManager = linearLayoutManager
+            adapter = questionsRecyclerAdapter
+            addItemDecoration(
+                getDividerItemDecoration(context)
+            )
+        }
+    }
+
+    private fun getDividerItemDecoration(context: Context): DividerItemDecoration {
+        val divider = ContextCompat.getDrawable(context, R.drawable.shape_divider)
+        val dividerItemDecoration = DividerItemDecoration(
+            context,
+            LinearLayoutManager.VERTICAL
+        )
+
+        if (divider != null) {
+            dividerItemDecoration.setDrawable(divider)
+        }
+
+        return dividerItemDecoration
     }
 }

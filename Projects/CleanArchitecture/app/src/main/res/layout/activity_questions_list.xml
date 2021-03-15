@@ -17,8 +17,8 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <ListView
-            android:id="@+id/questions_list_items"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/questions_recycler_items"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
