@@ -15,7 +15,7 @@ class CompositionRoot {
 
     private fun getRetrofit(): Retrofit {
         if (retrofit == null) {
-            Retrofit.Builder()
+            retrofit = Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
