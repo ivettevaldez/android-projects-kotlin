@@ -1,4 +1,4 @@
-package com.ivettevaldez.cleanarchitecture.screens.common
+package com.ivettevaldez.cleanarchitecture.screens.common.views
 
 import android.view.View
 
