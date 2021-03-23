@@ -1,23 +1,22 @@
-package com.ivettevaldez.cleanarchitecture.screens.questionslist
+package com.ivettevaldez.cleanarchitecture.screens.questiondetails
 
 import android.os.Bundle
 import android.widget.Toast
 import com.ivettevaldez.cleanarchitecture.R
-import com.ivettevaldez.cleanarchitecture.common.Constants
 import com.ivettevaldez.cleanarchitecture.networking.StackOverflowApi
+import com.ivettevaldez.cleanarchitecture.networking.questions.QuestionDetailsResponseSchema
 import com.ivettevaldez.cleanarchitecture.networking.questions.QuestionSchema
-import com.ivettevaldez.cleanarchitecture.networking.questions.QuestionsListResponseSchema
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseActivity
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class QuestionsListActivity : BaseActivity(),
-    IQuestionsListViewMvc.Listener {
+class QuestionDetailsActivity : BaseActivity() {
 
     private lateinit var stackOverflowApi: StackOverflowApi
-    private lateinit var viewMvc: IQuestionsListViewMvc
+    private lateinit var viewMvc: IQuestionDetailsViewMvc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +25,7 @@ class QuestionsListActivity : BaseActivity(),
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
-            .getQuestionsListViewMvc(null)
+            .getQuestionDetailsViewMvc(null)
 
         setContentView(viewMvc.getRootView())
     }
@@ -34,46 +33,41 @@ class QuestionsListActivity : BaseActivity(),
     override fun onStart() {
         super.onStart()
 
-        viewMvc.registerListener(this)
-        viewMvc.showProgressIndicator(true)
-
-        fetchQuestions()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewMvc.unregisterListener(this)
-    }
-
-    override fun onQuestionClicked(question: Question?) {
-        if (question != null) {
-            getCompositionRoot()
-                .getScreenNavigator()
-                .toQuestionDetails(question.id)
+        val questionId = getQuestionId()
+        if (questionId != null) {
+            viewMvc.showProgressIndicator(true)
+            fetchQuestionDetails(questionId)
         } else {
             showMessage(getString(R.string.error_null_question))
         }
     }
 
-    private fun fetchQuestions() {
-        stackOverflowApi.fetchLastActiveQuestions(Constants.QUESTIONS_LIST_PAGE_SIZE)!!
+    private fun getQuestionId(): String? {
+        intent.extras?.takeIf { it.containsKey(ScreenNavigator.EXTRA_QUESTION_ID) }?.apply {
+            return getString(ScreenNavigator.EXTRA_QUESTION_ID)
+        }
+        return null
+    }
+
+    private fun fetchQuestionDetails(questionId: String) {
+        stackOverflowApi.fetchQuestionDetails(questionId)!!
             .enqueue(
-                object : Callback<QuestionsListResponseSchema?> {
+                object : Callback<QuestionDetailsResponseSchema?> {
                     override fun onResponse(
-                        call: Call<QuestionsListResponseSchema?>,
-                        response: Response<QuestionsListResponseSchema?>
+                        call: Call<QuestionDetailsResponseSchema?>,
+                        response: Response<QuestionDetailsResponseSchema?>
                     ) {
                         viewMvc.showProgressIndicator(false)
 
                         if (response.isSuccessful) {
-                            bindQuestions(response.body()?.questions)
+                            bindQuestion(response.body()?.getQuestion())
                         } else {
                             networkCallFailed()
                         }
                     }
 
                     override fun onFailure(
-                        call: Call<QuestionsListResponseSchema?>,
+                        call: Call<QuestionDetailsResponseSchema?>,
                         throwable: Throwable
                     ) {
                         viewMvc.showProgressIndicator(false)
@@ -83,21 +77,15 @@ class QuestionsListActivity : BaseActivity(),
             )
     }
 
-    private fun bindQuestions(questionsSchemas: List<QuestionSchema>?) {
-        if (questionsSchemas != null) {
-            val questions = mutableListOf<Question>()
-
-            for (questionSchema in questionsSchemas) {
-                questions.add(
-                    Question(
-                        questionSchema.id,
-                        questionSchema.title,
-                        questionSchema.body
-                    )
+    private fun bindQuestion(questionSchema: QuestionSchema?) {
+        if (questionSchema != null) {
+            viewMvc.bindQuestion(
+                Question(
+                    questionSchema.id,
+                    questionSchema.title,
+                    questionSchema.body
                 )
-            }
-
-            viewMvc.bindQuestions(questions)
+            )
         } else {
             showMessage(getString(R.string.error_oops))
         }

@@ -1,8 +1,11 @@
 package com.ivettevaldez.cleanarchitecture.screens.questionslist
 
 import android.content.Context
+import android.os.Handler
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +25,7 @@ interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Liste
     }
 
     fun bindQuestions(questions: List<Question>)
+    fun showProgressIndicator(show: Boolean)
 }
 
 class QuestionsListViewMvcImpl(
@@ -32,7 +36,10 @@ class QuestionsListViewMvcImpl(
     IQuestionsListViewMvc,
     QuestionsRecyclerAdapter.Listener {
 
+    private val uiHandler = Handler()
+
     private var recyclerQuestions: RecyclerView
+    private var viewProgress: ProgressBar
 
     private lateinit var questionsRecyclerAdapter: QuestionsRecyclerAdapter
 
@@ -43,12 +50,25 @@ class QuestionsListViewMvcImpl(
         )
 
         recyclerQuestions = getRootView().questions_recycler_items
+        viewProgress = getRootView().questions_list_progress
 
         setList()
     }
 
     override fun bindQuestions(questions: List<Question>) {
-        questionsRecyclerAdapter.updateData(questions)
+        uiHandler.post {
+            questionsRecyclerAdapter.updateData(questions)
+        }
+    }
+
+    override fun showProgressIndicator(show: Boolean) {
+        uiHandler.post {
+            if (show) {
+                viewProgress.visibility = View.VISIBLE
+            } else {
+                viewProgress.visibility = View.GONE
+            }
+        }
     }
 
     override fun onQuestionClicked(question: Question?) {
@@ -58,20 +78,22 @@ class QuestionsListViewMvcImpl(
     }
 
     private fun setList() {
-        questionsRecyclerAdapter = QuestionsRecyclerAdapter(
-            this,
-            viewMvcFactory
-        )
-
-        val linearLayoutManager = LinearLayoutManager(getContext())
-        linearLayoutManager.isSmoothScrollbarEnabled = true
-
-        with(recyclerQuestions) {
-            layoutManager = linearLayoutManager
-            adapter = questionsRecyclerAdapter
-            addItemDecoration(
-                getDividerItemDecoration(context)
+        uiHandler.post {
+            questionsRecyclerAdapter = QuestionsRecyclerAdapter(
+                this,
+                viewMvcFactory
             )
+
+            val linearLayoutManager = LinearLayoutManager(getContext())
+            linearLayoutManager.isSmoothScrollbarEnabled = true
+
+            with(recyclerQuestions) {
+                layoutManager = linearLayoutManager
+                adapter = questionsRecyclerAdapter
+                addItemDecoration(
+                    getDividerItemDecoration(context)
+                )
+            }
         }
     }
 

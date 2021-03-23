@@ -3,5 +3,6 @@ package com.ivettevaldez.cleanarchitecture.questions
 data class Question(
 
     val id: String,
-    val title: String
+    val title: String,
+    val body: String?
 )
