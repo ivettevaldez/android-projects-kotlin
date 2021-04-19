@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.cleanarchitecture.networking.StackOverflowApi
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
+import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 
@@ -13,10 +14,6 @@ class ControllerCompositionRoot(
 ) {
 
     private var screenNavigator: ScreenNavigator? = null
-
-    fun getStackOverflowApi(): StackOverflowApi {
-        return compositionRoot.getStackOverflowApi()
-    }
 
     fun getViewMvcFactory(): ViewMvcFactory {
         return ViewMvcFactory(
@@ -29,6 +26,16 @@ class ControllerCompositionRoot(
             screenNavigator = ScreenNavigator(activity)
         }
         return screenNavigator!!
+    }
+
+    private fun getStackOverflowApi(): StackOverflowApi {
+        return compositionRoot.getStackOverflowApi()
+    }
+
+    fun getFetchQuestionsUseCase(): FetchQuestionsUseCase {
+        return FetchQuestionsUseCase(
+            getStackOverflowApi()
+        )
     }
 
     fun getFetchQuestionDetailsUseCase(): FetchQuestionDetailsUseCase {
