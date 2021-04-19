@@ -55,6 +55,10 @@ class QuestionsListActivity : BaseActivity(),
         }
     }
 
+    override fun onQuestionsListClicked() {
+        // This is the QuestionsList screen, so no action needed.
+    }
+
     override fun onQuestionsFetched(questions: List<Question>) {
         viewMvc.showProgressIndicator(false)
         viewMvc.bindQuestions(questions)

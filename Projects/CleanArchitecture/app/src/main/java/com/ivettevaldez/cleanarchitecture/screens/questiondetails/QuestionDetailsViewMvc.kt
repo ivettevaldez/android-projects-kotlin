@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
-import com.ivettevaldez.cleanarchitecture.screens.common.IToolbarViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc

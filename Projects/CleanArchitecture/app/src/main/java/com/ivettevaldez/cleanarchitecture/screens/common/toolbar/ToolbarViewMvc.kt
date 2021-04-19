@@ -1,4 +1,4 @@
-package com.ivettevaldez.cleanarchitecture.screens.common
+package com.ivettevaldez.cleanarchitecture.screens.common.toolbar
 
 import android.view.LayoutInflater
 import android.view.View

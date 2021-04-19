@@ -13,9 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
-import com.ivettevaldez.cleanarchitecture.screens.common.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
-import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.BaseNavDrawerViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.DrawerItems
+import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_questions_list.view.*
 import kotlinx.android.synthetic.main.element_toolbar.view.*
@@ -25,6 +26,7 @@ interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Liste
     interface Listener {
 
         fun onQuestionClicked(question: Question?)
+        fun onQuestionsListClicked()
     }
 
     fun bindQuestions(questions: List<Question>)
@@ -35,7 +37,7 @@ class QuestionsListViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
     private val viewMvcFactory: ViewMvcFactory
-) : BaseObservableViewMvc<IQuestionsListViewMvc.Listener>(),
+) : BaseNavDrawerViewMvc<IQuestionsListViewMvc.Listener>(inflater, parent),
     IQuestionsListViewMvc,
     QuestionsRecyclerAdapter.Listener {
 
@@ -81,6 +83,14 @@ class QuestionsListViewMvcImpl(
     override fun onQuestionClicked(question: Question?) {
         for (listener in getListeners()) {
             listener.onQuestionClicked(question)
+        }
+    }
+
+    override fun onDrawerItemClicked(item: DrawerItems) {
+        for (listener in getListeners()) {
+            when (item) {
+                DrawerItems.QUESTIONS_LIST -> listener.onQuestionsListClicked()
+            }
         }
     }
 

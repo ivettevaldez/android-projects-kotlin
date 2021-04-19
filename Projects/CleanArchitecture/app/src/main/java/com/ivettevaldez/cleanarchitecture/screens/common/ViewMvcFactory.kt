@@ -2,6 +2,7 @@ package com.ivettevaldez.cleanarchitecture.screens.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.ToolbarViewMvcImpl
 import com.ivettevaldez.cleanarchitecture.screens.questiondetails.IQuestionDetailsViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.questiondetails.QuestionDetailsViewMvcImpl
 import com.ivettevaldez.cleanarchitecture.screens.questionslist.IQuestionsListItemViewMvc

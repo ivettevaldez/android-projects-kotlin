@@ -7,9 +7,9 @@ abstract class BaseViewMvc : IViewMvc {
 
     private lateinit var rootView: View
 
-    override fun getRootView(): View = rootView
+    final override fun getRootView(): View = rootView
 
-    protected fun setRootView(rootView: View) {
+    open fun setRootView(rootView: View) {
         this.rootView = rootView
     }
 

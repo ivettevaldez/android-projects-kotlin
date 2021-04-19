@@ -5,6 +5,8 @@
     <string name="error_network_callback_failed">Network callback failed</string>
     <string name="error_null_question">Null question!</string>
 
+    <string name="menu_latest_questions">Latest questions</string>
+
     <string name="questions_list_title">LATEST QUESTIONS</string>
     <string name="question_details_title">QUESTION DETAILS</string>
 </resources>
