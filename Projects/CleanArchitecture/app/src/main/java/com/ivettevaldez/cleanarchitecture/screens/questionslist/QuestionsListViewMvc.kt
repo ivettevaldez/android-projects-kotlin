@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
-import com.ivettevaldez.cleanarchitecture.screens.common.ToolbarViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
@@ -41,13 +41,12 @@ class QuestionsListViewMvcImpl(
 
     private val uiHandler = Handler()
 
-    private var toolbarViewMvc: ToolbarViewMvc
-
-    private var recyclerQuestions: RecyclerView
-    private var viewProgress: ProgressBar
-    private var toolbar: Toolbar
+    private val recyclerQuestions: RecyclerView
+    private val viewProgress: ProgressBar
+    private val toolbar: Toolbar
 
     private lateinit var questionsRecyclerAdapter: QuestionsRecyclerAdapter
+    private lateinit var toolbarViewMvc: IToolbarViewMvc
 
     init {
 
@@ -57,13 +56,10 @@ class QuestionsListViewMvcImpl(
 
         recyclerQuestions = getRootView().questions_recycler_items
         viewProgress = getRootView().questions_list_progress
-
         toolbar = getRootView().toolbar
-        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
-        toolbarViewMvc.setTitle(getContext().getString(R.string.questions_list_title))
-        toolbar.addView(toolbarViewMvc.getRootView())
 
-        setList()
+        initToolbar()
+        initRecycler()
     }
 
     override fun bindQuestions(questions: List<Question>) {
@@ -88,7 +84,16 @@ class QuestionsListViewMvcImpl(
         }
     }
 
-    private fun setList() {
+    private fun initToolbar() {
+        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
+        toolbarViewMvc.setTitle(
+            getContext().getString(R.string.questions_list_title)
+        )
+
+        toolbar.addView(toolbarViewMvc.getRootView())
+    }
+
+    private fun initRecycler() {
         uiHandler.post {
             questionsRecyclerAdapter = QuestionsRecyclerAdapter(
                 this,

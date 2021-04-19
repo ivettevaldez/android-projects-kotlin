@@ -6,13 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
-import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseViewMvc
-import com.ivettevaldez.cleanarchitecture.screens.common.views.IViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.IToolbarViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
+import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_question_details.view.*
+import kotlinx.android.synthetic.main.element_toolbar.view.*
 
-interface IQuestionDetailsViewMvc : IViewMvc {
+interface IQuestionDetailsViewMvc : IObservableViewMvc<IQuestionDetailsViewMvc.Listener> {
+
+    interface Listener {
+
+        fun onNavigateUpClicked()
+    }
 
     fun bindQuestion(question: Question)
     fun showProgressIndicator(show: Boolean)
@@ -20,15 +29,19 @@ interface IQuestionDetailsViewMvc : IViewMvc {
 
 class QuestionDetailsViewMvcImpl(
     inflater: LayoutInflater,
-    parent: ViewGroup?
-) : BaseViewMvc(),
+    parent: ViewGroup?,
+    private val viewMvcFactory: ViewMvcFactory
+) : BaseObservableViewMvc<IQuestionDetailsViewMvc.Listener>(),
     IQuestionDetailsViewMvc {
 
     private val textTitle: TextView
     private val textDescription: TextView
     private val viewProgress: ProgressBar
+    private val toolbar: Toolbar
 
     private val uiHandler = Handler()
+
+    private lateinit var toolbarViewMvc: IToolbarViewMvc
 
     init {
 
@@ -39,6 +52,9 @@ class QuestionDetailsViewMvcImpl(
         textTitle = getRootView().question_details_text_title
         textDescription = getRootView().question_details_text_description
         viewProgress = getRootView().question_details_progress
+        toolbar = getRootView().toolbar
+
+        initToolbar()
     }
 
     override fun bindQuestion(question: Question) {
@@ -56,5 +72,19 @@ class QuestionDetailsViewMvcImpl(
                 viewProgress.visibility = View.GONE
             }
         }
+    }
+
+    private fun initToolbar() {
+        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
+        toolbarViewMvc.setTitle(
+            getContext().getString(R.string.question_details_title)
+        )
+        toolbarViewMvc.enableUpNavigationAndListen {
+            for (listener in getListeners()) {
+                listener.onNavigateUpClicked()
+            }
+        }
+
+        toolbar.addView(toolbarViewMvc.getRootView())
     }
 }

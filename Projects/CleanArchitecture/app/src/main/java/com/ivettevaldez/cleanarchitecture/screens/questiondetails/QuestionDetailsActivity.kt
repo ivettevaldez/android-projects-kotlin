@@ -9,6 +9,7 @@ import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseActivit
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 
 class QuestionDetailsActivity : BaseActivity(),
+    IQuestionDetailsViewMvc.Listener,
     FetchQuestionDetailsUseCase.Listener {
 
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
@@ -32,13 +33,16 @@ class QuestionDetailsActivity : BaseActivity(),
 
         fetchQuestionDetailsUseCase.registerListener(this)
 
+        viewMvc.registerListener(this)
         viewMvc.showProgressIndicator(true)
+
         fetchQuestionDetails(getQuestionId())
     }
 
     override fun onStop() {
         super.onStop()
         fetchQuestionDetailsUseCase.unregisterListener(this)
+        viewMvc.unregisterListener(this)
     }
 
     override fun onQuestionDetailsFetched(question: Question) {
@@ -66,5 +70,9 @@ class QuestionDetailsActivity : BaseActivity(),
 
     private fun showMessage(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onNavigateUpClicked() {
+        onBackPressed()
     }
 }

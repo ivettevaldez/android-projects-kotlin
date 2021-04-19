@@ -20,10 +20,10 @@ class ViewMvcFactory(private val inflater: LayoutInflater) {
     }
 
     fun getQuestionDetailsViewMvc(parent: ViewGroup?): IQuestionDetailsViewMvc {
-        return QuestionDetailsViewMvcImpl(inflater, parent)
+        return QuestionDetailsViewMvcImpl(inflater, parent, this)
     }
 
-    fun getToolbarViewMvc(parent: ViewGroup?): ToolbarViewMvc {
-        return ToolbarViewMvc(inflater, parent)
+    fun getToolbarViewMvc(parent: ViewGroup?): ToolbarViewMvcImpl {
+        return ToolbarViewMvcImpl(inflater, parent)
     }
 }
