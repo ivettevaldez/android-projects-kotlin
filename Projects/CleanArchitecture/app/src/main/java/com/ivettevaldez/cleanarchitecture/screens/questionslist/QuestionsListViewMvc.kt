@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
+import com.ivettevaldez.cleanarchitecture.screens.common.ToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_questions_list.view.*
+import kotlinx.android.synthetic.main.element_toolbar.view.*
 
 interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Listener> {
 
@@ -38,8 +41,11 @@ class QuestionsListViewMvcImpl(
 
     private val uiHandler = Handler()
 
+    private var toolbarViewMvc: ToolbarViewMvc
+
     private var recyclerQuestions: RecyclerView
     private var viewProgress: ProgressBar
+    private var toolbar: Toolbar
 
     private lateinit var questionsRecyclerAdapter: QuestionsRecyclerAdapter
 
@@ -51,6 +57,11 @@ class QuestionsListViewMvcImpl(
 
         recyclerQuestions = getRootView().questions_recycler_items
         viewProgress = getRootView().questions_list_progress
+
+        toolbar = getRootView().toolbar
+        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
+        toolbarViewMvc.setTitle(getContext().getString(R.string.questions_list_title))
+        toolbar.addView(toolbarViewMvc.getRootView())
 
         setList()
     }
