@@ -3,6 +3,7 @@ package com.ivettevaldez.cleanarchitecture.common.dependencyinjection
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.cleanarchitecture.networking.StackOverflowApi
+import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 
@@ -28,5 +29,11 @@ class ControllerCompositionRoot(
             screenNavigator = ScreenNavigator(activity)
         }
         return screenNavigator!!
+    }
+
+    fun getFetchQuestionDetailsUseCase(): FetchQuestionDetailsUseCase {
+        return FetchQuestionDetailsUseCase(
+            getStackOverflowApi()
+        )
     }
 }
