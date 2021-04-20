@@ -1,89 +1,35 @@
 package com.ivettevaldez.cleanarchitecture.screens.questionslist
 
 import android.os.Bundle
-import android.widget.Toast
 import com.ivettevaldez.cleanarchitecture.R
-import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
-import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseActivity
+import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressedListener
 
-class QuestionsListActivity : BaseActivity(),
-    IQuestionsListViewMvc.Listener,
-    FetchQuestionsUseCase.Listener {
+class QuestionsListActivity : BaseActivity() {
 
-    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    private lateinit var viewMvc: IQuestionsListViewMvc
+    private lateinit var backPressedListener: IBackPressedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.layout_frame_content)
 
-        fetchQuestionsUseCase = getCompositionRoot()
-            .getFetchQuestionsUseCase()
+        val fragment: QuestionsListFragment?
+        if (savedInstanceState == null) {
+            val fragmentTransaction = supportFragmentManager.beginTransaction()
+            fragment = QuestionsListFragment()
+            fragmentTransaction.add(R.id.frame_content, fragment).commit()
+        } else {
+            fragment = supportFragmentManager.findFragmentById(
+                R.id.frame_content
+            ) as QuestionsListFragment
+        }
 
-        viewMvc = getCompositionRoot()
-            .getViewMvcFactory()
-            .getQuestionsListViewMvc(null)
-
-        setContentView(viewMvc.getRootView())
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        fetchQuestionsUseCase.registerListener(this)
-
-        viewMvc.registerListener(this)
-        viewMvc.showProgressIndicator(true)
-
-        fetchQuestions()
-    }
-
-    override fun onStop() {
-        super.onStop()
-
-        fetchQuestionsUseCase.unregisterListener(this)
-        viewMvc.unregisterListener(this)
+        backPressedListener = fragment
     }
 
     override fun onBackPressed() {
-        if (viewMvc.isDrawerOpen()) {
-            viewMvc.closeDrawer()
-        } else {
+        if (!backPressedListener.onBackPressed()) {
             super.onBackPressed()
         }
-    }
-
-    override fun onQuestionClicked(question: Question?) {
-        if (question != null) {
-            getCompositionRoot()
-                .getScreenNavigator()
-                .toQuestionDetails(question.id)
-        } else {
-            showMessage(getString(R.string.error_null_question))
-        }
-    }
-
-    override fun onQuestionsListClicked() {
-        // This is the QuestionsList screen, so no action needed.
-    }
-
-    override fun onQuestionsFetched(questions: List<Question>) {
-        viewMvc.showProgressIndicator(false)
-        viewMvc.bindQuestions(questions)
-    }
-
-    override fun onQuestionsFetchFailed() {
-        viewMvc.showProgressIndicator(false)
-        showMessage(
-            getString(R.string.error_network_callback_failed)
-        )
-    }
-
-    private fun fetchQuestions() {
-        fetchQuestionsUseCase.executeAndNotify()
-    }
-
-    private fun showMessage(message: String) {
-        Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
     }
 }
