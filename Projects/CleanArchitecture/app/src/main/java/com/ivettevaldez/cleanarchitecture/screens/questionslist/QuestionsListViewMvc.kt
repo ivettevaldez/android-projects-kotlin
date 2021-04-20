@@ -16,12 +16,14 @@ import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.BaseNavDrawerViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.DrawerItems
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_questions_list.view.*
 import kotlinx.android.synthetic.main.element_toolbar.view.*
 
-interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Listener> {
+interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Listener>,
+    INavDrawerViewMvc {
 
     interface Listener {
 

@@ -11,10 +11,18 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import kotlinx.android.synthetic.main.layout_drawer.view.*
 
+interface INavDrawerViewMvc {
+
+    fun isDrawerOpen(): Boolean
+    fun openDrawer()
+    fun closeDrawer()
+}
+
 abstract class BaseNavDrawerViewMvc<ListenerType>(
     inflater: LayoutInflater,
     parent: ViewGroup?
-) : BaseObservableViewMvc<ListenerType>() {
+) : BaseObservableViewMvc<ListenerType>(),
+    INavDrawerViewMvc {
 
     private val drawerLayout: DrawerLayout
     private val frameContent: FrameLayout
@@ -39,13 +47,21 @@ abstract class BaseNavDrawerViewMvc<ListenerType>(
         frameContent.addView(view)
     }
 
-    protected fun openDrawer() {
+    override fun isDrawerOpen(): Boolean {
+        return drawerLayout.isDrawerOpen(Gravity.START)
+    }
+
+    override fun openDrawer() {
         drawerLayout.openDrawer(Gravity.START)
+    }
+
+    override fun closeDrawer() {
+        drawerLayout.closeDrawers()
     }
 
     private fun setListenerEvents() {
         navigationView.setNavigationItemSelectedListener { item ->
-            drawerLayout.closeDrawers()
+            closeDrawer()
 
             if (item.itemId == R.id.drawer_menu_questions_list) {
                 onDrawerItemClicked(DrawerItems.QUESTIONS_LIST)

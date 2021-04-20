@@ -45,6 +45,14 @@ class QuestionsListActivity : BaseActivity(),
         viewMvc.unregisterListener(this)
     }
 
+    override fun onBackPressed() {
+        if (viewMvc.isDrawerOpen()) {
+            viewMvc.closeDrawer()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onQuestionClicked(question: Question?) {
         if (question != null) {
             getCompositionRoot()
