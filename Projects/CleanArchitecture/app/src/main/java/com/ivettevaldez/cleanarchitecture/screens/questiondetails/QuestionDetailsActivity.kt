@@ -13,6 +13,7 @@ class QuestionDetailsActivity : BaseActivity(),
     FetchQuestionDetailsUseCase.Listener {
 
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+    private lateinit var screenNavigator: ScreenNavigator
     private lateinit var viewMvc: IQuestionDetailsViewMvc
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +21,9 @@ class QuestionDetailsActivity : BaseActivity(),
 
         fetchQuestionDetailsUseCase = getCompositionRoot()
             .getFetchQuestionDetailsUseCase()
+
+        screenNavigator = getCompositionRoot()
+            .getScreenNavigator()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -45,8 +49,20 @@ class QuestionDetailsActivity : BaseActivity(),
         viewMvc.unregisterListener(this)
     }
 
+    override fun onBackPressed() {
+        if (viewMvc.isDrawerOpen()) {
+            viewMvc.closeDrawer()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onNavigateUpClicked() {
         onBackPressed()
+    }
+
+    override fun onQuestionsListClicked() {
+        screenNavigator.toQuestionsListAndClearTop()
     }
 
     override fun onQuestionDetailsFetched(question: Question) {

@@ -10,17 +10,21 @@ import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.BaseNavDrawerViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.DrawerItems
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
-import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_question_details.view.*
 import kotlinx.android.synthetic.main.element_toolbar.view.*
 
-interface IQuestionDetailsViewMvc : IObservableViewMvc<IQuestionDetailsViewMvc.Listener> {
+interface IQuestionDetailsViewMvc : IObservableViewMvc<IQuestionDetailsViewMvc.Listener>,
+    INavDrawerViewMvc {
 
     interface Listener {
 
         fun onNavigateUpClicked()
+        fun onQuestionsListClicked()
     }
 
     fun bindQuestion(question: Question)
@@ -31,7 +35,7 @@ class QuestionDetailsViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
     viewMvcFactory: ViewMvcFactory
-) : BaseObservableViewMvc<IQuestionDetailsViewMvc.Listener>(),
+) : BaseNavDrawerViewMvc<IQuestionDetailsViewMvc.Listener>(inflater, parent),
     IQuestionDetailsViewMvc {
 
     private val textTitle: TextView
@@ -70,6 +74,14 @@ class QuestionDetailsViewMvcImpl(
                 viewProgress.visibility = View.VISIBLE
             } else {
                 viewProgress.visibility = View.GONE
+            }
+        }
+    }
+
+    override fun onDrawerItemClicked(item: DrawerItems) {
+        for (listener in getListeners()) {
+            when (item) {
+                DrawerItems.QUESTIONS_LIST -> listener.onQuestionsListClicked()
             }
         }
     }
