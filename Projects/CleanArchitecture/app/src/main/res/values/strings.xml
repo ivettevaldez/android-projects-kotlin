@@ -9,4 +9,7 @@
 
     <string name="questions_list_title">LATEST QUESTIONS</string>
     <string name="question_details_title">QUESTION DETAILS</string>
+
+    <string name="content_menu">Menu</string>
+    <string name="content_navigate_up">Navigate up</string>
 </resources>

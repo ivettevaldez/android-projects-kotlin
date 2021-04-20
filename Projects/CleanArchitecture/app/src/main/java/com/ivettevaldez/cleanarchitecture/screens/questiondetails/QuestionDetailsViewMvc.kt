@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
-import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
+import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.activity_question_details.view.*
@@ -30,7 +30,7 @@ interface IQuestionDetailsViewMvc : IObservableViewMvc<IQuestionDetailsViewMvc.L
 class QuestionDetailsViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
-    private val viewMvcFactory: ViewMvcFactory
+    viewMvcFactory: ViewMvcFactory
 ) : BaseObservableViewMvc<IQuestionDetailsViewMvc.Listener>(),
     IQuestionDetailsViewMvc {
 
@@ -39,9 +39,8 @@ class QuestionDetailsViewMvcImpl(
     private val viewProgress: ProgressBar
     private val toolbar: Toolbar
 
+    private val toolbarViewMvc: IToolbarViewMvc
     private val uiHandler = Handler()
-
-    private lateinit var toolbarViewMvc: IToolbarViewMvc
 
     init {
 
@@ -53,6 +52,7 @@ class QuestionDetailsViewMvcImpl(
         textDescription = getRootView().question_details_text_description
         viewProgress = getRootView().question_details_progress
         toolbar = getRootView().toolbar
+        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
 
         initToolbar()
     }
@@ -75,15 +75,18 @@ class QuestionDetailsViewMvcImpl(
     }
 
     private fun initToolbar() {
-        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
         toolbarViewMvc.setTitle(
             getContext().getString(R.string.question_details_title)
         )
-        toolbarViewMvc.enableUpNavigationAndListen {
-            for (listener in getListeners()) {
-                listener.onNavigateUpClicked()
+        toolbarViewMvc.enableUpNavigationAndListen(
+            object : IToolbarViewMvc.NavigateUpClickListener {
+                override fun onNavigateUpClicked() {
+                    for (listener in getListeners()) {
+                        listener.onNavigateUpClicked()
+                    }
+                }
             }
-        }
+        )
 
         toolbar.addView(toolbarViewMvc.getRootView())
     }

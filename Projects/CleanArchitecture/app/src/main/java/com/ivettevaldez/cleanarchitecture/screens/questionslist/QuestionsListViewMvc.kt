@@ -46,9 +46,9 @@ class QuestionsListViewMvcImpl(
     private val recyclerQuestions: RecyclerView
     private val viewProgress: ProgressBar
     private val toolbar: Toolbar
+    private val toolbarViewMvc: IToolbarViewMvc
 
     private lateinit var questionsRecyclerAdapter: QuestionsRecyclerAdapter
-    private lateinit var toolbarViewMvc: IToolbarViewMvc
 
     init {
 
@@ -59,6 +59,7 @@ class QuestionsListViewMvcImpl(
         recyclerQuestions = getRootView().questions_recycler_items
         viewProgress = getRootView().questions_list_progress
         toolbar = getRootView().toolbar
+        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
 
         initToolbar()
         initRecycler()
@@ -95,9 +96,15 @@ class QuestionsListViewMvcImpl(
     }
 
     private fun initToolbar() {
-        toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbar)
         toolbarViewMvc.setTitle(
             getContext().getString(R.string.questions_list_title)
+        )
+        toolbarViewMvc.enableMenuAndListen(
+            object : IToolbarViewMvc.MenuClickListener {
+                override fun onMenuClicked() {
+                    openDrawer()
+                }
+            }
         )
 
         toolbar.addView(toolbarViewMvc.getRootView())

@@ -12,10 +12,11 @@
         android:layout_centerVertical="true">
 
         <ImageButton
-            android:id="@+id/toolbar_button_back"
+            android:id="@+id/toolbar_button_navigate_up"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/content_navigate_up"
             android:padding="16dp"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_arrow_left_white"
@@ -23,12 +24,13 @@
 
         <ImageButton
             android:id="@+id/toolbar_button_menu"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/content_menu"
             android:padding="16dp"
-            android:scaleType="center"
-            android:src="@mipmap/ic_arrow_left_white"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_menu_white"
             android:visibility="gone" />
 
     </FrameLayout>

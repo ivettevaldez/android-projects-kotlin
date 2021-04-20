@@ -1,5 +1,6 @@
 package com.ivettevaldez.cleanarchitecture.screens.common.navigation
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,10 @@ abstract class BaseNavDrawerViewMvc<ListenerType>(
 
     override fun setRootView(view: View) {
         frameContent.addView(view)
+    }
+
+    protected fun openDrawer() {
+        drawerLayout.openDrawer(Gravity.START)
     }
 
     private fun setListenerEvents() {

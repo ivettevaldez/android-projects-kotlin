@@ -45,6 +45,10 @@ class QuestionDetailsActivity : BaseActivity(),
         viewMvc.unregisterListener(this)
     }
 
+    override fun onNavigateUpClicked() {
+        onBackPressed()
+    }
+
     override fun onQuestionDetailsFetched(question: Question) {
         viewMvc.showProgressIndicator(false)
         viewMvc.bindQuestion(question)
@@ -70,9 +74,5 @@ class QuestionDetailsActivity : BaseActivity(),
 
     private fun showMessage(message: String) {
         Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onNavigateUpClicked() {
-        onBackPressed()
     }
 }

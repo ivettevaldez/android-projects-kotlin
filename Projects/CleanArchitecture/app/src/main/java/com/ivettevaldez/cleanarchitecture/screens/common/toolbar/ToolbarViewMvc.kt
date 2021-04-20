@@ -12,9 +12,17 @@ import kotlinx.android.synthetic.main.layout_toolbar.view.*
 
 interface IToolbarViewMvc : IViewMvc {
 
+    interface MenuClickListener {
+        fun onMenuClicked()
+    }
+
+    interface NavigateUpClickListener {
+        fun onNavigateUpClicked()
+    }
+
     fun setTitle(title: String)
-    fun enableMenuAndListen(listener: View.OnClickListener)
-    fun enableUpNavigationAndListen(listener: View.OnClickListener)
+    fun enableMenuAndListen(listener: MenuClickListener)
+    fun enableUpNavigationAndListen(listener: NavigateUpClickListener)
 }
 
 class ToolbarViewMvcImpl(
@@ -27,6 +35,9 @@ class ToolbarViewMvcImpl(
     private val buttonMenu: ImageButton
     private val buttonNavigateUp: ImageButton
 
+    private var menuClickListener: IToolbarViewMvc.MenuClickListener? = null
+    private var navigateUpClickListener: IToolbarViewMvc.NavigateUpClickListener? = null
+
     init {
 
         setRootView(
@@ -35,20 +46,38 @@ class ToolbarViewMvcImpl(
 
         textTitle = getRootView().toolbar_text_title
         buttonMenu = getRootView().toolbar_button_menu
-        buttonNavigateUp = getRootView().toolbar_button_back
+        buttonNavigateUp = getRootView().toolbar_button_navigate_up
+
+        setListenerEvents()
     }
 
     override fun setTitle(title: String) {
         textTitle.text = title
     }
 
-    override fun enableMenuAndListen(listener: View.OnClickListener) {
+    override fun enableMenuAndListen(listener: IToolbarViewMvc.MenuClickListener) {
+        if (navigateUpClickListener != null) {
+            throw Exception("Menu and Navigate Up shouldn't be shown together")
+        }
+        menuClickListener = listener
         buttonMenu.visibility = View.VISIBLE
-        buttonMenu.setOnClickListener(listener)
     }
 
-    override fun enableUpNavigationAndListen(listener: View.OnClickListener) {
+    override fun enableUpNavigationAndListen(listener: IToolbarViewMvc.NavigateUpClickListener) {
+        if (menuClickListener != null) {
+            throw Exception("Menu and Navigate Up shouldn't be shown together")
+        }
+        navigateUpClickListener = listener
         buttonNavigateUp.visibility = View.VISIBLE
-        buttonNavigateUp.setOnClickListener(listener)
+    }
+
+    private fun setListenerEvents() {
+        buttonMenu.setOnClickListener {
+            menuClickListener!!.onMenuClicked()
+        }
+
+        buttonNavigateUp.setOnClickListener {
+            navigateUpClickListener!!.onNavigateUpClicked()
+        }
     }
 }
