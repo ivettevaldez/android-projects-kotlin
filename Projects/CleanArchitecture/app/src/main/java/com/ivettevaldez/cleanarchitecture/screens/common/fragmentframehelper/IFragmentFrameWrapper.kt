@@ -1,4 +1,4 @@
-package com.ivettevaldez.cleanarchitecture.screens.common.controllers
+package com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper
 
 import android.widget.FrameLayout
 

@@ -91,7 +91,7 @@ class QuestionDetailsFragment : BaseFragment(),
     }
 
     override fun onNavigateUpClicked() {
-        screenNavigator.toQuestionsList()
+        screenNavigator.navigateUp()
     }
 
     override fun onQuestionsListClicked() {

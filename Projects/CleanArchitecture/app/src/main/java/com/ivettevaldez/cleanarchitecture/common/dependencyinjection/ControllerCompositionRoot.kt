@@ -8,7 +8,8 @@ import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IFragmentFrameWrapper
+import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.FragmentFrameHelper
+import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.IFragmentFrameWrapper
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 
 class ControllerCompositionRoot(
@@ -37,12 +38,17 @@ class ControllerCompositionRoot(
 
     fun getScreenNavigator(): ScreenNavigator {
         if (screenNavigator == null) {
-            screenNavigator = ScreenNavigator(
-                getFragmentManager(),
-                getFragmentFrameWrapper()
-            )
+            screenNavigator = ScreenNavigator(getFragmentFrameHelper())
         }
         return screenNavigator!!
+    }
+
+    private fun getFragmentFrameHelper(): FragmentFrameHelper {
+        return FragmentFrameHelper(
+            getActivity(),
+            getFragmentFrameWrapper(),
+            getFragmentManager()
+        )
     }
 
     fun getFetchQuestionsUseCase(): FetchQuestionsUseCase {

@@ -6,8 +6,8 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseActivity
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressedListener
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IFragmentFrameWrapper
-import com.ivettevaldez.cleanarchitecture.screens.questionslist.QuestionsListFragment
+import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.IFragmentFrameWrapper
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 import kotlinx.android.synthetic.main.layout_frame_content.*
 
 class MainActivity : BaseActivity(),
@@ -16,15 +16,16 @@ class MainActivity : BaseActivity(),
 
     private val backPressedListeners: MutableSet<IBackPressedListener> = HashSet()
 
+    private lateinit var screenNavigator: ScreenNavigator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_frame_content)
 
-        val fragment: QuestionsListFragment?
+        screenNavigator = getCompositionRoot().getScreenNavigator()
+
         if (savedInstanceState == null) {
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragment = QuestionsListFragment()
-            fragmentTransaction.add(R.id.frame_content, fragment).commit()
+            screenNavigator.toQuestionsList()
         }
     }
 
