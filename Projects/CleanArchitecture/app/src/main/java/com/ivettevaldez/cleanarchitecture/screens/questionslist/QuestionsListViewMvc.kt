@@ -19,8 +19,8 @@ import com.ivettevaldez.cleanarchitecture.screens.common.navigation.DrawerItems
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
-import kotlinx.android.synthetic.main.activity_questions_list.view.*
 import kotlinx.android.synthetic.main.element_toolbar.view.*
+import kotlinx.android.synthetic.main.fragment_questions_list.view.*
 
 interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Listener>,
     INavDrawerViewMvc {
@@ -55,7 +55,7 @@ class QuestionsListViewMvcImpl(
     init {
 
         setRootView(
-            inflater.inflate(R.layout.activity_questions_list, parent, false)
+            inflater.inflate(R.layout.fragment_questions_list, parent, false)
         )
 
         recyclerQuestions = getRootView().questions_recycler_items

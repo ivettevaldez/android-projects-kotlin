@@ -7,7 +7,7 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
-import kotlinx.android.synthetic.main.questions_list_item.view.*
+import kotlinx.android.synthetic.main.item_questions_list.view.*
 
 interface IQuestionsListItemViewMvc : IObservableViewMvc<IQuestionsListItemViewMvc.Listener> {
 
@@ -32,7 +32,7 @@ class QuestionsListItemViewMvcImpl(
     init {
 
         setRootView(
-            inflater.inflate(R.layout.questions_list_item, parent, false)
+            inflater.inflate(R.layout.item_questions_list, parent, false)
         )
 
         textTitle = getRootView().questions_list_item_text_title

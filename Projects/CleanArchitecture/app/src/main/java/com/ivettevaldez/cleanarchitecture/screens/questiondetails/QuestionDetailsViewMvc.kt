@@ -15,8 +15,8 @@ import com.ivettevaldez.cleanarchitecture.screens.common.navigation.DrawerItems
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
-import kotlinx.android.synthetic.main.activity_question_details.view.*
 import kotlinx.android.synthetic.main.element_toolbar.view.*
+import kotlinx.android.synthetic.main.fragment_question_details.view.*
 
 interface IQuestionDetailsViewMvc : IObservableViewMvc<IQuestionDetailsViewMvc.Listener>,
     INavDrawerViewMvc {
@@ -49,7 +49,7 @@ class QuestionDetailsViewMvcImpl(
     init {
 
         setRootView(
-            inflater.inflate(R.layout.activity_question_details, parent, false)
+            inflater.inflate(R.layout.fragment_question_details, parent, false)
         )
 
         textTitle = getRootView().question_details_text_title

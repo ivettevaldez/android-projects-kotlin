@@ -9,6 +9,7 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseFragment
+import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressedListener
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 
@@ -23,6 +24,7 @@ class QuestionDetailsFragment : BaseFragment(),
 
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
     private lateinit var screenNavigator: ScreenNavigator
+    private lateinit var backPressDispatcher: IBackPressDispatcher
     private lateinit var viewMvc: IQuestionDetailsViewMvc
 
     companion object {
@@ -49,11 +51,9 @@ class QuestionDetailsFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
-        fetchQuestionDetailsUseCase = getCompositionRoot()
-            .getFetchQuestionDetailsUseCase()
-
-        screenNavigator = getCompositionRoot()
-            .getScreenNavigator()
+        fetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase()
+        screenNavigator = getCompositionRoot().getScreenNavigator()
+        backPressDispatcher = getCompositionRoot().getBackPressDispatcher()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -66,6 +66,7 @@ class QuestionDetailsFragment : BaseFragment(),
         super.onStart()
 
         fetchQuestionDetailsUseCase.registerListener(this)
+        backPressDispatcher.registerListener(this)
 
         viewMvc.registerListener(this)
         viewMvc.showProgressIndicator(true)
@@ -75,7 +76,9 @@ class QuestionDetailsFragment : BaseFragment(),
 
     override fun onStop() {
         super.onStop()
+
         fetchQuestionDetailsUseCase.unregisterListener(this)
+        backPressDispatcher.unregisterListener(this)
         viewMvc.unregisterListener(this)
     }
 
@@ -88,11 +91,11 @@ class QuestionDetailsFragment : BaseFragment(),
     }
 
     override fun onNavigateUpClicked() {
-        screenNavigator.navigateUp()
+        screenNavigator.toQuestionsList()
     }
 
     override fun onQuestionsListClicked() {
-        screenNavigator.toQuestionsListAndClearTop()
+        screenNavigator.toQuestionsList()
     }
 
     override fun onQuestionDetailsFetched(question: Question) {

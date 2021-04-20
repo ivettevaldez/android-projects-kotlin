@@ -9,6 +9,7 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseFragment
+import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressedListener
 
 class QuestionsListFragment : BaseFragment(),
@@ -17,15 +18,21 @@ class QuestionsListFragment : BaseFragment(),
     FetchQuestionsUseCase.Listener {
 
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    private lateinit var backPressedDispatcher: IBackPressDispatcher
     private lateinit var viewMvc: IQuestionsListViewMvc
+
+    companion object {
+
+        fun newInstance(): QuestionsListFragment = QuestionsListFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fetchQuestionsUseCase = getCompositionRoot()
-            .getFetchQuestionsUseCase()
+        fetchQuestionsUseCase = getCompositionRoot().getFetchQuestionsUseCase()
+        backPressedDispatcher = getCompositionRoot().getBackPressDispatcher()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -38,6 +45,7 @@ class QuestionsListFragment : BaseFragment(),
         super.onStart()
 
         fetchQuestionsUseCase.registerListener(this)
+        backPressedDispatcher.registerListener(this)
 
         viewMvc.registerListener(this)
         viewMvc.showProgressIndicator(true)
@@ -49,6 +57,7 @@ class QuestionsListFragment : BaseFragment(),
         super.onStop()
 
         fetchQuestionsUseCase.unregisterListener(this)
+        backPressedDispatcher.unregisterListener(this)
         viewMvc.unregisterListener(this)
     }
 

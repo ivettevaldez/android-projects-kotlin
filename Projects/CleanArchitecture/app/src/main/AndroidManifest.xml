@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CleanArchitecture">
         <activity
-            android:name=".screens.questionslist.QuestionsListActivity"
+            android:name=".screens.common.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
