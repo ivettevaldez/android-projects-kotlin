@@ -23,4 +23,8 @@ class ScreenNavigator(private val activity: Activity) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         activity.startActivity(intent)
     }
+
+    fun navigateUp() {
+        activity.onBackPressed()
+    }
 }

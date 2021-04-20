@@ -29,7 +29,7 @@ class QuestionsListFragment : BaseFragment(),
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
-            .getQuestionsListViewMvc(null)
+            .getQuestionsListViewMvc(container)
 
         return viewMvc.getRootView()
     }
