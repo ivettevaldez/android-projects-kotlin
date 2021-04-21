@@ -2,55 +2,67 @@ package com.ivettevaldez.cleanarchitecture.screens.common.main
 
 import android.os.Bundle
 import android.widget.FrameLayout
-import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseActivity
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressedListener
 import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.IFragmentFrameWrapper
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerHelper
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
-import kotlinx.android.synthetic.main.layout_frame_content.*
 
 class MainActivity : BaseActivity(),
-    IBackPressDispatcher,
-    IFragmentFrameWrapper {
+    IFragmentFrameWrapper,
+    INavDrawerHelper,
+    INavDrawerViewMvc.Listener {
 
-    private val backPressedListeners: MutableSet<IBackPressedListener> = HashSet()
-
+    private lateinit var viewMvc: INavDrawerViewMvc
     private lateinit var screenNavigator: ScreenNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_frame_content)
 
         screenNavigator = getCompositionRoot().getScreenNavigator()
+
+        viewMvc = getCompositionRoot()
+            .getViewMvcFactory()
+            .getNavDrawerViewMvc(null)
+
+        setContentView(viewMvc.getRootView())
 
         if (savedInstanceState == null) {
             screenNavigator.toQuestionsList()
         }
     }
 
-    override fun onBackPressed() {
-        var isBackPressConsumedByAnyListener = false
-        for (listener in backPressedListeners) {
-            if (listener.onBackPressed()) {
-                isBackPressConsumedByAnyListener = true
-            }
-        }
+    override fun onStart() {
+        super.onStart()
+        viewMvc.registerListener(this)
+    }
 
-        if (!isBackPressConsumedByAnyListener) {
+    override fun onStop() {
+        super.onStop()
+        viewMvc.unregisterListener(this)
+    }
+
+    override fun onBackPressed() {
+        if (viewMvc.isDrawerOpen()) {
+            viewMvc.closeDrawer()
+        } else {
             super.onBackPressed()
         }
     }
 
-    override fun registerListener(listener: IBackPressedListener) {
-        backPressedListeners.add(listener)
+    override fun getFragmentFrame(): FrameLayout = viewMvc.getFragmentFrame()
+
+    override fun isDrawerOpen(): Boolean = viewMvc.isDrawerOpen()
+
+    override fun openDrawer() {
+        viewMvc.openDrawer()
     }
 
-    override fun unregisterListener(listener: IBackPressedListener) {
-        backPressedListeners.remove(listener)
+    override fun closeDrawer() {
+        viewMvc.closeDrawer()
     }
 
-    override fun getFragmentFrame(): FrameLayout {
-        return frame_content
+    override fun onQuestionsListClicked() {
+        screenNavigator.toQuestionsList()
     }
 }

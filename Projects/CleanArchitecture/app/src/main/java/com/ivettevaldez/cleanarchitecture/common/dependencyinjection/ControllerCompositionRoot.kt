@@ -7,9 +7,9 @@ import com.ivettevaldez.cleanarchitecture.networking.StackOverflowApi
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
 import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.FragmentFrameHelper
 import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.IFragmentFrameWrapper
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 
 class ControllerCompositionRoot(
@@ -28,19 +28,10 @@ class ControllerCompositionRoot(
 
     private fun getLayoutInflater(): LayoutInflater = LayoutInflater.from(getActivity())
 
+    private fun getNavDrawerHelper(): INavDrawerHelper = getActivity() as INavDrawerHelper
+
     private fun getStackOverflowApi(): StackOverflowApi {
         return compositionRoot.getStackOverflowApi()
-    }
-
-    fun getViewMvcFactory(): ViewMvcFactory {
-        return ViewMvcFactory(getLayoutInflater())
-    }
-
-    fun getScreenNavigator(): ScreenNavigator {
-        if (screenNavigator == null) {
-            screenNavigator = ScreenNavigator(getFragmentFrameHelper())
-        }
-        return screenNavigator!!
     }
 
     private fun getFragmentFrameHelper(): FragmentFrameHelper {
@@ -51,15 +42,25 @@ class ControllerCompositionRoot(
         )
     }
 
+    fun getViewMvcFactory(): ViewMvcFactory {
+        return ViewMvcFactory(
+            getLayoutInflater(),
+            getNavDrawerHelper()
+        )
+    }
+
+    fun getScreenNavigator(): ScreenNavigator {
+        if (screenNavigator == null) {
+            screenNavigator = ScreenNavigator(getFragmentFrameHelper())
+        }
+        return screenNavigator!!
+    }
+
     fun getFetchQuestionsUseCase(): FetchQuestionsUseCase {
         return FetchQuestionsUseCase(getStackOverflowApi())
     }
 
     fun getFetchQuestionDetailsUseCase(): FetchQuestionDetailsUseCase {
         return FetchQuestionDetailsUseCase(getStackOverflowApi())
-    }
-
-    fun getBackPressDispatcher(): IBackPressDispatcher {
-        return getActivity() as IBackPressDispatcher
     }
 }

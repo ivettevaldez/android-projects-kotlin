@@ -9,14 +9,11 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseFragment
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressedListener
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
 
 private const val ARG_QUESTION_ID = "ARG_QUESTION_ID"
 
 class QuestionDetailsFragment : BaseFragment(),
-    IBackPressedListener,
     IQuestionDetailsViewMvc.Listener,
     FetchQuestionDetailsUseCase.Listener {
 
@@ -24,7 +21,6 @@ class QuestionDetailsFragment : BaseFragment(),
 
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
     private lateinit var screenNavigator: ScreenNavigator
-    private lateinit var backPressDispatcher: IBackPressDispatcher
     private lateinit var viewMvc: IQuestionDetailsViewMvc
 
     companion object {
@@ -53,7 +49,6 @@ class QuestionDetailsFragment : BaseFragment(),
 
         fetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase()
         screenNavigator = getCompositionRoot().getScreenNavigator()
-        backPressDispatcher = getCompositionRoot().getBackPressDispatcher()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -66,7 +61,6 @@ class QuestionDetailsFragment : BaseFragment(),
         super.onStart()
 
         fetchQuestionDetailsUseCase.registerListener(this)
-        backPressDispatcher.registerListener(this)
 
         viewMvc.registerListener(this)
         viewMvc.showProgressIndicator(true)
@@ -78,24 +72,11 @@ class QuestionDetailsFragment : BaseFragment(),
         super.onStop()
 
         fetchQuestionDetailsUseCase.unregisterListener(this)
-        backPressDispatcher.unregisterListener(this)
         viewMvc.unregisterListener(this)
-    }
-
-    override fun onBackPressed(): Boolean {
-        if (viewMvc.isDrawerOpen()) {
-            viewMvc.closeDrawer()
-            return true
-        }
-        return false
     }
 
     override fun onNavigateUpClicked() {
         screenNavigator.navigateUp()
-    }
-
-    override fun onQuestionsListClicked() {
-        screenNavigator.toQuestionsList()
     }
 
     override fun onQuestionDetailsFetched(question: Question) {

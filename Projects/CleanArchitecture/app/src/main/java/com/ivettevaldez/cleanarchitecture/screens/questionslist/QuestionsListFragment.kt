@@ -9,16 +9,12 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseFragment
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressDispatcher
-import com.ivettevaldez.cleanarchitecture.screens.common.controllers.IBackPressedListener
 
 class QuestionsListFragment : BaseFragment(),
-    IBackPressedListener,
     IQuestionsListViewMvc.Listener,
     FetchQuestionsUseCase.Listener {
 
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    private lateinit var backPressedDispatcher: IBackPressDispatcher
     private lateinit var viewMvc: IQuestionsListViewMvc
 
     companion object {
@@ -31,8 +27,8 @@ class QuestionsListFragment : BaseFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         fetchQuestionsUseCase = getCompositionRoot().getFetchQuestionsUseCase()
-        backPressedDispatcher = getCompositionRoot().getBackPressDispatcher()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -45,7 +41,6 @@ class QuestionsListFragment : BaseFragment(),
         super.onStart()
 
         fetchQuestionsUseCase.registerListener(this)
-        backPressedDispatcher.registerListener(this)
 
         viewMvc.registerListener(this)
         viewMvc.showProgressIndicator(true)
@@ -57,16 +52,7 @@ class QuestionsListFragment : BaseFragment(),
         super.onStop()
 
         fetchQuestionsUseCase.unregisterListener(this)
-        backPressedDispatcher.unregisterListener(this)
         viewMvc.unregisterListener(this)
-    }
-
-    override fun onBackPressed(): Boolean {
-        if (viewMvc.isDrawerOpen()) {
-            viewMvc.closeDrawer()
-            return true
-        }
-        return false
     }
 
     override fun onQuestionClicked(question: Question?) {
@@ -77,10 +63,6 @@ class QuestionsListFragment : BaseFragment(),
         } else {
             showMessage(getString(R.string.error_null_question))
         }
-    }
-
-    override fun onQuestionsListClicked() {
-        // This is the QuestionsList screen, so no action needed.
     }
 
     override fun onQuestionsFetched(questions: List<Question>) {

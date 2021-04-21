@@ -14,21 +14,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
-import com.ivettevaldez.cleanarchitecture.screens.common.navigation.BaseNavDrawerViewMvc
-import com.ivettevaldez.cleanarchitecture.screens.common.navigation.DrawerItems
-import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.IToolbarViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.element_toolbar.view.*
 import kotlinx.android.synthetic.main.fragment_questions_list.view.*
 
-interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Listener>,
-    INavDrawerViewMvc {
+interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Listener> {
 
     interface Listener {
 
         fun onQuestionClicked(question: Question?)
-        fun onQuestionsListClicked()
     }
 
     fun bindQuestions(questions: List<Question>)
@@ -38,8 +35,9 @@ interface IQuestionsListViewMvc : IObservableViewMvc<IQuestionsListViewMvc.Liste
 class QuestionsListViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
-    private val viewMvcFactory: ViewMvcFactory
-) : BaseNavDrawerViewMvc<IQuestionsListViewMvc.Listener>(inflater, parent),
+    private val viewMvcFactory: ViewMvcFactory,
+    private val navDrawerHelper: INavDrawerHelper
+) : BaseObservableViewMvc<IQuestionsListViewMvc.Listener>(),
     IQuestionsListViewMvc,
     QuestionsRecyclerAdapter.Listener {
 
@@ -89,14 +87,6 @@ class QuestionsListViewMvcImpl(
         }
     }
 
-    override fun onDrawerItemClicked(item: DrawerItems) {
-        for (listener in getListeners()) {
-            when (item) {
-                DrawerItems.QUESTIONS_LIST -> listener.onQuestionsListClicked()
-            }
-        }
-    }
-
     private fun initToolbar() {
         toolbarViewMvc.setTitle(
             getContext().getString(R.string.questions_list_title)
@@ -104,7 +94,7 @@ class QuestionsListViewMvcImpl(
         toolbarViewMvc.enableMenuAndListen(
             object : IToolbarViewMvc.MenuClickListener {
                 override fun onMenuClicked() {
-                    openDrawer()
+                    navDrawerHelper.openDrawer()
                 }
             }
         )

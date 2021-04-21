@@ -2,26 +2,32 @@ package com.ivettevaldez.cleanarchitecture.screens.common.navigation
 
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
+import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
 import kotlinx.android.synthetic.main.layout_drawer.view.*
 
-interface INavDrawerViewMvc {
+interface INavDrawerViewMvc : IObservableViewMvc<INavDrawerViewMvc.Listener> {
 
+    interface Listener {
+
+        fun onQuestionsListClicked()
+    }
+
+    fun getFragmentFrame(): FrameLayout
     fun isDrawerOpen(): Boolean
     fun openDrawer()
     fun closeDrawer()
 }
 
-abstract class BaseNavDrawerViewMvc<ListenerType>(
+class NavDrawerViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
-) : BaseObservableViewMvc<ListenerType>(),
+) : BaseObservableViewMvc<INavDrawerViewMvc.Listener>(),
     INavDrawerViewMvc {
 
     private val drawerLayout: DrawerLayout
@@ -41,15 +47,9 @@ abstract class BaseNavDrawerViewMvc<ListenerType>(
         setListenerEvents()
     }
 
-    abstract fun onDrawerItemClicked(item: DrawerItems)
+    override fun getFragmentFrame(): FrameLayout = frameContent
 
-    override fun setRootView(view: View) {
-        frameContent.addView(view)
-    }
-
-    override fun isDrawerOpen(): Boolean {
-        return drawerLayout.isDrawerOpen(Gravity.START)
-    }
+    override fun isDrawerOpen(): Boolean = drawerLayout.isDrawerOpen(Gravity.START)
 
     override fun openDrawer() {
         drawerLayout.openDrawer(Gravity.START)
@@ -64,7 +64,9 @@ abstract class BaseNavDrawerViewMvc<ListenerType>(
             closeDrawer()
 
             if (item.itemId == R.id.drawer_menu_questions_list) {
-                onDrawerItemClicked(DrawerItems.QUESTIONS_LIST)
+                for (listener in getListeners()) {
+                    listener.onQuestionsListClicked()
+                }
             }
 
             false
