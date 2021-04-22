@@ -1,52 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".screens.questiondetails.QuestionDetailsFragment">
 
-    <include
-        layout="@layout/element_toolbar"
+    <ProgressBar
+        android:id="@+id/question_details_progress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include
+            layout="@layout/element_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <ProgressBar
-                android:id="@+id/question_details_progress"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="24dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/question_details_text_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/question_details_text_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
 
-            <TextView
-                android:id="@+id/question_details_text_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/question_details_text_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp" />
 
-        </LinearLayout>
+            </LinearLayout>
 
-    </ScrollView>
+        </ScrollView>
 
-</LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

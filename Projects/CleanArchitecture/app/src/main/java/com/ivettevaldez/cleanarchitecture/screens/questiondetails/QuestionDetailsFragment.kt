@@ -15,7 +15,6 @@ import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.promptdialog.Pr
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreensNavigator
 
 private const val ARG_QUESTION_ID = "ARG_QUESTION_ID"
-private const val DIALOG_ID_NETWORK_ERROR = "DIALOG_ID_NETWORK_ERROR"
 private const val SAVED_STATE_SCREEN_STATE = "SAVED_STATE_SCREEN_STATE"
 
 class QuestionDetailsFragment : BaseFragment(),
@@ -34,7 +33,7 @@ class QuestionDetailsFragment : BaseFragment(),
     private lateinit var viewMvc: IQuestionDetailsViewMvc
 
     enum class ScreenState {
-        IDLE, QUESTION_DETAILS_SHOWN, NETWORK_ERROR
+        IDLE, FETCHING_QUESTION_DETAILS, QUESTION_DETAILS_SHOWN, NETWORK_ERROR
     }
 
     companion object {
@@ -56,8 +55,9 @@ class QuestionDetailsFragment : BaseFragment(),
         }
 
         if (savedInstanceState != null) {
-            screenState = savedInstanceState
-                .getSerializable(SAVED_STATE_SCREEN_STATE) as ScreenState
+            screenState = savedInstanceState.getSerializable(
+                SAVED_STATE_SCREEN_STATE
+            ) as ScreenState
         }
     }
 
@@ -88,7 +88,7 @@ class QuestionDetailsFragment : BaseFragment(),
         viewMvc.registerListener(this)
 
         if (screenState != ScreenState.NETWORK_ERROR) {
-            fetchQuestionDetails(questionId)
+            fetchQuestionDetailsAndNotify(questionId)
         }
     }
 
@@ -113,11 +113,10 @@ class QuestionDetailsFragment : BaseFragment(),
         if (event is PromptDialogEvent) {
             when (event.clickedButton) {
                 POSITIVE -> {
-                    screenState = ScreenState.IDLE
+                    fetchQuestionDetailsAndNotify(questionId)
                 }
                 NEGATIVE -> {
                     screenState = ScreenState.IDLE
-                    fetchQuestionDetails(questionId)
                 }
             }
         }
@@ -132,10 +131,11 @@ class QuestionDetailsFragment : BaseFragment(),
     override fun onQuestionDetailsFetchFailed() {
         screenState = ScreenState.NETWORK_ERROR
         viewMvc.showProgressIndicator(false)
-        dialogsManager.showUseCaseError(DIALOG_ID_NETWORK_ERROR)
+        dialogsManager.showUseCaseError(null)
     }
 
-    private fun fetchQuestionDetails(questionId: String) {
+    private fun fetchQuestionDetailsAndNotify(questionId: String) {
+        screenState = ScreenState.FETCHING_QUESTION_DETAILS
         viewMvc.showProgressIndicator(true)
         fetchQuestionDetailsUseCase.executeAndNotify(questionId)
     }
