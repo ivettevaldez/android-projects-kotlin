@@ -2,6 +2,7 @@ package com.ivettevaldez.cleanarchitecture.screens.common
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.promptdialog.PromptViewMvcImpl
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.NavDrawerViewMvcImpl
 import com.ivettevaldez.cleanarchitecture.screens.common.toolbar.ToolbarViewMvcImpl
@@ -35,5 +36,9 @@ class ViewMvcFactory(
 
     fun getQuestionDetailsViewMvc(parent: ViewGroup?): IQuestionDetailsViewMvc {
         return QuestionDetailsViewMvcImpl(inflater, parent, this)
+    }
+
+    fun getPromptViewMvc(parent: ViewGroup?): PromptViewMvcImpl {
+        return PromptViewMvcImpl(inflater, parent)
     }
 }

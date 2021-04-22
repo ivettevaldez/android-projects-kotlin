@@ -2,26 +2,19 @@ package com.ivettevaldez.cleanarchitecture.screens.common.dialogs.promptdialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.BaseDialog
 import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.DialogsEventBus
-import kotlinx.android.synthetic.main.dialog_prompt.*
 
 private const val ARG_TITLE: String = "ARG_TITLE"
 private const val ARG_MESSAGE: String = "ARG_MESSAGE"
 private const val ARG_BUTTON_POSITIVE_CAPTION: String = "ARG_BUTTON_POSITIVE_CAPTION"
 private const val ARG_BUTTON_NEGATIVE_CAPTION: String = "ARG_BUTTON_NEGATIVE_CAPTION"
 
-class PromptDialog : BaseDialog() {
+class PromptDialog : BaseDialog(),
+    IPromptViewMvc.Listener {
 
     private lateinit var dialogsEventBus: DialogsEventBus
-
-    private lateinit var textTitle: TextView
-    private lateinit var textMessage: TextView
-    private lateinit var buttonPositive: Button
-    private lateinit var buttonNegative: Button
+    private lateinit var viewMvc: IPromptViewMvc
 
     companion object {
 
@@ -46,6 +39,7 @@ class PromptDialog : BaseDialog() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dialogsEventBus = getCompositionRoot().getDialogsEventBus()
+        viewMvc = getCompositionRoot().getViewMvcFactory().getPromptViewMvc(null)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -54,32 +48,29 @@ class PromptDialog : BaseDialog() {
         }
 
         val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_prompt)
+        dialog.setContentView(viewMvc.getRootView())
 
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
 
-        textTitle = dialog.prompt_text_title
-        textMessage = dialog.prompt_text_message
-        buttonPositive = dialog.prompt_button_positive
-        buttonNegative = dialog.prompt_button_negative
-
-        textTitle.text = arguments!!.getString(ARG_TITLE)
-        textMessage.text = arguments!!.getString(ARG_MESSAGE)
-        buttonPositive.text = arguments!!.getString(ARG_BUTTON_POSITIVE_CAPTION)
-        buttonNegative.text = arguments!!.getString(ARG_BUTTON_NEGATIVE_CAPTION)
-
-        buttonPositive.setOnClickListener {
-            onPositiveButtonClicked()
-        }
-
-        buttonNegative.setOnClickListener {
-            onNegativeButtonClicked()
-        }
+        viewMvc.setTitle(getTitle())
+        viewMvc.setMessage(getMessage())
+        viewMvc.setPositiveButtonCaption(getPositiveButtonCaption())
+        viewMvc.setNegativeButtonCaption(getNegativeButtonCaption())
 
         return dialog
     }
 
-    private fun onPositiveButtonClicked() {
+    override fun onStart() {
+        super.onStart()
+        viewMvc.registerListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewMvc.unregisterListener(this)
+    }
+
+    override fun onPositiveButtonClicked() {
         dismiss()
 
         dialogsEventBus.postEvent(
@@ -87,11 +78,21 @@ class PromptDialog : BaseDialog() {
         )
     }
 
-    private fun onNegativeButtonClicked() {
+    override fun onNegativeButtonClicked() {
         dismiss()
 
         dialogsEventBus.postEvent(
             PromptDialogEvent(PromptDialogEvent.Button.NEGATIVE)
         )
     }
+
+    private fun getTitle(): String = arguments!!.getString(ARG_TITLE) ?: ""
+
+    private fun getMessage(): String = arguments!!.getString(ARG_MESSAGE) ?: ""
+
+    private fun getPositiveButtonCaption(): String =
+        arguments!!.getString(ARG_BUTTON_POSITIVE_CAPTION) ?: ""
+
+    private fun getNegativeButtonCaption(): String =
+        arguments!!.getString(ARG_BUTTON_NEGATIVE_CAPTION) ?: ""
 }
