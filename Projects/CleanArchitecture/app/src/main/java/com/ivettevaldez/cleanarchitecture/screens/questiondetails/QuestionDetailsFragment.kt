@@ -16,11 +16,14 @@ import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreensNavig
 
 private const val ARG_QUESTION_ID = "ARG_QUESTION_ID"
 private const val DIALOG_ID_NETWORK_ERROR = "DIALOG_ID_NETWORK_ERROR"
+private const val SAVED_STATE_SCREEN_STATE = "SAVED_STATE_SCREEN_STATE"
 
 class QuestionDetailsFragment : BaseFragment(),
     IQuestionDetailsViewMvc.Listener,
     FetchQuestionDetailsUseCase.Listener,
     DialogsEventBus.Listener {
+
+    private var screenState: ScreenState = ScreenState.IDLE
 
     private lateinit var questionId: String
 
@@ -29,6 +32,10 @@ class QuestionDetailsFragment : BaseFragment(),
     private lateinit var dialogsManager: DialogsManager
     private lateinit var dialogsEventBus: DialogsEventBus
     private lateinit var viewMvc: IQuestionDetailsViewMvc
+
+    enum class ScreenState {
+        IDLE, QUESTION_DETAILS_SHOWN, NETWORK_ERROR
+    }
 
     companion object {
 
@@ -46,6 +53,11 @@ class QuestionDetailsFragment : BaseFragment(),
         super.onCreate(savedInstanceState)
         arguments?.let {
             questionId = it.getString(ARG_QUESTION_ID)!!
+        }
+
+        if (savedInstanceState != null) {
+            screenState = savedInstanceState
+                .getSerializable(SAVED_STATE_SCREEN_STATE) as ScreenState
         }
     }
 
@@ -75,7 +87,7 @@ class QuestionDetailsFragment : BaseFragment(),
 
         viewMvc.registerListener(this)
 
-        if (DIALOG_ID_NETWORK_ERROR != dialogsManager.getShownDialogTag()) {
+        if (screenState != ScreenState.NETWORK_ERROR) {
             fetchQuestionDetails(questionId)
         }
     }
@@ -88,6 +100,11 @@ class QuestionDetailsFragment : BaseFragment(),
         viewMvc.unregisterListener(this)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putSerializable(SAVED_STATE_SCREEN_STATE, screenState)
+    }
+
     override fun onNavigateUpClicked() {
         screensNavigator.navigateUp()
     }
@@ -96,9 +113,10 @@ class QuestionDetailsFragment : BaseFragment(),
         if (event is PromptDialogEvent) {
             when (event.clickedButton) {
                 POSITIVE -> {
-                    // Nothing to do here.
+                    screenState = ScreenState.IDLE
                 }
                 NEGATIVE -> {
+                    screenState = ScreenState.IDLE
                     fetchQuestionDetails(questionId)
                 }
             }
@@ -106,11 +124,13 @@ class QuestionDetailsFragment : BaseFragment(),
     }
 
     override fun onQuestionDetailsFetched(question: Question) {
+        screenState = ScreenState.QUESTION_DETAILS_SHOWN
         viewMvc.showProgressIndicator(false)
         viewMvc.bindQuestion(question)
     }
 
     override fun onQuestionDetailsFetchFailed() {
+        screenState = ScreenState.NETWORK_ERROR
         viewMvc.showProgressIndicator(false)
         dialogsManager.showUseCaseError(DIALOG_ID_NETWORK_ERROR)
     }
