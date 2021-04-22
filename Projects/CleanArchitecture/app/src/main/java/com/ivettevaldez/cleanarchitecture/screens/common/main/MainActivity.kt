@@ -6,7 +6,7 @@ import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseActivit
 import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.IFragmentFrameWrapper
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerViewMvc
-import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreenNavigator
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreensNavigator
 
 class MainActivity : BaseActivity(),
     IFragmentFrameWrapper,
@@ -14,12 +14,12 @@ class MainActivity : BaseActivity(),
     INavDrawerViewMvc.Listener {
 
     private lateinit var viewMvc: INavDrawerViewMvc
-    private lateinit var screenNavigator: ScreenNavigator
+    private lateinit var screensNavigator: ScreensNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        screenNavigator = getCompositionRoot().getScreenNavigator()
+        screensNavigator = getCompositionRoot().getScreensNavigator()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -28,7 +28,7 @@ class MainActivity : BaseActivity(),
         setContentView(viewMvc.getRootView())
 
         if (savedInstanceState == null) {
-            screenNavigator.toQuestionsList()
+            screensNavigator.toQuestionsList()
         }
     }
 
@@ -63,6 +63,6 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onQuestionsListClicked() {
-        screenNavigator.toQuestionsList()
+        screensNavigator.toQuestionsList()
     }
 }

@@ -1,0 +1,26 @@
+package com.ivettevaldez.cleanarchitecture.screens.common.dialogs
+
+import android.content.Context
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
+import com.ivettevaldez.cleanarchitecture.R
+import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.infodialog.InfoDialog
+
+class DialogsManager(
+    private val context: Context,
+    private val fragmentManager: FragmentManager
+) {
+
+    fun showUseCaseError(tag: String?) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.error_network_callback_failed_title),
+            getString(R.string.error_network_callback_failed_message),
+            getString(R.string.error_network_callback_failed_button_caption)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
+    private fun getString(stringId: Int): String {
+        return context.getString(stringId)
+    }
+}

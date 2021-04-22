@@ -2,8 +2,12 @@
     <string name="app_name">CleanArchitecture</string>
 
     <string name="error_oops">Oops! An error occurred</string>
-    <string name="error_network_callback_failed">Network callback failed</string>
     <string name="error_null_question">Null question!</string>
+
+    <string name="error_network_callback_failed">Network call failed</string>
+    <string name="error_network_callback_failed_title">Oops!</string>
+    <string name="error_network_callback_failed_message">Network call failed</string>
+    <string name="error_network_callback_failed_button_caption">OK</string>
 
     <string name="menu_latest_questions">Latest questions</string>
 

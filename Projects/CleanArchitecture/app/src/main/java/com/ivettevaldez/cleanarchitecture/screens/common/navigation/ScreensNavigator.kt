@@ -4,7 +4,7 @@ import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.Fra
 import com.ivettevaldez.cleanarchitecture.screens.questiondetails.QuestionDetailsFragment
 import com.ivettevaldez.cleanarchitecture.screens.questionslist.QuestionsListFragment
 
-class ScreenNavigator(
+class ScreensNavigator(
     private val fragmentFrameHelper: FragmentFrameHelper
 ) {
 

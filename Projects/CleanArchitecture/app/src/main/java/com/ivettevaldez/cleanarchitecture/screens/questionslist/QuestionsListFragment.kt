@@ -9,12 +9,14 @@ import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseFragment
+import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreensNavigator
 
-class QuestionsListFragment : BaseFragment(),
+class QuestionsListFragment private constructor() : BaseFragment(),
     IQuestionsListViewMvc.Listener,
     FetchQuestionsUseCase.Listener {
 
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    private lateinit var screensNavigator: ScreensNavigator
     private lateinit var viewMvc: IQuestionsListViewMvc
 
     companion object {
@@ -29,6 +31,7 @@ class QuestionsListFragment : BaseFragment(),
     ): View {
 
         fetchQuestionsUseCase = getCompositionRoot().getFetchQuestionsUseCase()
+        screensNavigator = getCompositionRoot().getScreensNavigator()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -57,9 +60,7 @@ class QuestionsListFragment : BaseFragment(),
 
     override fun onQuestionClicked(question: Question?) {
         if (question != null) {
-            getCompositionRoot()
-                .getScreenNavigator()
-                .toQuestionDetails(question.id)
+            screensNavigator.toQuestionDetails(question.id)
         } else {
             showMessage(getString(R.string.error_null_question))
         }
