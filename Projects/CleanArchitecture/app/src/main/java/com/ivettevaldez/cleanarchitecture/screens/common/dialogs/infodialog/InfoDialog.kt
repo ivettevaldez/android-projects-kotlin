@@ -16,7 +16,7 @@ class InfoDialog private constructor() : BaseDialog() {
 
     private lateinit var textTitle: TextView
     private lateinit var textMessage: TextView
-    private lateinit var buttonPossitive: Button
+    private lateinit var buttonPositive: Button
 
     companion object {
 
@@ -42,15 +42,15 @@ class InfoDialog private constructor() : BaseDialog() {
 
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
 
-        textTitle = dialog.dialog_text_title
-        textMessage = dialog.dialog_text_message
-        buttonPossitive = dialog.dialog_button_positive
+        textTitle = dialog.info_text_title
+        textMessage = dialog.info_text_message
+        buttonPositive = dialog.info_button_positive
 
         textTitle.text = arguments!!.getString(ARG_TITLE)
         textMessage.text = arguments!!.getString(ARG_MESSAGE)
-        buttonPossitive.text = arguments!!.getString(ARG_BUTTON_CAPTION)
+        buttonPositive.text = arguments!!.getString(ARG_BUTTON_CAPTION)
 
-        buttonPossitive.setOnClickListener {
+        buttonPositive.setOnClickListener {
             onButtonClicked()
         }
 

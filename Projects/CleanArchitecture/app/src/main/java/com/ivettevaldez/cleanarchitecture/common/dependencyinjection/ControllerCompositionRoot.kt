@@ -8,6 +8,7 @@ import com.ivettevaldez.cleanarchitecture.networking.StackOverflowApi
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
 import com.ivettevaldez.cleanarchitecture.screens.common.ViewMvcFactory
+import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.FragmentFrameHelper
 import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.IFragmentFrameWrapper
@@ -58,6 +59,10 @@ class ControllerCompositionRoot(
             getContext(),
             getFragmentManager()
         )
+    }
+
+    fun getDialogsEventBus(): DialogsEventBus {
+        return compositionRoot.getDialogsEventBus()
     }
 
     fun getFetchQuestionsUseCase(): FetchQuestionsUseCase {

@@ -11,7 +11,7 @@ import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseFragment
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreensNavigator
 
-class QuestionsListFragment private constructor() : BaseFragment(),
+class QuestionsListFragment : BaseFragment(),
     IQuestionsListViewMvc.Listener,
     FetchQuestionsUseCase.Listener {
 

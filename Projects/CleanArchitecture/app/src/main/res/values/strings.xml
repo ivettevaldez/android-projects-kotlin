@@ -7,7 +7,8 @@
     <string name="error_network_callback_failed">Network call failed</string>
     <string name="error_network_callback_failed_title">Oops!</string>
     <string name="error_network_callback_failed_message">Network call failed</string>
-    <string name="error_network_callback_failed_button_caption">OK</string>
+    <string name="error_network_callback_failed_positive_button_caption">OK</string>
+    <string name="error_network_callback_failed_negative_button_caption">Retry</string>
 
     <string name="menu_latest_questions">Latest questions</string>
 
