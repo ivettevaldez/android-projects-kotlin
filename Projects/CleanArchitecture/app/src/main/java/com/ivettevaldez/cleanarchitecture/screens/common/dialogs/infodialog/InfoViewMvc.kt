@@ -1,4 +1,4 @@
-package com.ivettevaldez.cleanarchitecture.screens.common.dialogs.promptdialog
+package com.ivettevaldez.cleanarchitecture.screens.common.dialogs.infodialog
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,43 +7,39 @@ import android.widget.TextView
 import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.cleanarchitecture.screens.common.views.IObservableViewMvc
-import kotlinx.android.synthetic.main.dialog_prompt.view.*
+import kotlinx.android.synthetic.main.dialog_info.view.*
 
-interface IPromptViewMvc : IObservableViewMvc<IPromptViewMvc.Listener> {
+interface IInfoViewMvc : IObservableViewMvc<IInfoViewMvc.Listener> {
 
     interface Listener {
 
-        fun onPositiveButtonClicked()
-        fun onNegativeButtonClicked()
+        fun onButtonClicked()
     }
 
     fun setTitle(title: String)
     fun setMessage(message: String)
     fun setPositiveButtonCaption(caption: String)
-    fun setNegativeButtonCaption(caption: String)
 }
 
-class PromptViewMvcImpl(
+class InfoViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
-) : BaseObservableViewMvc<IPromptViewMvc.Listener>(),
-    IPromptViewMvc {
+) : BaseObservableViewMvc<IInfoViewMvc.Listener>(),
+    IInfoViewMvc {
 
     private val textTitle: TextView
     private val textMessage: TextView
     private val buttonPositive: Button
-    private val buttonNegative: Button
 
     init {
 
         setRootView(
-            inflater.inflate(R.layout.dialog_prompt, parent, false)
+            inflater.inflate(R.layout.dialog_info, parent, false)
         )
 
-        textTitle = getRootView().prompt_text_title
-        textMessage = getRootView().prompt_text_message
-        buttonPositive = getRootView().prompt_button_positive
-        buttonNegative = getRootView().prompt_button_negative
+        textTitle = getRootView().info_text_title
+        textMessage = getRootView().info_text_message
+        buttonPositive = getRootView().info_button_positive
 
         setListenerEvents()
     }
@@ -60,20 +56,10 @@ class PromptViewMvcImpl(
         buttonPositive.text = caption
     }
 
-    override fun setNegativeButtonCaption(caption: String) {
-        buttonNegative.text = caption
-    }
-
     private fun setListenerEvents() {
         buttonPositive.setOnClickListener {
             for (listener in getListeners()) {
-                listener.onPositiveButtonClicked()
-            }
-        }
-
-        buttonNegative.setOnClickListener {
-            for (listener in getListeners()) {
-                listener.onNegativeButtonClicked()
+                listener.onButtonClicked()
             }
         }
     }

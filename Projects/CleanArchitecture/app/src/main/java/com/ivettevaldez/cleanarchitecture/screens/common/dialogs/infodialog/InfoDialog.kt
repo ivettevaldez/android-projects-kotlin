@@ -2,21 +2,16 @@ package com.ivettevaldez.cleanarchitecture.screens.common.dialogs.infodialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import com.ivettevaldez.cleanarchitecture.R
 import com.ivettevaldez.cleanarchitecture.screens.common.dialogs.BaseDialog
-import kotlinx.android.synthetic.main.dialog_info.*
 
 private const val ARG_TITLE: String = "ARG_TITLE"
 private const val ARG_MESSAGE: String = "ARG_MESSAGE"
 private const val ARG_BUTTON_CAPTION: String = "ARG_BUTTON_CAPTION"
 
-class InfoDialog private constructor() : BaseDialog() {
+class InfoDialog : BaseDialog(),
+    IInfoViewMvc.Listener {
 
-    private lateinit var textTitle: TextView
-    private lateinit var textMessage: TextView
-    private lateinit var buttonPositive: Button
+    private lateinit var viewMvc: IInfoViewMvc
 
     companion object {
 
@@ -32,32 +27,45 @@ class InfoDialog private constructor() : BaseDialog() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewMvc = getCompositionRoot().getViewMvcFactory().getInfoViewMvc(null)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (arguments == null) {
             throw IllegalArgumentException("Arguments must not be null")
         }
 
         val dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.dialog_info)
+        dialog.setContentView(viewMvc.getRootView())
 
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
 
-        textTitle = dialog.info_text_title
-        textMessage = dialog.info_text_message
-        buttonPositive = dialog.info_button_positive
-
-        textTitle.text = arguments!!.getString(ARG_TITLE)
-        textMessage.text = arguments!!.getString(ARG_MESSAGE)
-        buttonPositive.text = arguments!!.getString(ARG_BUTTON_CAPTION)
-
-        buttonPositive.setOnClickListener {
-            onButtonClicked()
-        }
+        viewMvc.setTitle(getTitle())
+        viewMvc.setMessage(getMessage())
+        viewMvc.setPositiveButtonCaption(getPositiveButtonCaption())
 
         return dialog
     }
 
-    private fun onButtonClicked() {
+    override fun onStart() {
+        super.onStart()
+        viewMvc.registerListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewMvc.unregisterListener(this)
+    }
+
+    override fun onButtonClicked() {
         dismiss()
     }
+
+    private fun getTitle(): String = arguments!!.getString(ARG_TITLE) ?: ""
+
+    private fun getMessage(): String = arguments!!.getString(ARG_MESSAGE) ?: ""
+
+    private fun getPositiveButtonCaption(): String = arguments!!.getString(ARG_BUTTON_CAPTION) ?: ""
 }
