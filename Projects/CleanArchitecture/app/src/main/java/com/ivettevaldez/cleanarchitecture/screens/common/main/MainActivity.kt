@@ -2,6 +2,7 @@ package com.ivettevaldez.cleanarchitecture.screens.common.main
 
 import android.os.Bundle
 import android.widget.FrameLayout
+import com.ivettevaldez.cleanarchitecture.common.permissions.PermissionsHelper
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseActivity
 import com.ivettevaldez.cleanarchitecture.screens.common.fragmentframehelper.IFragmentFrameWrapper
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerHelper
@@ -15,11 +16,13 @@ class MainActivity : BaseActivity(),
 
     private lateinit var viewMvc: INavDrawerViewMvc
     private lateinit var screensNavigator: ScreensNavigator
+    private lateinit var permissionsHelper: PermissionsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         screensNavigator = getCompositionRoot().getScreensNavigator()
+        permissionsHelper = getCompositionRoot().getPermissionsHelper()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -48,6 +51,14 @@ class MainActivity : BaseActivity(),
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        permissionsHelper.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun getFragmentFrame(): FrameLayout = viewMvc.getFragmentFrame()

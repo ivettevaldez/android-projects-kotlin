@@ -44,6 +44,11 @@ class QuestionsListFragment : BaseFragment(),
                 SAVED_STATE_SCREEN_STATE
             ) as ScreenState
         }
+
+        fetchQuestionsUseCase = getCompositionRoot().getFetchQuestionsUseCase()
+        screensNavigator = getCompositionRoot().getScreensNavigator()
+        dialogsManager = getCompositionRoot().getDialogsManager()
+        dialogsEventBus = getCompositionRoot().getDialogsEventBus()
     }
 
     override fun onCreateView(
@@ -51,11 +56,6 @@ class QuestionsListFragment : BaseFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        fetchQuestionsUseCase = getCompositionRoot().getFetchQuestionsUseCase()
-        screensNavigator = getCompositionRoot().getScreensNavigator()
-        dialogsManager = getCompositionRoot().getDialogsManager()
-        dialogsEventBus = getCompositionRoot().getDialogsEventBus()
 
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
@@ -82,6 +82,7 @@ class QuestionsListFragment : BaseFragment(),
 
         fetchQuestionsUseCase.unregisterListener(this)
         dialogsEventBus.unregisterListener(this)
+
         viewMvc.unregisterListener(this)
     }
 

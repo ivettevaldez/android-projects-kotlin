@@ -21,6 +21,7 @@ interface IQuestionDetailsViewMvc : IObservableViewMvc<IQuestionDetailsViewMvc.L
     interface Listener {
 
         fun onNavigateUpClicked()
+        fun onLocationRequestClicked()
     }
 
     fun bindQuestion(question: Question)
@@ -83,6 +84,15 @@ class QuestionDetailsViewMvcImpl(
                 override fun onNavigateUpClicked() {
                     for (listener in getListeners()) {
                         listener.onNavigateUpClicked()
+                    }
+                }
+            }
+        )
+        toolbarViewMvc.enableLocationAndListen(
+            object : IToolbarViewMvc.LocationClickListener {
+                override fun onLocationClicked() {
+                    for (listener in getListeners()) {
+                        listener.onLocationRequestClicked()
                     }
                 }
             }

@@ -20,9 +20,14 @@ interface IToolbarViewMvc : IViewMvc {
         fun onNavigateUpClicked()
     }
 
+    interface LocationClickListener {
+        fun onLocationClicked()
+    }
+
     fun setTitle(title: String)
     fun enableMenuAndListen(listener: MenuClickListener)
     fun enableUpNavigationAndListen(listener: NavigateUpClickListener)
+    fun enableLocationAndListen(listener: LocationClickListener)
 }
 
 class ToolbarViewMvcImpl(
@@ -34,9 +39,11 @@ class ToolbarViewMvcImpl(
     private val textTitle: TextView
     private val buttonMenu: ImageButton
     private val buttonNavigateUp: ImageButton
+    private val buttonLocation: ImageButton
 
     private var menuClickListener: IToolbarViewMvc.MenuClickListener? = null
     private var navigateUpClickListener: IToolbarViewMvc.NavigateUpClickListener? = null
+    private var locationClickListener: IToolbarViewMvc.LocationClickListener? = null
 
     init {
 
@@ -47,6 +54,7 @@ class ToolbarViewMvcImpl(
         textTitle = getRootView().toolbar_text_title
         buttonMenu = getRootView().toolbar_button_menu
         buttonNavigateUp = getRootView().toolbar_button_navigate_up
+        buttonLocation = getRootView().toolbar_button_location
 
         setListenerEvents()
     }
@@ -71,6 +79,14 @@ class ToolbarViewMvcImpl(
         buttonNavigateUp.visibility = View.VISIBLE
     }
 
+    override fun enableLocationAndListen(listener: IToolbarViewMvc.LocationClickListener) {
+        if (menuClickListener != null) {
+            throw Exception("Menu and Location shouldn't be shown together")
+        }
+        locationClickListener = listener
+        buttonLocation.visibility = View.VISIBLE
+    }
+
     private fun setListenerEvents() {
         buttonMenu.setOnClickListener {
             menuClickListener!!.onMenuClicked()
@@ -78,6 +94,10 @@ class ToolbarViewMvcImpl(
 
         buttonNavigateUp.setOnClickListener {
             navigateUpClickListener!!.onNavigateUpClicked()
+        }
+
+        buttonLocation.setOnClickListener {
+            locationClickListener!!.onLocationClicked()
         }
     }
 }

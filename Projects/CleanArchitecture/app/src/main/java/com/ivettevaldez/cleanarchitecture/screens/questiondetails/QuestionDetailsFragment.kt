@@ -1,9 +1,11 @@
 package com.ivettevaldez.cleanarchitecture.screens.questiondetails
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ivettevaldez.cleanarchitecture.common.permissions.PermissionsHelper
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.Question
 import com.ivettevaldez.cleanarchitecture.screens.common.controllers.BaseFragment
@@ -16,11 +18,13 @@ import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreensNavig
 
 private const val ARG_QUESTION_ID = "ARG_QUESTION_ID"
 private const val SAVED_STATE_SCREEN_STATE = "SAVED_STATE_SCREEN_STATE"
+private const val REQUEST_CODE_LOCATION = 1001
 
 class QuestionDetailsFragment : BaseFragment(),
     IQuestionDetailsViewMvc.Listener,
     FetchQuestionDetailsUseCase.Listener,
-    DialogsEventBus.Listener {
+    DialogsEventBus.Listener,
+    PermissionsHelper.Listener {
 
     private var screenState: ScreenState = ScreenState.IDLE
 
@@ -30,6 +34,7 @@ class QuestionDetailsFragment : BaseFragment(),
     private lateinit var screensNavigator: ScreensNavigator
     private lateinit var dialogsManager: DialogsManager
     private lateinit var dialogsEventBus: DialogsEventBus
+    private lateinit var permissionsHelper: PermissionsHelper
     private lateinit var viewMvc: IQuestionDetailsViewMvc
 
     enum class ScreenState {
@@ -59,6 +64,12 @@ class QuestionDetailsFragment : BaseFragment(),
                 SAVED_STATE_SCREEN_STATE
             ) as ScreenState
         }
+
+        fetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase()
+        screensNavigator = getCompositionRoot().getScreensNavigator()
+        dialogsManager = getCompositionRoot().getDialogsManager()
+        dialogsEventBus = getCompositionRoot().getDialogsEventBus()
+        permissionsHelper = getCompositionRoot().getPermissionsHelper()
     }
 
     override fun onCreateView(
@@ -66,12 +77,6 @@ class QuestionDetailsFragment : BaseFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        fetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase()
-        screensNavigator = getCompositionRoot().getScreensNavigator()
-        dialogsManager = getCompositionRoot().getDialogsManager()
-        dialogsEventBus = getCompositionRoot().getDialogsEventBus()
-
         viewMvc = getCompositionRoot()
             .getViewMvcFactory()
             .getQuestionDetailsViewMvc(container)
@@ -84,6 +89,7 @@ class QuestionDetailsFragment : BaseFragment(),
 
         fetchQuestionDetailsUseCase.registerListener(this)
         dialogsEventBus.registerListener(this)
+        permissionsHelper.registerListener(this)
 
         viewMvc.registerListener(this)
 
@@ -97,6 +103,8 @@ class QuestionDetailsFragment : BaseFragment(),
 
         fetchQuestionDetailsUseCase.unregisterListener(this)
         dialogsEventBus.unregisterListener(this)
+        permissionsHelper.unregisterListener(this)
+
         viewMvc.unregisterListener(this)
     }
 
@@ -109,6 +117,17 @@ class QuestionDetailsFragment : BaseFragment(),
         screensNavigator.navigateUp()
     }
 
+    override fun onLocationRequestClicked() {
+        if (permissionsHelper.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            dialogsManager.showPermissionGranted(null)
+        } else {
+            permissionsHelper.requestPermission(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                REQUEST_CODE_LOCATION
+            )
+        }
+    }
+
     override fun onDialogEvent(event: Any) {
         if (event is PromptDialogEvent) {
             when (event.clickedButton) {
@@ -119,6 +138,24 @@ class QuestionDetailsFragment : BaseFragment(),
                     screenState = ScreenState.IDLE
                 }
             }
+        }
+    }
+
+    override fun onPermissionGranted(permission: String, requestCode: Int) {
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            dialogsManager.showPermissionGranted(null)
+        }
+    }
+
+    override fun onPermissionDeclined(permission: String, requestCode: Int) {
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            dialogsManager.showPermissionDeclined(null)
+        }
+    }
+
+    override fun onPermissionDeclinedAndDontAskAgain(permission: String, requestCode: Int) {
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            dialogsManager.showPermissionDeclinedAndDontAskAgain(null)
         }
     }
 

@@ -12,6 +12,33 @@ class DialogsManager(
     private val fragmentManager: FragmentManager
 ) {
 
+    fun showPermissionGranted(tag: String?) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.permission_dialog_title),
+            getString(R.string.permission_dialog_granted_message),
+            getString(R.string.permission_dialog_positive_button_caption)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
+    fun showPermissionDeclined(tag: String?) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.permission_dialog_title),
+            getString(R.string.permission_declined_dialog_message),
+            getString(R.string.permission_dialog_positive_button_caption)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
+    fun showPermissionDeclinedAndDontAskAgain(tag: String?) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.permission_dialog_title),
+            getString(R.string.permission_declined_forever_dialog_message),
+            getString(R.string.permission_dialog_positive_button_caption)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
     fun showNullQuestionError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_network_callback_failed_title),

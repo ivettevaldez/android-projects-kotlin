@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CleanArchitecture</string>
+    <string name="app_name">CLEAN</string>
 
     <string name="error_oops">Oops! An error occurred</string>
     <string name="error_null_question">Null question!</string>
@@ -10,6 +10,14 @@
     <string name="error_network_callback_failed_positive_button_caption">Retry</string>
     <string name="error_network_callback_failed_negative_button_caption">OK</string>
 
+    <string name="permission_dialog_title">Permission dialog</string>
+    <string name="permission_dialog_positive_button_caption">OK</string>
+    <string name="permission_dialog_granted_message">Permission granted!</string>
+    <string name="permission_declined_dialog_message">Permission declined</string>
+    <string name="permission_declined_forever_dialog_message">
+        Permission declined and can\'t ask anymore
+    </string>
+
     <string name="menu_latest_questions">Latest questions</string>
 
     <string name="questions_list_title">LATEST QUESTIONS</string>
@@ -17,4 +25,5 @@
 
     <string name="content_menu">Menu</string>
     <string name="content_navigate_up">Navigate up</string>
+    <string name="content_location">Location</string>
 </resources>
