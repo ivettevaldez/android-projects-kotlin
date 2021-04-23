@@ -1,8 +1,8 @@
 package com.ivettevaldez.cleanarchitecture.screens.common.dialogs
 
 import androidx.fragment.app.DialogFragment
-import com.ivettevaldez.cleanarchitecture.common.CustomApplication
 import com.ivettevaldez.cleanarchitecture.common.dependencyinjection.ControllerCompositionRoot
+import com.ivettevaldez.cleanarchitecture.screens.common.main.MainActivity
 
 abstract class BaseDialog : DialogFragment() {
 
@@ -11,8 +11,7 @@ abstract class BaseDialog : DialogFragment() {
     fun getCompositionRoot(): ControllerCompositionRoot {
         if (controllerCompositionRoot == null) {
             controllerCompositionRoot = ControllerCompositionRoot(
-                requireActivity(),
-                (requireActivity().application as CustomApplication).getCompositionRoot()
+                (requireActivity() as MainActivity).getActivityCompositionRoot()
             )
         }
         return controllerCompositionRoot!!

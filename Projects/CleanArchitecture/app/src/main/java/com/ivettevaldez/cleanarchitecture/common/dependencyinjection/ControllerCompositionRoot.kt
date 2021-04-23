@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
+import com.ivettevaldez.cleanarchitecture.common.permissions.PermissionsHelper
 import com.ivettevaldez.cleanarchitecture.networking.StackOverflowApi
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.cleanarchitecture.questions.FetchQuestionsUseCase
@@ -16,24 +17,36 @@ import com.ivettevaldez.cleanarchitecture.screens.common.navigation.INavDrawerHe
 import com.ivettevaldez.cleanarchitecture.screens.common.navigation.ScreensNavigator
 
 class ControllerCompositionRoot(
-    private val activity: FragmentActivity,
-    private val compositionRoot: CompositionRoot
+    private val activityCompositionRoot: ActivityCompositionRoot
 ) {
 
-    private fun getActivity(): FragmentActivity = activity
+    private fun getActivity(): FragmentActivity {
+        return activityCompositionRoot.activity
+    }
 
-    private fun getContext(): Context = activity.applicationContext
+    private fun getContext(): Context {
+        return activityCompositionRoot.activity.applicationContext
+    }
 
-    private fun getStackOverflowApi(): StackOverflowApi = compositionRoot.getStackOverflowApi()
+    private fun getStackOverflowApi(): StackOverflowApi {
+        return activityCompositionRoot.getStackOverflowApi()
+    }
 
-    private fun getFragmentManager(): FragmentManager = getActivity().supportFragmentManager
+    private fun getFragmentManager(): FragmentManager {
+        return getActivity().supportFragmentManager
+    }
 
-    private fun getFragmentFrameWrapper(): IFragmentFrameWrapper =
-        getActivity() as IFragmentFrameWrapper
+    private fun getFragmentFrameWrapper(): IFragmentFrameWrapper {
+        return getActivity() as IFragmentFrameWrapper
+    }
 
-    private fun getLayoutInflater(): LayoutInflater = LayoutInflater.from(getActivity())
+    private fun getLayoutInflater(): LayoutInflater {
+        return LayoutInflater.from(getActivity())
+    }
 
-    private fun getNavDrawerHelper(): INavDrawerHelper = getActivity() as INavDrawerHelper
+    private fun getNavDrawerHelper(): INavDrawerHelper {
+        return getActivity() as INavDrawerHelper
+    }
 
     private fun getFragmentFrameHelper(): FragmentFrameHelper {
         return FragmentFrameHelper(
@@ -62,7 +75,11 @@ class ControllerCompositionRoot(
     }
 
     fun getDialogsEventBus(): DialogsEventBus {
-        return compositionRoot.getDialogsEventBus()
+        return activityCompositionRoot.getDialogsEventBus()
+    }
+
+    fun getPermissionsHelper(): PermissionsHelper {
+        return activityCompositionRoot.getPermissionsHelper()
     }
 
     fun getFetchQuestionsUseCase(): FetchQuestionsUseCase {

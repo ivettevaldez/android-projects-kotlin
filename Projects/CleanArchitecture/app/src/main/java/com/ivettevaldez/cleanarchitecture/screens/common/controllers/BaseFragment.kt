@@ -1,8 +1,8 @@
 package com.ivettevaldez.cleanarchitecture.screens.common.controllers
 
 import androidx.fragment.app.Fragment
-import com.ivettevaldez.cleanarchitecture.common.CustomApplication
 import com.ivettevaldez.cleanarchitecture.common.dependencyinjection.ControllerCompositionRoot
+import com.ivettevaldez.cleanarchitecture.screens.common.main.MainActivity
 
 open class BaseFragment : Fragment() {
 
@@ -11,8 +11,7 @@ open class BaseFragment : Fragment() {
     fun getCompositionRoot(): ControllerCompositionRoot {
         if (controllerCompositionRoot == null) {
             controllerCompositionRoot = ControllerCompositionRoot(
-                requireActivity(),
-                (requireActivity().application as CustomApplication).getCompositionRoot()
+                (requireActivity() as MainActivity).getActivityCompositionRoot()
             )
         }
         return controllerCompositionRoot!!
