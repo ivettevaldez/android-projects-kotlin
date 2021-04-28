@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ivettevaldez.dependencyinjection">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".common.CustomApplication"
         android:allowBackup="true"
@@ -12,14 +14,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DependencyInjection"
         tools:ignore="AllowBackup">
-        <activity android:name=".screens.questionslist.QuestionsListActivity">
+
+        <activity
+            android:name=".screens.questionslist.QuestionsListActivity"
+            android:theme="@style/Theme.DependencyInjection.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screens.questiondetails.QuestionDetailsActivity" />
+
+        <activity
+            android:name=".screens.questiondetails.QuestionDetailsActivity"
+            android:theme="@style/Theme.DependencyInjection.NoActionBar" />
+
     </application>
 
 </manifest>
