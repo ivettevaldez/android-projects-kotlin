@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ivettevaldez.dependencyinjection.R
 import com.ivettevaldez.dependencyinjection.questions.Question
+import com.ivettevaldez.dependencyinjection.screens.common.viewsmvc.BaseViewMvc
 
 interface IQuestionsListViewMvc {
 
@@ -25,32 +25,24 @@ interface IQuestionsListViewMvc {
     fun bindQuestions(questions: List<Question>)
     fun showProgressIndicator()
     fun hideProgressIndicator()
-    fun registerListener(listener: Listener)
-    fun unregisterListener(listener: Listener)
 }
 
 class QuestionsListViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
-) : IQuestionsListViewMvc {
+) : BaseViewMvc<IQuestionsListViewMvc.Listener>(
+    inflater,
+    parent,
+    R.layout.activity_questions_list
+), IQuestionsListViewMvc {
 
-    val rootView: View = inflater.inflate(
-        R.layout.activity_questions_list, parent, false
-    )
-
-    private val context: Context get() = rootView.context
-    private val swipeRefresh: SwipeRefreshLayout
-    private val recycler: RecyclerView
-
-    private val listeners: MutableSet<IQuestionsListViewMvc.Listener> = HashSet()
+    private val swipeRefresh: SwipeRefreshLayout = findViewById(R.id.questions_list_swipe_refresh)
+    private val recycler: RecyclerView = findViewById(R.id.questions_list_recycler)
 
     private lateinit var questionsAdapter: QuestionsAdapter
     private lateinit var questions: List<Question>
 
     init {
-
-        swipeRefresh = findViewById(R.id.questions_list_swipe_refresh)
-        recycler = findViewById(R.id.questions_list_recycler)
 
         initRecycler()
         setListenerEvents()
@@ -69,14 +61,6 @@ class QuestionsListViewMvcImpl(
         if (swipeRefresh.isRefreshing) {
             swipeRefresh.isRefreshing = false
         }
-    }
-
-    override fun registerListener(listener: IQuestionsListViewMvc.Listener) {
-        listeners.add(listener)
-    }
-
-    override fun unregisterListener(listener: IQuestionsListViewMvc.Listener) {
-        listeners.remove(listener)
     }
 
     private fun initRecycler() {
@@ -112,10 +96,6 @@ class QuestionsListViewMvcImpl(
         }
 
         return dividerItemDecoration
-    }
-
-    private fun <T : View?> findViewById(@IdRes id: Int): T {
-        return rootView.findViewById<T>(id)
     }
 }
 

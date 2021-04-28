@@ -64,7 +64,7 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
         coroutineScope.coroutineContext.cancelChildren()
     }
 
-    override fun onNavigateUpClicked() {
+    override fun onBackClicked() {
         onBackPressed()
     }
 
