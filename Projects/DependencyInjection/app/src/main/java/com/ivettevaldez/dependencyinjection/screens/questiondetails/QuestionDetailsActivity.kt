@@ -5,21 +5,24 @@ package com.ivettevaldez.dependencyinjection.screens.questiondetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
-import com.ivettevaldez.dependencyinjection.screens.common.dialogs.ServerErrorDialogFragment
+import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import kotlinx.coroutines.*
 
 private const val EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID"
 
 class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Listener {
 
+    private val classTag: String = this::class.java.simpleName
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     private var questionId: String = ""
 
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+    private lateinit var dialogsNavigator: DialogsNavigator
     private lateinit var viewMvc: QuestionDetailsViewMvcImpl
 
     companion object {
@@ -35,11 +38,12 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
         super.onCreate(savedInstanceState)
 
         fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase()
-        viewMvc = QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null)
-
-        setContentView(viewMvc.rootView)
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
+
+        viewMvc = QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null)
+        setContentView(viewMvc.rootView)
     }
 
     override fun onStart() {
@@ -73,6 +77,9 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
                         onFetchFailed()
                     }
                 }
+            } catch (ex: Exception) {
+                Log.e(classTag, "Attempting to fetch question details", ex)
+                onFetchFailed()
             } finally {
                 viewMvc.hideProgressIndicator()
             }
@@ -80,8 +87,6 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
     }
 
     private fun onFetchFailed() {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(this), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showServerErrorDialog()
     }
 }

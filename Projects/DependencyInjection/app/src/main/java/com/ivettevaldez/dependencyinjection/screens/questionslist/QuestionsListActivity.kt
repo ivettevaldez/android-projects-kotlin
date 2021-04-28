@@ -3,29 +3,33 @@ package com.ivettevaldez.dependencyinjection.screens.questionslist
 /* ktlint-disable no-wildcard-imports */
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
-import com.ivettevaldez.dependencyinjection.screens.common.dialogs.ServerErrorDialogFragment
+import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import com.ivettevaldez.dependencyinjection.screens.questiondetails.QuestionDetailsActivity
 import kotlinx.coroutines.*
 
 class QuestionsListActivity : AppCompatActivity(),
     IQuestionsListViewMvc.Listener {
 
+    private val classTag: String = this::class.java.simpleName
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     private var isDataLoaded: Boolean = false
 
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    private lateinit var dialogsNavigator: DialogsNavigator
     private lateinit var viewMvc: QuestionsListViewMvcImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         fetchQuestionsUseCase = FetchQuestionsUseCase()
-        viewMvc = QuestionsListViewMvcImpl(LayoutInflater.from(this), null)
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
 
+        viewMvc = QuestionsListViewMvcImpl(LayoutInflater.from(this), null)
         setContentView(viewMvc.rootView)
     }
 
@@ -68,6 +72,9 @@ class QuestionsListActivity : AppCompatActivity(),
                         onFetchFailed()
                     }
                 }
+            } catch (ex: Exception) {
+                Log.e(classTag, "Attempting to fetch questions", ex)
+                onFetchFailed()
             } finally {
                 viewMvc.hideProgressIndicator()
             }
@@ -75,8 +82,6 @@ class QuestionsListActivity : AppCompatActivity(),
     }
 
     private fun onFetchFailed() {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(this), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showServerErrorDialog()
     }
 }
