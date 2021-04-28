@@ -5,13 +5,10 @@ package com.ivettevaldez.dependencyinjection.screens.questionslist
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.ivettevaldez.dependencyinjection.common.Constants
-import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
+import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.ServerErrorDialogFragment
 import com.ivettevaldez.dependencyinjection.screens.questiondetails.QuestionDetailsActivity
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class QuestionsListActivity : AppCompatActivity(),
     IQuestionsListViewMvc.Listener {
@@ -20,22 +17,16 @@ class QuestionsListActivity : AppCompatActivity(),
 
     private var isDataLoaded: Boolean = false
 
-    private lateinit var stackOverflowApi: StackOverflowApi
+    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
     private lateinit var viewMvc: QuestionsListViewMvcImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        fetchQuestionsUseCase = FetchQuestionsUseCase()
         viewMvc = QuestionsListViewMvcImpl(LayoutInflater.from(this), null)
 
         setContentView(viewMvc.rootView)
-
-        // Init Retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        stackOverflowApi = retrofit.create(StackOverflowApi::class.java)
     }
 
     override fun onStart() {
@@ -68,14 +59,14 @@ class QuestionsListActivity : AppCompatActivity(),
             viewMvc.showProgressIndicator()
 
             try {
-                val response = stackOverflowApi.lastActiveQuestions(20)
-                if (response.isSuccessful && response.body() != null) {
-                    viewMvc.bindQuestions(response.body()!!.questions)
-                    isDataLoaded = true
-                }
-            } catch (t: Throwable) {
-                if (t is CancellationException) {
-                    onFetchFailed()
+                when (val result = fetchQuestionsUseCase.execute()) {
+                    is FetchQuestionsUseCase.Result.Success -> {
+                        viewMvc.bindQuestions(result.questions)
+                        isDataLoaded = true
+                    }
+                    is FetchQuestionsUseCase.Result.Failure -> {
+                        onFetchFailed()
+                    }
                 }
             } finally {
                 viewMvc.hideProgressIndicator()
