@@ -7,8 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
+import com.ivettevaldez.dependencyinjection.screens.common.ScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
-import com.ivettevaldez.dependencyinjection.screens.questiondetails.QuestionDetailsActivity
 import kotlinx.coroutines.*
 
 class QuestionsListActivity : AppCompatActivity(),
@@ -20,6 +20,7 @@ class QuestionsListActivity : AppCompatActivity(),
     private var isDataLoaded: Boolean = false
 
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    private lateinit var screensNavigator: ScreensNavigator
     private lateinit var dialogsNavigator: DialogsNavigator
     private lateinit var viewMvc: QuestionsListViewMvcImpl
 
@@ -27,6 +28,7 @@ class QuestionsListActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
 
         fetchQuestionsUseCase = FetchQuestionsUseCase()
+        screensNavigator = ScreensNavigator(this)
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
 
         viewMvc = QuestionsListViewMvcImpl(LayoutInflater.from(this), null)
@@ -50,12 +52,12 @@ class QuestionsListActivity : AppCompatActivity(),
         coroutineScope.coroutineContext.cancelChildren()
     }
 
-    override fun onQuestionClicked(questionId: String) {
-        QuestionDetailsActivity.start(this, questionId)
-    }
-
     override fun onRefreshClicked() {
         fetchQuestions()
+    }
+
+    override fun onQuestionClicked(questionId: String) {
+        screensNavigator.toQuestionDetails(questionId)
     }
 
     private fun fetchQuestions() {

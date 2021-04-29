@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
+import com.ivettevaldez.dependencyinjection.screens.common.ScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import kotlinx.coroutines.*
 
@@ -22,6 +23,7 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
     private var questionId: String = ""
 
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+    private lateinit var screensNavigator: ScreensNavigator
     private lateinit var dialogsNavigator: DialogsNavigator
     private lateinit var viewMvc: QuestionDetailsViewMvcImpl
 
@@ -38,6 +40,7 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
         super.onCreate(savedInstanceState)
 
         fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase()
+        screensNavigator = ScreensNavigator(this)
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
@@ -61,7 +64,7 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
     }
 
     override fun onBackClicked() {
-        onBackPressed()
+        screensNavigator.navigateBack()
     }
 
     private fun fetchQuestionDetails() {

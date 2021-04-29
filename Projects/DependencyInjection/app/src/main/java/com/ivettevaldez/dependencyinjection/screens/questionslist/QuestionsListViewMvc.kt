@@ -18,8 +18,8 @@ interface IQuestionsListViewMvc {
 
     interface Listener {
 
-        fun onQuestionClicked(questionId: String)
         fun onRefreshClicked()
+        fun onQuestionClicked(questionId: String)
     }
 
     fun bindQuestions(questions: List<Question>)
