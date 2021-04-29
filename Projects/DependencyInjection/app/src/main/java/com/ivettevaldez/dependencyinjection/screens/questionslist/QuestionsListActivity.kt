@@ -5,14 +5,13 @@ package com.ivettevaldez.dependencyinjection.screens.questionslist
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.ivettevaldez.dependencyinjection.common.CustomApplication
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
+import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActivity
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 import kotlinx.coroutines.*
 
-class QuestionsListActivity : AppCompatActivity(),
+class QuestionsListActivity : BaseActivity(),
     IQuestionsListViewMvc.Listener {
 
     private val classTag: String = this::class.java.simpleName
@@ -30,7 +29,7 @@ class QuestionsListActivity : AppCompatActivity(),
 
         screensNavigator = ScreensNavigator(this)
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        fetchQuestionsUseCase = (application as CustomApplication).fetchQuestionsUseCase
+        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
 
         viewMvc = QuestionsListViewMvcImpl(
             LayoutInflater.from(this), null

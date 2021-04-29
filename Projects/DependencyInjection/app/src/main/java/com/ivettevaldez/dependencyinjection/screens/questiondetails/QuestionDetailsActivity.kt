@@ -7,16 +7,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.ivettevaldez.dependencyinjection.common.CustomApplication
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
+import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActivity
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 import kotlinx.coroutines.*
 
 private const val EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID"
 
-class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Listener {
+class QuestionDetailsActivity : BaseActivity(),
+    IQuestionDetailsViewMvc.Listener {
 
     private val classTag: String = this::class.java.simpleName
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -42,11 +42,13 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
 
         screensNavigator = ScreensNavigator(this)
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        fetchQuestionDetailsUseCase = (application as CustomApplication).fetchQuestionDetailsUseCase
+        fetchQuestionDetailsUseCase = compositionRoot.fetchQuestionDetailsUseCase
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
 
-        viewMvc = QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null)
+        viewMvc = QuestionDetailsViewMvcImpl(
+            LayoutInflater.from(this), null
+        )
         setContentView(viewMvc.rootView)
     }
 
