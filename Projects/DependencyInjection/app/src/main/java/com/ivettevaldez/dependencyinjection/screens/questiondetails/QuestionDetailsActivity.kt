@@ -8,9 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.ivettevaldez.dependencyinjection.common.CustomApplication
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
-import com.ivettevaldez.dependencyinjection.screens.common.ScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
+import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 import kotlinx.coroutines.*
 
 private const val EXTRA_QUESTION_ID = "EXTRA_QUESTION_ID"
@@ -22,9 +23,9 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
 
     private var questionId: String = ""
 
-    private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
     private lateinit var screensNavigator: ScreensNavigator
     private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
     private lateinit var viewMvc: QuestionDetailsViewMvcImpl
 
     companion object {
@@ -39,9 +40,9 @@ class QuestionDetailsActivity : AppCompatActivity(), IQuestionDetailsViewMvc.Lis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase()
         screensNavigator = ScreensNavigator(this)
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        fetchQuestionDetailsUseCase = (application as CustomApplication).fetchQuestionDetailsUseCase
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
 

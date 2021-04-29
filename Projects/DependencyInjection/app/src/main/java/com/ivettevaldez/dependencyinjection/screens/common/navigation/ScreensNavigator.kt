@@ -1,4 +1,4 @@
-package com.ivettevaldez.dependencyinjection.screens.common
+package com.ivettevaldez.dependencyinjection.screens.common.navigation
 
 import android.app.Activity
 import com.ivettevaldez.dependencyinjection.screens.questiondetails.QuestionDetailsActivity

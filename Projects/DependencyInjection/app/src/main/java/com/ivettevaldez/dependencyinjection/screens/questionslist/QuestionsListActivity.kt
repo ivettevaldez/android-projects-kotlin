@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.ivettevaldez.dependencyinjection.common.CustomApplication
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
-import com.ivettevaldez.dependencyinjection.screens.common.ScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
+import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 import kotlinx.coroutines.*
 
 class QuestionsListActivity : AppCompatActivity(),
@@ -19,19 +20,21 @@ class QuestionsListActivity : AppCompatActivity(),
 
     private var isDataLoaded: Boolean = false
 
-    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
     private lateinit var screensNavigator: ScreensNavigator
     private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
     private lateinit var viewMvc: QuestionsListViewMvcImpl
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fetchQuestionsUseCase = FetchQuestionsUseCase()
         screensNavigator = ScreensNavigator(this)
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        fetchQuestionsUseCase = (application as CustomApplication).fetchQuestionsUseCase
 
-        viewMvc = QuestionsListViewMvcImpl(LayoutInflater.from(this), null)
+        viewMvc = QuestionsListViewMvcImpl(
+            LayoutInflater.from(this), null
+        )
         setContentView(viewMvc.rootView)
     }
 
