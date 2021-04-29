@@ -40,8 +40,8 @@ class QuestionDetailsActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        screensNavigator = ScreensNavigator(this)
-        dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        screensNavigator = compositionRoot.screensNavigator
+        dialogsNavigator = compositionRoot.dialogsNavigator
         fetchQuestionDetailsUseCase = compositionRoot.fetchQuestionDetailsUseCase
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!

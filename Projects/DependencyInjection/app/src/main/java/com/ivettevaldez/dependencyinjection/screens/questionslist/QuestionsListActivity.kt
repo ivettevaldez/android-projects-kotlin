@@ -27,8 +27,8 @@ class QuestionsListActivity : BaseActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        screensNavigator = ScreensNavigator(this)
-        dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        screensNavigator = compositionRoot.screensNavigator
+        dialogsNavigator = compositionRoot.dialogsNavigator
         fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
 
         viewMvc = QuestionsListViewMvcImpl(
