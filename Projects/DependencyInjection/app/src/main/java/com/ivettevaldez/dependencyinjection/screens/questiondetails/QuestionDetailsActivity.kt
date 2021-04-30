@@ -20,12 +20,13 @@ class QuestionDetailsActivity : BaseActivity(),
     private val classTag: String = this::class.java.simpleName
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    private var questionId: String = ""
-
     private lateinit var screensNavigator: ScreensNavigator
     private lateinit var dialogsNavigator: DialogsNavigator
     private lateinit var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
+
     private lateinit var viewMvc: QuestionDetailsViewMvcImpl
+
+    private lateinit var questionId: String
 
     companion object {
 

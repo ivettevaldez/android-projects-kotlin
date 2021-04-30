@@ -16,12 +16,13 @@ class QuestionsListActivity : BaseActivity(),
     private val classTag: String = this::class.java.simpleName
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    private var isDataLoaded: Boolean = false
-
     private lateinit var screensNavigator: ScreensNavigator
     private lateinit var dialogsNavigator: DialogsNavigator
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+
     private lateinit var viewMvc: QuestionsListViewMvcImpl
+
+    private var isDataLoaded: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
