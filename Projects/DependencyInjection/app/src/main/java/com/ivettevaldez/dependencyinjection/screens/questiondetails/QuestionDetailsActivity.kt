@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActivity
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
@@ -46,9 +45,7 @@ class QuestionDetailsActivity : BaseActivity(),
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
 
-        viewMvc = QuestionDetailsViewMvcImpl(
-            LayoutInflater.from(this), null
-        )
+        viewMvc = compositionRoot.viewMvcFactory.newQuestionDetailsViewMvc(null)
         setContentView(viewMvc.rootView)
     }
 

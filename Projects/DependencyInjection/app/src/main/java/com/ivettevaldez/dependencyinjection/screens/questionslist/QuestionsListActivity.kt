@@ -4,7 +4,6 @@ package com.ivettevaldez.dependencyinjection.screens.questionslist
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActivity
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
@@ -31,9 +30,7 @@ class QuestionsListActivity : BaseActivity(),
         dialogsNavigator = compositionRoot.dialogsNavigator
         fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
 
-        viewMvc = QuestionsListViewMvcImpl(
-            LayoutInflater.from(this), null
-        )
+        viewMvc = compositionRoot.viewMvcFactory.newQuestionsListViewMvc(null)
         setContentView(viewMvc.rootView)
     }
 
