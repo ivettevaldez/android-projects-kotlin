@@ -11,7 +11,7 @@ open class BaseActivity : AppCompatActivity() {
     private val appCompositionRoot: AppCompositionRoot
         get() = (application as CustomApplication).appCompositionRoot
 
-    private val activityCompositionRoot by lazy {
+    val activityCompositionRoot by lazy {
         ActivityCompositionRoot(this, appCompositionRoot)
     }
 
