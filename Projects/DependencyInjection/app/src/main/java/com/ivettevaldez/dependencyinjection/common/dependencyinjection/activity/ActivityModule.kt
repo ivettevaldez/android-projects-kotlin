@@ -21,6 +21,7 @@ class ActivityModule(
     fun activity(): Activity = activity
 
     @Provides
+    @ActivityScope
     fun screensNavigator(activity: Activity) = ScreensNavigator(activity)
 
     @Provides

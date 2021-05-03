@@ -15,6 +15,7 @@ class ApplicationModule(private val application: Application) {
     fun application(): Application = application
 
     @Provides
+    @ApplicationScope
     fun retrofit(): Retrofit =
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
@@ -22,6 +23,7 @@ class ApplicationModule(private val application: Application) {
             .build()
 
     @Provides
+    @ApplicationScope
     fun stackOverflowApi(retrofit: Retrofit): StackOverflowApi =
         retrofit.create(StackOverflowApi::class.java)
 }

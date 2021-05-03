@@ -8,6 +8,7 @@ import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 import dagger.Component
 
+@ActivityScope
 @Component(modules = [ActivityModule::class])
 interface ActivityComponent {
 

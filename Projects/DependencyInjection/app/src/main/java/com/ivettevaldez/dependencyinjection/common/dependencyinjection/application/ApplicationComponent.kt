@@ -5,6 +5,7 @@ import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
 import dagger.Component
 import retrofit2.Retrofit
 
+@ApplicationScope
 @Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
 
