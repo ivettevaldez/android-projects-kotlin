@@ -1,5 +1,6 @@
-package com.ivettevaldez.dependencyinjection.common.composition
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection
 
+import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -7,7 +8,7 @@ import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 
 class ActivityCompositionRoot(
-    private val activity: AppCompatActivity,
+    val activity: AppCompatActivity,
     private val appCompositionRoot: AppCompositionRoot
 ) {
 
@@ -15,7 +16,9 @@ class ActivityCompositionRoot(
         ScreensNavigator(activity)
     }
 
-    val layoutInflater: LayoutInflater get() = LayoutInflater.from(activity)
+    val application: Application get() = appCompositionRoot.application
+
+    val layoutInflater: LayoutInflater get() = LayoutInflater.from(application)
 
     val fragmentManager: FragmentManager get() = activity.supportFragmentManager
 

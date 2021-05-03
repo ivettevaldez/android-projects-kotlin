@@ -2,9 +2,10 @@ package com.ivettevaldez.dependencyinjection.screens.common.controllers
 
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.common.CustomApplication
-import com.ivettevaldez.dependencyinjection.common.composition.ActivityCompositionRoot
-import com.ivettevaldez.dependencyinjection.common.composition.AppCompositionRoot
-import com.ivettevaldez.dependencyinjection.common.composition.PresentationCompositionRoot
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.ActivityCompositionRoot
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.AppCompositionRoot
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Injector
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.PresentationCompositionRoot
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -15,7 +16,9 @@ open class BaseActivity : AppCompatActivity() {
         ActivityCompositionRoot(this, appCompositionRoot)
     }
 
-    protected val compositionRoot by lazy {
+    private val compositionRoot by lazy {
         PresentationCompositionRoot(activityCompositionRoot)
     }
+
+    protected val injector get() = Injector(compositionRoot)
 }

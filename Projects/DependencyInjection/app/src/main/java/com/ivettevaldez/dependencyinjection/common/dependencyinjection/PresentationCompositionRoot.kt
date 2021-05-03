@@ -1,5 +1,7 @@
-package com.ivettevaldez.dependencyinjection.common.composition
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection
 
+import android.app.Activity
+import android.app.Application
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
@@ -17,11 +19,15 @@ class PresentationCompositionRoot(private val activityCompositionRoot: ActivityC
 
     private val stackOverflowApi: StackOverflowApi get() = activityCompositionRoot.stackOverflowApi
 
+    val application: Application get() = activityCompositionRoot.application
+
+    val activity: Activity get() = activityCompositionRoot.activity
+
     val screensNavigator: ScreensNavigator get() = activityCompositionRoot.screensNavigator
 
-    val viewMvcFactory get() = ViewMvcFactory(layoutInflater)
-
     val dialogsNavigator get() = DialogsNavigator(fragmentManager)
+
+    val viewMvcFactory get() = ViewMvcFactory(layoutInflater)
 
     val fetchQuestionsUseCase get() = FetchQuestionsUseCase(stackOverflowApi)
 

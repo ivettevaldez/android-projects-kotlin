@@ -7,10 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Service
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseFragment
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.dependencyinjection.screens.common.viewsmvc.ViewMvcFactory
 import kotlinx.coroutines.*
 
 class QuestionsListFragment : BaseFragment(),
@@ -19,9 +21,17 @@ class QuestionsListFragment : BaseFragment(),
     private val classTag: String = this::class.java.simpleName
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
+    @field: Service
     private lateinit var screensNavigator: ScreensNavigator
+
+    @field: Service
     private lateinit var dialogsNavigator: DialogsNavigator
+
+    @field: Service
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+
+    @field: Service
+    private lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var viewMvc: QuestionsListViewMvcImpl
 
@@ -33,11 +43,8 @@ class QuestionsListFragment : BaseFragment(),
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.inject(this)
         super.onCreate(savedInstanceState)
-
-        screensNavigator = compositionRoot.screensNavigator
-        dialogsNavigator = compositionRoot.dialogsNavigator
-        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
     }
 
     override fun onCreateView(
@@ -45,7 +52,7 @@ class QuestionsListFragment : BaseFragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewMvc = compositionRoot.viewMvcFactory.newQuestionsListViewMvc(null)
+        viewMvc = viewMvcFactory.newQuestionsListViewMvc(null)
         return viewMvc.rootView
     }
 

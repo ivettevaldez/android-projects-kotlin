@@ -9,7 +9,7 @@ class FetchQuestionsUseCase(private val stackOverflowApi: StackOverflowApi) {
 
     sealed class Result {
 
-        class Success(val questions: List<Question>) : Result()
+        data class Success(val questions: List<Question>) : Result()
         object Failure : Result()
     }
 
