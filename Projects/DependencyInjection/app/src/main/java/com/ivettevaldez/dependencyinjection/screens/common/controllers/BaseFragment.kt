@@ -1,19 +1,17 @@
 package com.ivettevaldez.dependencyinjection.screens.common.controllers
 
 import androidx.fragment.app.Fragment
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.DaggerPresentationComponent
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Injector
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.PresentationModule
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.*
 
 open class BaseFragment : Fragment() {
 
-    private val activityCompositionRoot by lazy {
-        (requireActivity() as BaseActivity).activityCompositionRoot
+    private val activityComponent: ActivityComponent by lazy {
+        (requireActivity() as BaseActivity).activityComponent
     }
 
-    private val presentationComponent by lazy {
+    private val presentationComponent: PresentationComponent by lazy {
         DaggerPresentationComponent.builder()
-            .presentationModule(PresentationModule(activityCompositionRoot))
+            .presentationModule(PresentationModule(activityComponent))
             .build()
     }
 
