@@ -7,7 +7,7 @@ import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNav
 import com.ivettevaldez.dependencyinjection.screens.common.viewsmvc.ViewMvcFactory
 import java.lang.reflect.Field
 
-class Injector(private val compositionRoot: PresentationCompositionRoot) {
+class Injector(private val component: PresentationComponent) {
 
     fun inject(client: Any) {
         for (field in getAllFields(client)) {
@@ -41,19 +41,19 @@ class Injector(private val compositionRoot: PresentationCompositionRoot) {
     private fun getServiceForClass(type: Class<*>): Any {
         return when (type) {
             ScreensNavigator::class.java -> {
-                compositionRoot.screensNavigator
+                component.screensNavigator()
             }
             DialogsNavigator::class.java -> {
-                compositionRoot.dialogsNavigator
+                component.dialogsNavigator()
             }
             ViewMvcFactory::class.java -> {
-                compositionRoot.viewMvcFactory
+                component.viewMvcFactory()
             }
             FetchQuestionsUseCase::class.java -> {
-                compositionRoot.fetchQuestionsUseCase
+                component.fetchQuestionsUseCase()
             }
             FetchQuestionDetailsUseCase::class.java -> {
-                compositionRoot.fetchQuestionDetailsUseCase
+                component.fetchQuestionDetailsUseCase()
             }
             else -> {
                 throw Exception("Unsupported Service type: $type")

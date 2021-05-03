@@ -1,11 +1,10 @@
 package com.ivettevaldez.dependencyinjection.screens.common.controllers
 
+/* ktlint-disable no-wildcard-imports */
+
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.common.CustomApplication
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.ActivityCompositionRoot
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.AppCompositionRoot
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Injector
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.PresentationCompositionRoot
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.*
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -16,9 +15,11 @@ open class BaseActivity : AppCompatActivity() {
         ActivityCompositionRoot(this, appCompositionRoot)
     }
 
-    private val compositionRoot by lazy {
-        PresentationCompositionRoot(activityCompositionRoot)
+    private val presentationComponent by lazy {
+        DaggerPresentationComponent.builder()
+            .presentationModule(PresentationModule(activityCompositionRoot))
+            .build()
     }
 
-    protected val injector get() = Injector(compositionRoot)
+    protected val injector get() = Injector(presentationComponent)
 }
