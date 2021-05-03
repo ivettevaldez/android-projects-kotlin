@@ -1,4 +1,4 @@
-package com.ivettevaldez.dependencyinjection.common.dependencyinjection
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection.application
 
 import android.app.Application
 import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi

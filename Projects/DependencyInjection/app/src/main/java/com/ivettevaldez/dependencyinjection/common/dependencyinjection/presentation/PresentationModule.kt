@@ -1,9 +1,10 @@
-package com.ivettevaldez.dependencyinjection.common.dependencyinjection
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation
 
 import android.app.Activity
 import android.app.Application
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentManager
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
 import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase

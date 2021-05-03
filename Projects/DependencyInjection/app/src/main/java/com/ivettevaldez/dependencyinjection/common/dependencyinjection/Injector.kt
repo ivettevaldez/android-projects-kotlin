@@ -1,5 +1,6 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection
 
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationComponent
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator

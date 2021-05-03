@@ -1,4 +1,4 @@
-package com.ivettevaldez.dependencyinjection.common.dependencyinjection
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity
 
 import android.app.Activity
 import android.app.Application

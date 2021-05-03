@@ -1,10 +1,11 @@
-package com.ivettevaldez.dependencyinjection.common.dependencyinjection
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity
 
 import android.app.Activity
 import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationComponent
 import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 import dagger.Module

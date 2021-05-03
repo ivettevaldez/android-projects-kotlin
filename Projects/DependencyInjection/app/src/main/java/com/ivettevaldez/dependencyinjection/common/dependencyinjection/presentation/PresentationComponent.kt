@@ -1,4 +1,4 @@
-package com.ivettevaldez.dependencyinjection.common.dependencyinjection
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation
 
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase

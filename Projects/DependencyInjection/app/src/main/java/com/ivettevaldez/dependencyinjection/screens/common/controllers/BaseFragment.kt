@@ -4,6 +4,10 @@ package com.ivettevaldez.dependencyinjection.screens.common.controllers
 
 import androidx.fragment.app.Fragment
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.*
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.DaggerPresentationComponent
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationComponent
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationModule
 
 open class BaseFragment : Fragment() {
 
