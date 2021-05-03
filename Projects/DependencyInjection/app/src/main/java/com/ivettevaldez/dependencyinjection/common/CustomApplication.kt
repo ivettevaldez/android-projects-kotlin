@@ -1,14 +1,14 @@
 package com.ivettevaldez.dependencyinjection.common
 
 import android.app.Application
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.AppCompositionRoot
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.ApplicationModule
 
 class CustomApplication : Application() {
 
-    lateinit var appCompositionRoot: AppCompositionRoot
+    lateinit var applicationModule: ApplicationModule
 
     override fun onCreate() {
-        appCompositionRoot = AppCompositionRoot(this)
+        applicationModule = ApplicationModule(this)
         super.onCreate()
     }
 }

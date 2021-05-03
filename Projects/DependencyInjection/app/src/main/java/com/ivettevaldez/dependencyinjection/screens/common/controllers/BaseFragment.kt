@@ -1,5 +1,7 @@
 package com.ivettevaldez.dependencyinjection.screens.common.controllers
 
+/* ktlint-disable no-wildcard-imports */
+
 import androidx.fragment.app.Fragment
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.*
 

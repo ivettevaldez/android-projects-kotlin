@@ -1,23 +1,27 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection
 
 import android.app.Application
-import androidx.annotation.UiThread
 import com.ivettevaldez.dependencyinjection.common.Constants
 import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
+import dagger.Module
+import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@UiThread
-class AppCompositionRoot(val application: Application) {
+@Module
+class ApplicationModule(private val application: Application) {
 
-    private val retrofit: Retrofit by lazy {
+    @Provides
+    fun application(): Application = application
+
+    @Provides
+    fun retrofit(): Retrofit =
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
 
-    val stackOverflowApi: StackOverflowApi by lazy {
+    @Provides
+    fun stackOverflowApi(retrofit: Retrofit): StackOverflowApi =
         retrofit.create(StackOverflowApi::class.java)
-    }
 }
