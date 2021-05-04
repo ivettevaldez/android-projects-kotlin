@@ -1,11 +1,8 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity
 
-import android.app.Activity
-import android.view.LayoutInflater
-import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationComponent
-import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
-import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationComponent
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationModule
 import dagger.Component
 
 @ActivityScope
@@ -15,9 +12,5 @@ import dagger.Component
 )
 interface ActivityComponent {
 
-    fun activity(): Activity
-    fun screensNavigator(): ScreensNavigator
-    fun layoutInflater(): LayoutInflater
-    fun fragmentManager(): FragmentManager
-    fun stackOverflowApi(): StackOverflowApi
+    fun newPresentationComponent(presentationModule: PresentationModule): PresentationComponent
 }

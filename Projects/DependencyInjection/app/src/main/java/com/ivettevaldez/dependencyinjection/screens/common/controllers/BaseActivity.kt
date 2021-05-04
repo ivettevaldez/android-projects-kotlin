@@ -7,7 +7,6 @@ import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationModule
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.DaggerApplicationComponent
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.DaggerPresentationComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationModule
 
@@ -27,10 +26,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     private val presentationComponent: PresentationComponent by lazy {
-        DaggerPresentationComponent.builder()
-            .activityComponent(activityComponent)
-            .presentationModule(PresentationModule())
-            .build()
+        activityComponent.newPresentationComponent(PresentationModule())
     }
 
     protected val injector get() = presentationComponent
