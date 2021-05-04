@@ -21,7 +21,8 @@ open class BaseActivity : AppCompatActivity() {
 
     val activityComponent: ActivityComponent by lazy {
         DaggerActivityComponent.builder()
-            .activityModule(ActivityModule(this, applicationComponent))
+            .applicationComponent(applicationComponent)
+            .activityModule(ActivityModule(this))
             .build()
     }
 
