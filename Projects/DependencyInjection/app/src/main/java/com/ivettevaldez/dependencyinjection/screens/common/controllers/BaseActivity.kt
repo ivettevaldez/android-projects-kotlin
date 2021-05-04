@@ -3,7 +3,6 @@ package com.ivettevaldez.dependencyinjection.screens.common.controllers
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityModule
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.DaggerActivityComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationModule
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.DaggerApplicationComponent
@@ -19,10 +18,7 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     val activityComponent: ActivityComponent by lazy {
-        DaggerActivityComponent.builder()
-            .applicationComponent(applicationComponent)
-            .activityModule(ActivityModule(this))
-            .build()
+        applicationComponent.newActivityComponent(ActivityModule(this))
     }
 
     private val presentationComponent: PresentationComponent by lazy {

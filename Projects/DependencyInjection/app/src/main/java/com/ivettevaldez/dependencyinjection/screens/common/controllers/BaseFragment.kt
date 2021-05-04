@@ -6,10 +6,9 @@ import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentat
 
 open class BaseFragment : Fragment() {
 
-    private val activityComponent = (requireActivity() as BaseActivity).activityComponent
-
     private val presentationComponent: PresentationComponent by lazy {
-        activityComponent.newPresentationComponent(PresentationModule())
+        (requireActivity() as BaseActivity).activityComponent
+            .newPresentationComponent(PresentationModule())
     }
 
     protected val injector get() = presentationComponent
