@@ -7,13 +7,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Service
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseFragment
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.viewsmvc.ViewMvcFactory
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
 class QuestionsListFragment : BaseFragment(),
     IQuestionsListViewMvc.Listener {
@@ -21,17 +21,17 @@ class QuestionsListFragment : BaseFragment(),
     private val classTag: String = this::class.java.simpleName
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    @field: Service
-    private lateinit var screensNavigator: ScreensNavigator
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
 
-    @field: Service
-    private lateinit var dialogsNavigator: DialogsNavigator
+    @Inject
+    lateinit var dialogsNavigator: DialogsNavigator
 
-    @field: Service
-    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
+    @Inject
+    lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
 
-    @field: Service
-    private lateinit var viewMvcFactory: ViewMvcFactory
+    @Inject
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var viewMvc: QuestionsListViewMvcImpl
 

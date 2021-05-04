@@ -3,7 +3,6 @@ package com.ivettevaldez.dependencyinjection.screens.common.controllers
 /* ktlint-disable no-wildcard-imports */
 
 import androidx.fragment.app.Fragment
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.*
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.DaggerPresentationComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationComponent
@@ -21,5 +20,5 @@ open class BaseFragment : Fragment() {
             .build()
     }
 
-    protected val injector get() = Injector(presentationComponent)
+    protected val injector get() = presentationComponent
 }

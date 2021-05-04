@@ -3,7 +3,6 @@ package com.ivettevaldez.dependencyinjection.screens.common.controllers
 /* ktlint-disable no-wildcard-imports */
 
 import androidx.appcompat.app.AppCompatActivity
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Injector
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityModule
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.DaggerActivityComponent
@@ -34,5 +33,5 @@ open class BaseActivity : AppCompatActivity() {
             .build()
     }
 
-    protected val injector get() = Injector(presentationComponent)
+    protected val injector get() = presentationComponent
 }
