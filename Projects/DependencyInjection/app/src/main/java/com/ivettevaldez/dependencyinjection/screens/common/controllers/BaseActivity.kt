@@ -1,7 +1,5 @@
 package com.ivettevaldez.dependencyinjection.screens.common.controllers
 
-/* ktlint-disable no-wildcard-imports */
-
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityModule
@@ -29,7 +27,8 @@ open class BaseActivity : AppCompatActivity() {
 
     private val presentationComponent: PresentationComponent by lazy {
         DaggerPresentationComponent.builder()
-            .presentationModule(PresentationModule(activityComponent))
+            .activityComponent(activityComponent)
+            .presentationModule(PresentationModule())
             .build()
     }
 
