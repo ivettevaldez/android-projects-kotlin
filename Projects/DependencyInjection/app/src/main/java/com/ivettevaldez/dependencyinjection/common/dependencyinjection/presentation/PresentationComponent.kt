@@ -5,7 +5,7 @@ import com.ivettevaldez.dependencyinjection.screens.questionslist.QuestionsListF
 import dagger.Subcomponent
 
 @PresentationScope
-@Subcomponent(modules = [PresentationModule::class, UseCasesModule::class])
+@Subcomponent
 interface PresentationComponent {
 
     fun inject(fragment: QuestionsListFragment)
