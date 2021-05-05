@@ -1,6 +1,5 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity
 
-import android.app.Activity
 import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -13,11 +12,11 @@ import dagger.Provides
 class ActivityModule(private val activity: AppCompatActivity) {
 
     @Provides
-    fun activity(): Activity = activity
+    fun activity(): AppCompatActivity = activity
 
     @Provides
     @ActivityScope
-    fun screensNavigator(activity: Activity) = ScreensNavigator(activity)
+    fun screensNavigator(activity: AppCompatActivity) = ScreensNavigator(activity)
 
     @Provides
     fun layoutInflater(application: Application): LayoutInflater = LayoutInflater.from(application)

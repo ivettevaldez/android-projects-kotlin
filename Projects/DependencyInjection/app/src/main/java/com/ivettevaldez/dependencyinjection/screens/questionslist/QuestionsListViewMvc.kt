@@ -33,7 +33,7 @@ class QuestionsListViewMvcImpl(
 ) : BaseViewMvc<IQuestionsListViewMvc.Listener>(
     inflater,
     parent,
-    R.layout.activity_questions_list
+    R.layout.layout_questions_list
 ), IQuestionsListViewMvc {
 
     private val swipeRefresh: SwipeRefreshLayout = findViewById(R.id.questions_list_swipe_refresh)

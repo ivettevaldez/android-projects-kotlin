@@ -1,9 +1,9 @@
 package com.ivettevaldez.dependencyinjection.screens.common.navigation
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.dependencyinjection.screens.questiondetails.QuestionDetailsActivity
 
-class ScreensNavigator(private val activity: Activity) {
+class ScreensNavigator(private val activity: AppCompatActivity) {
 
     fun navigateBack() {
         activity.onBackPressed()
