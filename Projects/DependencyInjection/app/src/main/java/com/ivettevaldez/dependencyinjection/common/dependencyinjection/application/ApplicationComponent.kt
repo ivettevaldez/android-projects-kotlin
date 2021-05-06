@@ -1,7 +1,6 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection.application
 
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityModule
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.service.ServiceComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.service.ServiceModule
 import dagger.Component
@@ -10,6 +9,6 @@ import dagger.Component
 @Component(modules = [ApplicationModule::class])
 interface ApplicationComponent {
 
-    fun newActivityComponent(activityModule: ActivityModule): ActivityComponent
+    fun newActivityComponentBuilder(): ActivityComponent.Builder
     fun newServiceComponent(serviceModule: ServiceModule): ServiceComponent
 }

@@ -7,13 +7,9 @@ import com.ivettevaldez.dependencyinjection.common.dependencyinjection.applicati
 
 class CustomApplication : Application() {
 
-    lateinit var applicationComponent: ApplicationComponent
-
-    override fun onCreate() {
-        applicationComponent = DaggerApplicationComponent.builder()
+    val applicationComponent: ApplicationComponent by lazy {
+        DaggerApplicationComponent.builder()
             .applicationModule(ApplicationModule(this))
             .build()
-
-        super.onCreate()
     }
 }

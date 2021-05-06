@@ -14,7 +14,10 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     val activityComponent: ActivityComponent by lazy {
-        applicationComponent.newActivityComponent(ActivityModule(this))
+        applicationComponent.newActivityComponentBuilder()
+            .activityModule(ActivityModule)
+            .activity(this)
+            .build()
     }
 
     private val presentationComponent: PresentationComponent by lazy {
