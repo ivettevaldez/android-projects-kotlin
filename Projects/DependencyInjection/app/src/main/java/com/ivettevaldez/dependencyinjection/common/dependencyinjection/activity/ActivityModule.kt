@@ -4,22 +4,27 @@ import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
-import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.dependencyinjection.screens.common.navigation.IScreensNavigator
+import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigatorImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 
 @Module
-object ActivityModule {
-    
-    @Provides
+abstract class ActivityModule {
+
     @ActivityScope
-    fun screensNavigator(activity: AppCompatActivity) = ScreensNavigator(activity)
+    @Binds
+    abstract fun screensNavigator(screensNavigator: ScreensNavigatorImpl): IScreensNavigator
 
-    @Provides
-    fun layoutInflater(application: Application): LayoutInflater =
-        LayoutInflater.from(application)
+    companion object {
 
-    @Provides
-    fun fragmentManager(activity: AppCompatActivity): FragmentManager =
-        activity.supportFragmentManager
+        @Provides
+        fun layoutInflater(application: Application): LayoutInflater =
+            LayoutInflater.from(application)
+
+        @Provides
+        fun fragmentManager(activity: AppCompatActivity): FragmentManager =
+            activity.supportFragmentManager
+    }
 }

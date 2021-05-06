@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseFragment
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
-import com.ivettevaldez.dependencyinjection.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.dependencyinjection.screens.common.navigation.IScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.viewsmvc.ViewMvcFactory
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class QuestionsListFragment : BaseFragment(),
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     @Inject
-    lateinit var screensNavigator: ScreensNavigator
+    lateinit var screensNavigator: IScreensNavigator
 
     @Inject
     lateinit var dialogsNavigator: DialogsNavigator
