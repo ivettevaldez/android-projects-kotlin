@@ -3,6 +3,8 @@ package com.ivettevaldez.dependencyinjection.screens.viewmodel
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import com.ivettevaldez.dependencyinjection.R
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActivity
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.IScreensNavigator
@@ -13,6 +15,11 @@ class ViewModelActivity : BaseActivity() {
 
     @Inject
     lateinit var screensNavigator: IScreensNavigator
+
+    @Inject
+    lateinit var viewModelFactory: MyViewModel.Factory
+
+    private lateinit var viewModel: MyViewModel
 
     private lateinit var toolbar: MyToolbar
 
@@ -34,5 +41,12 @@ class ViewModelActivity : BaseActivity() {
         toolbar.setNavigateUpListener {
             screensNavigator.navigateBack()
         }
+
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(MyViewModel::class.java)
+
+        viewModel.questions.observe(this, { questions ->
+            Toast.makeText(this, "Fetched ${questions.size}", Toast.LENGTH_SHORT).show()
+        })
     }
 }
