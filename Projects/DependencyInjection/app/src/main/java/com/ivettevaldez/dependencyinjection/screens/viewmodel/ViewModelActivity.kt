@@ -9,6 +9,7 @@ import com.ivettevaldez.dependencyinjection.R
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActivity
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.IScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.toolbar.MyToolbar
+import com.ivettevaldez.dependencyinjection.screens.common.viewmodels.ViewModelFactory
 import javax.inject.Inject
 
 class ViewModelActivity : BaseActivity() {
@@ -17,9 +18,10 @@ class ViewModelActivity : BaseActivity() {
     lateinit var screensNavigator: IScreensNavigator
 
     @Inject
-    lateinit var viewModelFactory: MyViewModel.Factory
+    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: MyViewModel
+    private lateinit var viewModel2: MyViewModel2
 
     private lateinit var toolbar: MyToolbar
 
@@ -44,6 +46,9 @@ class ViewModelActivity : BaseActivity() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(MyViewModel::class.java)
+
+        viewModel2 = ViewModelProvider(this, viewModelFactory)
+            .get(MyViewModel2::class.java)
 
         viewModel.questions.observe(this, { questions ->
             Toast.makeText(this, "Fetched ${questions.size}", Toast.LENGTH_SHORT).show()
