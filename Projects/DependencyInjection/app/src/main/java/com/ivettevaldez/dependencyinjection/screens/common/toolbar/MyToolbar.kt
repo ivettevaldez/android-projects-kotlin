@@ -25,7 +25,7 @@ class MyToolbar : Toolbar {
     private var viewModelListener: () -> Unit = {}
 
     private lateinit var navigateUp: FrameLayout
-    private lateinit var viewmodel: TextView
+    private lateinit var textViewModel: TextView
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -44,12 +44,16 @@ class MyToolbar : Toolbar {
     }
 
     private fun init(context: Context) {
-        val view = LayoutInflater.from(context).inflate(R.layout.layout_toolbar, this, true)
+        val view = LayoutInflater.from(context).inflate(
+            R.layout.layout_toolbar, this, true
+        )
+        
         setContentInsetsRelative(0, 0)
+
         navigateUp = view.findViewById(R.id.toolbar_navigate_up)
         navigateUp.setOnClickListener { navigateUpListener.invoke() }
-        viewmodel = view.findViewById(R.id.toolbar_view_model)
-        viewmodel.setOnClickListener { viewModelListener.invoke() }
+        textViewModel = view.findViewById(R.id.toolbar_view_model)
+        textViewModel.setOnClickListener { viewModelListener.invoke() }
     }
 
     fun setNavigateUpListener(navigateUpListener: () -> Unit) {
@@ -59,6 +63,6 @@ class MyToolbar : Toolbar {
 
     fun setViewModelListener(viewModelListener: () -> Unit) {
         this.viewModelListener = viewModelListener
-        viewmodel.visibility = View.VISIBLE
+        textViewModel.visibility = View.VISIBLE
     }
 }

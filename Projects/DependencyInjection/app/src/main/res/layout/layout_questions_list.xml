@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <com.ivettevaldez.dependencyinjection.screens.common.toolbar.MyToolbar
-        android:id="@+id/question_details_toolbar"
+        android:id="@+id/questions_list_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_height"
         android:background="@color/colorPrimary" />

@@ -14,7 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DependencyInjection"
         tools:ignore="AllowBackup">
-
         <activity
             android:name=".screens.questionslist.QuestionsListActivity"
             android:theme="@style/Theme.DependencyInjection.NoActionBar">
@@ -24,11 +23,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".screens.questiondetails.QuestionDetailsActivity"
             android:theme="@style/Theme.DependencyInjection.NoActionBar" />
-
+        <activity
+            android:name=".screens.viewmodel.ViewModelActivity"
+            android:theme="@style/Theme.DependencyInjection.NoActionBar" />
     </application>
-
 </manifest>

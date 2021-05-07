@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ivettevaldez.dependencyinjection.R
 import com.ivettevaldez.dependencyinjection.questions.Question
+import com.ivettevaldez.dependencyinjection.screens.common.toolbar.MyToolbar
 import com.ivettevaldez.dependencyinjection.screens.common.viewsmvc.BaseViewMvc
 
 interface IQuestionsListViewMvc {
@@ -20,6 +21,7 @@ interface IQuestionsListViewMvc {
 
         fun onRefreshClicked()
         fun onQuestionClicked(questionId: String)
+        fun onViewModelClicked()
     }
 
     fun bindQuestions(questions: List<Question>)
@@ -38,6 +40,7 @@ class QuestionsListViewMvcImpl(
 
     private val swipeRefresh: SwipeRefreshLayout = findViewById(R.id.questions_list_swipe_refresh)
     private val recycler: RecyclerView = findViewById(R.id.questions_list_recycler)
+    private val toolbar: MyToolbar = findViewById(R.id.questions_list_toolbar)
 
     private lateinit var questionsAdapter: QuestionsAdapter
     private lateinit var questions: List<Question>
@@ -77,6 +80,12 @@ class QuestionsListViewMvcImpl(
     }
 
     private fun setListenerEvents() {
+        toolbar.setViewModelListener {
+            for (listener in listeners) {
+                listener.onViewModelClicked()
+            }
+        }
+
         swipeRefresh.setOnRefreshListener {
             for (listener in listeners) {
                 listener.onRefreshClicked()

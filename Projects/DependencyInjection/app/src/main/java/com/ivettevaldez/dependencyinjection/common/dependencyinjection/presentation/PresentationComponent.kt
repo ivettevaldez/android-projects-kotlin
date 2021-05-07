@@ -2,6 +2,7 @@ package com.ivettevaldez.dependencyinjection.common.dependencyinjection.presenta
 
 import com.ivettevaldez.dependencyinjection.screens.questiondetails.QuestionDetailsActivity
 import com.ivettevaldez.dependencyinjection.screens.questionslist.QuestionsListFragment
+import com.ivettevaldez.dependencyinjection.screens.viewmodel.ViewModelActivity
 import dagger.Subcomponent
 
 @PresentationScope
@@ -10,4 +11,5 @@ interface PresentationComponent {
 
     fun inject(fragment: QuestionsListFragment)
     fun inject(activity: QuestionDetailsActivity)
+    fun inject(activity: ViewModelActivity)
 }
