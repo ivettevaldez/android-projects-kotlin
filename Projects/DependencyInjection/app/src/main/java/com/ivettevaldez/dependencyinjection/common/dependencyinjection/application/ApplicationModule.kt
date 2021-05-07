@@ -1,8 +1,10 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection.application
 
 import android.app.Application
-import com.ivettevaldez.dependencyinjection.common.Constants
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Retrofit1
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Retrofit2
 import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
+import com.ivettevaldez.dependencyinjection.networking.UrlProvider
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -16,14 +18,28 @@ class ApplicationModule(private val application: Application) {
 
     @Provides
     @ApplicationScope
-    fun retrofit(): Retrofit =
+    fun urlProvider(): UrlProvider = UrlProvider()
+
+    @Provides
+    @ApplicationScope
+    @Retrofit1
+    fun retrofit1(urlProvider: UrlProvider): Retrofit =
         Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
+            .baseUrl(urlProvider.getBaseUrl1())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
     @Provides
     @ApplicationScope
-    fun stackOverflowApi(retrofit: Retrofit): StackOverflowApi =
+    @Retrofit2
+    fun retrofit2(urlProvider: UrlProvider): Retrofit =
+        Retrofit.Builder()
+            .baseUrl(urlProvider.getBaseUrl2())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    @Provides
+    @ApplicationScope
+    fun stackOverflowApi(@Retrofit1 retrofit: Retrofit): StackOverflowApi =
         retrofit.create(StackOverflowApi::class.java)
 }
