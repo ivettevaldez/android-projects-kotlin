@@ -12,9 +12,11 @@ import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseFragm
 import com.ivettevaldez.dependencyinjection.screens.common.dialogs.DialogsNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.IScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.viewsmvc.ViewMvcFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class QuestionsListFragment : BaseFragment(),
     IQuestionsListViewMvc.Listener {
 
@@ -40,11 +42,6 @@ class QuestionsListFragment : BaseFragment(),
     companion object {
 
         fun newInstance() = QuestionsListFragment()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        injector.inject(this)
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

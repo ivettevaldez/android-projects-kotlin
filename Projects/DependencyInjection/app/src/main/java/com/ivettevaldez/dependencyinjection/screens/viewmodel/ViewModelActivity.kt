@@ -10,8 +10,10 @@ import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActiv
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.IScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.toolbar.MyToolbar
 import com.ivettevaldez.dependencyinjection.screens.common.viewmodels.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ViewModelActivity : BaseActivity() {
 
     @Inject
@@ -34,9 +36,7 @@ class ViewModelActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        injector.inject(this)
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.layout_view_model)
 
         toolbar = findViewById(R.id.view_model_toolbar)
