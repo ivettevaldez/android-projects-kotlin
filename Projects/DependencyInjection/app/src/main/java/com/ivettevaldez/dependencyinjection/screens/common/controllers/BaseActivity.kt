@@ -5,6 +5,7 @@ import com.ivettevaldez.dependencyinjection.common.CustomApplication
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationComponent
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationComponent
+import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationModule
 
 open class BaseActivity : AppCompatActivity() {
 
@@ -19,7 +20,9 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     private val presentationComponent: PresentationComponent by lazy {
-        activityComponent.newPresentationComponent()
+        activityComponent.newPresentationComponent(
+            PresentationModule(this)
+        )
     }
 
     protected val injector get() = presentationComponent

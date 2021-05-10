@@ -1,4 +1,4 @@
-package com.ivettevaldez.dependencyinjection.common.dependencyinjection
+package com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
