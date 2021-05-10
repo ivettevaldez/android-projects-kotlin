@@ -1,20 +1,19 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection.application
 
-import android.app.Application
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Retrofit1
 import com.ivettevaldez.dependencyinjection.common.dependencyinjection.Retrofit2
 import com.ivettevaldez.dependencyinjection.networking.StackOverflowApi
 import com.ivettevaldez.dependencyinjection.networking.UrlProvider
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-class ApplicationModule(private val application: Application) {
-
-    @Provides
-    fun application(): Application = application
+@InstallIn(ApplicationComponentManager::class)
+class ApplicationModule {
 
     @Provides
     @ApplicationScope

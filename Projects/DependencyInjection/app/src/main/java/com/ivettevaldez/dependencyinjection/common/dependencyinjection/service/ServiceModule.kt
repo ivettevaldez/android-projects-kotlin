@@ -1,13 +1,9 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection.service
 
-import android.app.Service
-import android.content.Context
 import dagger.Module
-import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ServiceComponent
 
 @Module
-class ServiceModule(private val service: Service) {
-
-    @Provides
-    fun context(): Context = service
-}
+@InstallIn(ServiceComponent::class)
+class ServiceModule

@@ -1,29 +1,5 @@
 package com.ivettevaldez.dependencyinjection.screens.common.controllers
 
 import androidx.appcompat.app.AppCompatActivity
-import com.ivettevaldez.dependencyinjection.common.CustomApplication
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity.ActivityComponent
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.application.ApplicationComponent
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationComponent
-import com.ivettevaldez.dependencyinjection.common.dependencyinjection.presentation.PresentationModule
 
-open class BaseActivity : AppCompatActivity() {
-
-    private val applicationComponent: ApplicationComponent by lazy {
-        (application as CustomApplication).applicationComponent
-    }
-
-    val activityComponent: ActivityComponent by lazy {
-        applicationComponent.newActivityComponentBuilder()
-            .activity(this)
-            .build()
-    }
-
-    private val presentationComponent: PresentationComponent by lazy {
-        activityComponent.newPresentationComponent(
-            PresentationModule(this)
-        )
-    }
-
-    protected val injector get() = presentationComponent
-}
+open class BaseActivity : AppCompatActivity()
