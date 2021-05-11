@@ -12,7 +12,7 @@
         android:theme="@style/Theme.SATurnus"
         tools:ignore="AllowBackup">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".screens.common.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
