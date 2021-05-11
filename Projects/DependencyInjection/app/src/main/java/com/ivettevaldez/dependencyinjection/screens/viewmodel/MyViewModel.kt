@@ -2,29 +2,27 @@ package com.ivettevaldez.dependencyinjection.screens.viewmodel
 
 /* ktlint-disable no-wildcard-imports */
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.dependencyinjection.questions.FetchQuestionsUseCase
 import com.ivettevaldez.dependencyinjection.questions.Question
-import com.ivettevaldez.dependencyinjection.screens.common.viewmodels.SavedStateViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MyViewModel @Inject constructor(
     private val fetchQuestionsUseCase: FetchQuestionsUseCase,
-    private val fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase
-) : SavedStateViewModel() {
+    private val fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private lateinit var _questions: MutableLiveData<List<Question>>
+    private val _questions: MutableLiveData<List<Question>> =
+        savedStateHandle.getLiveData("questions")
 
-    lateinit var questions: LiveData<List<Question>>
+    var questions: LiveData<List<Question>> = _questions
 
-    override fun init(savedStateHandle: SavedStateHandle) {
-        _questions = savedStateHandle.getLiveData("questions")
-        questions = _questions
+    init {
 
         viewModelScope.launch {
 

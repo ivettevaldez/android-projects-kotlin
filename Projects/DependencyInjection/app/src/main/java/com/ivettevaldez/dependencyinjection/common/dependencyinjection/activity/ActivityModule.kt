@@ -1,5 +1,6 @@
 package com.ivettevaldez.dependencyinjection.common.dependencyinjection.activity
 
+import android.app.Activity
 import android.app.Application
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
@@ -24,11 +25,14 @@ abstract class ActivityModule {
     companion object {
 
         @Provides
+        fun appCompatActivity(activity: Activity): AppCompatActivity = activity as AppCompatActivity
+
+        @Provides
         fun layoutInflater(application: Application): LayoutInflater =
             LayoutInflater.from(application)
 
         @Provides
-        fun fragmentManager(activity: AppCompatActivity): FragmentManager =
-            activity.supportFragmentManager
+        fun fragmentManager(appCompatActivity: AppCompatActivity): FragmentManager =
+            appCompatActivity.supportFragmentManager
     }
 }

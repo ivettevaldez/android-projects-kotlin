@@ -9,7 +9,6 @@ import com.ivettevaldez.dependencyinjection.R
 import com.ivettevaldez.dependencyinjection.screens.common.controllers.BaseActivity
 import com.ivettevaldez.dependencyinjection.screens.common.navigation.IScreensNavigator
 import com.ivettevaldez.dependencyinjection.screens.common.toolbar.MyToolbar
-import com.ivettevaldez.dependencyinjection.screens.common.viewmodels.ViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,9 +17,6 @@ class ViewModelActivity : BaseActivity() {
 
     @Inject
     lateinit var screensNavigator: IScreensNavigator
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: MyViewModel
     private lateinit var viewModel2: MyViewModel2
@@ -44,11 +40,8 @@ class ViewModelActivity : BaseActivity() {
             screensNavigator.navigateBack()
         }
 
-        viewModel = ViewModelProvider(this, viewModelFactory)
-            .get(MyViewModel::class.java)
-
-        viewModel2 = ViewModelProvider(this, viewModelFactory)
-            .get(MyViewModel2::class.java)
+        viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+        viewModel2 = ViewModelProvider(this).get(MyViewModel2::class.java)
 
         viewModel.questions.observe(this, { questions ->
             Toast.makeText(this, "Fetched ${questions.size}", Toast.LENGTH_SHORT).show()

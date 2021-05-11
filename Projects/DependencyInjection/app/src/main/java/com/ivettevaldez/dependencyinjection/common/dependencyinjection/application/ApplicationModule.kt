@@ -7,12 +7,12 @@ import com.ivettevaldez.dependencyinjection.networking.UrlProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.internal.managers.ApplicationComponentManager
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 @Module
-@InstallIn(ApplicationComponentManager::class)
+@InstallIn(SingletonComponent::class)
 class ApplicationModule {
 
     @Provides
