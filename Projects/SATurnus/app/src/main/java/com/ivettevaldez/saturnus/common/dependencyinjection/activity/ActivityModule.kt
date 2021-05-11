@@ -1,7 +1,7 @@
 package com.ivettevaldez.saturnus.common.dependencyinjection.activity
 
-import android.app.Application
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import dagger.Module
 import dagger.Provides
 
@@ -11,7 +11,7 @@ class ActivityModule {
     companion object {
 
         @Provides
-        fun layoutInflater(application: Application): LayoutInflater =
-            LayoutInflater.from(application)
+        fun layoutInflater(activity: AppCompatActivity): LayoutInflater =
+            LayoutInflater.from(activity)
     }
 }

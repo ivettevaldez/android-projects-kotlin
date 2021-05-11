@@ -5,5 +5,6 @@ import androidx.annotation.IdRes
 
 interface IViewMvc {
 
+    fun getRootView(): View
     fun <T : View?> findViewById(@IdRes id: Int): T
 }

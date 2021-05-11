@@ -13,9 +13,11 @@ open class BaseViewMvc(
     @LayoutRes layoutId: Int
 ) : IViewMvc {
 
-    val rootView = inflater.inflate(layoutId, parent, false)
+    private val rootView = inflater.inflate(layoutId, parent, false)
 
     protected val context get(): Context = rootView.context
+
+    override fun getRootView(): View = rootView
 
     override fun <T : View?> findViewById(@IdRes id: Int): T {
         return rootView.findViewById<T>(id)
