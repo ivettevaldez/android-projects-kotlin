@@ -2,6 +2,7 @@ package com.ivettevaldez.saturnus.screens.common.viewsmvc
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
@@ -19,5 +20,9 @@ class ViewMvcFactory @Inject constructor(
 
     fun newToolbarViewMvc(parent: ViewGroup?): IToolbarViewMvc {
         return ToolbarViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newInfoDialogViewMvc(parent: ViewGroup?): InfoDialogViewMvcImpl {
+        return InfoDialogViewMvcImpl(inflater.get(), parent)
     }
 }

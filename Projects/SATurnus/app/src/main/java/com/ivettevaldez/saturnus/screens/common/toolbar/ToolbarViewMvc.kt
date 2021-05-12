@@ -7,8 +7,9 @@ import android.widget.ImageButton
 import android.widget.TextView
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseViewMvc
+import com.ivettevaldez.saturnus.screens.common.viewsmvc.IViewMvc
 
-interface IToolbarViewMvc {
+interface IToolbarViewMvc : IViewMvc {
 
     interface MenuClickListener {
 
