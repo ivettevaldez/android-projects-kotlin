@@ -31,7 +31,7 @@ class MainActivity : BaseActivity(),
         setContentView(viewMvc.getRootView())
 
         if (savedInstanceState == null) {
-            screensNavigator.toInvoicing()
+            screensNavigator.toSplash()
         }
     }
 

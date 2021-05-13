@@ -13,6 +13,7 @@ import com.ivettevaldez.saturnus.screens.invoicing.IInvoicingViewMvc
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.IPeopleViewMvc
 import com.ivettevaldez.saturnus.screens.people.PeopleViewMvcImpl
+import com.ivettevaldez.saturnus.screens.splash.SplashViewMvc
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -35,6 +36,10 @@ class ViewMvcFactory @Inject constructor(
 
     fun newPromptDialogViewMvc(parent: ViewGroup?): PromptDialogViewMvcImpl {
         return PromptDialogViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newSplashViewMvc(parent: ViewGroup?): SplashViewMvc {
+        return SplashViewMvc(inflater.get(), parent)
     }
 
     fun newInvoicingViewMvc(parent: ViewGroup?): IInvoicingViewMvc {
