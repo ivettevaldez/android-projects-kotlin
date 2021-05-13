@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.IFragmentFrameWrapper
+import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import dagger.Module
 import dagger.Provides
 
@@ -23,5 +24,9 @@ class ActivityModule {
         @Provides
         fun fragmentFrameWrapper(activity: AppCompatActivity): IFragmentFrameWrapper =
             activity as IFragmentFrameWrapper
+
+        @Provides
+        fun navDrawerHelper(activity: AppCompatActivity): INavDrawerHelper =
+            activity as INavDrawerHelper
     }
 }
