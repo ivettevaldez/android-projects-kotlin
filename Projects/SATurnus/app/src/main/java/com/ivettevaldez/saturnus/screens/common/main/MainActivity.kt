@@ -65,6 +65,10 @@ class MainActivity : BaseActivity(),
         viewMvc.closeDrawer()
     }
 
+    override fun onPeopleClicked() {
+        screensNavigator.toPeople()
+    }
+
     override fun onInvoicingClicked() {
         screensNavigator.toInvoicing()
     }

@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.invoicing
+package com.ivettevaldez.saturnus.screens.people
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,16 +6,16 @@ import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
 
-interface IInvoicingViewMvc : IObservableViewMvc<IInvoicingViewMvc.Listener> {
+interface IPeopleViewMvc : IObservableViewMvc<IPeopleViewMvc.Listener> {
 
     interface Listener
 }
 
-class InvoicingViewMvcImpl(
+class PeopleViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
-) : BaseObservableViewMvc<IInvoicingViewMvc.Listener>(
+) : BaseObservableViewMvc<IPeopleViewMvc.Listener>(
     inflater,
     parent,
-    R.layout.layout_invoicing
-), IInvoicingViewMvc
+    R.layout.layout_people
+), IPeopleViewMvc

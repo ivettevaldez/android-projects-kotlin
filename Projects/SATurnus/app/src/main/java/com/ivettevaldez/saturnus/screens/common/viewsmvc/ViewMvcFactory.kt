@@ -10,6 +10,8 @@ import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.ToolbarViewMvcImpl
 import com.ivettevaldez.saturnus.screens.invoicing.IInvoicingViewMvc
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingViewMvcImpl
+import com.ivettevaldez.saturnus.screens.people.IPeopleViewMvc
+import com.ivettevaldez.saturnus.screens.people.PeopleViewMvcImpl
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -35,5 +37,9 @@ class ViewMvcFactory @Inject constructor(
 
     fun newInvoicingViewMvc(parent: ViewGroup?): IInvoicingViewMvc {
         return InvoicingViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newPeopleViewMvc(parent: ViewGroup?): IPeopleViewMvc {
+        return PeopleViewMvcImpl(inflater.get(), parent)
     }
 }

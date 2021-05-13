@@ -4,6 +4,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
 import com.ivettevaldez.saturnus.screens.common.main.MainActivity
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingFragment
+import com.ivettevaldez.saturnus.screens.people.PeopleFragment
 import dagger.Subcomponent
 
 @PresentationScope
@@ -12,6 +13,7 @@ interface PresentationComponent {
 
     fun inject(activity: MainActivity)
     fun inject(fragment: InvoicingFragment)
+    fun inject(fragment: PeopleFragment)
     fun inject(dialog: InfoDialog)
     fun inject(dialog: PromptDialog)
 }

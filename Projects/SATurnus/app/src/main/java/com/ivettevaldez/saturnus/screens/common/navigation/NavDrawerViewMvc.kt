@@ -15,6 +15,7 @@ interface INavDrawerViewMvc : IObservableViewMvc<INavDrawerViewMvc.Listener>,
 
     interface Listener {
 
+        fun onPeopleClicked()
         fun onInvoicingClicked()
     }
 
@@ -58,6 +59,10 @@ class NavDrawerViewMvcImpl(
             if (item.itemId == R.id.drawer_menu_invoicing) {
                 for (listener in listeners) {
                     listener.onInvoicingClicked()
+                }
+            } else if (item.itemId == R.id.drawer_menu_people) {
+                for (listener in listeners) {
+                    listener.onPeopleClicked()
                 }
             }
 

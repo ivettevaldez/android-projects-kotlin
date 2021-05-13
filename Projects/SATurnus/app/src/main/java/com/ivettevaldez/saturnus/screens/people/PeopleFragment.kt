@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.invoicing
+package com.ivettevaldez.saturnus.screens.people
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,18 +8,18 @@ import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class InvoicingFragment : BaseFragment(),
-    IInvoicingViewMvc.Listener {
+class PeopleFragment : BaseFragment(),
+    IPeopleViewMvc.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    private lateinit var viewMvc: IInvoicingViewMvc
+    private lateinit var viewMvc: IPeopleViewMvc
 
     companion object {
 
         @JvmStatic
-        fun newInstance() = InvoicingFragment()
+        fun newInstance() = PeopleFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,7 @@ class InvoicingFragment : BaseFragment(),
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewMvc = viewMvcFactory.newInvoicingViewMvc(parent)
+        viewMvc = viewMvcFactory.newPeopleViewMvc(parent)
         return viewMvc.getRootView()
     }
 

@@ -5,5 +5,9 @@
             android:id="@+id/drawer_menu_invoicing"
             android:icon="@mipmap/ic_calculator_white"
             android:title="@string/menu_invoicing" />
+        <item
+            android:id="@+id/drawer_menu_people"
+            android:icon="@mipmap/ic_people_white"
+            android:title="@string/menu_people" />
     </group>
 </menu>
