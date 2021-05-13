@@ -1,19 +1,25 @@
 package com.ivettevaldez.saturnus.screens.common.main
 
 import android.os.Bundle
-import android.widget.Toast
+import android.widget.FrameLayout
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseActivity
+import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.IFragmentFrameWrapper
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
+import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
 class MainActivity : BaseActivity(),
+    IFragmentFrameWrapper,
     INavDrawerViewMvc.Listener,
     INavDrawerHelper {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
+
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
 
     private lateinit var viewMvc: INavDrawerViewMvc
 
@@ -23,10 +29,10 @@ class MainActivity : BaseActivity(),
 
         viewMvc = viewMvcFactory.newNavDrawerViewMvc(null)
         setContentView(viewMvc.getRootView())
-    }
 
-    override fun onOptionClicked() {
-        Toast.makeText(this, "Clicked", Toast.LENGTH_SHORT).show()
+        if (savedInstanceState == null) {
+            screensNavigator.toInvoicing()
+        }
     }
 
     override fun onStart() {
@@ -47,6 +53,8 @@ class MainActivity : BaseActivity(),
         }
     }
 
+    override fun getFragmentFrame(): FrameLayout = viewMvc.getFragmentFrame()
+
     override fun isDrawerOpen(): Boolean = viewMvc.isDrawerOpen()
 
     override fun openDrawer() {
@@ -55,5 +63,9 @@ class MainActivity : BaseActivity(),
 
     override fun closeDrawer() {
         viewMvc.closeDrawer()
+    }
+
+    override fun onInvoicingClicked() {
+        screensNavigator.toInvoicing()
     }
 }

@@ -15,7 +15,7 @@ interface INavDrawerViewMvc : IObservableViewMvc<INavDrawerViewMvc.Listener>,
 
     interface Listener {
 
-        fun onOptionClicked()
+        fun onInvoicingClicked()
     }
 
     fun getFragmentFrame(): FrameLayout
@@ -55,9 +55,9 @@ class NavDrawerViewMvcImpl(
         navView.setNavigationItemSelectedListener { item ->
             closeDrawer()
 
-            if (item.itemId == R.id.drawer_menu_option) {
+            if (item.itemId == R.id.drawer_menu_invoicing) {
                 for (listener in listeners) {
-                    listener.onOptionClicked()
+                    listener.onInvoicingClicked()
                 }
             }
 

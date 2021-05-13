@@ -3,6 +3,7 @@ package com.ivettevaldez.saturnus.common.dependencyinjection.activity
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.IFragmentFrameWrapper
 import dagger.Module
 import dagger.Provides
 
@@ -18,5 +19,9 @@ class ActivityModule {
         @Provides
         fun fragmentManager(activity: AppCompatActivity): FragmentManager =
             activity.supportFragmentManager
+
+        @Provides
+        fun fragmentFrameWrapper(activity: AppCompatActivity): IFragmentFrameWrapper =
+            activity as IFragmentFrameWrapper
     }
 }
