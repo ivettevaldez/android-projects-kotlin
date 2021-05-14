@@ -18,7 +18,6 @@ interface IPeopleMainViewMvc : IObservableViewMvc<IPeopleMainViewMvc.Listener> {
 
     interface Listener {
 
-        fun onTabSelected(position: Int)
         fun onAddNewClicked()
     }
 
@@ -89,18 +88,6 @@ class PeopleMainViewMvcImpl(
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabsTitles[position]
         }.attach()
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                for (listener in listeners) {
-                    listener.onTabSelected(tab.position)
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
     }
 
     private fun selectTab(tabPosition: Int) {

@@ -1,5 +1,6 @@
 package com.ivettevaldez.saturnus.screens.common.viewsmvc
 
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
@@ -11,6 +12,10 @@ import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.ToolbarViewMvcImpl
 import com.ivettevaldez.saturnus.screens.invoicing.IInvoicingViewMvc
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingViewMvcImpl
+import com.ivettevaldez.saturnus.screens.people.list.IPeopleListItemViewMvc
+import com.ivettevaldez.saturnus.screens.people.list.IPeopleListViewMvc
+import com.ivettevaldez.saturnus.screens.people.list.PeopleListItemViewMvcImpl
+import com.ivettevaldez.saturnus.screens.people.list.PeopleListViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.main.IPeopleMainViewMvc
 import com.ivettevaldez.saturnus.screens.people.main.PeopleMainViewMvcImpl
 import com.ivettevaldez.saturnus.screens.splash.SplashViewMvc
@@ -19,6 +24,7 @@ import javax.inject.Provider
 
 class ViewMvcFactory @Inject constructor(
     private val inflater: Provider<LayoutInflater>,
+    private val uiHandler: Provider<Handler>,
     private val navDrawerHelper: Provider<INavDrawerHelper>
 ) {
 
@@ -46,7 +52,15 @@ class ViewMvcFactory @Inject constructor(
         return InvoicingViewMvcImpl(inflater.get(), parent, this, navDrawerHelper.get())
     }
 
-    fun newPeopleViewMvc(parent: ViewGroup?): IPeopleMainViewMvc {
+    fun newPeopleMainViewMvc(parent: ViewGroup?): IPeopleMainViewMvc {
         return PeopleMainViewMvcImpl(inflater.get(), parent, this, navDrawerHelper.get())
+    }
+
+    fun newPeopleListViewMvc(parent: ViewGroup?): IPeopleListViewMvc {
+        return PeopleListViewMvcImpl(inflater.get(), parent, uiHandler.get(), this)
+    }
+
+    fun newPeopleListItemViewMvc(parent: ViewGroup?): IPeopleListItemViewMvc {
+        return PeopleListItemViewMvcImpl(inflater.get(), parent)
     }
 }

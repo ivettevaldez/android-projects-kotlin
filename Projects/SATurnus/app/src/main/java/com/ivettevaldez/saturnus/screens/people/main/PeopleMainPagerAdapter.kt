@@ -3,7 +3,7 @@ package com.ivettevaldez.saturnus.screens.people.main
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ivettevaldez.saturnus.common.Constants
+import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.screens.people.list.PeopleListFragment
 import javax.inject.Inject
 
@@ -22,10 +22,10 @@ class PeopleMainPagerAdapter @Inject constructor(
     override fun getItemCount(): Int = TABS_COUNT
 
     override fun createFragment(position: Int): Fragment {
-        val clientType: String = when (position) {
-            TAB_CLIENT_TYPE_ISSUING -> Constants.CLIENT_ISSUING
-            TAB_CLIENT_TYPE_RECEIVER -> Constants.CLIENT_RECEIVER
-            else -> throw RuntimeException("Unsupported clientType page: $position")
+        val clientType: ClientType.Type = when (position) {
+            TAB_CLIENT_TYPE_ISSUING -> ClientType.Type.ISSUING
+            TAB_CLIENT_TYPE_RECEIVER -> ClientType.Type.RECEIVER
+            else -> throw RuntimeException("@@@@@ Unsupported clientType page: $position")
         }
         return PeopleListFragment.newInstance(clientType)
     }

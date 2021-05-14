@@ -1,7 +1,6 @@
 package com.ivettevaldez.saturnus.people
 
 import android.util.Log
-import com.ivettevaldez.saturnus.common.Constants
 import com.vicpin.krealmextensions.delete
 import com.vicpin.krealmextensions.queryFirst
 import com.vicpin.krealmextensions.querySorted
@@ -41,7 +40,7 @@ class PersonDao @Inject constructor() {
         return Person().querySorted("createdAt", Sort.DESCENDING) {
             notEqualTo("deleted", true)
                 .and()
-            equalTo("clientType", Constants.CLIENT_ISSUING)
+            equalTo("clientType", ClientType.getString(ClientType.Type.ISSUING))
         }
     }
 
@@ -49,7 +48,7 @@ class PersonDao @Inject constructor() {
         return Person().querySorted("createdAt", Sort.DESCENDING) {
             notEqualTo("deleted", true)
                 .and()
-            equalTo("clientType", Constants.CLIENT_RECEIVER)
+            equalTo("clientType", ClientType.getString(ClientType.Type.RECEIVER))
         }
     }
 

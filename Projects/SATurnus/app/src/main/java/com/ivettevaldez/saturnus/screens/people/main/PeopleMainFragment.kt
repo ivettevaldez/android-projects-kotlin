@@ -36,7 +36,7 @@ class PeopleMainFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
-        viewMvc = viewMvcFactory.newPeopleViewMvc(parent)
+        viewMvc = viewMvcFactory.newPeopleMainViewMvc(parent)
         viewMvc.setViewPager(
             peopleMainPagerAdapter,
             PeopleMainPagerAdapter.TAB_CLIENT_TYPE_ISSUING
@@ -53,10 +53,6 @@ class PeopleMainFragment : BaseFragment(),
     override fun onStop() {
         super.onStop()
         viewMvc.unregisterListener(this)
-    }
-
-    override fun onTabSelected(position: Int) {
-        // TODO:
     }
 
     override fun onAddNewClicked() {

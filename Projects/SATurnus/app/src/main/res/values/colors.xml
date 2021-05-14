@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="black_60">#99000000</color>
     <color name="black_pearl">#FF1A1E22</color>
     <color name="cinder">#FF21262A</color>
     <color name="cod_grey">#FF292F34</color>
@@ -15,4 +16,30 @@
     <color name="color_secondary">@color/aluminium</color>
     <color name="color_secondary_variant">@color/mirage</color>
     <color name="color_background">@color/color_primary_variant</color>
+
+    <!--
+       Alpha Prefixes
+        100% — FF
+         95% — F2
+         90% — E6
+         85% — D9
+         80% — CC
+         75% — BF
+         70% — B3
+         65% — A6
+         60% — 99
+         55% — 8C
+         50% — 80
+         45% — 73
+         40% — 66
+         35% — 59
+         30% — 4D
+         25% — 40
+         20% — 33
+         15% — 26
+         10% — 1A
+          5% — 0D
+          0% — 00
+                    -->
+
 </resources>

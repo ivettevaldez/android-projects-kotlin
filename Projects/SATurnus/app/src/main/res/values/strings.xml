@@ -8,8 +8,16 @@
     <string name="content_navigate_up">Atrás</string>
     <string name="content_add_new_person">Agregar una nueva persona</string>
 
-    <string name="menu_invoicing">Facturación</string>
-    <string name="menu_people">Personas</string>
+    <!-- Menu -->
+    <string name="menu_invoicing">@string/invoicing_title</string>
+    <string name="menu_people">@string/people_title</string>
+
+    <!-- Invoicing -->
+    <string name="invoicing_title">Facturación</string>
+
+    <!-- People -->
+    <string name="people_title">Personas</string>
+    <string name="people_add_new">Agrega nuevas personas</string>
 
     <string-array name="people_tabs_titles">
         <item>Emisoras</item>

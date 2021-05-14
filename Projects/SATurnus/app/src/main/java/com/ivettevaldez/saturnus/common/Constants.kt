@@ -7,8 +7,6 @@ object Constants {
 
     const val PHYSICAL_PERSON = "PHYSICAL_PERSON"
     const val MORAL_PERSON = "MORAL_PERSON"
-    const val CLIENT_ISSUING = "CLIENT_ISSUING"
-    const val CLIENT_RECEIVER = "CLIENT_RECEIVER"
 
     const val SPLASH_NAVIGATION_DELAY = 3000L
 }

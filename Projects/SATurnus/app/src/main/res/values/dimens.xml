@@ -11,9 +11,12 @@
     <!-- Margins / Paddings -->
     <dimen name="activity_horizontal_big_margin">32dp</dimen>
     <dimen name="activity_vertical_big_margin">32dp</dimen>
+    <dimen name="item_padding">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- TextAppearance -->
+    <dimen name="text_bigger">18sp</dimen>
+    <dimen name="text_big">16sp</dimen>
     <dimen name="text_normal">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
 
