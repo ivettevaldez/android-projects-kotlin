@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.people
+package com.ivettevaldez.saturnus.screens.people.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,18 +8,21 @@ import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class PeopleFragment : BaseFragment(),
-    IPeopleViewMvc.Listener {
+class PeopleMainFragment : BaseFragment(),
+    IPeopleMainViewMvc.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    private lateinit var viewMvc: IPeopleViewMvc
+    @Inject
+    lateinit var peopleMainPagerAdapter: PeopleMainPagerAdapter
+
+    private lateinit var viewMvc: IPeopleMainViewMvc
 
     companion object {
 
         @JvmStatic
-        fun newInstance() = PeopleFragment()
+        fun newInstance() = PeopleMainFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +35,13 @@ class PeopleFragment : BaseFragment(),
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         viewMvc = viewMvcFactory.newPeopleViewMvc(parent)
+        viewMvc.setViewPager(
+            peopleMainPagerAdapter,
+            PeopleMainPagerAdapter.TAB_CLIENT_TYPE_ISSUING
+        )
+
         return viewMvc.getRootView()
     }
 
@@ -44,5 +53,13 @@ class PeopleFragment : BaseFragment(),
     override fun onStop() {
         super.onStop()
         viewMvc.unregisterListener(this)
+    }
+
+    override fun onTabSelected(position: Int) {
+        // TODO:
+    }
+
+    override fun onAddNewClicked() {
+        // TODO: Navigate to PeopleFormFragment
     }
 }

@@ -9,7 +9,8 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="color_primary">@color/purple_500</color>
-    <color name="color_primary_dark">@color/purple_700</color>
-    <color name="color_background">@color/white</color>
+    <color name="color_primary_variant">@color/purple_700</color>
     <color name="color_accent">@color/teal_200</color>
+    <color name="color_accent_variant">@color/teal_700</color>
+    <color name="color_background">@color/color_primary_variant</color>
 </resources>

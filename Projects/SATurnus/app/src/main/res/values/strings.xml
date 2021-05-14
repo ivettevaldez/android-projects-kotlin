@@ -2,10 +2,16 @@
 
     <string name="app_name">SATurnus</string>
 
-    <string name="content_navigate_up">Atrás</string>
     <string name="content_menu">Menú</string>
+    <string name="content_navigate_up">Atrás</string>
+    <string name="content_add_new_person">Agregar una nueva persona</string>
 
     <string name="menu_invoicing">Facturación</string>
     <string name="menu_people">Personas</string>
+
+    <string-array name="people_tabs_titles">
+        <item>Emisoras</item>
+        <item>Receptoras</item>
+    </string-array>
 
 </resources>

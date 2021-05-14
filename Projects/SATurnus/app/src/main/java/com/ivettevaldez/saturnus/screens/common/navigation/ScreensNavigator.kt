@@ -2,7 +2,7 @@ package com.ivettevaldez.saturnus.screens.common.navigation
 
 import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.FragmentFrameHelper
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingFragment
-import com.ivettevaldez.saturnus.screens.people.PeopleFragment
+import com.ivettevaldez.saturnus.screens.people.main.PeopleMainFragment
 import com.ivettevaldez.saturnus.screens.splash.SplashFragment
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: Frag
 
     fun toPeople() {
         fragmentFrameHelper.replaceFragmentAndClearBackstack(
-            PeopleFragment.newInstance()
+            PeopleMainFragment.newInstance()
         )
     }
 }
