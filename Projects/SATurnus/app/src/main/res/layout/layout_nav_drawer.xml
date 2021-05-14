@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
+    style="@style/Theme.DrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
@@ -16,10 +17,27 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/drawer_navigation_view"
+        style="@style/Theme.DrawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/menu_drawer" />
+        app:headerLayout="@layout/layout_nav_header"
+        app:menu="@menu/menu_drawer">
+
+        <TextView
+            android:id="@+id/drawer_text_copyright"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingStart="@dimen/activity_horizontal_big_margin"
+            android:paddingTop="@dimen/activity_vertical_big_margin"
+            android:paddingEnd="@dimen/activity_horizontal_big_margin"
+            android:paddingBottom="@dimen/activity_vertical_big_margin"
+            android:text="@string/app_copyright_template"
+            android:textColor="@color/aluminium"
+            android:textSize="@dimen/text_small" />
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

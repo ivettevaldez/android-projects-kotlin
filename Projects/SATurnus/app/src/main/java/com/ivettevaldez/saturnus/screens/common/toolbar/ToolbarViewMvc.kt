@@ -32,7 +32,7 @@ class ToolbarViewMvcImpl(
 ) : BaseViewMvc(
     inflater,
     parent,
-    R.layout.layout_toolbar
+    R.layout.layout_nav_toolbar
 ), IToolbarViewMvc {
 
     private val textTitle: TextView = findViewById(R.id.toolbar_text_title)

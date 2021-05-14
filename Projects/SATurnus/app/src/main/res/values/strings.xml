@@ -1,6 +1,8 @@
 <resources>
 
-    <string name="app_name">SATurnus</string>
+    <string name="app_name">Saturnus</string>
+    <string name="app_author_name">Ivette Valdez</string>
+    <string name="app_copyright_template">Copyright © %s, %s v.%s</string>
 
     <string name="content_menu">Menú</string>
     <string name="content_navigate_up">Atrás</string>

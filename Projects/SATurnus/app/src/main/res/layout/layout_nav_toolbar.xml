@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_primary_variant"
     android:orientation="horizontal">
 
     <FrameLayout
@@ -15,10 +14,10 @@
             android:id="@+id/toolbar_button_navigate_up"
             android:layout_width="@dimen/toolbar_height"
             android:layout_height="@dimen/toolbar_height"
+            android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_navigate_up"
             android:padding="16dp"
-            android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_arrow_left_white"
             android:visibility="gone" />
@@ -27,10 +26,10 @@
             android:id="@+id/toolbar_button_menu"
             android:layout_width="@dimen/toolbar_height"
             android:layout_height="@dimen/toolbar_height"
+            android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_menu"
             android:padding="16dp"
-            android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_menu_white"
             android:visibility="gone" />
@@ -41,6 +40,7 @@
         android:id="@+id/toolbar_text_title"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:padding="16dp"
         android:textColor="@color/white"

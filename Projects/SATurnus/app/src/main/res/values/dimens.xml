@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- NavigationView -->
+    <dimen name="nav_header_height">256dp</dimen>
+    <dimen name="nav_item_padding">24dp</dimen>
+
+    <!-- Toolbar -->
     <dimen name="toolbar_height">54dp</dimen>
+
+    <!-- Margins / Paddings -->
+    <dimen name="activity_horizontal_big_margin">32dp</dimen>
+    <dimen name="activity_vertical_big_margin">32dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <dimen name="text_tab">14dp</dimen>
+    <!-- TextAppearance -->
+    <dimen name="text_normal">14sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+
+    <dimen name="text_tab">@dimen/text_normal</dimen>
 
 </resources>

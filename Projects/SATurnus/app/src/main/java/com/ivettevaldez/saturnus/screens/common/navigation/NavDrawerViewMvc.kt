@@ -4,6 +4,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.ivettevaldez.saturnus.R
@@ -20,6 +21,7 @@ interface INavDrawerViewMvc : IObservableViewMvc<INavDrawerViewMvc.Listener>,
     }
 
     fun getFragmentFrame(): FrameLayout
+    fun setCopyright(copyright: String)
 }
 
 class NavDrawerViewMvcImpl(
@@ -28,12 +30,13 @@ class NavDrawerViewMvcImpl(
 ) : BaseObservableViewMvc<INavDrawerViewMvc.Listener>(
     inflater,
     parent,
-    R.layout.layout_drawer
+    R.layout.layout_nav_drawer
 ), INavDrawerViewMvc {
 
     private val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
     private val frameContent: FrameLayout = findViewById(R.id.drawer_frame_content)
     private val navView: NavigationView = findViewById(R.id.drawer_navigation_view)
+    private val textCopyright: TextView = findViewById(R.id.drawer_text_copyright)
 
     init {
 
@@ -50,6 +53,10 @@ class NavDrawerViewMvcImpl(
 
     override fun closeDrawer() {
         drawerLayout.closeDrawers()
+    }
+
+    override fun setCopyright(copyright: String) {
+        textCopyright.text = copyright
     }
 
     private fun setListenerEvents() {

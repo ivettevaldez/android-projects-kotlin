@@ -1,7 +1,10 @@
 package com.ivettevaldez.saturnus.screens.common.main
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.FrameLayout
+import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseActivity
 import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.IFragmentFrameWrapper
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
@@ -14,6 +17,8 @@ class MainActivity : BaseActivity(),
     IFragmentFrameWrapper,
     INavDrawerViewMvc.Listener,
     INavDrawerHelper {
+
+    private val classTag: String = this::class.java.simpleName
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -28,6 +33,8 @@ class MainActivity : BaseActivity(),
         super.onCreate(savedInstanceState)
 
         viewMvc = viewMvcFactory.newNavDrawerViewMvc(null)
+        viewMvc.setCopyright(getCopyright())
+
         setContentView(viewMvc.getRootView())
 
         if (savedInstanceState == null) {
@@ -71,5 +78,20 @@ class MainActivity : BaseActivity(),
 
     override fun onInvoicingClicked() {
         screensNavigator.toInvoicing()
+    }
+
+    private fun getCopyright(): String {
+        try {
+            val versionName = packageManager.getPackageInfo(packageName, 0).versionName
+            return String.format(
+                getString(R.string.app_copyright_template),
+                getString(R.string.app_author_name),
+                getString(R.string.app_name),
+                versionName
+            )
+        } catch (ex: PackageManager.NameNotFoundException) {
+            Log.e(classTag, "@@@@@ Attempting to get the app version name", ex)
+        }
+        return ""
     }
 }
