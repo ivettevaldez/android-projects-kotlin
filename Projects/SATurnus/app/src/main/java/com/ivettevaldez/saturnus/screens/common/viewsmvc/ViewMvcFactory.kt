@@ -53,7 +53,7 @@ class ViewMvcFactory @Inject constructor(
     }
 
     fun newPeopleMainViewMvc(parent: ViewGroup?): IPeopleMainViewMvc {
-        return PeopleMainViewMvcImpl(inflater.get(), parent, this, navDrawerHelper.get())
+        return PeopleMainViewMvcImpl(inflater.get(), parent, this)
     }
 
     fun newPeopleListViewMvc(parent: ViewGroup?): IPeopleListViewMvc {

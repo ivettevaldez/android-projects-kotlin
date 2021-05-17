@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
@@ -13,6 +14,9 @@ class PeopleMainFragment : BaseFragment(),
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
+
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
 
     @Inject
     lateinit var peopleMainPagerAdapter: PeopleMainPagerAdapter
@@ -57,5 +61,9 @@ class PeopleMainFragment : BaseFragment(),
 
     override fun onAddNewClicked() {
         // TODO: Navigate to PeopleFormFragment
+    }
+
+    override fun onNavigateUpClicked() {
+        screensNavigator.navigateUp()
     }
 }

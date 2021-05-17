@@ -8,6 +8,10 @@ import javax.inject.Inject
 
 class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: FragmentFrameHelper) {
 
+    fun navigateUp() {
+        fragmentFrameHelper.navigateUp()
+    }
+
     fun toSplash() {
         fragmentFrameHelper.replaceFragmentAndClearBackstack(
             SplashFragment.newInstance()
@@ -21,7 +25,7 @@ class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: Frag
     }
 
     fun toPeople() {
-        fragmentFrameHelper.replaceFragmentAndClearBackstack(
+        fragmentFrameHelper.replaceFragment(
             PeopleMainFragment.newInstance()
         )
     }

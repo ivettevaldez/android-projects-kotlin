@@ -8,7 +8,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
@@ -19,6 +18,7 @@ interface IPeopleMainViewMvc : IObservableViewMvc<IPeopleMainViewMvc.Listener> {
     interface Listener {
 
         fun onAddNewClicked()
+        fun onNavigateUpClicked()
     }
 
     fun setViewPager(adapter: PeopleMainPagerAdapter, selectedTabPosition: Int)
@@ -27,8 +27,7 @@ interface IPeopleMainViewMvc : IObservableViewMvc<IPeopleMainViewMvc.Listener> {
 class PeopleMainViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
-    viewMvcFactory: ViewMvcFactory,
-    private val navDrawerHelper: INavDrawerHelper
+    viewMvcFactory: ViewMvcFactory
 ) : BaseObservableViewMvc<IPeopleMainViewMvc.Listener>(
     inflater,
     parent,
@@ -60,10 +59,10 @@ class PeopleMainViewMvcImpl(
             context.getString(R.string.menu_people)
         )
 
-        toolbarViewMvc.enableMenuAndListen(object : IToolbarViewMvc.MenuClickListener {
-            override fun onMenuClicked() {
+        toolbarViewMvc.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
+            override fun onNavigateUpClicked() {
                 for (listener in listeners) {
-                    navDrawerHelper.openDrawer()
+                    listener.onNavigateUpClicked()
                 }
             }
         })
