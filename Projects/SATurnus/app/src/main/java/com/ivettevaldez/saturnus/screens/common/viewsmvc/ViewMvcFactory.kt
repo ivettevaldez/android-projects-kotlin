@@ -12,6 +12,8 @@ import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.ToolbarViewMvcImpl
 import com.ivettevaldez.saturnus.screens.invoicing.IInvoicingViewMvc
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingViewMvcImpl
+import com.ivettevaldez.saturnus.screens.people.form.IPersonFormViewMvc
+import com.ivettevaldez.saturnus.screens.people.form.PersonFormViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.list.IPeopleListItemViewMvc
 import com.ivettevaldez.saturnus.screens.people.list.IPeopleListViewMvc
 import com.ivettevaldez.saturnus.screens.people.list.PeopleListItemViewMvcImpl
@@ -62,5 +64,9 @@ class ViewMvcFactory @Inject constructor(
 
     fun newPeopleListItemViewMvc(parent: ViewGroup?): IPeopleListItemViewMvc {
         return PeopleListItemViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newPersonFormViewMvc(parent: ViewGroup?): IPersonFormViewMvc {
+        return PersonFormViewMvcImpl(inflater.get(), parent, this)
     }
 }

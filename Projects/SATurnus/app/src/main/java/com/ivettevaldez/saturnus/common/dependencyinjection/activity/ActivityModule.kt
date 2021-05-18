@@ -1,7 +1,6 @@
 package com.ivettevaldez.saturnus.common.dependencyinjection.activity
 
-import android.os.Handler
-import android.os.Looper
+import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -14,6 +13,9 @@ import dagger.Provides
 class ActivityModule {
 
     companion object {
+
+        @Provides
+        fun context(activity: AppCompatActivity): Context = activity.applicationContext
 
         @Provides
         fun layoutInflater(activity: AppCompatActivity): LayoutInflater =
@@ -30,8 +32,5 @@ class ActivityModule {
         @Provides
         fun navDrawerHelper(activity: AppCompatActivity): INavDrawerHelper =
             activity as INavDrawerHelper
-
-        @Provides
-        fun uiHandler(): Handler = Handler(Looper.getMainLooper())
     }
 }

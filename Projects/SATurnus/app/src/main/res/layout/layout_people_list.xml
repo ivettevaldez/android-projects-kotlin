@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:text="@string/people_add_new"
         android:textColor="@color/link_water"
-        android:textSize="@dimen/text_bigger"
+        android:textSize="@dimen/text_big"
         android:visibility="gone"
         android:layout_centerInParent="true"
         android:gravity="center"/>

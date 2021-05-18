@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
@@ -41,8 +43,10 @@ class PeopleMainFragment : BaseFragment(),
     ): View {
 
         viewMvc = viewMvcFactory.newPeopleMainViewMvc(parent)
+
+        // TODO: Fix this.
         viewMvc.setViewPager(
-            peopleMainPagerAdapter,
+            PeopleMainPagerAdapter(requireActivity() as AppCompatActivity),
             PeopleMainPagerAdapter.TAB_CLIENT_TYPE_ISSUING
         )
 
@@ -60,7 +64,9 @@ class PeopleMainFragment : BaseFragment(),
     }
 
     override fun onAddNewClicked() {
-        // TODO: Navigate to PeopleFormFragment
+        // TODO: Take this parameter dynamically.
+        val clientType = ClientType.getString(ClientType.Type.ISSUING)
+        screensNavigator.toPersonForm(null, clientType)
     }
 
     override fun onNavigateUpClicked() {

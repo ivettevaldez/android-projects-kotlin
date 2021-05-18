@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context=".screens.people.form.PersonFormFragment">
+
+    <include
+        android:id="@+id/person_form_toolbar"
+        layout="@layout/element_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/person_form_progress"
+        layout="@layout/element_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/person_form_layout_fields"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_primary"
+        android:layout_below="@id/person_form_toolbar"
+        android:padding="@dimen/screen_padding"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/person_form_input_name"
+            layout="@layout/element_text_input_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <include
+            android:id="@+id/person_form_input_rfc"
+            layout="@layout/element_text_input_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <include
+            android:id="@+id/person_form_input_type"
+            layout="@layout/element_text_input_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_primary"
+        android:padding="@dimen/screen_padding"
+        android:layout_below="@id/person_form_layout_fields">
+
+        <Button
+            android:id="@+id/person_form_button_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:theme="@style/Theme.ButtonPrimary"
+            android:text="@string/action_save"
+            android:textColor="@color/white"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

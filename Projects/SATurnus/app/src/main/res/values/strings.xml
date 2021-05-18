@@ -1,24 +1,47 @@
 <resources>
 
+    <!-- Defaults -->
     <string name="app_name">Saturnus</string>
     <string name="app_author_name">Ivette Valdez</string>
     <string name="app_copyright_template">Copyright © %s, %s v.%s</string>
 
-    <string name="content_menu">Menú</string>
-    <string name="content_navigate_up">Atrás</string>
-    <string name="content_add_new_person">Agregar una nueva persona</string>
+    <!-- Actions -->
+    <string name="action_ok">OK</string>
+    <string name="action_save">Guardar</string>
+
+    <!-- Messages -->
+    <string name="message_saved">Los datos han sido guardados.</string>
+
+    <!-- Errors -->
+    <string name="error_missing_fields">Debes llenar todos los campos para poder continuar.</string>
+    <string name="error_saving_title">Problema al guardar</string>
+    <string name="error_saving_message">
+        Ha ocurrido un error, revisa los datos e intenta de nuevo.
+    </string>
+    <string name="error_invalid_person_name_template">
+        El nombre o razón social no puede contener menos de %d caracteres.
+    </string>
+    <string name="error_invalid_rfc">El RFC ingresado es inválido.</string>
 
     <!-- Menu -->
     <string name="menu_invoicing">@string/invoicing_title</string>
     <string name="menu_people">@string/people_title</string>
 
-    <!-- Invoicing -->
+    <!-- Screen: Invoicing -->
     <string name="invoicing_title">Facturación</string>
 
-    <!-- People -->
+    <!-- Screen: People -->
     <string name="people_title">Personas</string>
     <string name="people_add_new">Agrega nuevas personas</string>
+    <string name="people_add_new_person">Nueva persona</string>
+    <string name="people_name">Nombre o razón social</string>
+    <string name="people_rfc">RFC</string>
+    <string name="people_type">Tipo de persona</string>
+    <string name="content_menu">Menú</string>
 
+    <!-- Content -->
+    <string name="content_navigate_up">Atrás</string>
+    <string name="content_add_new_person">Agregar una nueva persona</string>
     <string-array name="people_tabs_titles">
         <item>Emisoras</item>
         <item>Receptoras</item>

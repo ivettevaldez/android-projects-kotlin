@@ -8,18 +8,29 @@
     <!-- Toolbar -->
     <dimen name="toolbar_height">54dp</dimen>
 
-    <!-- Margins / Paddings -->
+    <!-- TextInputEdit -->
+    <dimen name="text_input_height">56dp</dimen>
+    <dimen name="text_input_padding">8dp</dimen>
+
+    <!-- Margins -->
     <dimen name="activity_horizontal_big_margin">32dp</dimen>
     <dimen name="activity_vertical_big_margin">32dp</dimen>
-    <dimen name="item_padding">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
+    <!-- Paddings -->
+    <dimen name="screen_padding">24dp</dimen>
+    <dimen name="item_padding">16dp</dimen>
+    <dimen name="button_primary_padding">16dp</dimen>
+
     <!-- TextAppearance -->
-    <dimen name="text_bigger">18sp</dimen>
-    <dimen name="text_big">16sp</dimen>
+    <dimen name="text_big">18sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
     <dimen name="text_normal">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
 
     <dimen name="text_tab">@dimen/text_normal</dimen>
+
+    <!-- CornerRadius -->
+    <dimen name="default_corner_radius">5dp</dimen>
 
 </resources>

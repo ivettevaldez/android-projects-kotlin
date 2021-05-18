@@ -9,4 +9,5 @@ object Constants {
     const val MORAL_PERSON = "MORAL_PERSON"
 
     const val SPLASH_NAVIGATION_DELAY = 3000L
+    const val SHOW_MESSAGE_DELAY = 1500L
 }

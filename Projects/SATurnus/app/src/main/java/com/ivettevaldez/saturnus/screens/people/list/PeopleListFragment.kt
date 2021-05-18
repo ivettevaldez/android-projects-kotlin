@@ -64,6 +64,8 @@ class PeopleListFragment : BaseFragment(),
     override fun onStart() {
         super.onStart()
         viewMvc.registerListener(this)
+
+        bindPeople()
     }
 
     override fun onStop() {

@@ -6,10 +6,6 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.BaseDialog
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-private const val ARG_TITLE = "ARG_TITLE"
-private const val ARG_MESSAGE = "ARG_MESSAGE"
-private const val ARG_BUTTON_CAPTION = "ARG_BUTTON_CAPTION"
-
 class InfoDialog : BaseDialog(),
     IInfoDialogViewMvc.Listener {
 
@@ -19,6 +15,10 @@ class InfoDialog : BaseDialog(),
     private lateinit var viewMvc: IInfoDialogViewMvc
 
     companion object {
+
+        private const val ARG_TITLE = "ARG_TITLE"
+        private const val ARG_MESSAGE = "ARG_MESSAGE"
+        private const val ARG_BUTTON_CAPTION = "ARG_BUTTON_CAPTION"
 
         @JvmStatic
         fun newInfoDialog(title: String, message: String, caption: String): InfoDialog {
@@ -42,7 +42,7 @@ class InfoDialog : BaseDialog(),
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (arguments == null) {
-            throw IllegalArgumentException("Arguments must not be null")
+            throw IllegalArgumentException("@@@@@ Arguments must not be null")
         }
 
         val dialog = Dialog(requireContext())
