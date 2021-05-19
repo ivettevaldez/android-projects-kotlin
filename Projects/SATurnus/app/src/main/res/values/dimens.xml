@@ -33,4 +33,7 @@
     <!-- CornerRadius -->
     <dimen name="default_corner_radius">5dp</dimen>
 
+    <!-- Other -->
+    <dimen name="icon_size_medium">34dp</dimen>
+
 </resources>

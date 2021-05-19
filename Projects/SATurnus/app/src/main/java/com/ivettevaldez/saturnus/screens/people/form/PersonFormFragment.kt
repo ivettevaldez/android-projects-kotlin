@@ -49,9 +49,6 @@ class PersonFormFragment : BaseFragment(),
         private const val ARG_RFC = "ARG_RFC"
         private const val ARG_CLIENT_TYPE = "ARG_CLIENT_TYPE"
 
-        private const val RFC_MIN_LENGTH = 10
-        private const val RFC_MAX_LENGTH = 10
-
         @JvmStatic
         fun newInstance(rfc: String?, clientType: String) = PersonFormFragment().apply {
             arguments = Bundle().apply {
@@ -104,6 +101,20 @@ class PersonFormFragment : BaseFragment(),
         validateFields()
     }
 
+    override fun onRfcChanged(rfc: String) {
+        when (rfc.length) {
+            Constants.RFC_LENGTH_MORAL_PERSON -> {
+                viewMvc.setPersonType(Constants.MORAL_PERSON)
+            }
+            Constants.RFC_LENGTH_PHYSICAL_PERSON -> {
+                viewMvc.setPersonType(Constants.PHYSICAL_PERSON)
+            }
+            else -> {
+                viewMvc.setPersonType("")
+            }
+        }
+    }
+
     private fun bindPerson() {
         val person = personDao.findByRfc(rfc!!)
         if (person != null) {
@@ -117,7 +128,8 @@ class PersonFormFragment : BaseFragment(),
 
     private fun String.isValidRfc(): Boolean {
         // TODO: Validate RFC format.
-        return this.length in RFC_MIN_LENGTH..RFC_MAX_LENGTH &&
+        return (this.length == Constants.RFC_LENGTH_MORAL_PERSON ||
+                this.length == Constants.RFC_LENGTH_PHYSICAL_PERSON) &&
                 !this.contains(" ", true)
     }
 
@@ -154,12 +166,7 @@ class PersonFormFragment : BaseFragment(),
 
         if (saved) {
             viewMvc.cleanFields()
-
-            messagesHelper.showLongMessage(
-                viewMvc.getRootView(),
-                R.string.message_saved
-            )
-
+            messagesHelper.showLongMessage(viewMvc.getRootView(), R.string.message_saved)
             close()
         } else {
             dialogsManager.showSavePersonError(null)

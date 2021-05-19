@@ -36,6 +36,7 @@
     <string name="people_add_new_person">Nueva persona</string>
     <string name="people_name">Nombre o razón social</string>
     <string name="people_rfc">RFC</string>
+    <string name="people_rfc_template">RFC: %s</string>
     <string name="people_type">Tipo de persona</string>
     <string name="content_menu">Menú</string>
 

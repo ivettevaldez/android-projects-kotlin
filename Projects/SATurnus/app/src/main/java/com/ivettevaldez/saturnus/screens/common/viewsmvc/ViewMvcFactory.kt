@@ -3,6 +3,7 @@ package com.ivettevaldez.saturnus.screens.common.viewsmvc
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
@@ -27,6 +28,7 @@ import javax.inject.Provider
 class ViewMvcFactory @Inject constructor(
     private val inflater: Provider<LayoutInflater>,
     private val uiHandler: Provider<Handler>,
+    private val utilsHelper: Provider<UtilsHelper>,
     private val navDrawerHelper: Provider<INavDrawerHelper>
 ) {
 
@@ -59,7 +61,13 @@ class ViewMvcFactory @Inject constructor(
     }
 
     fun newPeopleListViewMvc(parent: ViewGroup?): IPeopleListViewMvc {
-        return PeopleListViewMvcImpl(inflater.get(), parent, uiHandler.get(), this)
+        return PeopleListViewMvcImpl(
+            inflater.get(),
+            parent,
+            uiHandler.get(),
+            utilsHelper.get(),
+            this
+        )
     }
 
     fun newPeopleListItemViewMvc(parent: ViewGroup?): IPeopleListItemViewMvc {

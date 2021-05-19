@@ -64,13 +64,16 @@ class PeopleListFragment : BaseFragment(),
     override fun onStart() {
         super.onStart()
         viewMvc.registerListener(this)
-
-        bindPeople()
     }
 
     override fun onStop() {
         super.onStop()
         viewMvc.unregisterListener(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindPeople()
     }
 
     private fun getPeople(): List<Person> = when (clientType) {

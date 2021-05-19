@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.widget.Toolbar
@@ -23,6 +24,7 @@ interface IPersonFormViewMvc : IObservableViewMvc<IPersonFormViewMvc.Listener> {
     interface Listener {
 
         fun onNavigateUpClicked()
+        fun onRfcChanged(rfc: String)
         fun onSaveClicked()
     }
 
@@ -31,9 +33,9 @@ interface IPersonFormViewMvc : IObservableViewMvc<IPersonFormViewMvc.Listener> {
     fun getRfc(): String
     fun getPersonType(): String
     fun cleanFields()
-    fun enableButtonSave(enabled: Boolean)
     fun showProgressIndicator()
     fun hideProgressIndicator()
+    fun setPersonType(type: String)
 }
 
 class PersonFormViewMvcImpl(
@@ -51,7 +53,7 @@ class PersonFormViewMvcImpl(
     private val buttonSave: Button = findViewById(R.id.person_form_button_save)
     private val inputName: TextInputLayout = findViewById(R.id.person_form_input_name)
     private val inputRfc: TextInputLayout = findViewById(R.id.person_form_input_rfc)
-    private val inputType: TextInputLayout = findViewById(R.id.person_form_input_type)
+    private val inputType: TextInputLayout = findViewById(R.id.person_form_input_person_type)
     private val editName: TextInputEditText =
         inputName.findViewById(R.id.text_input_edit_text_simple)
     private val editRfc: TextInputEditText =
@@ -61,12 +63,23 @@ class PersonFormViewMvcImpl(
 
     private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
 
+    private val rfcTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            for (listener in listeners) {
+                listener.onRfcChanged(editRfc.text.toString().trim())
+            }
+        }
+
+        override fun afterTextChanged(p0: Editable?) {}
+    }
+
     init {
 
         initToolbar()
         initFields()
         setListenerEvents()
-        enableButtonSave(false)
     }
 
     override fun bindPerson(person: Person) {
@@ -85,13 +98,7 @@ class PersonFormViewMvcImpl(
         editName.setText("")
         editRfc.setText("")
         editPersonType.setText("")
-
         buttonSave.requestFocus()
-        enableButtonSave(false)
-    }
-
-    override fun enableButtonSave(enabled: Boolean) {
-        buttonSave.isEnabled = enabled
     }
 
     override fun showProgressIndicator() {
@@ -100,6 +107,10 @@ class PersonFormViewMvcImpl(
 
     override fun hideProgressIndicator() {
         layoutProgress.visibility = View.GONE
+    }
+
+    override fun setPersonType(type: String) {
+        editPersonType.setText(type)
     }
 
     private fun initToolbar() {
@@ -119,13 +130,19 @@ class PersonFormViewMvcImpl(
     }
 
     private fun initFields() {
+        // Hints
         inputName.hint = context.getString(R.string.people_name)
         inputRfc.hint = context.getString(R.string.people_rfc)
         inputType.hint = context.getString(R.string.people_type)
 
+        // Other
         editName.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+
         editRfc.inputType = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
+        editRfc.imeOptions = EditorInfo.IME_ACTION_DONE
+
         editPersonType.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+        editPersonType.isEnabled = false
     }
 
     private fun setListenerEvents() {
@@ -135,22 +152,6 @@ class PersonFormViewMvcImpl(
             }
         }
 
-        val textWatcher = object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                val allFieldsFilled = editName.text.toString().isNotBlank() &&
-                        editRfc.text.toString().isNotBlank() &&
-                        editPersonType.text.toString().isNotBlank()
-
-                enableButtonSave(allFieldsFilled)
-            }
-
-            override fun afterTextChanged(p0: Editable?) {}
-        }
-
-        editName.addTextChangedListener(textWatcher)
-        editRfc.addTextChangedListener(textWatcher)
-        editPersonType.addTextChangedListener(textWatcher)
+        editRfc.addTextChangedListener(rfcTextWatcher)
     }
 }
