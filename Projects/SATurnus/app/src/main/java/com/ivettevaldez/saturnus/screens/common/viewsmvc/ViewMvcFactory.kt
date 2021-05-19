@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.IPromptBottomSheetViewMvc
+import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
@@ -46,6 +48,10 @@ class ViewMvcFactory @Inject constructor(
 
     fun newPromptDialogViewMvc(parent: ViewGroup?): PromptDialogViewMvcImpl {
         return PromptDialogViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newPromptBottomSheetDialogViewMvc(parent: ViewGroup?): IPromptBottomSheetViewMvc {
+        return PromptBottomSheetViewMvcImpl(inflater.get(), parent)
     }
 
     fun newSplashViewMvc(parent: ViewGroup?): SplashViewMvc {

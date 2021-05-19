@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
+import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialogEvent
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
 class PeopleMainFragment : BaseFragment(),
-    IPeopleMainViewMvc.Listener {
+    IPeopleMainViewMvc.Listener,
+    DialogsEventBus.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -21,7 +25,10 @@ class PeopleMainFragment : BaseFragment(),
     lateinit var screensNavigator: ScreensNavigator
 
     @Inject
-    lateinit var peopleMainPagerAdapter: PeopleMainPagerAdapter
+    lateinit var dialogsManager: DialogsManager
+
+    @Inject
+    lateinit var dialogsEventBus: DialogsEventBus
 
     private lateinit var viewMvc: IPeopleMainViewMvc
 
@@ -56,20 +63,35 @@ class PeopleMainFragment : BaseFragment(),
     override fun onStart() {
         super.onStart()
         viewMvc.registerListener(this)
+        dialogsEventBus.registerListener(this)
     }
 
     override fun onStop() {
         super.onStop()
         viewMvc.unregisterListener(this)
-    }
-
-    override fun onAddNewClicked() {
-        // TODO: Take this parameter dynamically.
-        val clientType = ClientType.getString(ClientType.Type.ISSUING)
-        screensNavigator.toPersonForm(null, clientType)
+        dialogsEventBus.unregisterListener(this)
     }
 
     override fun onNavigateUpClicked() {
         screensNavigator.navigateUp()
+    }
+
+    override fun onAddNewClicked() {
+        dialogsManager.showSelectClientTypeDialog(null)
+    }
+
+    override fun onDialogEvent(event: Any) {
+        Thread {
+            val clientType = when ((event as PromptBottomSheetDialogEvent).clickedButton) {
+                PromptBottomSheetDialogEvent.Button.OPTION_ONE -> {
+                    ClientType.getString(ClientType.Type.ISSUING)
+                }
+                PromptBottomSheetDialogEvent.Button.OPTION_TWO -> {
+                    ClientType.getString(ClientType.Type.RECEIVER)
+                }
+            }
+
+            screensNavigator.toPersonForm(null, clientType)
+        }.start()
     }
 }

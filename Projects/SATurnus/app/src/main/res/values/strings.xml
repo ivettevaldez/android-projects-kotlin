@@ -38,14 +38,17 @@
     <string name="people_rfc">RFC</string>
     <string name="people_rfc_template">RFC: %s</string>
     <string name="people_type">Tipo de persona</string>
-    <string name="content_menu">Menú</string>
-
-    <!-- Content -->
-    <string name="content_navigate_up">Atrás</string>
-    <string name="content_add_new_person">Agregar una nueva persona</string>
+    <string name="people_select_client_type">Selecciona el tipo de RFC</string>
+    <string name="people_client_type_issuing">Emisor</string>
+    <string name="people_client_type_receiver">Receptor</string>
     <string-array name="people_tabs_titles">
         <item>Emisoras</item>
         <item>Receptoras</item>
     </string-array>
+
+    <!-- Content -->
+    <string name="content_menu">Menú</string>
+    <string name="content_navigate_up">Atrás</string>
+    <string name="content_add_new_person">Agregar una nueva persona</string>
 
 </resources>

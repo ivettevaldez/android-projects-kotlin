@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialog
+import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
 import javax.inject.Inject
 
@@ -51,6 +53,16 @@ class DialogsManager @Inject constructor(
             getString(R.string.action_ok)
         )
         dialogFragment.show(fragmentManager, tag)
+    }
+
+    fun showSelectClientTypeDialog(tag: String?) {
+        val bottomSheetDialog: BottomSheetDialogFragment =
+            PromptBottomSheetDialog.newPromptBottomSheetDialog(
+                getString(R.string.people_select_client_type),
+                getString(R.string.people_client_type_issuing),
+                getString(R.string.people_client_type_receiver)
+            )
+        bottomSheetDialog.show(fragmentManager, tag)
     }
 
     fun getShownDialogTag(): String? {

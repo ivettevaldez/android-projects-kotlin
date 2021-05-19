@@ -68,7 +68,6 @@
             android:id="@+id/person_form_button_save"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:theme="@style/Theme.ButtonPrimary"
             android:text="@string/action_save"
             android:textColor="@color/white"/>

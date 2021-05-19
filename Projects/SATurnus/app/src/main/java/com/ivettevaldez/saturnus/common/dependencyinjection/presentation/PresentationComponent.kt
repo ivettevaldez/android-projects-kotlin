@@ -2,6 +2,7 @@ package com.ivettevaldez.saturnus.common.dependencyinjection.presentation
 
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
+import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.common.main.MainActivity
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingFragment
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
@@ -22,4 +23,5 @@ interface PresentationComponent {
     fun inject(fragment: PersonFormFragment)
     fun inject(dialog: InfoDialog)
     fun inject(dialog: PromptDialog)
+    fun inject(dialog: PromptBottomSheetDialog)
 }
