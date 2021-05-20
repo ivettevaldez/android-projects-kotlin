@@ -7,11 +7,6 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-private const val ARG_TITLE = "ARG_TITLE"
-private const val ARG_MESSAGE = "ARG_MESSAGE"
-private const val ARG_POSITIVE_BUTTON_CAPTION = "ARG_POSITIVE_BUTTON_CAPTION"
-private const val ARG_NEGATIVE_BUTTON_CAPTION = "ARG_NEGATIVE_BUTTON_CAPTION"
-
 class PromptDialog : BaseDialog(),
     IPromptDialogViewMvc.Listener {
 
@@ -24,6 +19,11 @@ class PromptDialog : BaseDialog(),
     private lateinit var viewMvc: IPromptDialogViewMvc
 
     companion object {
+
+        private const val ARG_TITLE = "ARG_TITLE"
+        private const val ARG_MESSAGE = "ARG_MESSAGE"
+        private const val ARG_POSITIVE_BUTTON_CAPTION = "ARG_POSITIVE_BUTTON_CAPTION"
+        private const val ARG_NEGATIVE_BUTTON_CAPTION = "ARG_NEGATIVE_BUTTON_CAPTION"
 
         fun newPromptDialog(
             title: String,

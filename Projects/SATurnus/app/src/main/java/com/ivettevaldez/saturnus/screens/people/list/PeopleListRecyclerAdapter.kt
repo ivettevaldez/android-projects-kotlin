@@ -6,7 +6,8 @@ import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 
 class PeopleListRecyclerAdapter(
-    private val viewMvcFactory: ViewMvcFactory
+    private val viewMvcFactory: ViewMvcFactory,
+    private val listener: IPeopleListItemViewMvc.Listener
 ) : RecyclerView.Adapter<PeopleListRecyclerAdapter.ViewHolder>(),
     IPeopleListItemViewMvc.Listener {
 
@@ -28,6 +29,10 @@ class PeopleListRecyclerAdapter(
     }
 
     override fun getItemCount(): Int = people.size
+
+    override fun onPersonLongClick(rfc: String) {
+        listener.onPersonLongClick(rfc)
+    }
 
     fun updateData(people: List<Person>) {
         this.people.clear()

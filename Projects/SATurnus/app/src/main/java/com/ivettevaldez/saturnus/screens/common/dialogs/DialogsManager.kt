@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialog
+import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
 import javax.inject.Inject
@@ -65,9 +66,30 @@ class DialogsManager @Inject constructor(
         bottomSheetDialog.show(fragmentManager, tag)
     }
 
+    fun showPersonOptionsDialog(tag: String?) {
+        val bottomSheetDialog: BottomSheetDialogFragment =
+            PromptBottomSheetDialog.newPromptBottomSheetDialog(
+                getString(R.string.message_what_action_do_you_want),
+                getString(R.string.action_edit_person),
+                getString(R.string.action_delete_person)
+            )
+        bottomSheetDialog.show(fragmentManager, tag)
+    }
+
+    fun showDeletePersonConfirmationDialog(tag: String?) {
+        val dialogFragment: DialogFragment =
+            PromptDialog.newPromptDialog(
+                getString(R.string.action_delete_person),
+                getString(R.string.message_delete_person_confirmation),
+                getString(R.string.action_delete),
+                getString(R.string.action_cancel)
+            )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
     fun getShownDialogTag(): String? {
         for (fragment in fragmentManager.fragments) {
-            if (fragment is BaseDialog) {
+            if (fragment is BaseDialog || fragment is BaseBottomSheetDialog) {
                 return fragment.tag
             }
         }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.Constants
+import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
@@ -50,10 +51,10 @@ class PersonFormFragment : BaseFragment(),
         private const val ARG_CLIENT_TYPE = "ARG_CLIENT_TYPE"
 
         @JvmStatic
-        fun newInstance(rfc: String?, clientType: String) = PersonFormFragment().apply {
+        fun newInstance(rfc: String?, clientType: ClientType.Type) = PersonFormFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_RFC, rfc)
-                putString(ARG_CLIENT_TYPE, clientType)
+                putSerializable(ARG_CLIENT_TYPE, clientType)
             }
         }
     }
@@ -64,7 +65,9 @@ class PersonFormFragment : BaseFragment(),
 
         arguments?.let {
             rfc = it.getString(ARG_RFC)
-            clientType = it.getString(ARG_CLIENT_TYPE)!!
+
+            val clientType = it.getSerializable(ARG_CLIENT_TYPE)!! as ClientType.Type
+            this.clientType = ClientType.getString(clientType)
         }
     }
 
@@ -73,6 +76,12 @@ class PersonFormFragment : BaseFragment(),
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        if (arguments == null) {
+            throw RuntimeException(
+                "@@@@@ Arguments must not be null, required: $ARG_RFC, $ARG_CLIENT_TYPE"
+            )
+        }
 
         viewMvc = viewMvcFactory.newPersonFormViewMvc(parent)
         viewMvc.setClientType(clientType)

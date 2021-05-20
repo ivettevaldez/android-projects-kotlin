@@ -34,6 +34,8 @@ class PeopleMainFragment : BaseFragment(),
 
     companion object {
 
+        private const val TAG_PEOPLE_MAIN_OPTIONS_DIALOG = "TAG_PEOPLE_MAIN_OPTIONS_DIALOG"
+
         @JvmStatic
         fun newInstance() = PeopleMainFragment()
     }
@@ -62,12 +64,14 @@ class PeopleMainFragment : BaseFragment(),
 
     override fun onStart() {
         super.onStart()
+
         viewMvc.registerListener(this)
         dialogsEventBus.registerListener(this)
     }
 
     override fun onStop() {
         super.onStop()
+
         viewMvc.unregisterListener(this)
         dialogsEventBus.unregisterListener(this)
     }
@@ -77,20 +81,23 @@ class PeopleMainFragment : BaseFragment(),
     }
 
     override fun onAddNewClicked() {
-        dialogsManager.showSelectClientTypeDialog(null)
+        dialogsManager.showSelectClientTypeDialog(TAG_PEOPLE_MAIN_OPTIONS_DIALOG)
     }
 
     override fun onDialogEvent(event: Any) {
-        Thread {
-            val clientType = when ((event as PromptBottomSheetDialogEvent).clickedButton) {
-                PromptBottomSheetDialogEvent.Button.OPTION_ONE -> {
-                    ClientType.getString(ClientType.Type.ISSUING)
-                }
-                PromptBottomSheetDialogEvent.Button.OPTION_TWO -> {
-                    ClientType.getString(ClientType.Type.RECEIVER)
-                }
-            }
+        if (dialogsManager.getShownDialogTag() == TAG_PEOPLE_MAIN_OPTIONS_DIALOG) {
+            validateSelectedOption(
+                (event as PromptBottomSheetDialogEvent).clickedButton
+            )
+        }
+    }
 
+    private fun validateSelectedOption(clickedButton: PromptBottomSheetDialogEvent.Button) {
+        Thread {
+            val clientType = when (clickedButton) {
+                PromptBottomSheetDialogEvent.Button.OPTION_ONE -> ClientType.Type.ISSUING
+                PromptBottomSheetDialogEvent.Button.OPTION_TWO -> ClientType.Type.RECEIVER
+            }
             screensNavigator.toPersonForm(null, clientType)
         }.start()
     }

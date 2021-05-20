@@ -17,7 +17,10 @@ import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 
 interface IPeopleListViewMvc : IObservableViewMvc<IPeopleListViewMvc.Listener> {
 
-    interface Listener
+    interface Listener {
+
+        fun onPersonLongClick(rfc: String)
+    }
 
     fun bindPeople(people: List<Person>)
     fun showProgressIndicator()
@@ -34,7 +37,8 @@ class PeopleListViewMvcImpl(
     inflater,
     parent,
     R.layout.layout_people_list
-), IPeopleListViewMvc {
+), IPeopleListViewMvc,
+    IPeopleListItemViewMvc.Listener {
 
     private val layoutProgress: FrameLayout = findViewById(R.id.people_list_progress)
     private val recycler: RecyclerView = findViewById(R.id.people_list_recycler)
@@ -70,11 +74,20 @@ class PeopleListViewMvcImpl(
         }
     }
 
+    override fun onPersonLongClick(rfc: String) {
+        for (listener in listeners) {
+            listener.onPersonLongClick(rfc)
+        }
+    }
+
     private fun initRecycler() {
         val linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.isSmoothScrollbarEnabled = true
 
-        peopleListRecyclerAdapter = PeopleListRecyclerAdapter(viewMvcFactory)
+        peopleListRecyclerAdapter = PeopleListRecyclerAdapter(
+            viewMvcFactory,
+            this
+        )
 
         with(recycler) {
             layoutManager = linearLayoutManager

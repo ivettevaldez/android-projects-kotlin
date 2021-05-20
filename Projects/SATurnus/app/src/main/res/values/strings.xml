@@ -7,10 +7,18 @@
 
     <!-- Actions -->
     <string name="action_ok">OK</string>
+    <string name="action_cancel">Cancelar</string>
     <string name="action_save">Guardar</string>
+    <string name="action_delete">Borrar</string>
+    <string name="action_edit_person">Editar persona</string>
+    <string name="action_delete_person">Borrar persona</string>
 
     <!-- Messages -->
     <string name="message_saved">Los datos han sido guardados.</string>
+    <string name="message_what_action_do_you_want">¿Qué acción deseas realizar?</string>
+    <string name="message_delete_person_confirmation">
+        ¿Estás seguro/a de que deseas borrar a la persona seleccionada?
+    </string>
 
     <!-- Errors -->
     <string name="error_missing_fields">Debes llenar todos los campos para poder continuar.</string>
