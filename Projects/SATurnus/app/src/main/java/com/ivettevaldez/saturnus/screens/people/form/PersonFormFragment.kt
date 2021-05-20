@@ -75,6 +75,7 @@ class PersonFormFragment : BaseFragment(),
     ): View {
 
         viewMvc = viewMvcFactory.newPersonFormViewMvc(parent)
+        viewMvc.setClientType(clientType)
 
         if (rfc != null) {
             bindPerson()

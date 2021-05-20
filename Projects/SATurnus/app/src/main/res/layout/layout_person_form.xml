@@ -55,6 +55,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="8dp"/>
+
+        <include
+            android:id="@+id/person_form_input_client_type"
+            layout="@layout/element_text_input_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <FrameLayout

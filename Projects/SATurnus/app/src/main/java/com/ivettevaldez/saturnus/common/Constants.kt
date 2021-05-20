@@ -9,5 +9,5 @@ object Constants {
     const val RFC_LENGTH_PHYSICAL_PERSON = 13
 
     const val SPLASH_NAVIGATION_DELAY = 3000L
-    const val SHOW_MESSAGE_DELAY = 1500L
+    const val SHOW_MESSAGE_DELAY = 2000L
 }

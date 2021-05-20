@@ -47,31 +47,12 @@
             android:layout_width="match_parent"
             android:layout_height="8dp" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/item_person_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/item_person_text_rfc"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@color/aluminium"
-                android:textSize="@dimen/text_normal" />
-
-            <Space
-                android:layout_width="8dp"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/item_person_text_person_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/aluminium"
-                android:textSize="@dimen/text_normal" />
-
-        </LinearLayout>
+            android:textColor="@color/aluminium"
+            android:textSize="@dimen/text_normal" />
 
     </LinearLayout>
 

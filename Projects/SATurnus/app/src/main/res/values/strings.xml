@@ -36,8 +36,9 @@
     <string name="people_add_new_person">Nueva persona</string>
     <string name="people_name">Nombre o razón social</string>
     <string name="people_rfc">RFC</string>
-    <string name="people_rfc_template">RFC: %s</string>
+    <string name="people_detail_template">RFC: %s  |  Persona %s</string>
     <string name="people_type">Tipo de persona</string>
+    <string name="people_client_type">Tipo de RFC</string>
     <string name="people_select_client_type">Selecciona el tipo de RFC</string>
     <string name="people_client_type_issuing">Emisor</string>
     <string name="people_client_type_receiver">Receptor</string>

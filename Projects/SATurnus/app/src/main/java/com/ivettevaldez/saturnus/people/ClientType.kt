@@ -10,8 +10,8 @@ class ClientType {
 
     companion object {
 
-        private const val CLIENT_ISSUING = "ISSUING"
-        private const val CLIENT_RECEIVER = "RECEIVER"
+        private const val CLIENT_ISSUING = "Emisor"
+        private const val CLIENT_RECEIVER = "Receptor"
 
         fun getString(type: Type): String {
             return when (type) {

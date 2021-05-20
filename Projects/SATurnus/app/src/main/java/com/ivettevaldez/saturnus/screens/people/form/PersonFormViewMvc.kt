@@ -32,10 +32,12 @@ interface IPersonFormViewMvc : IObservableViewMvc<IPersonFormViewMvc.Listener> {
     fun getName(): String
     fun getRfc(): String
     fun getPersonType(): String
+    fun getClientType(): String
     fun cleanFields()
     fun showProgressIndicator()
     fun hideProgressIndicator()
     fun setPersonType(type: String)
+    fun setClientType(type: String)
 }
 
 class PersonFormViewMvcImpl(
@@ -53,13 +55,16 @@ class PersonFormViewMvcImpl(
     private val buttonSave: Button = findViewById(R.id.person_form_button_save)
     private val inputName: TextInputLayout = findViewById(R.id.person_form_input_name)
     private val inputRfc: TextInputLayout = findViewById(R.id.person_form_input_rfc)
-    private val inputType: TextInputLayout = findViewById(R.id.person_form_input_person_type)
+    private val inputPersonType: TextInputLayout = findViewById(R.id.person_form_input_person_type)
+    private val inputClientType: TextInputLayout = findViewById(R.id.person_form_input_client_type)
     private val editName: TextInputEditText =
         inputName.findViewById(R.id.text_input_edit_text_simple)
     private val editRfc: TextInputEditText =
         inputRfc.findViewById(R.id.text_input_edit_text_simple)
     private val editPersonType: TextInputEditText =
-        inputType.findViewById(R.id.text_input_edit_text_simple)
+        inputPersonType.findViewById(R.id.text_input_edit_text_simple)
+    private val editClientType: TextInputEditText =
+        inputClientType.findViewById(R.id.text_input_edit_text_simple)
 
     private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
 
@@ -86,6 +91,7 @@ class PersonFormViewMvcImpl(
         editName.setText(person.name)
         editRfc.setText(person.rfc)
         editPersonType.setText(person.personType)
+        editClientType.setText(person.clientType)
     }
 
     override fun getName(): String = editName.text.toString().trim()
@@ -94,10 +100,13 @@ class PersonFormViewMvcImpl(
 
     override fun getPersonType(): String = editPersonType.text.toString().trim()
 
+    override fun getClientType(): String = editClientType.text.toString().trim()
+
     override fun cleanFields() {
         editName.setText("")
         editRfc.setText("")
         editPersonType.setText("")
+        editClientType.setText("")
         buttonSave.requestFocus()
     }
 
@@ -111,6 +120,10 @@ class PersonFormViewMvcImpl(
 
     override fun setPersonType(type: String) {
         editPersonType.setText(type)
+    }
+
+    override fun setClientType(type: String) {
+        editClientType.setText(type)
     }
 
     private fun initToolbar() {
@@ -133,7 +146,8 @@ class PersonFormViewMvcImpl(
         // Hints
         inputName.hint = context.getString(R.string.people_name)
         inputRfc.hint = context.getString(R.string.people_rfc)
-        inputType.hint = context.getString(R.string.people_type)
+        inputPersonType.hint = context.getString(R.string.people_type)
+        inputClientType.hint = context.getString(R.string.people_client_type)
 
         // Other
         editName.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
@@ -143,6 +157,9 @@ class PersonFormViewMvcImpl(
 
         editPersonType.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
         editPersonType.isEnabled = false
+
+        editClientType.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
+        editClientType.isEnabled = false
     }
 
     private fun setListenerEvents() {

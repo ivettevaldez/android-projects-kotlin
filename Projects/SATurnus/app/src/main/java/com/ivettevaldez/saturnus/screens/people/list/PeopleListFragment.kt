@@ -73,7 +73,8 @@ class PeopleListFragment : BaseFragment(),
 
     override fun onResume() {
         super.onResume()
-        bindPeople()
+        // TODO: Manage states.
+//        bindPeople()
     }
 
     private fun getPeople(): List<Person> = when (clientType) {
