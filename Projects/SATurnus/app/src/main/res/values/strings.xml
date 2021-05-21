@@ -54,6 +54,11 @@
         <item>Emisoras</item>
         <item>Receptoras</item>
     </string-array>
+    <string-array name="people_client_types">
+        <item>@string/people_select_client_type</item>
+        <item>@string/people_client_type_issuing</item>
+        <item>@string/people_client_type_receiver</item>
+    </string-array>
 
     <!-- Content -->
     <string name="content_menu">Menú</string>

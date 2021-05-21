@@ -27,5 +27,13 @@ class ClientType {
                 else -> null
             }
         }
+
+        fun getPosition(type: String): Int {
+            return when (type) {
+                CLIENT_ISSUING -> 1
+                CLIENT_RECEIVER -> 2
+                else -> 0
+            }
+        }
     }
 }

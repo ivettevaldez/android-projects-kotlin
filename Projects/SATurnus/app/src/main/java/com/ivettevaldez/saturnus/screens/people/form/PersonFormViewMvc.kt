@@ -7,12 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.FrameLayout
+import android.widget.Spinner
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.ivettevaldez.saturnus.R
+import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
@@ -37,7 +40,7 @@ interface IPersonFormViewMvc : IObservableViewMvc<IPersonFormViewMvc.Listener> {
     fun showProgressIndicator()
     fun hideProgressIndicator()
     fun setPersonType(type: String)
-    fun setClientType(type: String)
+    fun setClientType(position: Int)
 }
 
 class PersonFormViewMvcImpl(
@@ -63,10 +66,11 @@ class PersonFormViewMvcImpl(
         inputRfc.findViewById(R.id.text_input_edit_text_simple)
     private val editPersonType: TextInputEditText =
         inputPersonType.findViewById(R.id.text_input_edit_text_simple)
-    private val editClientType: TextInputEditText =
-        inputClientType.findViewById(R.id.text_input_edit_text_simple)
+    private val spinnerClientType: Spinner =
+        inputClientType.findViewById(R.id.text_input_spinner)
 
     private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
+    private val clientTypePlaceholderPosition = 0
 
     private val rfcTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -91,7 +95,8 @@ class PersonFormViewMvcImpl(
         editName.setText(person.name)
         editRfc.setText(person.rfc)
         editPersonType.setText(person.personType)
-        editClientType.setText(person.clientType)
+
+        setClientType(ClientType.getPosition(person.clientType))
     }
 
     override fun getName(): String = editName.text.toString().trim()
@@ -100,13 +105,21 @@ class PersonFormViewMvcImpl(
 
     override fun getPersonType(): String = editPersonType.text.toString().trim()
 
-    override fun getClientType(): String = editClientType.text.toString().trim()
+    override fun getClientType(): String {
+        return if (spinnerClientType.selectedItemPosition == clientTypePlaceholderPosition) {
+            ""
+        } else {
+            spinnerClientType.selectedItem.toString().trim()
+        }
+    }
 
     override fun cleanFields() {
         editName.setText("")
         editRfc.setText("")
         editPersonType.setText("")
-        editClientType.setText("")
+
+        setClientType(0)
+
         buttonSave.requestFocus()
     }
 
@@ -122,8 +135,8 @@ class PersonFormViewMvcImpl(
         editPersonType.setText(type)
     }
 
-    override fun setClientType(type: String) {
-        editClientType.setText(type)
+    override fun setClientType(position: Int) {
+        spinnerClientType.setSelection(position)
     }
 
     private fun initToolbar() {
@@ -158,8 +171,12 @@ class PersonFormViewMvcImpl(
         editPersonType.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
         editPersonType.isEnabled = false
 
-        editClientType.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
-        editClientType.isEnabled = false
+        spinnerClientType.adapter = ArrayAdapter.createFromResource(
+            context,
+            R.array.people_client_types,
+            R.layout.item_spinner
+        )
+        setClientType(0)
     }
 
     private fun setListenerEvents() {

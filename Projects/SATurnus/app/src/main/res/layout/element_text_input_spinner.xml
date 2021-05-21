@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.textfield.TextInputLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/text_input_spinner_layout"
+    style="@style/Theme.TextInputLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_primary_text_input">
+
+    <Spinner
+        android:id="@+id/text_input_spinner"
+        android:layout_width="match_parent"
+        android:layout_marginTop="-10dp"
+        android:layout_height="wrap_content" />
+
+</com.google.android.material.textfield.TextInputLayout>

@@ -61,7 +61,7 @@
 
         <include
             android:id="@+id/person_form_input_client_type"
-            layout="@layout/element_text_input_simple"
+            layout="@layout/element_text_input_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

@@ -12,6 +12,11 @@
     <dimen name="text_input_height">56dp</dimen>
     <dimen name="text_input_padding">8dp</dimen>
 
+    <!-- Spinner -->
+    <dimen name="spinner_item_height">48dp</dimen>
+    <dimen name="spinner_item_horizontal_padding">16dp</dimen>
+    <dimen name="spinner_item_vertical_padding">8dp</dimen>
+
     <!-- Margins -->
     <dimen name="activity_horizontal_big_margin">32dp</dimen>
     <dimen name="activity_vertical_big_margin">32dp</dimen>

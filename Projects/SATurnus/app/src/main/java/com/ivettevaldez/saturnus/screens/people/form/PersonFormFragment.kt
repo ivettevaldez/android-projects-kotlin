@@ -63,7 +63,7 @@ class PersonFormFragment : BaseFragment(),
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
+        requireArguments().let {
             rfc = it.getString(ARG_RFC)
 
             val clientType = it.getSerializable(ARG_CLIENT_TYPE)!! as ClientType.Type
@@ -77,14 +77,8 @@ class PersonFormFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
-        if (arguments == null) {
-            throw RuntimeException(
-                "@@@@@ Arguments must not be null, required: $ARG_RFC, $ARG_CLIENT_TYPE"
-            )
-        }
-
         viewMvc = viewMvcFactory.newPersonFormViewMvc(parent)
-        viewMvc.setClientType(clientType)
+        viewMvc.setClientType(ClientType.getPosition(clientType))
 
         if (rfc != null) {
             bindPerson()
@@ -147,9 +141,10 @@ class PersonFormFragment : BaseFragment(),
         val name = viewMvc.getName()
         val rfc = viewMvc.getRfc()
         val personType = viewMvc.getPersonType()
+        val clientType = viewMvc.getClientType()
 
         when {
-            name.isBlank() || rfc.isBlank() || personType.isBlank() -> {
+            name.isBlank() || rfc.isBlank() || personType.isBlank() || clientType.isBlank() -> {
                 dialogsManager.showMissingFieldsError(null)
             }
             !name.isValidName() -> {
@@ -159,12 +154,12 @@ class PersonFormFragment : BaseFragment(),
                 dialogsManager.showInvalidRfcError(null)
             }
             else -> {
-                savePerson(name, rfc, personType)
+                savePerson(name, rfc, personType, clientType)
             }
         }
     }
 
-    private fun savePerson(name: String, rfc: String, type: String) {
+    private fun savePerson(name: String, rfc: String, type: String, clientType: String) {
         val saved = personDao.save(
             Person(
                 name = name,
@@ -184,6 +179,7 @@ class PersonFormFragment : BaseFragment(),
     }
 
     private fun close() {
+        // TODO: Refresh PeopleList when a new person is saved.
         uiHandler.postDelayed({
             screensNavigator.navigateUp()
         }, Constants.SHOW_MESSAGE_DELAY)

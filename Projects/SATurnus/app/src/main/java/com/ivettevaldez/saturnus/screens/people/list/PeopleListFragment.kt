@@ -44,7 +44,6 @@ class PeopleListFragment : BaseFragment(),
     companion object {
 
         private const val ARG_CLIENT_TYPE = "ARG_CLIENT_TYPE"
-
         private const val TAG_PEOPLE_LIST_ACTIONS_DIALOG =
             "TAG_PEOPLE_LIST_ACTIONS_DIALOG"
         private const val TAG_PEOPLE_LIST_CONFIRMATION_DIALOG =
@@ -63,12 +62,8 @@ class PeopleListFragment : BaseFragment(),
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        if (arguments == null) {
-            throw RuntimeException("@@@@@ Arguments must not be null: required $ARG_CLIENT_TYPE")
-        } else {
-            arguments!!.let {
-                clientType = it.getSerializable(ARG_CLIENT_TYPE) as ClientType.Type
-            }
+        requireArguments().let {
+            clientType = it.getSerializable(ARG_CLIENT_TYPE) as ClientType.Type
         }
     }
 
@@ -90,13 +85,6 @@ class PeopleListFragment : BaseFragment(),
 
         viewMvc.registerListener(this)
         dialogsEventBus.registerListener(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        // TODO: Manage states.
-//        bindPeople()
     }
 
     override fun onStop() {
@@ -163,7 +151,7 @@ class PeopleListFragment : BaseFragment(),
                 deletePerson()
             }
             PromptDialogEvent.Button.NEGATIVE -> {
-                // Nothing to do here.
+                // User canceled the action.
             }
         }
     }

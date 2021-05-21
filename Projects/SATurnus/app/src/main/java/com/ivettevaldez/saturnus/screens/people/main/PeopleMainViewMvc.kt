@@ -49,6 +49,7 @@ class PeopleMainViewMvcImpl(
 
     override fun setViewPager(adapter: PeopleMainPagerAdapter, selectedTabPosition: Int) {
         viewPager.adapter = adapter
+        viewPager.offscreenPageLimit = 1
 
         initTabs()
         selectTab(selectedTabPosition)
