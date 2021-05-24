@@ -17,7 +17,7 @@ interface IPeopleMainViewMvc : IObservableViewMvc<IPeopleMainViewMvc.Listener> {
 
     interface Listener {
 
-        fun onAddNewClicked()
+        fun onAddNewPersonClicked()
         fun onNavigateUpClicked()
     }
 
@@ -74,7 +74,7 @@ class PeopleMainViewMvcImpl(
     private fun setListenerEvents() {
         fabAddNew.setOnClickListener {
             for (listener in listeners) {
-                listener.onAddNewClicked()
+                listener.onAddNewPersonClicked()
             }
         }
     }

@@ -162,10 +162,7 @@ class PeopleListFragment : BaseFragment(),
             selectedPersonRfc = null
 
             if (person != null) {
-                screensNavigator.toPersonForm(
-                    person.rfc,
-                    ClientType.getValue(person.clientType)!!
-                )
+                screensNavigator.toPersonForm(person.rfc)
             }
         }
     }

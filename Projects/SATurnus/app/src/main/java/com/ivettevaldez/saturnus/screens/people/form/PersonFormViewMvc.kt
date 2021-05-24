@@ -40,7 +40,6 @@ interface IPersonFormViewMvc : IObservableViewMvc<IPersonFormViewMvc.Listener> {
     fun showProgressIndicator()
     fun hideProgressIndicator()
     fun setPersonType(type: String)
-    fun setClientType(position: Int)
 }
 
 class PersonFormViewMvcImpl(
@@ -121,6 +120,7 @@ class PersonFormViewMvcImpl(
         setClientType(0)
 
         buttonSave.requestFocus()
+        buttonSave.isEnabled = false
     }
 
     override fun showProgressIndicator() {
@@ -133,10 +133,6 @@ class PersonFormViewMvcImpl(
 
     override fun setPersonType(type: String) {
         editPersonType.setText(type)
-    }
-
-    override fun setClientType(position: Int) {
-        spinnerClientType.setSelection(position)
     }
 
     private fun initToolbar() {
@@ -187,5 +183,9 @@ class PersonFormViewMvcImpl(
         }
 
         editRfc.addTextChangedListener(rfcTextWatcher)
+    }
+
+    private fun setClientType(position: Int) {
+        spinnerClientType.setSelection(position)
     }
 }

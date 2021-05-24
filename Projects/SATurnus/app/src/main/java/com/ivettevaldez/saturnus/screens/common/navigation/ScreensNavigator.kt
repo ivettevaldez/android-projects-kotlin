@@ -1,6 +1,5 @@
 package com.ivettevaldez.saturnus.screens.common.navigation
 
-import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.FragmentFrameHelper
 import com.ivettevaldez.saturnus.screens.invoicing.InvoicingFragment
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
@@ -32,9 +31,9 @@ class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: Frag
         )
     }
 
-    fun toPersonForm(rfc: String?, clientType: ClientType.Type) {
+    fun toPersonForm(rfc: String?) {
         fragmentFrameHelper.replaceFragment(
-            PersonFormFragment.newInstance(rfc, clientType)
+            PersonFormFragment.newInstance(rfc)
         )
     }
 }

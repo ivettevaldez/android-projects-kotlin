@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.Constants
-import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
@@ -39,7 +38,6 @@ class PersonFormFragment : BaseFragment(),
     lateinit var uiHandler: Handler
 
     private lateinit var viewMvc: IPersonFormViewMvc
-    private lateinit var clientType: String
 
     private var rfc: String? = null
 
@@ -48,13 +46,11 @@ class PersonFormFragment : BaseFragment(),
         const val MIN_NAME_LENGTH = 3
 
         private const val ARG_RFC = "ARG_RFC"
-        private const val ARG_CLIENT_TYPE = "ARG_CLIENT_TYPE"
 
         @JvmStatic
-        fun newInstance(rfc: String?, clientType: ClientType.Type) = PersonFormFragment().apply {
+        fun newInstance(rfc: String?) = PersonFormFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG_RFC, rfc)
-                putSerializable(ARG_CLIENT_TYPE, clientType)
             }
         }
     }
@@ -65,9 +61,6 @@ class PersonFormFragment : BaseFragment(),
 
         requireArguments().let {
             rfc = it.getString(ARG_RFC)
-
-            val clientType = it.getSerializable(ARG_CLIENT_TYPE)!! as ClientType.Type
-            this.clientType = ClientType.getString(clientType)
         }
     }
 
@@ -78,7 +71,6 @@ class PersonFormFragment : BaseFragment(),
     ): View {
 
         viewMvc = viewMvcFactory.newPersonFormViewMvc(parent)
-        viewMvc.setClientType(ClientType.getPosition(clientType))
 
         if (rfc != null) {
             bindPerson()
