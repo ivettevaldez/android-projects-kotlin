@@ -13,8 +13,8 @@ import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.ToolbarViewMvcImpl
-import com.ivettevaldez.saturnus.screens.invoicing.IInvoicingViewMvc
-import com.ivettevaldez.saturnus.screens.invoicing.InvoicingViewMvcImpl
+import com.ivettevaldez.saturnus.screens.invoicing.IInvoiceIssuingPeopleViewMvc
+import com.ivettevaldez.saturnus.screens.invoicing.InvoiceIssuingPeopleViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.form.IPersonFormViewMvc
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.list.IPeopleListItemViewMvc
@@ -58,8 +58,15 @@ class ViewMvcFactory @Inject constructor(
         return SplashViewMvc(inflater.get(), parent)
     }
 
-    fun newInvoicingViewMvc(parent: ViewGroup?): IInvoicingViewMvc {
-        return InvoicingViewMvcImpl(inflater.get(), parent, this, navDrawerHelper.get())
+    fun newInvoiceIssuingPeopleViewMvc(parent: ViewGroup?): IInvoiceIssuingPeopleViewMvc {
+        return InvoiceIssuingPeopleViewMvcImpl(
+            inflater.get(),
+            parent,
+            uiHandler.get(),
+            utilsHelper.get(),
+            navDrawerHelper.get(),
+            this
+        )
     }
 
     fun newPeopleMainViewMvc(parent: ViewGroup?): IPeopleMainViewMvc {

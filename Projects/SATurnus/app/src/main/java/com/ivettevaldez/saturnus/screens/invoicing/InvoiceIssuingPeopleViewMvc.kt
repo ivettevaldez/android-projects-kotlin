@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.people.list
+package com.ivettevaldez.saturnus.screens.invoicing
 
 import android.os.Handler
 import android.view.LayoutInflater
@@ -6,16 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.UtilsHelper
+import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
+import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import com.ivettevaldez.saturnus.screens.people.list.IPeopleListItemViewMvc
+import com.ivettevaldez.saturnus.screens.people.list.PeopleListRecyclerAdapter
 
-interface IPeopleListViewMvc : IObservableViewMvc<IPeopleListViewMvc.Listener> {
+interface IInvoiceIssuingPeopleViewMvc : IObservableViewMvc<IInvoiceIssuingPeopleViewMvc.Listener> {
 
     interface Listener {
 
@@ -28,27 +33,32 @@ interface IPeopleListViewMvc : IObservableViewMvc<IPeopleListViewMvc.Listener> {
     fun hideProgressIndicator()
 }
 
-class PeopleListViewMvcImpl(
+class InvoiceIssuingPeopleViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
     private val uiHandler: Handler,
     private val utilsHelper: UtilsHelper,
+    private val navDrawerHelper: INavDrawerHelper,
     private val viewMvcFactory: ViewMvcFactory
-) : BaseObservableViewMvc<IPeopleListViewMvc.Listener>(
+) : BaseObservableViewMvc<IInvoiceIssuingPeopleViewMvc.Listener>(
     inflater,
     parent,
-    R.layout.layout_people_list
-), IPeopleListViewMvc,
+    R.layout.layout_invoice_issuing_people
+), IInvoiceIssuingPeopleViewMvc,
     IPeopleListItemViewMvc.Listener {
 
+    private val toolbar: Toolbar = findViewById(R.id.invoice_issuing_people_toolbar)
     private val layoutProgress: FrameLayout = findViewById(R.id.people_list_progress)
     private val recycler: RecyclerView = findViewById(R.id.people_list_recycler)
     private val textAddNew: TextView = findViewById(R.id.people_list_text_add_new)
+
+    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
 
     private lateinit var peopleListRecyclerAdapter: PeopleListRecyclerAdapter
 
     init {
 
+        initToolbar()
         initRecycler()
     }
 
@@ -88,6 +98,22 @@ class PeopleListViewMvcImpl(
         for (listener in listeners) {
             listener.onPersonLongClick(rfc)
         }
+    }
+
+    private fun initToolbar() {
+        toolbarViewMvc.setTitle(
+            context.getString(R.string.menu_invoicing)
+        )
+
+        toolbarViewMvc.enableMenuAndListen(object : IToolbarViewMvc.MenuClickListener {
+            override fun onMenuClicked() {
+                for (listener in listeners) {
+                    navDrawerHelper.openDrawer()
+                }
+            }
+        })
+
+        toolbar.addView(toolbarViewMvc.getRootView())
     }
 
     private fun initRecycler() {

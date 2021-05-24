@@ -30,6 +30,10 @@ class PeopleListRecyclerAdapter(
 
     override fun getItemCount(): Int = people.size
 
+    override fun onPersonClick(rfc: String) {
+        listener.onPersonClick(rfc)
+    }
+
     override fun onPersonLongClick(rfc: String) {
         listener.onPersonLongClick(rfc)
     }

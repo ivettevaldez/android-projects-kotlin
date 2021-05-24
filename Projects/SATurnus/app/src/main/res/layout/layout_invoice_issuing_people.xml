@@ -3,13 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/color_background"
-    tools:context=".screens.invoicing.InvoicingFragment">
+    android:orientation="vertical"
+    tools:context=".screens.invoicing.InvoiceIssuingPeopleFragment">
 
     <include
+        android:id="@+id/invoice_issuing_people_toolbar"
         layout="@layout/element_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <include
+        layout="@layout/layout_people_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

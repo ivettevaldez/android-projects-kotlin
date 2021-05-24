@@ -42,7 +42,7 @@ class SplashFragment : BaseFragment() {
         viewMvc = viewMvcFactory.newSplashViewMvc(parent)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            screensNavigator.toInvoicing()
+            screensNavigator.toInvoiceIssuingPeople()
         }, Constants.SPLASH_NAVIGATION_DELAY)
 
         return viewMvc.getRootView()

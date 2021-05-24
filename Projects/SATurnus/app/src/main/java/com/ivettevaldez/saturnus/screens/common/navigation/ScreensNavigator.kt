@@ -1,7 +1,7 @@
 package com.ivettevaldez.saturnus.screens.common.navigation
 
 import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.FragmentFrameHelper
-import com.ivettevaldez.saturnus.screens.invoicing.InvoicingFragment
+import com.ivettevaldez.saturnus.screens.invoicing.InvoiceIssuingPeopleFragment
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
 import com.ivettevaldez.saturnus.screens.people.main.PeopleMainFragment
 import com.ivettevaldez.saturnus.screens.splash.SplashFragment
@@ -19,9 +19,9 @@ class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: Frag
         )
     }
 
-    fun toInvoicing() {
+    fun toInvoiceIssuingPeople() {
         fragmentFrameHelper.replaceFragmentAndClearBackstack(
-            InvoicingFragment.newInstance()
+            InvoiceIssuingPeopleFragment.newInstance()
         )
     }
 

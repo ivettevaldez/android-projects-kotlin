@@ -77,7 +77,7 @@ class MainActivity : BaseActivity(),
     }
 
     override fun onInvoicingClicked() {
-        screensNavigator.toInvoicing()
+        screensNavigator.toInvoiceIssuingPeople()
     }
 
     private fun getCopyright(): String {

@@ -15,6 +15,7 @@ interface IPeopleListItemViewMvc : IObservableViewMvc<IPeopleListItemViewMvc.Lis
 
     interface Listener {
 
+        fun onPersonClick(rfc: String)
         fun onPersonLongClick(rfc: String)
     }
 
@@ -65,11 +66,18 @@ class PeopleListItemViewMvcImpl(
     }
 
     private fun setListenerEvents() {
-        layoutItem.setOnLongClickListener {
-            for (listener in listeners) {
-                listener.onPersonLongClick(person.rfc)
+        with(layoutItem) {
+            setOnClickListener {
+                for (listener in listeners) {
+                    listener.onPersonClick(person.rfc)
+                }
             }
-            false
+            setOnLongClickListener {
+                for (listener in listeners) {
+                    listener.onPersonLongClick(person.rfc)
+                }
+                true
+            }
         }
     }
 }

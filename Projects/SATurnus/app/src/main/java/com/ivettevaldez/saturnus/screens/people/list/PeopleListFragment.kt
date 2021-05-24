@@ -94,6 +94,10 @@ class PeopleListFragment : BaseFragment(),
         dialogsEventBus.unregisterListener(this)
     }
 
+    override fun onPersonClick(rfc: String) {
+        // TODO:
+    }
+
     override fun onPersonLongClick(rfc: String) {
         selectedPersonRfc = rfc
         dialogsManager.showPersonOptionsDialog(TAG_PEOPLE_LIST_ACTIONS_DIALOG)

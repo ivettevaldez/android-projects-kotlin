@@ -4,22 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ivettevaldez.saturnus.people.Person
+import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class InvoicingFragment : BaseFragment(),
-    IInvoicingViewMvc.Listener {
+class InvoiceIssuingPeopleFragment : BaseFragment(),
+    IInvoiceIssuingPeopleViewMvc.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    private lateinit var viewMvc: IInvoicingViewMvc
+    @Inject
+    lateinit var peopleDao: PersonDao
+
+    private lateinit var viewMvc: IInvoiceIssuingPeopleViewMvc
 
     companion object {
 
         @JvmStatic
-        fun newInstance() = InvoicingFragment()
+        fun newInstance() = InvoiceIssuingPeopleFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +37,11 @@ class InvoicingFragment : BaseFragment(),
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewMvc = viewMvcFactory.newInvoicingViewMvc(parent)
+
+        viewMvc = viewMvcFactory.newInvoiceIssuingPeopleViewMvc(parent)
+
+        bindPeople()
+
         return viewMvc.getRootView()
     }
 
@@ -44,5 +53,23 @@ class InvoicingFragment : BaseFragment(),
     override fun onStop() {
         super.onStop()
         viewMvc.unregisterListener(this)
+    }
+
+    private fun getPeople(): List<Person> = peopleDao.findAllIssuing()
+
+    private fun bindPeople() {
+        Thread {
+            viewMvc.showProgressIndicator()
+            viewMvc.bindPeople(getPeople())
+            viewMvc.hideProgressIndicator()
+        }.start()
+    }
+
+    override fun onPersonClick(rfc: String) {
+        // TODO:
+    }
+
+    override fun onPersonLongClick(rfc: String) {
+        // TODO:
     }
 }
