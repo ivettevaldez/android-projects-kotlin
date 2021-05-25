@@ -14,6 +14,13 @@ class InvoiceDao @Inject constructor() {
     private val classTag = this::class.java.simpleName
     private val baseClassTag = Invoice::class.java.simpleName
 
+    companion object {
+
+        private const val FOLIO = "folio"
+        private const val ISSUING_RFC = "issuing.rfc"
+        private const val CREATED_AT = "createdAt"
+    }
+
     fun save(invoice: Invoice): Boolean {
         return try {
             invoice.save()
@@ -21,7 +28,7 @@ class InvoiceDao @Inject constructor() {
         } catch (ex: RealmException) {
             Log.e(
                 classTag,
-                "@@@@@ Attempting to save a $baseClassTag with Folio ${invoice.folio}",
+                "@@@@@ Attempting to save a $baseClassTag with $FOLIO '${invoice.folio}'",
                 ex
             )
             false
@@ -29,31 +36,23 @@ class InvoiceDao @Inject constructor() {
     }
 
     fun findByFolio(folio: String): Invoice? {
-        val invoice = Invoice().queryFirst {
-            notEqualTo("deleted", true)
-                .and()
-            equalTo("folio", folio)
-        }
+        val invoice = Invoice().queryFirst { equalTo(FOLIO, folio) }
         if (invoice == null) {
-            Log.e(classTag, "@@@@@ $baseClassTag with Folio $folio does not exist")
+            Log.e(classTag, "@@@@@ $baseClassTag with $FOLIO '$folio' does not exist")
         }
         return invoice
     }
 
-    fun findAllByRfc(rfc: String): List<Invoice> {
-        return Invoice().querySorted("createdAt", Sort.DESCENDING) {
-            notEqualTo("deleted", true)
-                .and()
-            equalTo("rfc", rfc)
+    fun findAllByIssuingRfc(rfc: String): List<Invoice> {
+        return Invoice().querySorted(CREATED_AT, Sort.DESCENDING) {
+            equalTo(ISSUING_RFC, rfc)
         }
     }
 
     fun delete(folio: String) {
         val invoice = findByFolio(folio)
         if (invoice != null) {
-            Invoice().delete {
-                equalTo("folio", folio)
-            }
+            Invoice().delete { equalTo(FOLIO, folio) }
         }
     }
 }

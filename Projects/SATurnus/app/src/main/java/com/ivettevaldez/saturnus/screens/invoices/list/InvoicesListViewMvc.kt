@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.screens.common.UtilsHelper
@@ -50,7 +51,7 @@ class InvoicesListViewMvcImpl(
     private val recycler: RecyclerView = findViewById(R.id.invoices_list_recycler)
     private val textAddNew: TextView = findViewById(R.id.invoices_list_text_add_new)
     private val textIssued: TextView = findViewById(R.id.invoices_list_text_issued)
-    private val fabAddNew: TextView = findViewById(R.id.invoices_list_fab_add_new)
+    private val fabAddNew: FloatingActionButton = findViewById(R.id.invoices_list_fab_add_new)
 
     private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
 

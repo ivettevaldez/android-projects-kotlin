@@ -102,7 +102,7 @@ class InvoicesListFragment : BaseFragment(),
     @WorkerThread
     private fun getInvoices(): List<Invoice> {
         if (rfc != null) {
-            return invoiceDao.findAllByRfc(rfc!!)
+            return invoiceDao.findAllByIssuingRfc(rfc!!)
         }
         return listOf()
     }
