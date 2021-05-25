@@ -18,6 +18,9 @@ class PromptBottomSheetDialog : BaseBottomSheetDialog(),
     lateinit var dialogsEventBus: DialogsEventBus
 
     private lateinit var viewMvc: IPromptBottomSheetViewMvc
+    private lateinit var title: String
+    private lateinit var optionOneCaption: String
+    private lateinit var optionTwoCaption: String
 
     companion object {
 
@@ -30,36 +33,36 @@ class PromptBottomSheetDialog : BaseBottomSheetDialog(),
             title: String,
             optionOneCaption: String,
             optionTwoCaption: String
-        ): PromptBottomSheetDialog {
-            return PromptBottomSheetDialog().apply {
+        ): PromptBottomSheetDialog =
+            PromptBottomSheetDialog().apply {
                 arguments = Bundle().apply {
                     putString(ARG_TITLE, title)
                     putString(ARG_OPTION_ONE_CAPTION, optionOneCaption)
                     putString(ARG_OPTION_TWO_CAPTION, optionTwoCaption)
                 }
             }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
-
-        viewMvc = viewMvcFactory.newPromptBottomSheetDialogViewMvc(null)
-
         super.onCreate(savedInstanceState)
+
+        requireArguments().let {
+            title = it.getString(ARG_TITLE)!!
+            optionOneCaption = it.getString(ARG_OPTION_ONE_CAPTION)!!
+            optionTwoCaption = it.getString(ARG_OPTION_TWO_CAPTION)!!
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (arguments == null) {
-            throw IllegalArgumentException("@@@@@ Arguments must not be null")
-        }
+        viewMvc = viewMvcFactory.newPromptBottomSheetDialogViewMvc(null)
 
         val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(viewMvc.getRootView())
 
-        viewMvc.setTitle(getTitle())
-        viewMvc.setOptionOneCaption(getOptionOneCaption())
-        viewMvc.setOptionTwoCaption(getOptionTwoCaption())
+        viewMvc.setTitle(title)
+        viewMvc.setOptionOneCaption(optionOneCaption)
+        viewMvc.setOptionTwoCaption(optionTwoCaption)
 
         return dialog
     }
@@ -89,10 +92,4 @@ class PromptBottomSheetDialog : BaseBottomSheetDialog(),
             PromptBottomSheetDialogEvent(PromptBottomSheetDialogEvent.Button.OPTION_TWO)
         )
     }
-
-    private fun getTitle(): String = arguments!!.getString(ARG_TITLE) ?: ""
-
-    private fun getOptionOneCaption(): String = arguments!!.getString(ARG_OPTION_ONE_CAPTION) ?: ""
-
-    private fun getOptionTwoCaption(): String = arguments!!.getString(ARG_OPTION_TWO_CAPTION) ?: ""
 }

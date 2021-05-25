@@ -18,8 +18,8 @@ interface IPromptDialogViewMvc : IObservableViewMvc<IPromptDialogViewMvc.Listene
 
     fun setTitle(title: String)
     fun setMessage(message: String)
-    fun setPositiveButtonCaption(caption: String)
-    fun setNegativeButtonCaption(caption: String)
+    fun setPositiveCaption(caption: String)
+    fun setNegativeCaption(caption: String)
 }
 
 class PromptDialogViewMvcImpl(
@@ -49,11 +49,11 @@ class PromptDialogViewMvcImpl(
         textMessage.text = message
     }
 
-    override fun setPositiveButtonCaption(caption: String) {
+    override fun setPositiveCaption(caption: String) {
         buttonPositive.text = caption
     }
 
-    override fun setNegativeButtonCaption(caption: String) {
+    override fun setNegativeCaption(caption: String) {
         buttonNegative.text = caption
     }
 

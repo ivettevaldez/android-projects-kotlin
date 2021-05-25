@@ -56,16 +56,6 @@ class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
-    fun showSelectClientTypeDialog(tag: String?) {
-        val bottomSheetDialog: BottomSheetDialogFragment =
-            PromptBottomSheetDialog.newPromptBottomSheetDialog(
-                getString(R.string.people_select_client_type),
-                getString(R.string.people_client_type_issuing),
-                getString(R.string.people_client_type_receiver)
-            )
-        bottomSheetDialog.show(fragmentManager, tag)
-    }
-
     fun showPersonOptionsDialog(tag: String?) {
         val bottomSheetDialog: BottomSheetDialogFragment =
             PromptBottomSheetDialog.newPromptBottomSheetDialog(
@@ -77,13 +67,12 @@ class DialogsManager @Inject constructor(
     }
 
     fun showDeletePersonConfirmationDialog(tag: String?) {
-        val dialogFragment: DialogFragment =
-            PromptDialog.newPromptDialog(
-                getString(R.string.action_delete_person),
-                getString(R.string.message_delete_person_confirmation),
-                getString(R.string.action_delete),
-                getString(R.string.action_cancel)
-            )
+        val dialogFragment: DialogFragment = PromptDialog.newPromptDialog(
+            getString(R.string.action_delete_person),
+            getString(R.string.message_delete_person_confirmation),
+            getString(R.string.action_delete),
+            getString(R.string.action_cancel)
+        )
         dialogFragment.show(fragmentManager, tag)
     }
 

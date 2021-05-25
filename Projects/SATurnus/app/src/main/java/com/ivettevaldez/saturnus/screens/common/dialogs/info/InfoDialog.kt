@@ -13,6 +13,9 @@ class InfoDialog : BaseDialog(),
     lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var viewMvc: IInfoDialogViewMvc
+    private lateinit var title: String
+    private lateinit var message: String
+    private lateinit var buttonCaption: String
 
     companion object {
 
@@ -21,38 +24,38 @@ class InfoDialog : BaseDialog(),
         private const val ARG_BUTTON_CAPTION = "ARG_BUTTON_CAPTION"
 
         @JvmStatic
-        fun newInfoDialog(title: String, message: String, caption: String): InfoDialog {
-            return InfoDialog().apply {
+        fun newInfoDialog(title: String, message: String, caption: String): InfoDialog =
+            InfoDialog().apply {
                 arguments = Bundle().apply {
                     putString(ARG_TITLE, title)
                     putString(ARG_MESSAGE, message)
                     putString(ARG_BUTTON_CAPTION, caption)
                 }
             }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
-
-        viewMvc = viewMvcFactory.newInfoDialogViewMvc(null)
-
         super.onCreate(savedInstanceState)
+
+        requireArguments().let {
+            title = it.getString(ARG_TITLE)!!
+            message = it.getString(ARG_MESSAGE)!!
+            buttonCaption = it.getString(ARG_BUTTON_CAPTION)!!
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (arguments == null) {
-            throw IllegalArgumentException("@@@@@ Arguments must not be null")
-        }
+        viewMvc = viewMvcFactory.newInfoDialogViewMvc(null)
 
         val dialog = Dialog(requireContext())
         dialog.setContentView(viewMvc.getRootView())
 
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
 
-        viewMvc.setTitle(getTitle())
-        viewMvc.setMessage(getMessage())
-        viewMvc.setButtonCaption(getButtonCaption())
+        viewMvc.setTitle(title)
+        viewMvc.setMessage(message)
+        viewMvc.setButtonCaption(buttonCaption)
 
         return dialog
     }
@@ -70,10 +73,4 @@ class InfoDialog : BaseDialog(),
     override fun onButtonClicked() {
         dismiss()
     }
-
-    private fun getTitle(): String = arguments!!.getString(ARG_TITLE) ?: ""
-
-    private fun getMessage(): String = arguments!!.getString(ARG_MESSAGE) ?: ""
-
-    private fun getButtonCaption(): String = arguments!!.getString(ARG_BUTTON_CAPTION) ?: ""
 }
