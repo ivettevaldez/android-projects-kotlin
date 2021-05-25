@@ -38,6 +38,7 @@
     <!-- Module: Invoices -->
     <string name="invoices_title">Facturación</string>
     <string name="invoices_add_new">Agrega nuevos comprobantes</string>
+    <string name="invoices_new">Nuevo comprobante</string>
     <string name="invoices_issued">Comprobantes emitidos ante el SAT</string>
 
     <!-- Module: People -->
@@ -66,5 +67,6 @@
     <string name="content_menu">Menú</string>
     <string name="content_navigate_up">Atrás</string>
     <string name="content_add_new_person">Agregar una nueva persona</string>
+    <string name="content_add_new_invoice">Agregar un nuevo comprobante</string>
 
 </resources>

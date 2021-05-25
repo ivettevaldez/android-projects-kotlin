@@ -30,8 +30,7 @@ class InvoicesListFragment : BaseFragment(),
     lateinit var invoiceDao: InvoiceDao
 
     private lateinit var viewMvc: IInvoicesListViewMvc
-
-    private var rfc: String? = null
+    private lateinit var rfc: String
 
     companion object {
 
@@ -51,7 +50,7 @@ class InvoicesListFragment : BaseFragment(),
         super.onCreate(savedInstanceState)
 
         requireArguments().let {
-            rfc = it.getString(ARG_RFC)
+            rfc = it.getString(ARG_RFC)!!
         }
     }
 
@@ -88,24 +87,14 @@ class InvoicesListFragment : BaseFragment(),
     }
 
     override fun onAddNewInvoiceClick() {
-        // TODO:
+        screensNavigator.toInvoiceForm(rfc)
     }
 
     @WorkerThread
-    private fun getPerson(): Person? {
-        if (rfc != null) {
-            return personDao.findByRfc(rfc!!)
-        }
-        return null
-    }
+    private fun getPerson(): Person? = personDao.findByRfc(rfc)
 
     @WorkerThread
-    private fun getInvoices(): List<Invoice> {
-        if (rfc != null) {
-            return invoiceDao.findAllByIssuingRfc(rfc!!)
-        }
-        return listOf()
-    }
+    private fun getInvoices(): List<Invoice> = invoiceDao.findAllByIssuingRfc(rfc)
 
     private fun setToolbarTitle() {
         Thread {

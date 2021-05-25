@@ -58,6 +58,6 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
         app:srcCompat="@mipmap/ic_invoice_plus_white_36dp"
-        android:contentDescription="@string/content_add_new_person" />
+        android:contentDescription="@string/content_add_new_invoice" />
 
 </RelativeLayout>
