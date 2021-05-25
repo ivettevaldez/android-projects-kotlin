@@ -18,4 +18,65 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/invoice_form_toolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_primary"
+                android:padding="@dimen/screen_padding"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/invoice_form_input_issuing"
+                    layout="@layout/element_text_input_simple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"/>
+
+                <include
+                    android:id="@+id/invoice_form_input_receiver"
+                    layout="@layout/element_text_input_simple"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_primary"
+                android:padding="@dimen/screen_padding">
+
+                <Button
+                    android:id="@+id/invoice_form_button_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:theme="@style/Theme.ButtonPrimary"
+                    android:text="@string/action_save"
+                    android:textColor="@color/white"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

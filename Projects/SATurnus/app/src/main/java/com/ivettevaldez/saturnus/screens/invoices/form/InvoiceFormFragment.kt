@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ivettevaldez.saturnus.people.Person
+import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
@@ -17,6 +19,9 @@ class InvoiceFormFragment : BaseFragment(),
 
     @Inject
     lateinit var screensNavigator: ScreensNavigator
+
+    @Inject
+    lateinit var personDao: PersonDao
 
     private lateinit var viewMvc: IInvoiceFormViewMvc
     private lateinit var issuingRfc: String
@@ -50,6 +55,9 @@ class InvoiceFormFragment : BaseFragment(),
     ): View {
 
         viewMvc = viewMvcFactory.newInvoiceFormViewMvc(parent)
+
+        bindIssuingPerson()
+
         return viewMvc.getRootView()
     }
 
@@ -65,5 +73,22 @@ class InvoiceFormFragment : BaseFragment(),
 
     override fun onNavigateUpClicked() {
         screensNavigator.navigateUp()
+    }
+
+    override fun onSelectReceiverClicked() {
+        // TODO:
+    }
+
+    override fun onSaveClicked() {
+        // TODO:
+    }
+
+    private fun getIssuingPerson(): Person? = personDao.findByRfc(issuingRfc)
+
+    private fun bindIssuingPerson() {
+        val person = getIssuingPerson()
+        if (person != null) {
+            viewMvc.bindIssuingPerson(person.name)
+        }
     }
 }
