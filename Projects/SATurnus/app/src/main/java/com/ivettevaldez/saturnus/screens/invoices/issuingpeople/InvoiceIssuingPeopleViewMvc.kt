@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.invoicing
+package com.ivettevaldez.saturnus.screens.invoices.issuingpeople
 
 import android.os.Handler
 import android.view.LayoutInflater
@@ -102,14 +102,12 @@ class InvoiceIssuingPeopleViewMvcImpl(
 
     private fun initToolbar() {
         toolbarViewMvc.setTitle(
-            context.getString(R.string.menu_invoicing)
+            context.getString(R.string.menu_invoices)
         )
 
         toolbarViewMvc.enableMenuAndListen(object : IToolbarViewMvc.MenuClickListener {
             override fun onMenuClicked() {
-                for (listener in listeners) {
-                    navDrawerHelper.openDrawer()
-                }
+                navDrawerHelper.openDrawer()
             }
         })
 

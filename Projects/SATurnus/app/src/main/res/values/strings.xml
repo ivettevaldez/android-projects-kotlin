@@ -32,13 +32,15 @@
     <string name="error_invalid_rfc">El RFC ingresado es inválido.</string>
 
     <!-- Menu -->
-    <string name="menu_invoicing">@string/invoicing_title</string>
+    <string name="menu_invoices">@string/invoices_title</string>
     <string name="menu_people">@string/people_title</string>
 
-    <!-- Screen: Invoicing -->
-    <string name="invoicing_title">Facturación</string>
+    <!-- Module: Invoices -->
+    <string name="invoices_title">Facturación</string>
+    <string name="invoices_add_new">Agrega nuevos comprobantes</string>
+    <string name="invoices_issued">Comprobantes emitidos ante el SAT</string>
 
-    <!-- Screen: People -->
+    <!-- Module: People -->
     <string name="people_title">Personas</string>
     <string name="people_add_new">Agrega nuevas personas</string>
     <string name="people_add_new_person">Nueva persona</string>

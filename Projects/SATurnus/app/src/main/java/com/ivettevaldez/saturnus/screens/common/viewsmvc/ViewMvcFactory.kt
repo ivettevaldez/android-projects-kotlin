@@ -13,8 +13,12 @@ import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.ToolbarViewMvcImpl
-import com.ivettevaldez.saturnus.screens.invoicing.IInvoiceIssuingPeopleViewMvc
-import com.ivettevaldez.saturnus.screens.invoicing.InvoiceIssuingPeopleViewMvcImpl
+import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.IInvoiceIssuingPeopleViewMvc
+import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.InvoiceIssuingPeopleViewMvcImpl
+import com.ivettevaldez.saturnus.screens.invoices.list.IInvoiceListItemViewMvc
+import com.ivettevaldez.saturnus.screens.invoices.list.IInvoicesListViewMvc
+import com.ivettevaldez.saturnus.screens.invoices.list.InvoiceListItemViewMvcImpl
+import com.ivettevaldez.saturnus.screens.invoices.list.InvoicesListViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.form.IPersonFormViewMvc
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.list.IPeopleListItemViewMvc
@@ -67,6 +71,20 @@ class ViewMvcFactory @Inject constructor(
             navDrawerHelper.get(),
             this
         )
+    }
+
+    fun newInvoicesListViewMvc(parent: ViewGroup?): IInvoicesListViewMvc {
+        return InvoicesListViewMvcImpl(
+            inflater.get(),
+            parent,
+            uiHandler.get(),
+            utilsHelper.get(),
+            this
+        )
+    }
+
+    fun newInvoiceListItemViewMvc(parent: ViewGroup?): IInvoiceListItemViewMvc {
+        return InvoiceListItemViewMvcImpl(inflater.get(), parent)
     }
 
     fun newPeopleMainViewMvc(parent: ViewGroup?): IPeopleMainViewMvc {

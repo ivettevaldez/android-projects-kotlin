@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_background"
     android:orientation="vertical"
-    tools:context=".screens.invoicing.InvoiceIssuingPeopleFragment">
+    tools:context=".screens.invoices.issuingpeople.InvoiceIssuingPeopleFragment">
 
     <include
         android:id="@+id/invoice_issuing_people_toolbar"

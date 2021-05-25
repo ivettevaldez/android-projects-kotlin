@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.invoicing
+package com.ivettevaldez.saturnus.screens.invoices.issuingpeople
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
@@ -15,6 +16,9 @@ class InvoiceIssuingPeopleFragment : BaseFragment(),
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
+
+    @Inject
+    lateinit var screensNavigator: ScreensNavigator
 
     @Inject
     lateinit var peopleDao: PersonDao
@@ -66,7 +70,7 @@ class InvoiceIssuingPeopleFragment : BaseFragment(),
     }
 
     override fun onPersonClick(rfc: String) {
-        // TODO:
+        screensNavigator.toInvoicesList(rfc)
     }
 
     override fun onPersonLongClick(rfc: String) {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/color_background"
+    tools:context=".screens.invoices.list.InvoicesListFragment">
+
+    <include
+        android:id="@+id/invoices_list_toolbar"
+        layout="@layout/element_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/invoices_list_progress"
+        layout="@layout/element_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/invoices_list_text_issued"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/invoices_issued"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_medium"
+        android:padding="@dimen/item_padding"
+        android:visibility="gone"
+        android:layout_below="@id/invoices_list_toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/invoices_list_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/invoices_list_text_add_new"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/invoices_add_new"
+        android:textColor="@color/link_water"
+        android:textSize="@dimen/text_big"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:gravity="center"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/invoices_list_fab_add_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginStart="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginEnd="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        app:srcCompat="@mipmap/ic_invoice_plus_white_36dp"
+        android:contentDescription="@string/content_add_new_person" />
+
+</RelativeLayout>
