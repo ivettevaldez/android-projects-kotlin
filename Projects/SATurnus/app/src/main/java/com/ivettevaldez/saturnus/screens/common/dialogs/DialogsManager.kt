@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialog
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
@@ -74,6 +76,15 @@ class DialogsManager @Inject constructor(
             getString(R.string.action_cancel)
         )
         dialogFragment.show(fragmentManager, tag)
+    }
+
+    fun showPersonSelectorDialog(
+        tag: String?,
+        listener: IPersonSelectorBottomSheetViewMvc.Listener
+    ) {
+        val bottomSheetDialog: BottomSheetDialogFragment =
+            PersonSelectorBottomSheetDialog.newPersonSelectorBottomSheetDialog(listener)
+        bottomSheetDialog.show(fragmentManager, tag)
     }
 
     fun getShownDialogTag(): String? {

@@ -1,14 +1,16 @@
 package com.ivettevaldez.saturnus.screens.invoices.form
 
+/* ktlint-disable no-wildcard-imports */
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import androidx.legacy.widget.Space
 import com.ivettevaldez.saturnus.R
+import com.ivettevaldez.saturnus.common.Constants
+import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
@@ -23,8 +25,8 @@ interface IInvoiceFormViewMvc : IObservableViewMvc<IInvoiceFormViewMvc.Listener>
         fun onSaveClicked()
     }
 
-    fun bindIssuingPerson(name: String)
-    fun bindReceiverPerson(name: String)
+    fun bindIssuingPerson(person: Person)
+    fun bindReceiverPerson(person: Person)
     fun showProgressIndicator()
     fun hideProgressIndicator()
 }
@@ -41,13 +43,35 @@ class InvoiceFormViewMvcImpl(
 
     private val toolbar: Toolbar = findViewById(R.id.invoice_form_toolbar)
     private val layoutProgress: FrameLayout = findViewById(R.id.invoice_form_progress)
-    private val inputIssuing: TextInputLayout = findViewById(R.id.invoice_form_input_issuing)
-    private val inputReceiver: TextInputLayout = findViewById(R.id.invoice_form_input_receiver)
-    private val editIssuing: TextInputEditText =
-        inputIssuing.findViewById(R.id.text_input_edit_text_simple)
-    private val editReceiver: TextInputEditText =
-        inputReceiver.findViewById(R.id.text_input_edit_text_simple)
     private val buttonSave: Button = findViewById(R.id.invoice_form_button_save)
+
+    private val layoutIssuing: LinearLayout = findViewById(R.id.invoice_form_issuing)
+    private val textIssuingTitle: TextView =
+        layoutIssuing.findViewById(R.id.item_invoice_person_text_title)
+    private val textIssuingName: TextView =
+        layoutIssuing.findViewById(R.id.item_invoice_person_text_name)
+    private val textIssuingRfc: TextView =
+        layoutIssuing.findViewById(R.id.item_invoice_person_text_rfc)
+    private val textIssuingAction: TextView =
+        layoutIssuing.findViewById(R.id.item_invoice_person_text_action)
+    private val imageIssuingPersonType: ImageView =
+        layoutIssuing.findViewById(R.id.item_invoice_person_image_person_type)
+
+    private val layoutReceiver: LinearLayout = findViewById(R.id.invoice_form_receiver)
+    private val layoutReceiverDetails: LinearLayout =
+        layoutReceiver.findViewById(R.id.item_invoice_person_layout_details)
+    private val textReceiverTitle: TextView =
+        layoutReceiver.findViewById(R.id.item_invoice_person_text_title)
+    private val textReceiverName: TextView =
+        layoutReceiver.findViewById(R.id.item_invoice_person_text_name)
+    private val textReceiverRfc: TextView =
+        layoutReceiver.findViewById(R.id.item_invoice_person_text_rfc)
+    private val textReceiverAction: TextView =
+        layoutReceiver.findViewById(R.id.item_invoice_person_text_action)
+    private val imageReceiverPersonType: ImageView =
+        layoutReceiver.findViewById(R.id.item_invoice_person_image_person_type)
+    private val spaceReceiver: Space =
+        layoutReceiver.findViewById(R.id.item_invoice_person_space)
 
     private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
 
@@ -58,12 +82,28 @@ class InvoiceFormViewMvcImpl(
         setListenerEvents()
     }
 
-    override fun bindIssuingPerson(name: String) {
-        editIssuing.setText(name)
+    override fun bindIssuingPerson(person: Person) {
+        textIssuingName.text = person.name
+        textIssuingRfc.text = String.format(
+            "%s: %s",
+            context.getString(R.string.people_rfc),
+            person.rfc
+        )
+        imageIssuingPersonType.setImageResource(getPersonTypeIcon(person.personType))
     }
 
-    override fun bindReceiverPerson(name: String) {
-        editReceiver.setText(name)
+    override fun bindReceiverPerson(person: Person) {
+        layoutReceiverDetails.visibility = View.VISIBLE
+        spaceReceiver.visibility = View.VISIBLE
+        textReceiverAction.text = context.getString(R.string.action_change)
+
+        textReceiverName.text = person.name
+        textReceiverRfc.text = String.format(
+            "%s: %s",
+            context.getString(R.string.people_rfc),
+            person.rfc
+        )
+        imageReceiverPersonType.setImageResource(getPersonTypeIcon(person.personType))
     }
 
     override fun showProgressIndicator() {
@@ -91,13 +131,15 @@ class InvoiceFormViewMvcImpl(
     }
 
     private fun initFields() {
-        // Hints
-        inputIssuing.hint = context.getString(R.string.people_client_type_issuing)
-        inputReceiver.hint = context.getString(R.string.people_client_type_receiver)
+        textIssuingTitle.text = context.getString(R.string.invoices_issuing)
+        textReceiverTitle.text = context.getString(R.string.invoices_receiver)
 
-        // Other
-        editIssuing.isEnabled = false
-        editReceiver.isEnabled = false
+        layoutReceiverDetails.visibility = View.GONE
+        spaceReceiver.visibility = View.GONE
+        textIssuingAction.visibility = View.GONE
+        textReceiverAction.text = context.getString(R.string.action_select_person)
+
+        imageReceiverPersonType.setImageResource(getPersonTypeIcon(""))
     }
 
     private fun setListenerEvents() {
@@ -107,15 +149,20 @@ class InvoiceFormViewMvcImpl(
             }
         }
 
-        inputReceiver.setOnClickListener {
+        textReceiverAction.setOnClickListener {
             for (listener in listeners) {
                 listener.onSelectReceiverClicked()
             }
         }
     }
 
-    private fun cleanFields() {
-        editIssuing.setText("")
-        editReceiver.setText("")
+    private fun getPersonTypeIcon(personType: String): Int {
+        return if (personType == Constants.PHYSICAL_PERSON) {
+            R.mipmap.ic_person_grey_36dp
+        } else if (personType == Constants.MORAL_PERSON) {
+            R.mipmap.ic_people_grey_36dp
+        } else {
+            R.mipmap.ic_person_plus_blue_36dp
+        }
     }
 }

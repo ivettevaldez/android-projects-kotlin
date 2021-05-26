@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/prompt_bottom_sheet_layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom">
+
+    <LinearLayout
+        android:id="@+id/person_selector_bottom_sheet_layout_body"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_dialog_bottom_sheet_body"
+        android:orientation="vertical"
+
+        app:behavior_peekHeight="512dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <TextView
+            android:id="@+id/person_selector_bottom_sheet_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/link_water"
+            android:textSize="@dimen/text_medium" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_vertical_spacing" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/person_selector_bottom_sheet_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

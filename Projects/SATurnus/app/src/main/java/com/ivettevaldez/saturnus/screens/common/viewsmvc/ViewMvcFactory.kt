@@ -5,6 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorListItemViewMvc
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorListItemViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.IPromptBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetViewMvcImpl
@@ -58,6 +62,15 @@ class ViewMvcFactory @Inject constructor(
 
     fun newPromptBottomSheetDialogViewMvc(parent: ViewGroup?): IPromptBottomSheetViewMvc {
         return PromptBottomSheetViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newPersonSelectorBottomSheetDialogViewMvc(parent: ViewGroup?):
+            IPersonSelectorBottomSheetViewMvc {
+        return PersonSelectorBottomSheetViewMvcImpl(inflater.get(), parent, this)
+    }
+
+    fun newPersonSelectorListItemViewMvc(parent: ViewGroup?): IPersonSelectorListItemViewMvc {
+        return PersonSelectorListItemViewMvcImpl(inflater.get(), parent)
     }
 
     fun newSplashViewMvc(parent: ViewGroup?): SplashViewMvc {

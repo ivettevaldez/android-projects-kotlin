@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
 class InvoiceFormFragment : BaseFragment(),
-    IInvoiceFormViewMvc.Listener {
+    IInvoiceFormViewMvc.Listener,
+    IPersonSelectorBottomSheetViewMvc.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -21,10 +24,15 @@ class InvoiceFormFragment : BaseFragment(),
     lateinit var screensNavigator: ScreensNavigator
 
     @Inject
+    lateinit var dialogsManager: DialogsManager
+
+    @Inject
     lateinit var personDao: PersonDao
 
     private lateinit var viewMvc: IInvoiceFormViewMvc
     private lateinit var issuingRfc: String
+
+    private var receiverRfc: String? = null
 
     companion object {
 
@@ -76,19 +84,35 @@ class InvoiceFormFragment : BaseFragment(),
     }
 
     override fun onSelectReceiverClicked() {
-        // TODO:
+        dialogsManager.showPersonSelectorDialog(null, this)
+    }
+
+    override fun onPersonSelected(rfc: String) {
+        receiverRfc = rfc
+        bindReceiverPerson()
     }
 
     override fun onSaveClicked() {
         // TODO:
     }
 
-    private fun getIssuingPerson(): Person? = personDao.findByRfc(issuingRfc)
+    private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)
 
     private fun bindIssuingPerson() {
-        val person = getIssuingPerson()
+        val person = getPerson(issuingRfc)
         if (person != null) {
-            viewMvc.bindIssuingPerson(person.name)
+            viewMvc.bindIssuingPerson(person)
+        } else {
+            throw RuntimeException("Person with RFC $issuingRfc cannot be found")
+        }
+    }
+
+    private fun bindReceiverPerson() {
+        val person = getPerson(receiverRfc!!)
+        if (person != null) {
+            viewMvc.bindReceiverPerson(person)
+        } else {
+            throw RuntimeException("Person with RFC $receiverRfc cannot be found")
         }
     }
 }

@@ -8,10 +8,13 @@
     <!-- Actions -->
     <string name="action_ok">OK</string>
     <string name="action_cancel">Cancelar</string>
+    <string name="action_assign">Asignar</string>
+    <string name="action_change">Cambiar</string>
     <string name="action_save">Guardar</string>
     <string name="action_delete">Borrar</string>
     <string name="action_edit_person">Editar persona</string>
     <string name="action_delete_person">Borrar persona</string>
+    <string name="action_select_person">Selecciona a una persona</string>
 
     <!-- Messages -->
     <string name="message_saved">Los datos han sido guardados.</string>
@@ -40,6 +43,8 @@
     <string name="invoices_add_new">Agrega nuevos comprobantes</string>
     <string name="invoices_new">Nuevo comprobante</string>
     <string name="invoices_issued">Comprobantes emitidos ante el SAT</string>
+    <string name="invoices_issuing">Emisor del comprobante</string>
+    <string name="invoices_receiver">Receptor del comprobante</string>
 
     <!-- Module: People -->
     <string name="people_title">Personas</string>

@@ -1,6 +1,7 @@
 package com.ivettevaldez.saturnus.common.dependencyinjection.presentation
 
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialog
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.common.main.MainActivity
@@ -28,4 +29,5 @@ interface PresentationComponent {
     fun inject(dialog: InfoDialog)
     fun inject(dialog: PromptDialog)
     fun inject(dialog: PromptBottomSheetDialog)
+    fun inject(dialog: PersonSelectorBottomSheetDialog)
 }

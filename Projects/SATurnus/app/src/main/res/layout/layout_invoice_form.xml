@@ -38,22 +38,22 @@
                 android:orientation="vertical">
 
                 <include
-                    android:id="@+id/invoice_form_input_issuing"
-                    layout="@layout/element_text_input_simple"
+                    android:id="@+id/invoice_form_issuing"
+                    layout="@layout/item_invoice_person"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
-                <Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                    android:layout_height="24dp"/>
 
                 <include
-                    android:id="@+id/invoice_form_input_receiver"
-                    layout="@layout/element_text_input_simple"
+                    android:id="@+id/invoice_form_receiver"
+                    layout="@layout/item_invoice_person"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="match_parent" />
 
-                <Space
+                <androidx.legacy.widget.Space
                     android:layout_width="match_parent"
                     android:layout_height="8dp"/>
 
