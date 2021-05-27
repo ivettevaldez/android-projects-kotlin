@@ -54,21 +54,36 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_primary"
-                android:padding="@dimen/screen_padding">
+                android:padding="@dimen/screen_padding"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/invoice_form_button_save"
+                <include
+                    android:id="@+id/invoice_form_input_folio"
+                    layout="@layout/element_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/Theme.ButtonPrimary"
-                    android:text="@string/action_save"
-                    android:textColor="@color/white"/>
+                    android:layout_height="wrap_content" />
 
-            </FrameLayout>
+                <androidx.legacy.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_field_vertical_spacing" />
+
+                <include
+                    android:id="@+id/invoice_form_input_total"
+                    layout="@layout/element_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <include
+                layout="@layout/element_button_primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

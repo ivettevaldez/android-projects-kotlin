@@ -12,6 +12,9 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSel
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.IPromptBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.fields.ISpinnerInputViewMvc
+import com.ivettevaldez.saturnus.screens.common.fields.SimpleTextInputViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.fields.SpinnerInputViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
@@ -52,6 +55,14 @@ class ViewMvcFactory @Inject constructor(
 
     fun newToolbarViewMvc(parent: ViewGroup?): IToolbarViewMvc {
         return ToolbarViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newSimpleTextInputViewMvc(parent: ViewGroup?): SimpleTextInputViewMvcImpl {
+        return SimpleTextInputViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newSpinnerInputViewMvc(parent: ViewGroup?): ISpinnerInputViewMvc {
+        return SpinnerInputViewMvcImpl(inflater.get(), parent)
     }
 
     fun newInfoDialogViewMvc(parent: ViewGroup?): InfoDialogViewMvcImpl {

@@ -7,16 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.FrameLayout
-import android.widget.Spinner
 import androidx.appcompat.widget.Toolbar
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.people.Person
+import com.ivettevaldez.saturnus.screens.common.fields.ISimpleTextInputViewMvc
+import com.ivettevaldez.saturnus.screens.common.fields.ISpinnerInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
@@ -52,36 +50,29 @@ class PersonFormViewMvcImpl(
     R.layout.layout_person_form
 ), IPersonFormViewMvc {
 
-    private val toolbar: Toolbar = findViewById(R.id.person_form_toolbar)
     private val layoutProgress: FrameLayout = findViewById(R.id.person_form_progress)
-    private val buttonSave: Button = findViewById(R.id.person_form_button_save)
-    private val inputName: TextInputLayout = findViewById(R.id.person_form_input_name)
-    private val inputRfc: TextInputLayout = findViewById(R.id.person_form_input_rfc)
-    private val inputPersonType: TextInputLayout = findViewById(R.id.person_form_input_person_type)
-    private val inputClientType: TextInputLayout = findViewById(R.id.person_form_input_client_type)
-    private val editName: TextInputEditText =
-        inputName.findViewById(R.id.text_input_edit_text_simple)
-    private val editRfc: TextInputEditText =
-        inputRfc.findViewById(R.id.text_input_edit_text_simple)
-    private val editPersonType: TextInputEditText =
-        inputPersonType.findViewById(R.id.text_input_edit_text_simple)
-    private val spinnerClientType: Spinner =
-        inputClientType.findViewById(R.id.text_input_spinner)
+    private val buttonSave: Button = findViewById(R.id.button_primary)
 
-    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
-    private val clientTypePlaceholderPosition = 0
+    private val toolbarContainer: Toolbar = findViewById(R.id.person_form_toolbar)
+    private val toolbar: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbarContainer)
 
-    private val rfcTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+    private val inputNameContainer: FrameLayout = findViewById(R.id.person_form_input_name)
+    private val inputName: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputNameContainer)
 
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            for (listener in listeners) {
-                listener.onRfcChanged(editRfc.text.toString().trim())
-            }
-        }
+    private val inputRfcContainer: FrameLayout = findViewById(R.id.person_form_input_rfc)
+    private val inputRfc: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputRfcContainer)
 
-        override fun afterTextChanged(p0: Editable?) {}
-    }
+    private val inputPersonTypeContainer: FrameLayout =
+        findViewById(R.id.person_form_input_person_type)
+    private val inputPersonType: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputPersonTypeContainer)
+
+    private val inputClientTypeContainer: FrameLayout =
+        findViewById(R.id.person_form_input_client_type)
+    private val inputClientType: ISpinnerInputViewMvc =
+        viewMvcFactory.newSpinnerInputViewMvc(inputClientTypeContainer)
 
     init {
 
@@ -91,33 +82,25 @@ class PersonFormViewMvcImpl(
     }
 
     override fun bindPerson(person: Person) {
-        editName.setText(person.name)
-        editRfc.setText(person.rfc)
-        editPersonType.setText(person.personType)
-
-        setClientType(ClientType.getPosition(person.clientType))
+        inputName.setText(person.name)
+        inputRfc.setText(person.rfc)
+        inputPersonType.setText(person.personType)
+        inputClientType.setSelection(ClientType.getPosition(person.clientType))
     }
 
-    override fun getName(): String = editName.text.toString().trim()
+    override fun getName(): String = inputName.getText()
 
-    override fun getRfc(): String = editRfc.text.toString().trim()
+    override fun getRfc(): String = inputRfc.getText()
 
-    override fun getPersonType(): String = editPersonType.text.toString().trim()
+    override fun getPersonType(): String = inputPersonType.getText()
 
-    override fun getClientType(): String {
-        return if (spinnerClientType.selectedItemPosition == clientTypePlaceholderPosition) {
-            ""
-        } else {
-            spinnerClientType.selectedItem.toString().trim()
-        }
-    }
+    override fun getClientType(): String = inputClientType.getText()
 
     override fun cleanFields() {
-        editName.setText("")
-        editRfc.setText("")
-        editPersonType.setText("")
-
-        setClientType(0)
+        inputName.clean()
+        inputRfc.clean()
+        inputPersonType.clean()
+        inputClientType.clean()
 
         buttonSave.requestFocus()
         buttonSave.isEnabled = false
@@ -132,15 +115,39 @@ class PersonFormViewMvcImpl(
     }
 
     override fun setPersonType(type: String) {
-        editPersonType.setText(type)
+        inputPersonType.setText(type)
     }
 
     private fun initToolbar() {
-        toolbarViewMvc.setTitle(
-            context.getString(R.string.people_add_new_person)
-        )
+        toolbar.setTitle(context.getString(R.string.people_add_new_person))
+        toolbarContainer.addView(toolbar.getRootView())
+    }
 
-        toolbarViewMvc.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
+    private fun initFields() {
+        // Name field
+        inputName.setHint(context.getString(R.string.people_name))
+        inputName.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+        inputNameContainer.addView(inputName.getRootView())
+
+        // RFC field
+        inputRfc.setHint(context.getString(R.string.people_rfc))
+        inputRfc.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS)
+        inputRfc.setImeOptions(EditorInfo.IME_ACTION_DONE)
+        inputRfcContainer.addView(inputRfc.getRootView())
+
+        // PersonType field
+        inputPersonType.setHint(context.getString(R.string.people_type))
+        inputPersonType.disable()
+        inputPersonTypeContainer.addView(inputPersonType.getRootView())
+
+        // ClientType field
+        inputClientType.setHint(context.getString(R.string.people_client_type))
+        inputClientType.bindValues(R.array.people_client_types)
+        inputClientTypeContainer.addView(inputClientType.getRootView())
+    }
+
+    private fun setListenerEvents() {
+        toolbar.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
             override fun onNavigateUpClicked() {
                 for (listener in listeners) {
                     listener.onNavigateUpClicked()
@@ -148,44 +155,24 @@ class PersonFormViewMvcImpl(
             }
         })
 
-        toolbar.addView(toolbarViewMvc.getRootView())
-    }
-
-    private fun initFields() {
-        // Hints
-        inputName.hint = context.getString(R.string.people_name)
-        inputRfc.hint = context.getString(R.string.people_rfc)
-        inputPersonType.hint = context.getString(R.string.people_type)
-        inputClientType.hint = context.getString(R.string.people_client_type)
-
-        // Other
-        editName.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
-
-        editRfc.inputType = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS
-        editRfc.imeOptions = EditorInfo.IME_ACTION_DONE
-
-        editPersonType.inputType = InputType.TYPE_TEXT_FLAG_CAP_WORDS
-        editPersonType.isEnabled = false
-
-        spinnerClientType.adapter = ArrayAdapter.createFromResource(
-            context,
-            R.array.people_client_types,
-            R.layout.item_spinner
-        )
-        setClientType(0)
-    }
-
-    private fun setListenerEvents() {
         buttonSave.setOnClickListener {
             for (listener in listeners) {
                 listener.onSaveClicked()
             }
         }
 
-        editRfc.addTextChangedListener(rfcTextWatcher)
-    }
+        inputRfc.addTextChangedListener(
+            object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
-    private fun setClientType(position: Int) {
-        spinnerClientType.setSelection(position)
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    for (listener in listeners) {
+                        listener.onRfcChanged(getRfc())
+                    }
+                }
+
+                override fun afterTextChanged(p0: Editable?) {}
+            }
+        )
     }
 }

@@ -22,13 +22,16 @@
     <dimen name="activity_vertical_big_margin">32dp</dimen>
     <dimen name="dialog_horizontal_margin">4dp</dimen>
     <dimen name="dialog_vertical_margin">24dp</dimen>
-    <dimen name="dialog_vertical_spacing">24dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- Paddings -->
     <dimen name="screen_padding">24dp</dimen>
     <dimen name="item_padding">16dp</dimen>
     <dimen name="button_primary_padding">16dp</dimen>
+
+    <!-- Spacing -->
+    <dimen name="dialog_vertical_spacing">24dp</dimen>
+    <dimen name="form_field_vertical_spacing">8dp</dimen>
 
     <!-- TextAppearance -->
     <dimen name="text_big">18sp</dimen>

@@ -31,57 +31,46 @@
 
         <include
             android:id="@+id/person_form_input_name"
-            layout="@layout/element_text_input_simple"
+            layout="@layout/element_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="8dp"/>
+            android:layout_height="@dimen/form_field_vertical_spacing" />
 
         <include
             android:id="@+id/person_form_input_rfc"
-            layout="@layout/element_text_input_simple"
+            layout="@layout/element_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="8dp"/>
+            android:layout_height="@dimen/form_field_vertical_spacing" />
 
         <include
             android:id="@+id/person_form_input_person_type"
-            layout="@layout/element_text_input_simple"
+            layout="@layout/element_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="8dp"/>
+            android:layout_height="@dimen/form_field_vertical_spacing" />
 
         <include
             android:id="@+id/person_form_input_client_type"
-            layout="@layout/element_text_input_spinner"
+            layout="@layout/element_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
-    <FrameLayout
+    <include
+        layout="@layout/element_button_primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_primary"
-        android:padding="@dimen/screen_padding"
-        android:layout_below="@id/person_form_layout_fields">
-
-        <Button
-            android:id="@+id/person_form_button_save"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/Theme.ButtonPrimary"
-            android:text="@string/action_save"
-            android:textColor="@color/white"/>
-
-    </FrameLayout>
+        android:layout_below="@id/person_form_layout_fields" />
 
 </RelativeLayout>
