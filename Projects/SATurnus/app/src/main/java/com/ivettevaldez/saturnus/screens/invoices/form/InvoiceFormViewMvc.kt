@@ -96,18 +96,21 @@ class InvoiceFormViewMvcImpl(
 
     private fun initFields() {
         personItemIssuingViewMvc.seTitle(context.getString(R.string.invoices_issuing))
+        personItemIssuingViewMvc.setBackgroundColor(R.color.color_primary)
         personItemIssuing.addView(personItemIssuingViewMvc.getRootView())
 
         personItemReceiverViewMvc.seTitle(context.getString(R.string.invoices_receiver))
+        personItemReceiverViewMvc.setBackgroundColor(R.color.color_primary)
         personItemReceiverViewMvc.setEmpty()
-        personItemReceiverViewMvc.enableActionAndListen(object :
-            IPersonItemViewMvc.ActionClickListener {
-            override fun onActionClicked() {
-                for (listener in listeners) {
-                    listener.onSelectReceiverClicked()
+        personItemReceiverViewMvc.enableActionAndListen(
+            context.getString(R.string.action_change),
+            object : IPersonItemViewMvc.ActionClickListener {
+                override fun onActionClicked() {
+                    for (listener in listeners) {
+                        listener.onSelectReceiverClicked()
+                    }
                 }
-            }
-        })
+            })
         personItemReceiver.addView(personItemReceiverViewMvc.getRootView())
     }
 

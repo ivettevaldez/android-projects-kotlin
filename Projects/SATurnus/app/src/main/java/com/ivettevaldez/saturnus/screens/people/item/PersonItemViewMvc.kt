@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import androidx.legacy.widget.Space
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.Constants
@@ -15,15 +17,29 @@ import com.ivettevaldez.saturnus.screens.common.viewsmvc.IViewMvc
 
 interface IPersonItemViewMvc : IViewMvc {
 
+    interface ItemClickListener {
+
+        fun onItemClicked()
+    }
+
+    interface ItemLongClickListener {
+
+        fun onItemLongClicked()
+    }
+
     interface ActionClickListener {
 
         fun onActionClicked()
     }
 
-    fun seTitle(title: String)
+    fun setBackgroundColor(@ColorRes color: Int)
     fun setEmpty()
+    fun seTitle(title: String)
+    fun hideTitle()
     fun bindPerson(person: Person)
-    fun enableActionAndListen(listener: ActionClickListener)
+    fun enableItemClickAndListen(listener: ItemClickListener)
+    fun enableItemLongClickAndListen(listener: ItemLongClickListener)
+    fun enableActionAndListen(actionName: String, listener: ActionClickListener)
 }
 
 class PersonItemViewMvcImpl(
@@ -32,17 +48,23 @@ class PersonItemViewMvcImpl(
 ) : BaseViewMvc(
     inflater,
     parent,
-    R.layout.item_invoice_person
+    R.layout.item_person
 ), IPersonItemViewMvc {
 
+    private val layoutRoot: LinearLayout = findViewById(R.id.item_invoice_person_layout_root)
+    private val layoutDetails: LinearLayout = findViewById(R.id.item_invoice_person_layout_details)
     private val textTitle: TextView = findViewById(R.id.item_invoice_person_text_title)
     private val textName: TextView = findViewById(R.id.item_invoice_person_text_name)
     private val textRfc: TextView = findViewById(R.id.item_invoice_person_text_rfc)
     private val textAction: TextView = findViewById(R.id.item_invoice_person_text_action)
     private val imageType: ImageView = findViewById(R.id.item_invoice_person_image_person_type)
-    private val layoutDetails: LinearLayout = findViewById(R.id.item_invoice_person_layout_details)
-    private val space: Space = findViewById(R.id.item_invoice_person_space)
+    private val space1: Space = findViewById(R.id.item_invoice_person_space_1)
+    private val space2: Space = findViewById(R.id.item_invoice_person_space_2)
 
+    private var actionName: String? = null
+
+    private var itemClickListener: IPersonItemViewMvc.ItemClickListener? = null
+    private var itemLongClickListener: IPersonItemViewMvc.ItemLongClickListener? = null
     private var actionClickListener: IPersonItemViewMvc.ActionClickListener? = null
 
     init {
@@ -50,15 +72,24 @@ class PersonItemViewMvcImpl(
         setListenerEvents()
     }
 
-    override fun seTitle(title: String) {
-        textTitle.text = title
+    override fun setBackgroundColor(@ColorRes color: Int) {
+        layoutRoot.setBackgroundColor(ContextCompat.getColor(context, color))
     }
 
     override fun setEmpty() {
         textAction.text = context.getString(R.string.action_select_person)
         imageType.setImageResource(getPersonTypeIcon(""))
         layoutDetails.visibility = View.GONE
-        space.visibility = View.GONE
+        space2.visibility = View.GONE
+    }
+
+    override fun seTitle(title: String) {
+        textTitle.text = title
+    }
+
+    override fun hideTitle() {
+        textTitle.visibility = View.GONE
+        space1.visibility = View.GONE
     }
 
     override fun bindPerson(person: Person) {
@@ -71,16 +102,42 @@ class PersonItemViewMvcImpl(
         imageType.setImageResource(getPersonTypeIcon(person.personType))
 
         layoutDetails.visibility = View.VISIBLE
-        space.visibility = View.VISIBLE
-        textAction.text = context.getString(R.string.action_change)
+        space2.visibility = View.VISIBLE
+
+        if (actionName != null) {
+            textAction.text = actionName
+        }
     }
 
-    override fun enableActionAndListen(listener: IPersonItemViewMvc.ActionClickListener) {
-        actionClickListener = listener
+    override fun enableItemClickAndListen(listener: IPersonItemViewMvc.ItemClickListener) {
+        itemClickListener = listener
+    }
+
+    override fun enableItemLongClickAndListen(listener: IPersonItemViewMvc.ItemLongClickListener) {
+        itemLongClickListener = listener
+    }
+
+    override fun enableActionAndListen(
+        actionName: String,
+        listener: IPersonItemViewMvc.ActionClickListener
+    ) {
+        this.actionClickListener = listener
+        this.actionName = actionName
+
         textAction.visibility = View.VISIBLE
     }
 
     private fun setListenerEvents() {
+        with(layoutRoot) {
+            setOnClickListener {
+                itemClickListener?.onItemClicked()
+            }
+            setOnLongClickListener {
+                itemLongClickListener?.onItemLongClicked()
+                true
+            }
+        }
+
         textAction.setOnClickListener {
             actionClickListener!!.onActionClicked()
         }

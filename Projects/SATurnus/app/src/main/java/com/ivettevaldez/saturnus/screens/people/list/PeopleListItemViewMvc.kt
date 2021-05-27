@@ -2,14 +2,13 @@ package com.ivettevaldez.saturnus.screens.people.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.FrameLayout
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
+import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import com.ivettevaldez.saturnus.screens.people.item.IPersonItemViewMvc
 
 interface IPeopleListItemViewMvc : IObservableViewMvc<IPeopleListItemViewMvc.Listener> {
 
@@ -24,60 +23,54 @@ interface IPeopleListItemViewMvc : IObservableViewMvc<IPeopleListItemViewMvc.Lis
 
 class PeopleListItemViewMvcImpl(
     inflater: LayoutInflater,
-    parent: ViewGroup?
+    parent: ViewGroup?,
+    viewMvcFactory: ViewMvcFactory
 ) : BaseObservableViewMvc<IPeopleListItemViewMvc.Listener>(
     inflater,
     parent,
-    R.layout.item_person
+    R.layout.element_container
 ), IPeopleListItemViewMvc {
 
-    private val layoutItem: LinearLayout = findViewById(R.id.item_person_layout_root)
-    private val textName: TextView = findViewById(R.id.item_person_text_name)
-    private val textDetails: TextView = findViewById(R.id.item_person_text_details)
-    private val imagePersonType: ImageView = findViewById(R.id.item_person_image_person_type)
+    private val personItem: FrameLayout = findViewById(R.id.container)
+    private val personItemViewMvc: IPersonItemViewMvc = viewMvcFactory.newPersonItemViewMvc(
+        personItem
+    )
 
     private lateinit var person: Person
 
     init {
 
+        initView()
         setListenerEvents()
+    }
+
+    private fun initView() {
+        personItemViewMvc.hideTitle()
+        personItem.addView(personItemViewMvc.getRootView())
     }
 
     override fun bindPerson(person: Person) {
         this.person = person
-
-        textName.text = person.name
-        textDetails.text = getPersonDetails(person.rfc, person.personType)
-        imagePersonType.setImageResource(
-            getPersonTypeIcon(person.personType)
-        )
-    }
-
-    private fun getPersonDetails(rfc: String, personType: String) = String.format(
-        context.getString(R.string.people_detail_template), rfc, personType
-    )
-
-    private fun getPersonTypeIcon(personType: String): Int {
-        return if (personType == Constants.PHYSICAL_PERSON) {
-            R.mipmap.ic_person_grey_36dp
-        } else {
-            R.mipmap.ic_people_grey_36dp
-        }
+        personItemViewMvc.bindPerson(person)
     }
 
     private fun setListenerEvents() {
-        with(layoutItem) {
-            setOnClickListener {
+        personItemViewMvc.enableItemClickAndListen(object :
+            IPersonItemViewMvc.ItemClickListener {
+            override fun onItemClicked() {
                 for (listener in listeners) {
                     listener.onPersonClick(person.rfc)
                 }
             }
-            setOnLongClickListener {
+        })
+
+        personItemViewMvc.enableItemLongClickAndListen(object :
+            IPersonItemViewMvc.ItemLongClickListener {
+            override fun onItemLongClicked() {
                 for (listener in listeners) {
                     listener.onPersonLongClick(person.rfc)
                 }
-                true
             }
-        }
+        })
     }
 }

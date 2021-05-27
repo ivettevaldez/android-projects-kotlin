@@ -72,7 +72,7 @@ class ViewMvcFactory @Inject constructor(
     }
 
     fun newPersonSelectorListItemViewMvc(parent: ViewGroup?): IPersonSelectorListItemViewMvc {
-        return PersonSelectorListItemViewMvcImpl(inflater.get(), parent)
+        return PersonSelectorListItemViewMvcImpl(inflater.get(), parent, this)
     }
 
     fun newPersonItemViewMvc(parent: ViewGroup?): IPersonItemViewMvc {
@@ -127,7 +127,7 @@ class ViewMvcFactory @Inject constructor(
     }
 
     fun newPeopleListItemViewMvc(parent: ViewGroup?): IPeopleListItemViewMvc {
-        return PeopleListItemViewMvcImpl(inflater.get(), parent)
+        return PeopleListItemViewMvcImpl(inflater.get(), parent, this)
     }
 
     fun newPersonFormViewMvc(parent: ViewGroup?): IPersonFormViewMvc {
