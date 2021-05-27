@@ -24,7 +24,7 @@
 
     </FrameLayout>
 
-    <Space
+    <androidx.legacy.widget.Space
         android:layout_width="16dp"
         android:layout_height="match_parent" />
 
@@ -44,7 +44,7 @@
             android:textSize="@dimen/text_medium"
             android:textStyle="bold" />
 
-        <Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
             android:layout_height="8dp" />
 
@@ -55,11 +55,11 @@
             android:textColor="@color/aluminium"
             android:textSize="@dimen/text_normal" />
 
-        <Space
-            android:layout_width="16dp"
-            android:layout_height="match_parent" />
-
     </LinearLayout>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="16dp"
+        android:layout_height="match_parent" />
 
     <Button
         android:id="@+id/item_person_selector_button_select"

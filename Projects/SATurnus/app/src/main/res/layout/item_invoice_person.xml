@@ -80,6 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:visibility="gone"
             android:text="@string/action_change"
             android:textSize="@dimen/text_medium"
             android:textColor="@color/havelock_blue"/>

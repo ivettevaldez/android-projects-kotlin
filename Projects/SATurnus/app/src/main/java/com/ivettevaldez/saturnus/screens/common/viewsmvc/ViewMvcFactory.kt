@@ -27,6 +27,8 @@ import com.ivettevaldez.saturnus.screens.invoices.list.InvoiceListItemViewMvcImp
 import com.ivettevaldez.saturnus.screens.invoices.list.InvoicesListViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.form.IPersonFormViewMvc
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormViewMvcImpl
+import com.ivettevaldez.saturnus.screens.people.item.IPersonItemViewMvc
+import com.ivettevaldez.saturnus.screens.people.item.PersonItemViewMvcImpl
 import com.ivettevaldez.saturnus.screens.people.list.IPeopleListItemViewMvc
 import com.ivettevaldez.saturnus.screens.people.list.IPeopleListViewMvc
 import com.ivettevaldez.saturnus.screens.people.list.PeopleListItemViewMvcImpl
@@ -71,6 +73,10 @@ class ViewMvcFactory @Inject constructor(
 
     fun newPersonSelectorListItemViewMvc(parent: ViewGroup?): IPersonSelectorListItemViewMvc {
         return PersonSelectorListItemViewMvcImpl(inflater.get(), parent)
+    }
+
+    fun newPersonItemViewMvc(parent: ViewGroup?): IPersonItemViewMvc {
+        return PersonItemViewMvcImpl(inflater.get(), parent)
     }
 
     fun newSplashViewMvc(parent: ViewGroup?): SplashViewMvc {

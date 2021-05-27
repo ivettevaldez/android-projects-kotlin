@@ -52,7 +52,7 @@
             android:id="@+id/item_person_text_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/aluminium"
+            android:textColor="@color/link_water"
             android:textSize="@dimen/text_normal" />
 
     </LinearLayout>
