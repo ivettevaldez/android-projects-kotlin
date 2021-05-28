@@ -2,6 +2,7 @@ package com.ivettevaldez.saturnus.screens.invoices.form
 
 /* ktlint-disable no-wildcard-imports */
 
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.Person
+import com.ivettevaldez.saturnus.screens.common.fields.ISimpleTextInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
@@ -22,11 +24,17 @@ interface IInvoiceFormViewMvc : IObservableViewMvc<IInvoiceFormViewMvc.Listener>
 
         fun onNavigateUpClicked()
         fun onSelectReceiverClicked()
+        fun onSelectIssuingDateClicked()
+        fun onSelectCertificationDateClicked()
         fun onSaveClicked()
     }
 
+    fun getIssuingDate(): String?
+    fun getCertificationDate(): String?
     fun bindIssuingPerson(person: Person)
     fun bindReceiverPerson(person: Person)
+    fun setIssuingDate(date: String)
+    fun setCertificationDate(date: String)
     fun showProgressIndicator()
     fun hideProgressIndicator()
 }
@@ -56,6 +64,16 @@ class InvoiceFormViewMvcImpl(
         personItemReceiver
     )
 
+    private val inputIssuingDateContainer: FrameLayout =
+        findViewById(R.id.invoice_form_input_issuing_date)
+    private val inputIssuingDate: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputIssuingDateContainer)
+
+    private val inputCertificationDateContainer: FrameLayout =
+        findViewById(R.id.invoice_form_input_certification_date)
+    private val inputCertificationDate: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputCertificationDateContainer)
+
     init {
 
         initToolbar()
@@ -64,12 +82,38 @@ class InvoiceFormViewMvcImpl(
         setListenerEvents()
     }
 
+    override fun getIssuingDate(): String? {
+        val issuingDate = inputIssuingDate.getText()
+        return if (issuingDate.isNotEmpty()) {
+            issuingDate
+        } else {
+            null
+        }
+    }
+
+    override fun getCertificationDate(): String? {
+        val certificationDate = inputCertificationDate.getText()
+        return if (certificationDate.isNotEmpty()) {
+            certificationDate
+        } else {
+            null
+        }
+    }
+
     override fun bindIssuingPerson(person: Person) {
         personIssuingViewMvc.bindPerson(person)
     }
 
     override fun bindReceiverPerson(person: Person) {
         personItemReceiverViewMvc.bindPerson(person)
+    }
+
+    override fun setIssuingDate(date: String) {
+        inputIssuingDate.setText(date)
+    }
+
+    override fun setCertificationDate(date: String) {
+        inputCertificationDate.setText(date)
     }
 
     override fun showProgressIndicator() {
@@ -116,9 +160,36 @@ class InvoiceFormViewMvcImpl(
 
     private fun initFields() {
         // TODO:
+        // IssuingDate field
+        inputIssuingDate.setHint(context.getString(R.string.invoices_issuing_date))
+        inputIssuingDate.setDrawable(R.mipmap.ic_calendar_grey_24dp)
+        inputIssuingDate.disable()
+        inputIssuingDateContainer.addView(inputIssuingDate.getRootView())
+
+        // CertificationDate field
+        inputCertificationDate.setHint(context.getString(R.string.invoices_certification_date))
+        inputCertificationDate.setDrawable(R.mipmap.ic_calendar_grey_24dp)
+        inputCertificationDate.disable()
+        inputCertificationDateContainer.addView(inputCertificationDate.getRootView())
     }
 
     private fun setListenerEvents() {
+        inputIssuingDate.enableClickAndListen(object : ISimpleTextInputViewMvc.ClickListener {
+            override fun onEditTextClicked() {
+                for (listener in listeners) {
+                    listener.onSelectIssuingDateClicked()
+                }
+            }
+        })
+
+        inputCertificationDate.enableClickAndListen(object : ISimpleTextInputViewMvc.ClickListener {
+            override fun onEditTextClicked() {
+                for (listener in listeners) {
+                    listener.onSelectCertificationDateClicked()
+                }
+            }
+        })
+
         buttonSave.setOnClickListener {
             for (listener in listeners) {
                 listener.onSaveClicked()

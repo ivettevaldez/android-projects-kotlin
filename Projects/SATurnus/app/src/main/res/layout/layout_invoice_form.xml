@@ -74,6 +74,18 @@
 
                 <include
                     android:id="@+id/invoice_form_input_total"
+                <include
+                    android:id="@+id/invoice_form_input_issuing_date"
+                    layout="@layout/element_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_field_vertical_spacing" />
+
+                <include
+                    android:id="@+id/invoice_form_input_certification_date"
                     layout="@layout/element_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

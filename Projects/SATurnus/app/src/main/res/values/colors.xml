@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#000000</color>
     <color name="black_60">#99000000</color>
-    <color name="black_pearl">#FF1A1E22</color>
-    <color name="cinder">#FF21262A</color>
-    <color name="cod_grey">#FF292F34</color>
-    <color name="mirage">#FF333B41</color>
-    <color name="shuttle_grey">#FF5C6267</color>
+    <color name="black_pearl">#1A1E22</color>
+    <color name="cod_grey">#292F34</color>
+    <color name="shuttle_grey">#5C6267</color>
     <color name="aluminium">#7D8185</color>
-    <color name="link_water">#FFBDBEC1</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="link_water">#BDBEC1</color>
+    <color name="white">#FFFFFF</color>
 
-    <color name="havelock_blue">#FF5884C8</color>
+    <color name="havelock_blue">#5883C8</color>
 
     <color name="color_primary">@color/cod_grey</color>
     <color name="color_primary_variant">@color/black_pearl</color>
     <color name="color_secondary">@color/havelock_blue</color>
-    <color name="color_secondary_variant">@color/shuttle_grey</color>
+    <color name="color_secondary_variant">@color/havelock_blue</color>
     <color name="color_background">@color/color_primary_variant</color>
 
     <!--

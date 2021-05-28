@@ -43,8 +43,30 @@
     <string name="invoices_add_new">Agrega nuevos comprobantes</string>
     <string name="invoices_new">Nuevo comprobante</string>
     <string name="invoices_issued">Comprobantes emitidos ante el SAT</string>
-    <string name="invoices_issuing">Emisor del comprobante</string>
-    <string name="invoices_receiver">Receptor del comprobante</string>
+    <string name="invoices_issuing">Emisor/a del comprobante</string>
+    <string name="invoices_receiver">Receptor/a del comprobante</string>
+    <string name="invoices_folio">Folio</string>
+    <string name="invoices_description">Descripción</string>
+    <string name="invoices_effect">Efecto del comprobante</string>
+    <string name="invoices_issuing_date">Fecha de emisión</string>
+    <string name="invoices_certification_date">Fecha de certificación</string>
+    <string name="invoices_status">Estatus</string>
+    <string name="invoices_select_type">Selecciona un tipo</string>
+    <string name="invoices_status_income">Ingreso</string>
+    <string name="invoices_status_payment">Pago</string>
+    <string name="invoices_select_status">Selecciona un estatus</string>
+    <string name="invoices_status_active">Vigente</string>
+    <string name="invoices_status_inactive">Inactivo</string>
+    <string-array name="invoices_effects">
+        <item>@string/invoices_select_type</item>
+        <item>@string/invoices_status_income</item>
+        <item>@string/invoices_status_payment</item>
+    </string-array>
+    <string-array name="invoices_statuses">
+        <item>@string/invoices_select_status</item>
+        <item>@string/invoices_status_active</item>
+        <item>@string/invoices_status_inactive</item>
+    </string-array>
 
     <!-- Module: People -->
     <string name="people_title">Personas</string>

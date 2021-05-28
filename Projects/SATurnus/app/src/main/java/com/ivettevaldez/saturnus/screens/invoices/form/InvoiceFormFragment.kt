@@ -7,15 +7,19 @@ import android.view.ViewGroup
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.datepickers.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import java.util.*
 import javax.inject.Inject
 
 class InvoiceFormFragment : BaseFragment(),
     IInvoiceFormViewMvc.Listener,
-    IPersonSelectorBottomSheetViewMvc.Listener {
+    IPersonSelectorBottomSheetViewMvc.Listener,
+    DatePickerDialog.OnDateSetListener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -25,6 +29,9 @@ class InvoiceFormFragment : BaseFragment(),
 
     @Inject
     lateinit var dialogsManager: DialogsManager
+
+    @Inject
+    lateinit var datePickerManager: DatePickerManager
 
     @Inject
     lateinit var personDao: PersonDao
@@ -83,8 +90,36 @@ class InvoiceFormFragment : BaseFragment(),
         screensNavigator.navigateUp()
     }
 
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        val date = datePickerManager.getUserFriendlyDate(year, monthOfYear, dayOfMonth)
+
+        if (view?.tag == DatePickerManager.TAG_ISSUING_DATE) {
+            viewMvc.setIssuingDate(date)
+        } else if (view?.tag == DatePickerManager.TAG_CERTIFICATION_DATE) {
+            viewMvc.setCertificationDate(date)
+        }
+    }
+
     override fun onSelectReceiverClicked() {
         dialogsManager.showPersonSelectorDialog(null, this)
+    }
+
+    override fun onSelectIssuingDateClicked() {
+        val currentDate = viewMvc.getIssuingDate().getDate()
+        datePickerManager.showDatePicker(
+            currentDate,
+            this,
+            DatePickerManager.TAG_ISSUING_DATE
+        )
+    }
+
+    override fun onSelectCertificationDateClicked() {
+        val currentDate = viewMvc.getCertificationDate().getDate()
+        datePickerManager.showDatePicker(
+            currentDate,
+            this,
+            DatePickerManager.TAG_CERTIFICATION_DATE
+        )
     }
 
     override fun onPersonSelected(rfc: String) {
@@ -97,6 +132,12 @@ class InvoiceFormFragment : BaseFragment(),
     }
 
     private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)
+
+    private fun String?.getDate(): Calendar = if (this == null) {
+        Calendar.getInstance()
+    } else {
+        datePickerManager.parseToCalendar(this)
+    }
 
     private fun bindIssuingPerson() {
         val person = getPerson(issuingRfc)
