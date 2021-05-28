@@ -60,6 +60,12 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.InputLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/aluminium</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+    </style>
+
     <style name="Theme.BottomSheetButtonTextAppearance" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/text_medium</item>
         <item name="android:textColor">@color/color_secondary</item>

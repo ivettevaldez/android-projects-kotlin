@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.fields.ISimpleTextInputViewMvc
+import com.ivettevaldez.saturnus.screens.common.fields.ISpinnerInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
@@ -63,6 +64,22 @@ class InvoiceFormViewMvcImpl(
     private val personItemReceiverViewMvc: IPersonItemViewMvc = viewMvcFactory.newPersonItemViewMvc(
         personItemReceiver
     )
+
+    private val inputFolioContainer: FrameLayout = findViewById(R.id.invoice_form_input_folio)
+    private val inputFolio: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputFolioContainer)
+
+    private val inputDescriptionContainer: FrameLayout = findViewById(R.id.invoice_form_input_description)
+    private val inputDescription: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputDescriptionContainer)
+
+    private val inputEffectContainer: FrameLayout = findViewById(R.id.invoice_form_input_effect)
+    private val inputEffect: ISpinnerInputViewMvc =
+        viewMvcFactory.newSpinnerInputViewMvc(inputEffectContainer)
+
+    private val inputStatusContainer: FrameLayout = findViewById(R.id.invoice_form_input_status)
+    private val inputStatus: ISpinnerInputViewMvc =
+        viewMvcFactory.newSpinnerInputViewMvc(inputStatusContainer)
 
     private val inputIssuingDateContainer: FrameLayout =
         findViewById(R.id.invoice_form_input_issuing_date)
@@ -159,7 +176,26 @@ class InvoiceFormViewMvcImpl(
     }
 
     private fun initFields() {
-        // TODO:
+        // Folio field
+        inputFolio.setHint(context.getString(R.string.invoices_folio))
+        inputFolio.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+        inputFolioContainer.addView(inputFolio.getRootView())
+
+        // Description field
+        inputDescription.setHint(context.getString(R.string.invoices_description))
+        inputDescription.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        inputDescriptionContainer.addView(inputDescription.getRootView())
+
+        // Effect field
+        inputEffect.setHint(context.getString(R.string.invoices_effect))
+        inputEffect.bindValues(R.array.invoices_effects)
+        inputEffectContainer.addView(inputEffect.getRootView())
+
+        // Status field
+        inputStatus.setHint(context.getString(R.string.invoices_status))
+        inputStatus.bindValues(R.array.invoices_statuses)
+        inputStatusContainer.addView(inputStatus.getRootView())
+
         // IssuingDate field
         inputIssuingDate.setHint(context.getString(R.string.invoices_issuing_date))
         inputIssuingDate.setDrawable(R.mipmap.ic_calendar_grey_24dp)

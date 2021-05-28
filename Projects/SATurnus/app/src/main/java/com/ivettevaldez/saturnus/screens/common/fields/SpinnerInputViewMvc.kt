@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import androidx.annotation.ArrayRes
-import com.google.android.material.textfield.TextInputLayout
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IViewMvc
@@ -30,8 +30,8 @@ class SpinnerInputViewMvcImpl(
     R.layout.element_input_spinner
 ), ISpinnerInputViewMvc {
 
-    private val inputLayout: TextInputLayout = findViewById(R.id.text_input_spinner_layout)
     private val spinner: Spinner = findViewById(R.id.text_input_spinner)
+    private val textLabel: TextView = findViewById(R.id.text_input_spinner_label)
 
     companion object {
 
@@ -63,7 +63,7 @@ class SpinnerInputViewMvcImpl(
     }
 
     override fun setHint(hint: String) {
-        inputLayout.hint = hint
+        textLabel.text = hint
     }
 
     override fun bindValues(arrayOfValues: Int) {

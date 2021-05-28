@@ -3,6 +3,7 @@ package com.ivettevaldez.saturnus.screens.common.fields
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.DrawableRes
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.ivettevaldez.saturnus.R
@@ -22,6 +23,7 @@ interface ISimpleTextInputViewMvc : IViewMvc {
     fun getText(): String
     fun setText(text: String)
     fun setHint(hint: String)
+    fun setDrawable(@DrawableRes drawable: Int)
     fun setInputType(type: Int)
     fun setImeOptions(options: Int)
     fun enableClickAndListen(listener: ClickListener)
@@ -67,6 +69,12 @@ class SimpleTextInputViewMvcImpl(
 
     override fun setHint(hint: String) {
         inputLayout.hint = hint
+    }
+
+    override fun setDrawable(drawable: Int) {
+        editText.setCompoundDrawablesWithIntrinsicBounds(
+            drawable, 0, 0, 0
+        )
     }
 
     override fun setInputType(type: Int) {

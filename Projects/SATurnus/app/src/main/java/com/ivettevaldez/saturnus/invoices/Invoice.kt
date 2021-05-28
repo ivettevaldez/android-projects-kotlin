@@ -15,6 +15,7 @@ import java.util.*
 open class Invoice(
     @PrimaryKey var folio: String = "",
     @Index var fiscalFolio: String = "",
+    @Index var description: String = "",
     @Index var status: String = "",
     @Index var cancellationStatus: String = "",
     @Index var cancellationProcessStatus: String = "",
