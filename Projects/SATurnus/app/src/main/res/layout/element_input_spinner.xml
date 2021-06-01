@@ -4,7 +4,8 @@
     style="@style/Theme.TextInputLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_primary_text_input">
+    android:background="@drawable/shape_primary_text_input"
+    android:layout_marginBottom="@dimen/form_field_vertical_spacing">
 
     <TextView
         android:id="@+id/text_input_spinner_label"

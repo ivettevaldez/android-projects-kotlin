@@ -24,7 +24,10 @@
         android:layout_height="wrap_content"
         android:background="@color/color_primary"
         android:layout_below="@id/person_form_toolbar"
-        android:padding="@dimen/screen_padding"
+        android:paddingTop="@dimen/screen_padding"
+        android:paddingBottom="@dimen/item_padding"
+        android:paddingStart="@dimen/screen_padding"
+        android:paddingEnd="@dimen/screen_padding"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:orientation="vertical">
@@ -35,29 +38,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/form_field_vertical_spacing" />
-
         <include
             android:id="@+id/person_form_input_rfc"
             layout="@layout/element_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/form_field_vertical_spacing" />
-
         <include
             android:id="@+id/person_form_input_person_type"
             layout="@layout/element_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/form_field_vertical_spacing" />
 
         <include
             android:id="@+id/person_form_input_client_type"

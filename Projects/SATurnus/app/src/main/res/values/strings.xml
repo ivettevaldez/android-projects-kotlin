@@ -51,12 +51,15 @@
     <string name="invoices_issuing_date">Fecha de emisión</string>
     <string name="invoices_certification_date">Fecha de certificación</string>
     <string name="invoices_status">Estatus</string>
+    <string name="invoices_cancellation_status">Estatus de cancelación</string>
     <string name="invoices_select_type">Selecciona un tipo</string>
     <string name="invoices_status_income">Ingreso</string>
     <string name="invoices_status_payment">Pago</string>
     <string name="invoices_select_status">Selecciona un estatus</string>
     <string name="invoices_status_active">Vigente</string>
     <string name="invoices_status_inactive">Inactivo</string>
+    <string name="invoices_status_cancellable">Cancelable sin aceptación</string>
+    <string name="invoices_status_non_cancellable">No cancelable</string>
     <string-array name="invoices_effects">
         <item>@string/invoices_select_type</item>
         <item>@string/invoices_status_income</item>
@@ -66,6 +69,11 @@
         <item>@string/invoices_select_status</item>
         <item>@string/invoices_status_active</item>
         <item>@string/invoices_status_inactive</item>
+    </string-array>
+    <string-array name="invoices_cancellation_statuses">
+        <item>@string/invoices_select_status</item>
+        <item>@string/invoices_status_cancellable</item>
+        <item>@string/invoices_status_non_cancellable</item>
     </string-array>
 
     <!-- Module: People -->

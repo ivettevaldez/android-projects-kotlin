@@ -1,5 +1,7 @@
 package com.ivettevaldez.saturnus.screens.common.datepickers
 
+/* ktlint-disable no-wildcard-imports */
+
 import androidx.fragment.app.FragmentManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.text.SimpleDateFormat

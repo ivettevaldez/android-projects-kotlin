@@ -69,7 +69,8 @@ class InvoiceFormViewMvcImpl(
     private val inputFolio: ISimpleTextInputViewMvc =
         viewMvcFactory.newSimpleTextInputViewMvc(inputFolioContainer)
 
-    private val inputDescriptionContainer: FrameLayout = findViewById(R.id.invoice_form_input_description)
+    private val inputDescriptionContainer: FrameLayout =
+        findViewById(R.id.invoice_form_input_description)
     private val inputDescription: ISimpleTextInputViewMvc =
         viewMvcFactory.newSimpleTextInputViewMvc(inputDescriptionContainer)
 
@@ -80,6 +81,11 @@ class InvoiceFormViewMvcImpl(
     private val inputStatusContainer: FrameLayout = findViewById(R.id.invoice_form_input_status)
     private val inputStatus: ISpinnerInputViewMvc =
         viewMvcFactory.newSpinnerInputViewMvc(inputStatusContainer)
+
+    private val inputCancellationStatusContainer: FrameLayout =
+        findViewById(R.id.invoice_form_input_cancellation_status)
+    private val inputCancellationStatus: ISpinnerInputViewMvc =
+        viewMvcFactory.newSpinnerInputViewMvc(inputCancellationStatusContainer)
 
     private val inputIssuingDateContainer: FrameLayout =
         findViewById(R.id.invoice_form_input_issuing_date)
@@ -195,6 +201,11 @@ class InvoiceFormViewMvcImpl(
         inputStatus.setHint(context.getString(R.string.invoices_status))
         inputStatus.bindValues(R.array.invoices_statuses)
         inputStatusContainer.addView(inputStatus.getRootView())
+
+        // CancellationStatus field
+        inputCancellationStatus.setHint(context.getString(R.string.invoices_cancellation_status))
+        inputCancellationStatus.bindValues(R.array.invoices_cancellation_statuses)
+        inputCancellationStatusContainer.addView(inputCancellationStatus.getRootView())
 
         // IssuingDate field
         inputIssuingDate.setHint(context.getString(R.string.invoices_issuing_date))

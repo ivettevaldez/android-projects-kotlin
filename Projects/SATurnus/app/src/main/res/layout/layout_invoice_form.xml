@@ -58,7 +58,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/color_primary"
-                android:padding="@dimen/screen_padding"
+                android:paddingTop="@dimen/screen_padding"
+                android:paddingBottom="@dimen/item_padding"
+                android:paddingStart="@dimen/screen_padding"
+                android:paddingEnd="@dimen/screen_padding"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical">
 
@@ -68,19 +71,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <androidx.legacy.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/form_field_vertical_spacing" />
-
                 <include
                     android:id="@+id/invoice_form_input_description"
                     layout="@layout/element_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-                <androidx.legacy.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/form_field_vertical_spacing" />
 
                 <include
                     android:id="@+id/invoice_form_input_effect"
@@ -88,29 +83,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <androidx.legacy.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/form_field_vertical_spacing" />
-
                 <include
                     android:id="@+id/invoice_form_input_status"
                     layout="@layout/element_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <androidx.legacy.widget.Space
+                <include
+                    android:id="@+id/invoice_form_input_cancellation_status"
+                    layout="@layout/element_container"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/form_field_vertical_spacing" />
+                    android:layout_height="wrap_content" />
 
                 <include
                     android:id="@+id/invoice_form_input_issuing_date"
                     layout="@layout/element_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
-                <androidx.legacy.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/form_field_vertical_spacing" />
 
                 <include
                     android:id="@+id/invoice_form_input_certification_date"
