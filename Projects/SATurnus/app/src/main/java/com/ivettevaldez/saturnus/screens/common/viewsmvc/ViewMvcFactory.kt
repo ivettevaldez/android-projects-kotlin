@@ -3,6 +3,7 @@ package com.ivettevaldez.saturnus.screens.common.viewsmvc
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
@@ -20,8 +21,10 @@ import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.ToolbarViewMvcImpl
-import com.ivettevaldez.saturnus.screens.invoices.form.IInvoiceFormViewMvc
-import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormViewMvcImpl
+import com.ivettevaldez.saturnus.screens.invoices.form.details.IInvoiceFormDetailsViewMvc
+import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsViewMvcImpl
+import com.ivettevaldez.saturnus.screens.invoices.form.main.IInvoiceFormMainViewMvc
+import com.ivettevaldez.saturnus.screens.invoices.form.main.InvoiceFormMainViewMvcImpl
 import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.IInvoiceIssuingPeopleViewMvc
 import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.InvoiceIssuingPeopleViewMvcImpl
 import com.ivettevaldez.saturnus.screens.invoices.list.IInvoiceListItemViewMvc
@@ -44,6 +47,7 @@ import javax.inject.Provider
 
 class ViewMvcFactory @Inject constructor(
     private val inflater: Provider<LayoutInflater>,
+    private val fragmentManager: FragmentManager,
     private val uiHandler: Provider<Handler>,
     private val utilsHelper: Provider<UtilsHelper>,
     private val navDrawerHelper: Provider<INavDrawerHelper>
@@ -119,8 +123,12 @@ class ViewMvcFactory @Inject constructor(
         return InvoiceListItemViewMvcImpl(inflater.get(), parent)
     }
 
-    fun newInvoiceFormViewMvc(parent: ViewGroup?): IInvoiceFormViewMvc {
-        return InvoiceFormViewMvcImpl(inflater.get(), parent, this)
+    fun newInvoiceFormMainViewMvc(parent: ViewGroup?): IInvoiceFormMainViewMvc {
+        return InvoiceFormMainViewMvcImpl(inflater.get(), parent, this, fragmentManager)
+    }
+
+    fun newInvoiceFormDetailsViewMvc(parent: ViewGroup?): IInvoiceFormDetailsViewMvc {
+        return InvoiceFormDetailsViewMvcImpl(inflater.get(), parent, this)
     }
 
     fun newPeopleMainViewMvc(parent: ViewGroup?): IPeopleMainViewMvc {

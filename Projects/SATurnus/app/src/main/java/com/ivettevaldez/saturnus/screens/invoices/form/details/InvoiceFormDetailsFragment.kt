@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.invoices.form
+package com.ivettevaldez.saturnus.screens.invoices.form.details
 
 /* ktlint-disable no-wildcard-imports */
 
@@ -12,22 +12,21 @@ import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.datepickers.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
-import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import com.stepstone.stepper.Step
+import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 import javax.inject.Inject
 
-class InvoiceFormFragment : BaseFragment(),
-    IInvoiceFormViewMvc.Listener,
+class InvoiceFormDetailsFragment : BaseFragment(),
+    Step,
+    IInvoiceFormDetailsViewMvc.Listener,
     IPersonSelectorBottomSheetViewMvc.Listener,
     DatePickerDialog.OnDateSetListener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
-
-    @Inject
-    lateinit var screensNavigator: ScreensNavigator
 
     @Inject
     lateinit var dialogsManager: DialogsManager
@@ -38,7 +37,7 @@ class InvoiceFormFragment : BaseFragment(),
     @Inject
     lateinit var personDao: PersonDao
 
-    private lateinit var viewMvc: IInvoiceFormViewMvc
+    private lateinit var viewMvc: IInvoiceFormDetailsViewMvc
     private lateinit var issuingRfc: String
 
     private var receiverRfc: String? = null
@@ -49,7 +48,7 @@ class InvoiceFormFragment : BaseFragment(),
 
         @JvmStatic
         fun newInstance(issuingRfc: String) =
-            InvoiceFormFragment().apply {
+            InvoiceFormDetailsFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_ISSUING_RFC, issuingRfc)
                 }
@@ -71,7 +70,7 @@ class InvoiceFormFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
-        viewMvc = viewMvcFactory.newInvoiceFormViewMvc(parent)
+        viewMvc = viewMvcFactory.newInvoiceFormDetailsViewMvc(parent)
 
         bindIssuingPerson()
 
@@ -88,8 +87,17 @@ class InvoiceFormFragment : BaseFragment(),
         viewMvc.unregisterListener(this)
     }
 
-    override fun onNavigateUpClicked() {
-        screensNavigator.navigateUp()
+    override fun verifyStep(): VerificationError? {
+        // TODO
+        return null
+    }
+
+    override fun onSelected() {
+        // TODO
+    }
+
+    override fun onError(error: VerificationError) {
+        // TODO
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -127,10 +135,6 @@ class InvoiceFormFragment : BaseFragment(),
     override fun onPersonSelected(rfc: String) {
         receiverRfc = rfc
         bindReceiverPerson()
-    }
-
-    override fun onSaveClicked() {
-        // TODO:
     }
 
     private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)

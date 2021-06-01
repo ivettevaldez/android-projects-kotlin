@@ -1,33 +1,27 @@
-package com.ivettevaldez.saturnus.screens.invoices.form
+package com.ivettevaldez.saturnus.screens.invoices.form.details
 
 /* ktlint-disable no-wildcard-imports */
 
 import android.text.InputType
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.FrameLayout
-import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.fields.ISimpleTextInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.fields.ISpinnerInputViewMvc
-import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import com.ivettevaldez.saturnus.screens.people.item.IPersonItemViewMvc
 
-interface IInvoiceFormViewMvc : IObservableViewMvc<IInvoiceFormViewMvc.Listener> {
+interface IInvoiceFormDetailsViewMvc : IObservableViewMvc<IInvoiceFormDetailsViewMvc.Listener> {
 
     interface Listener {
 
-        fun onNavigateUpClicked()
         fun onSelectReceiverClicked()
         fun onSelectIssuingDateClicked()
         fun onSelectCertificationDateClicked()
-        fun onSaveClicked()
     }
 
     fun getIssuingDate(): String?
@@ -36,70 +30,64 @@ interface IInvoiceFormViewMvc : IObservableViewMvc<IInvoiceFormViewMvc.Listener>
     fun bindReceiverPerson(person: Person)
     fun setIssuingDate(date: String)
     fun setCertificationDate(date: String)
-    fun showProgressIndicator()
-    fun hideProgressIndicator()
 }
 
-class InvoiceFormViewMvcImpl(
+class InvoiceFormDetailsViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
     viewMvcFactory: ViewMvcFactory
-) : BaseObservableViewMvc<IInvoiceFormViewMvc.Listener>(
+) : BaseObservableViewMvc<IInvoiceFormDetailsViewMvc.Listener>(
     inflater,
     parent,
-    R.layout.layout_invoice_form
-), IInvoiceFormViewMvc {
+    R.layout.layout_invoice_form_details
+), IInvoiceFormDetailsViewMvc {
 
-    private val layoutProgress: FrameLayout = findViewById(R.id.invoice_form_progress)
-    private val buttonSave: Button = findViewById(R.id.button_primary)
-
-    private val toolbar: Toolbar = findViewById(R.id.invoice_form_toolbar)
-    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
-
-    private val personIssuing: FrameLayout = findViewById(R.id.invoice_form_person_issuing)
+    private val personIssuing: FrameLayout = findViewById(R.id.invoice_form_details_issuing)
     private val personIssuingViewMvc: IPersonItemViewMvc =
         viewMvcFactory.newPersonItemViewMvc(personIssuing)
 
-    private val personItemReceiver: FrameLayout = findViewById(R.id.invoice_form_person_receiver)
+    private val personItemReceiver: FrameLayout = findViewById(R.id.invoice_form_details_receiver)
     private val personItemReceiverViewMvc: IPersonItemViewMvc = viewMvcFactory.newPersonItemViewMvc(
         personItemReceiver
     )
 
-    private val inputFolioContainer: FrameLayout = findViewById(R.id.invoice_form_input_folio)
+    private val inputFolioContainer: FrameLayout =
+        findViewById(R.id.invoice_form_details_input_folio)
     private val inputFolio: ISimpleTextInputViewMvc =
         viewMvcFactory.newSimpleTextInputViewMvc(inputFolioContainer)
 
     private val inputDescriptionContainer: FrameLayout =
-        findViewById(R.id.invoice_form_input_description)
+        findViewById(R.id.invoice_form_details_input_description)
     private val inputDescription: ISimpleTextInputViewMvc =
         viewMvcFactory.newSimpleTextInputViewMvc(inputDescriptionContainer)
 
-    private val inputEffectContainer: FrameLayout = findViewById(R.id.invoice_form_input_effect)
+    private val inputEffectContainer: FrameLayout =
+        findViewById(R.id.invoice_form_details_input_effect)
     private val inputEffect: ISpinnerInputViewMvc =
         viewMvcFactory.newSpinnerInputViewMvc(inputEffectContainer)
 
-    private val inputStatusContainer: FrameLayout = findViewById(R.id.invoice_form_input_status)
+    private val inputStatusContainer: FrameLayout =
+        findViewById(R.id.invoice_form_details_input_status)
     private val inputStatus: ISpinnerInputViewMvc =
         viewMvcFactory.newSpinnerInputViewMvc(inputStatusContainer)
 
     private val inputCancellationStatusContainer: FrameLayout =
-        findViewById(R.id.invoice_form_input_cancellation_status)
+        findViewById(R.id.invoice_form_details_input_cancellation)
     private val inputCancellationStatus: ISpinnerInputViewMvc =
         viewMvcFactory.newSpinnerInputViewMvc(inputCancellationStatusContainer)
 
     private val inputIssuingDateContainer: FrameLayout =
-        findViewById(R.id.invoice_form_input_issuing_date)
+        findViewById(R.id.invoice_form_details_input_issuing_date)
     private val inputIssuingDate: ISimpleTextInputViewMvc =
         viewMvcFactory.newSimpleTextInputViewMvc(inputIssuingDateContainer)
 
     private val inputCertificationDateContainer: FrameLayout =
-        findViewById(R.id.invoice_form_input_certification_date)
+        findViewById(R.id.invoice_form_details_input_certification_date)
     private val inputCertificationDate: ISimpleTextInputViewMvc =
         viewMvcFactory.newSimpleTextInputViewMvc(inputCertificationDateContainer)
 
     init {
 
-        initToolbar()
         initPersonItems()
         initFields()
         setListenerEvents()
@@ -137,28 +125,6 @@ class InvoiceFormViewMvcImpl(
 
     override fun setCertificationDate(date: String) {
         inputCertificationDate.setText(date)
-    }
-
-    override fun showProgressIndicator() {
-        layoutProgress.visibility = View.VISIBLE
-    }
-
-    override fun hideProgressIndicator() {
-        layoutProgress.visibility = View.GONE
-    }
-
-    private fun initToolbar() {
-        toolbarViewMvc.setTitle(context.getString(R.string.invoices_new))
-
-        toolbarViewMvc.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
-            override fun onNavigateUpClicked() {
-                for (listener in listeners) {
-                    listener.onNavigateUpClicked()
-                }
-            }
-        })
-
-        toolbar.addView(toolbarViewMvc.getRootView())
     }
 
     private fun initPersonItems() {
@@ -236,11 +202,5 @@ class InvoiceFormViewMvcImpl(
                 }
             }
         })
-
-        buttonSave.setOnClickListener {
-            for (listener in listeners) {
-                listener.onSaveClicked()
-            }
-        }
     }
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context=".screens.invoices.form.main.InvoiceFormMainFragment">
+
+    <include
+        android:id="@+id/invoice_form_main_toolbar"
+        layout="@layout/element_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <include
+        android:id="@+id/invoice_form_main_progress"
+        layout="@layout/element_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.stepstone.stepper.StepperLayout
+        android:id="@+id/invoice_form_main_stepper"
+        style="@style/Theme.DotStepperStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/invoice_form_main_toolbar" />
+
+</RelativeLayout>

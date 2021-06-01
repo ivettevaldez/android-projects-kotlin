@@ -2,17 +2,17 @@
 
     <!-- Base application theme. -->
     <style name="Theme.SATurnus" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryVariant">@color/color_primary_variant</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+
         <item name="colorSecondary">@color/color_secondary</item>
         <item name="colorSecondaryVariant">@color/color_secondary_variant</item>
         <item name="colorOnSecondary">@color/white</item>
-        <!-- Status bar color. -->
+
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="android:listDivider">@color/black</item>
+
         <item name="bottomSheetDialogTheme">@style/Theme.BottomSheetDialogTheme</item>
     </style>
 
@@ -41,6 +41,17 @@
         <item name="itemTextColor">@color/white</item>
         <item name="itemIconTint">@color/aluminium</item>
         <item name="itemIconPadding">@dimen/nav_item_padding</item>
+    </style>
+
+    <style name="Theme.DotStepperStyle" parent="Theme.SATurnus">
+        <item name="android:background">@color/color_primary_variant</item>
+        <item name="ms_stepperType">dots</item>
+        <item name="ms_bottomNavigationBackground">@color/color_primary</item>
+        <item name="ms_inactiveStepColor">@color/shuttle_grey</item>
+        <item name="ms_completeButtonColor">@color/color_secondary</item>
+        <item name="ms_backButtonText">@string/action_back</item>
+        <item name="ms_nextButtonText">@string/action_next</item>
+        <item name="ms_completeButtonText">@string/action_save</item>
     </style>
 
     <style name="Theme.TabTextAppearance" parent="@android:style/TextAppearance.Small">
@@ -103,5 +114,4 @@
         <item name="android:textColor">@color/color_secondary</item>
         <item name="android:padding">24dp</item>
     </style>
-
 </resources>
