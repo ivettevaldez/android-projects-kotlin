@@ -7,6 +7,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.Prompt
 import com.ivettevaldez.saturnus.screens.common.main.MainActivity
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragment
 import com.ivettevaldez.saturnus.screens.invoices.form.main.InvoiceFormMainFragment
+import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentFragment
 import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.InvoiceIssuingPeopleFragment
 import com.ivettevaldez.saturnus.screens.invoices.list.InvoicesListFragment
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
@@ -25,6 +26,7 @@ interface PresentationComponent {
     fun inject(fragment: InvoicesListFragment)
     fun inject(fragment: InvoiceFormMainFragment)
     fun inject(fragment: InvoiceFormDetailsFragment)
+    fun inject(fragment: InvoiceFormPaymentFragment)
     fun inject(fragment: PeopleMainFragment)
     fun inject(fragment: PeopleListFragment)
     fun inject(fragment: PersonFormFragment)

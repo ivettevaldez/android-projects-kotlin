@@ -2,6 +2,10 @@ package com.ivettevaldez.saturnus.common
 
 object Constants {
 
+    const val IVA = 0.16
+    const val IVA_WITHHOLDING = 0.106667
+    const val ISR_WITHHOLDING = 0.1
+
     const val PHYSICAL_PERSON = "Física"
     const val MORAL_PERSON = "Moral"
 

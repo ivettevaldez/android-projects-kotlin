@@ -9,6 +9,7 @@
     <string name="action_ok">OK</string>
     <string name="action_assign">Asignar</string>
     <string name="action_change">Cambiar</string>
+    <string name="action_calculate">Calcular</string>
     <string name="action_back">Atrás</string>
     <string name="action_next">Siguiente</string>
     <string name="action_save">Guardar</string>
@@ -16,17 +17,22 @@
     <string name="action_delete">Borrar</string>
     <string name="action_edit_person">Editar persona</string>
     <string name="action_delete_person">Borrar persona</string>
-    <string name="action_select_person">Selecciona a una persona</string>
+    <string name="action_select_person">Elegir a una persona</string>
 
     <!-- Messages -->
     <string name="message_saved">Los datos han sido guardados.</string>
     <string name="message_what_action_do_you_want">¿Qué acción deseas realizar?</string>
     <string name="message_delete_person_confirmation">
-        ¿Estás seguro/a de que deseas borrar a la persona seleccionada?
+        ¿Estás seguro/a de que deseas borrar a la persona elegida?
     </string>
+    <string name="message_select_type">Elige un tipo</string>
+    <string name="message_select_status">Elige un estatus</string>
 
     <!-- Errors -->
     <string name="error_missing_fields">Debes llenar todos los campos para poder continuar.</string>
+    <string name="error_missing_receiver">
+        Debes elegir a un/a receptor/a del comprobante para poder continuar.
+    </string>
     <string name="error_saving_title">Problema al guardar</string>
     <string name="error_saving_message">
         Ha ocurrido un error, revisa los datos e intenta de nuevo.
@@ -48,32 +54,36 @@
     <string name="invoices_issuing">Emisor/a del comprobante</string>
     <string name="invoices_receiver">Receptor/a del comprobante</string>
     <string name="invoices_folio">Folio</string>
+    <string name="invoices_concept">Concepto</string>
     <string name="invoices_description">Descripción</string>
     <string name="invoices_effect">Efecto del comprobante</string>
     <string name="invoices_issuing_date">Fecha de emisión</string>
     <string name="invoices_certification_date">Fecha de certificación</string>
+    <string name="invoices_income">Ingreso</string>
+    <string name="invoices_payment">Pago</string>
+    <string name="invoices_subtotal">Subtotal</string>
+    <string name="invoices_iva">IVA</string>
+    <string name="invoices_iva_withholding">Retención de IVA</string>
+    <string name="invoices_isr_withholding">Retención de ISR</string>
+    <string name="invoices_total">Total</string>
     <string name="invoices_status">Estatus</string>
     <string name="invoices_cancellation_status">Estatus de cancelación</string>
-    <string name="invoices_select_type">Selecciona un tipo</string>
-    <string name="invoices_status_income">Ingreso</string>
-    <string name="invoices_status_payment">Pago</string>
-    <string name="invoices_select_status">Selecciona un estatus</string>
     <string name="invoices_status_active">Vigente</string>
     <string name="invoices_status_inactive">Inactivo</string>
     <string name="invoices_status_cancellable">Cancelable sin aceptación</string>
     <string name="invoices_status_non_cancellable">No cancelable</string>
     <string-array name="invoices_effects">
-        <item>@string/invoices_select_type</item>
-        <item>@string/invoices_status_income</item>
-        <item>@string/invoices_status_payment</item>
+        <item>@string/message_select_type</item>
+        <item>@string/invoices_income</item>
+        <item>@string/invoices_payment</item>
     </string-array>
     <string-array name="invoices_statuses">
-        <item>@string/invoices_select_status</item>
+        <item>@string/message_select_status</item>
         <item>@string/invoices_status_active</item>
         <item>@string/invoices_status_inactive</item>
     </string-array>
     <string-array name="invoices_cancellation_statuses">
-        <item>@string/invoices_select_status</item>
+        <item>@string/message_select_status</item>
         <item>@string/invoices_status_cancellable</item>
         <item>@string/invoices_status_non_cancellable</item>
     </string-array>
@@ -84,10 +94,9 @@
     <string name="people_add_new_person">Nueva persona</string>
     <string name="people_name">Nombre o razón social</string>
     <string name="people_rfc">RFC</string>
-    <string name="people_detail_template">RFC: %s  |  Persona %s</string>
     <string name="people_type">Tipo de persona</string>
     <string name="people_client_type">Tipo de RFC</string>
-    <string name="people_select_client_type">Selecciona el tipo de RFC</string>
+    <string name="people_select_client_type">Elige el tipo de RFC</string>
     <string name="people_client_type_issuing">Emisor</string>
     <string name="people_client_type_receiver">Receptor</string>
     <string-array name="people_tabs_titles">

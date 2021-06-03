@@ -28,6 +28,7 @@ interface ISimpleTextInputViewMvc : IViewMvc {
     fun setImeOptions(options: Int)
     fun enableClickAndListen(listener: ClickListener)
     fun addTextChangedListener(watcher: TextWatcher)
+    fun removeTextChangedListener(watcher: TextWatcher)
 }
 
 class SimpleTextInputViewMvcImpl(
@@ -65,6 +66,7 @@ class SimpleTextInputViewMvcImpl(
 
     override fun setText(text: String) {
         editText.setText(text)
+        editText.setSelection(text.length)
     }
 
     override fun setHint(hint: String) {
@@ -91,6 +93,10 @@ class SimpleTextInputViewMvcImpl(
 
     override fun addTextChangedListener(watcher: TextWatcher) {
         editText.addTextChangedListener(watcher)
+    }
+
+    override fun removeTextChangedListener(watcher: TextWatcher) {
+        editText.removeTextChangedListener(watcher)
     }
 
     private fun setListenerEvents() {

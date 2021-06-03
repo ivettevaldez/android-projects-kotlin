@@ -28,8 +28,8 @@
         android:paddingBottom="@dimen/item_padding"
         android:paddingStart="@dimen/screen_padding"
         android:paddingEnd="@dimen/screen_padding"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="@dimen/form_field_vertical_spacing"
+        android:layout_marginBottom="@dimen/form_field_vertical_spacing"
         android:orientation="vertical">
 
         <include

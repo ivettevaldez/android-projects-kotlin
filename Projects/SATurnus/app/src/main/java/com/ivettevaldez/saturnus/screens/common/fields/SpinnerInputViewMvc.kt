@@ -51,10 +51,10 @@ class SpinnerInputViewMvcImpl(
     }
 
     override fun getText(): String {
-        return if (spinner.selectedItemPosition == PLACEHOLDER_POSITION) {
-            ""
-        } else {
+        return if (spinner.selectedItemPosition != PLACEHOLDER_POSITION) {
             spinner.selectedItem.toString().trim()
+        } else {
+            ""
         }
     }
 

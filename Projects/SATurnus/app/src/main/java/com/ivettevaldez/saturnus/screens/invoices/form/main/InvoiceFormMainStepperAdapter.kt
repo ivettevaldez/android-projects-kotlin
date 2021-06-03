@@ -3,6 +3,7 @@ package com.ivettevaldez.saturnus.screens.invoices.form.main
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragment
+import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentFragment
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter
 
@@ -20,7 +21,7 @@ class InvoiceFormMainStepperAdapter(
         return if (position == INVOICE_DETAILS_FORM_POSITION) {
             InvoiceFormDetailsFragment.newInstance(issuingRfc)
         } else {
-            InvoiceFormDetailsFragment.newInstance(issuingRfc)
+            InvoiceFormPaymentFragment.newInstance(issuingRfc)
         }
     }
 
