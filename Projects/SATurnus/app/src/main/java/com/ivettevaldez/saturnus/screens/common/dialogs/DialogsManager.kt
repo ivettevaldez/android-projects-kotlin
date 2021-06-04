@@ -19,12 +19,32 @@ class DialogsManager @Inject constructor(
     private val fragmentManager: FragmentManager
 ) {
 
+    fun showGenericSavingError(tag: String?, error: String) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.error_saving_title),
+            error,
+            getString(R.string.action_ok)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
     fun showMissingFieldsError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
             getString(R.string.error_missing_fields),
             getString(R.string.action_ok)
         )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
+    fun showExitWithoutSavingChanges(tag: String?) {
+        val dialogFragment: PromptDialog =
+            PromptDialog.newPromptDialog(
+                getString(R.string.action_exit),
+                getString(R.string.message_exit_without_saving_confirmation),
+                getString(R.string.action_exit),
+                getString(R.string.action_cancel)
+            )
         dialogFragment.show(fragmentManager, tag)
     }
 

@@ -2,7 +2,9 @@ package com.ivettevaldez.saturnus.screens.invoices.form.details
 
 /* ktlint-disable no-wildcard-imports */
 
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -19,13 +21,20 @@ interface IInvoiceFormDetailsViewMvc : IObservableViewMvc<IInvoiceFormDetailsVie
 
     interface Listener {
 
+        fun onFieldChanged()
         fun onSelectReceiverClicked()
         fun onSelectIssuingDateClicked()
         fun onSelectCertificationDateClicked()
     }
 
-    fun getIssuingDate(): String?
-    fun getCertificationDate(): String?
+    fun getFolio(): String
+    fun getConcept(): String
+    fun getDescription(): String
+    fun getEffect(): String
+    fun getStatus(): String
+    fun getCancellationStatus(): String
+    fun getIssuingDate(): String
+    fun getCertificationDate(): String
     fun bindIssuingPerson(person: Person)
     fun bindReceiverPerson(person: Person)
     fun setIssuingDate(date: String)
@@ -40,7 +49,8 @@ class InvoiceFormDetailsViewMvcImpl(
     inflater,
     parent,
     R.layout.layout_invoice_form_details
-), IInvoiceFormDetailsViewMvc {
+), IInvoiceFormDetailsViewMvc,
+    ISpinnerInputViewMvc.ItemSelectedListener {
 
     private val personIssuing: FrameLayout = findViewById(R.id.invoice_form_details_issuing)
     private val personIssuingViewMvc: IPersonItemViewMvc =
@@ -55,6 +65,11 @@ class InvoiceFormDetailsViewMvcImpl(
         findViewById(R.id.invoice_form_details_input_folio)
     private val inputFolio: ISimpleTextInputViewMvc =
         viewMvcFactory.newSimpleTextInputViewMvc(inputFolioContainer)
+
+    private val inputConceptContainer: FrameLayout =
+        findViewById(R.id.invoice_form_details_input_concept)
+    private val inputConcept: ISimpleTextInputViewMvc =
+        viewMvcFactory.newSimpleTextInputViewMvc(inputConceptContainer)
 
     private val inputDescriptionContainer: FrameLayout =
         findViewById(R.id.invoice_form_details_input_description)
@@ -93,21 +108,33 @@ class InvoiceFormDetailsViewMvcImpl(
         setListenerEvents()
     }
 
-    override fun getIssuingDate(): String? {
+    override fun getFolio(): String = inputFolio.getText()
+
+    override fun getConcept(): String = inputConcept.getText()
+
+    override fun getDescription(): String = inputDescription.getText()
+
+    override fun getEffect(): String = inputEffect.getText()
+
+    override fun getStatus(): String = inputStatus.getText()
+
+    override fun getCancellationStatus(): String = inputCancellationStatus.getText()
+
+    override fun getIssuingDate(): String {
         val issuingDate = inputIssuingDate.getText()
-        return if (issuingDate.isNotEmpty()) {
+        return if (issuingDate.isNotBlank()) {
             issuingDate
         } else {
-            null
+            ""
         }
     }
 
-    override fun getCertificationDate(): String? {
+    override fun getCertificationDate(): String {
         val certificationDate = inputCertificationDate.getText()
-        return if (certificationDate.isNotEmpty()) {
+        return if (certificationDate.isNotBlank()) {
             certificationDate
         } else {
-            null
+            ""
         }
     }
 
@@ -125,6 +152,12 @@ class InvoiceFormDetailsViewMvcImpl(
 
     override fun setCertificationDate(date: String) {
         inputCertificationDate.setText(date)
+    }
+
+    override fun onItemSelected() {
+        for (listener in listeners) {
+            listener.onFieldChanged()
+        }
     }
 
     private fun initPersonItems() {
@@ -152,6 +185,11 @@ class InvoiceFormDetailsViewMvcImpl(
         inputFolio.setHint(context.getString(R.string.invoices_folio))
         inputFolio.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS)
         inputFolioContainer.addView(inputFolio.getRootView())
+
+        // Concept field
+        inputConcept.setHint(context.getString(R.string.invoices_concept))
+        inputConcept.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        inputConceptContainer.addView(inputConcept.getRootView())
 
         // Description field
         inputDescription.setHint(context.getString(R.string.invoices_description))
@@ -202,5 +240,25 @@ class InvoiceFormDetailsViewMvcImpl(
                 }
             }
         })
+
+        val fieldChangedTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(p0: Editable?) {
+                for (listener in listeners) {
+                    listener.onFieldChanged()
+                }
+            }
+        }
+
+        inputFolio.addTextChangedListener(fieldChangedTextWatcher)
+        inputConcept.addTextChangedListener(fieldChangedTextWatcher)
+        inputDescription.addTextChangedListener(fieldChangedTextWatcher)
+
+        inputEffect.addItemSelectedListener(this)
+        inputStatus.addItemSelectedListener(this)
+        inputCancellationStatus.addItemSelectedListener(this)
     }
 }

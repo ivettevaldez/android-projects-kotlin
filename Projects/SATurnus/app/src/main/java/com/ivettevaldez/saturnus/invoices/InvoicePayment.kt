@@ -12,12 +12,12 @@ import java.util.*
 @RealmClass
 open class InvoicePayment(
     @Index var status: String = "",
-    var subtotal: Long = 0L,
-    var iva: Long = 0L,
-    var ivaRetention: Long = 0L,
-    var isrRetention: Long = 0L,
-    var total: Long = 0L,
-    var balance: Long = 0L,
+    var subtotal: Double = 0.0,
+    var iva: Double = 0.0,
+    var ivaWithholding: Double = 0.0,
+    var isrWithholding: Double = 0.0,
+    var total: Double = 0.0,
+    var balance: Double = 0.0,
     var generatedAt: Date? = null,
     var paidAt: Date? = null,
     var createdAt: Date = Date(),

@@ -15,6 +15,7 @@
     <string name="action_save">Guardar</string>
     <string name="action_cancel">Cancelar</string>
     <string name="action_delete">Borrar</string>
+    <string name="action_exit">Salir</string>
     <string name="action_edit_person">Editar persona</string>
     <string name="action_delete_person">Borrar persona</string>
     <string name="action_select_person">Elegir a una persona</string>
@@ -25,13 +26,16 @@
     <string name="message_delete_person_confirmation">
         ¿Estás seguro/a de que deseas borrar a la persona elegida?
     </string>
+    <string name="message_exit_without_saving_confirmation">
+        ¿Estás seguro/a de que deseas salir sin guardar los cambios realizados?
+    </string>
     <string name="message_select_type">Elige un tipo</string>
     <string name="message_select_status">Elige un estatus</string>
 
     <!-- Errors -->
     <string name="error_missing_fields">Debes llenar todos los campos para poder continuar.</string>
     <string name="error_missing_receiver">
-        Debes elegir a un/a receptor/a del comprobante para poder continuar.
+        Debes elegir a la persona receptora del comprobante para poder continuar.
     </string>
     <string name="error_saving_title">Problema al guardar</string>
     <string name="error_saving_message">
@@ -41,6 +45,7 @@
         El nombre o razón social no puede contener menos de %d caracteres.
     </string>
     <string name="error_invalid_rfc">El RFC ingresado es inválido.</string>
+    <string name="error_folio_must_be_unique">El folio debe ser único.</string>
 
     <!-- Menu -->
     <string name="menu_invoices">@string/invoices_title</string>

@@ -7,12 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
+import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogEvent
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceChangeFragmentEvent
 import javax.inject.Inject
 
 class InvoiceFormMainFragment : BaseFragment(),
-    IInvoiceFormMainViewMvc.Listener {
+    IInvoiceFormMainViewMvc.Listener,
+    DialogsEventBus.Listener, FragmentsEventBus.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -20,8 +26,19 @@ class InvoiceFormMainFragment : BaseFragment(),
     @Inject
     lateinit var screensNavigator: ScreensNavigator
 
+    @Inject
+    lateinit var fragmentsEventBus: FragmentsEventBus
+
+    @Inject
+    lateinit var dialogsEventBus: DialogsEventBus
+
+    @Inject
+    lateinit var dialogsManager: DialogsManager
+
     private lateinit var viewMvc: IInvoiceFormMainViewMvc
     private lateinit var issuingRfc: String
+
+    private var hasFormChanges: Boolean = false
 
     companion object {
 
@@ -59,24 +76,45 @@ class InvoiceFormMainFragment : BaseFragment(),
 
     override fun onStart() {
         super.onStart()
+
         viewMvc.registerListener(this)
+        fragmentsEventBus.registerListener(this)
+        dialogsEventBus.registerListener(this)
     }
 
     override fun onStop() {
         super.onStop()
+
         viewMvc.unregisterListener(this)
+        fragmentsEventBus.unregisterListener(this)
+        dialogsEventBus.unregisterListener(this)
     }
 
     override fun onNavigateUpClicked() {
-        screensNavigator.navigateUp()
+        if (hasFormChanges) {
+            dialogsManager.showExitWithoutSavingChanges(null)
+        } else {
+            screensNavigator.navigateUp()
+        }
     }
 
-    override fun onCompletedInvoice() {
-        // TODO:
+    override fun onFragmentEvent(event: Any) {
+        if (event is InvoiceChangeFragmentEvent) {
+            hasFormChanges = true
+        }
     }
 
-    override fun onStepError() {
-        // TODO:
+    override fun onDialogEvent(event: Any) {
+        if (event is PromptDialogEvent) {
+            when (event.clickedButton) {
+                PromptDialogEvent.Button.POSITIVE -> {
+                    screensNavigator.navigateUp()
+                }
+                PromptDialogEvent.Button.NEGATIVE -> {
+                    // Do nothing
+                }
+            }
+        }
     }
 
     override fun onStepSelected() {
@@ -84,6 +122,14 @@ class InvoiceFormMainFragment : BaseFragment(),
     }
 
     override fun onReturnToPreviousStep() {
+        // TODO:
+    }
+
+    override fun onStepError() {
+        // TODO:
+    }
+
+    override fun onCompletedInvoice() {
         // TODO:
     }
 }

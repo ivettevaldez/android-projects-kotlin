@@ -2,13 +2,17 @@ package com.ivettevaldez.saturnus.screens.common.datepickers
 
 /* ktlint-disable no-wildcard-imports */
 
+import android.util.Log
 import androidx.fragment.app.FragmentManager
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class DatePickerManager @Inject constructor(private val fragmentManager: FragmentManager) {
+
+    private val classTag: String = this::class.java.simpleName
 
     companion object {
 
@@ -36,7 +40,13 @@ class DatePickerManager @Inject constructor(private val fragmentManager: Fragmen
     fun parseToCalendar(date: String): Calendar {
         val calendar = Calendar.getInstance(Locale.getDefault())
         val format = SimpleDateFormat(USER_FRIENDLY_FORMAT, Locale.getDefault())
-        calendar.time = format.parse(date)!!
+
+        try {
+            calendar.time = format.parse(date)
+        } catch (ex: ParseException) {
+            Log.e(classTag, "@@@@@ Attempting to parse date", ex)
+        }
+
         return calendar
     }
 

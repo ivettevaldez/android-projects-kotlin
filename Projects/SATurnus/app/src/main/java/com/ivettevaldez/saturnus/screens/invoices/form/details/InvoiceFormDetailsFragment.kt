@@ -6,13 +6,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ivettevaldez.saturnus.R
+import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.datepickers.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceChangeFragmentEvent
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -29,6 +33,9 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     lateinit var viewMvcFactory: ViewMvcFactory
 
     @Inject
+    lateinit var fragmentsEventBus: FragmentsEventBus
+
+    @Inject
     lateinit var dialogsManager: DialogsManager
 
     @Inject
@@ -41,6 +48,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     private lateinit var issuingRfc: String
 
     private var receiverRfc: String? = null
+    private var hasNotifiedChanges: Boolean = false
 
     companion object {
 
@@ -88,16 +96,21 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     override fun verifyStep(): VerificationError? {
-        // TODO
-        return null
+        val error = hasFormErrors()
+        return if (error != null) {
+            return VerificationError(error)
+        } else {
+            generateInvoice()
+            null
+        }
     }
 
     override fun onSelected() {
-        // TODO
+        // Nothing to do here.
     }
 
     override fun onError(error: VerificationError) {
-        // TODO
+        dialogsManager.showGenericSavingError(null, error.errorMessage)
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
@@ -108,6 +121,12 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         } else if (view?.tag == DatePickerManager.TAG_CERTIFICATION_DATE) {
             viewMvc.setCertificationDate(date)
         }
+
+        notifyFormChanges()
+    }
+
+    override fun onFieldChanged() {
+        notifyFormChanges()
     }
 
     override fun onSelectReceiverClicked() {
@@ -115,7 +134,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     override fun onSelectIssuingDateClicked() {
-        val currentDate = viewMvc.getIssuingDate().getDate()
+        val currentDate = viewMvc.getIssuingDate().getCalendar()
         datePickerManager.showDatePicker(
             currentDate,
             this,
@@ -124,7 +143,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     override fun onSelectCertificationDateClicked() {
-        val currentDate = viewMvc.getCertificationDate().getDate()
+        val currentDate = viewMvc.getCertificationDate().getCalendar()
         datePickerManager.showDatePicker(
             currentDate,
             this,
@@ -135,11 +154,12 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     override fun onPersonSelected(rfc: String) {
         receiverRfc = rfc
         bindReceiverPerson()
+        notifyFormChanges()
     }
 
     private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)
 
-    private fun String?.getDate(): Calendar = if (this == null) {
+    private fun String.getCalendar(): Calendar = if (this.isNotBlank()) {
         Calendar.getInstance()
     } else {
         datePickerManager.parseToCalendar(this)
@@ -160,6 +180,66 @@ class InvoiceFormDetailsFragment : BaseFragment(),
             viewMvc.bindReceiverPerson(person)
         } else {
             throw RuntimeException("Person with RFC $receiverRfc cannot be found")
+        }
+    }
+
+    private fun hasFormErrors(): String? = if (receiverRfc == null) {
+        getString(R.string.error_missing_receiver)
+    } else if (viewMvc.getFolio().isBlank() ||
+        viewMvc.getConcept().isBlank() ||
+        viewMvc.getDescription().isBlank() ||
+        viewMvc.getEffect().isBlank() ||
+        viewMvc.getStatus().isBlank() ||
+        viewMvc.getCancellationStatus().isBlank() ||
+        viewMvc.getIssuingDate().isBlank()
+    ) {
+        getString(R.string.error_missing_fields)
+    } else if (folioExists(viewMvc.getFolio())) {
+        getString(R.string.error_folio_must_be_unique)
+    } else {
+        null
+    }
+
+    private fun folioExists(folio: String): Boolean {
+        val issuingPerson = personDao.findByRfc(issuingRfc)
+
+        return if (issuingPerson != null) {
+            val folioExists: Boolean = issuingPerson.invoices.any {
+                it.folio == folio
+            }
+            folioExists
+        } else {
+            false
+        }
+    }
+
+    private fun generateInvoice() {
+        val invoice = Invoice(
+            issuing = getPerson(issuingRfc),
+            receiver = getPerson(receiverRfc!!),
+            folio = viewMvc.getFolio(),
+            concept = viewMvc.getConcept(),
+            description = viewMvc.getDescription(),
+            effect = viewMvc.getEffect(),
+            status = viewMvc.getStatus(),
+            cancellationStatus = viewMvc.getCancellationStatus(),
+            issuedAt = viewMvc.getIssuingDate().getCalendar().time,
+            certificatedAt = viewMvc.getCertificationDate().getCalendar().time
+        )
+
+        // Pass the invoice draft to InvoiceFormPaymentFragment to continue working on it.
+        fragmentsEventBus.postEvent(
+            InvoiceFormDetailsFragmentEvent(invoice)
+        )
+    }
+
+    private fun notifyFormChanges() {
+        if (!hasNotifiedChanges) {
+            fragmentsEventBus.postEvent(
+                InvoiceChangeFragmentEvent()
+            )
+
+            hasNotifiedChanges = true
         }
     }
 }
