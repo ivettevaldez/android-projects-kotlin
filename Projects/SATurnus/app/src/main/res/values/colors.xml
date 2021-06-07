@@ -10,6 +10,8 @@
     <color name="white">#FFFFFF</color>
 
     <color name="havelock_blue">#5883C8</color>
+    <color name="monte_carlo">#7EC8B9</color>
+    <color name="light_coral">#FD8886</color>
 
     <color name="color_primary">@color/cod_grey</color>
     <color name="color_primary_variant">@color/black_pearl</color>

@@ -30,8 +30,8 @@ class InvoicesListRecyclerAdapter(
 
     override fun getItemCount(): Int = invoices.size
 
-    override fun onInvoiceClick(folio: String) {
-        listener.onInvoiceClick(folio)
+    override fun onDetailsClicked(folio: String) {
+        listener.onDetailsClicked(folio)
     }
 
     fun updateData(invoices: List<Invoice>) {

@@ -24,7 +24,7 @@ interface IInvoicesListViewMvc : IObservableViewMvc<IInvoicesListViewMvc.Listene
 
         fun onNavigateUpClicked()
         fun onAddNewInvoiceClick()
-        fun onInvoiceClick(folio: String)
+        fun onDetailsClicked(folio: String)
     }
 
     fun setToolbarTitle(title: String)
@@ -96,9 +96,9 @@ class InvoicesListViewMvcImpl(
         }
     }
 
-    override fun onInvoiceClick(folio: String) {
+    override fun onDetailsClicked(folio: String) {
         for (listener in listeners) {
-            listener.onInvoiceClick(folio)
+            listener.onDetailsClicked(folio)
         }
     }
 

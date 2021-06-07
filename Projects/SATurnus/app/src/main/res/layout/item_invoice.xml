@@ -4,10 +4,123 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_background"
-    android:orientation="horizontal"
-    android:paddingStart="12dp"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/item_padding"
     android:paddingTop="@dimen/item_padding"
     android:paddingEnd="@dimen/item_padding"
     android:paddingBottom="@dimen/item_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/item_invoice_text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_tag_active"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/black_pearl" />
+
+        <androidx.legacy.widget.Space
+            android:layout_width="@dimen/spacing_normal"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/item_invoice_text_folio"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/aluminium" />
+
+    </LinearLayout>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_normal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/item_invoice_text_concept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_small" />
+
+            <TextView
+                android:id="@+id/item_invoice_text_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_normal"
+                android:textColor="@color/aluminium" />
+
+        </LinearLayout>
+
+        <androidx.legacy.widget.Space
+            android:layout_width="@dimen/spacing_normal"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/item_invoice_image_person_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_person_grey_36dp"
+                android:contentDescription="@string/content_person_type" />
+
+            <androidx.legacy.widget.Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_small" />
+
+            <TextView
+                android:id="@+id/item_invoice_text_person_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textSize="@dimen/text_normal"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_small" />
+
+    <Button
+        android:id="@+id/item_invoice_button_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/action_see_details"
+        android:theme="@style/Theme.ButtonPrimarySmall"/>
 
 </LinearLayout>

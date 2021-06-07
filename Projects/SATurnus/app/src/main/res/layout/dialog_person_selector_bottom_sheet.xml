@@ -26,7 +26,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dialog_vertical_spacing" />
+            android:layout_height="@dimen/spacing_medium" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/person_selector_bottom_sheet_recycler"

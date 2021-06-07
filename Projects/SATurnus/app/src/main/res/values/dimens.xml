@@ -28,21 +28,27 @@
     <dimen name="screen_padding">24dp</dimen>
     <dimen name="item_padding">16dp</dimen>
     <dimen name="button_primary_padding">16dp</dimen>
+    <dimen name="button_primary_small_padding">8dp</dimen>
+    <dimen name="tag_horizontal_padding">16dp</dimen>
+    <dimen name="tag_vertical_padding">4dp</dimen>
 
     <!-- Spacing -->
-    <dimen name="dialog_vertical_spacing">24dp</dimen>
-    <dimen name="form_field_vertical_spacing">8dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_medium">24dp</dimen>
 
     <!-- TextAppearance -->
-    <dimen name="text_big">18sp</dimen>
-    <dimen name="text_medium">16sp</dimen>
-    <dimen name="text_normal">14sp</dimen>
     <dimen name="text_small">12sp</dimen>
+    <dimen name="text_normal">14sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_big">18sp</dimen>
 
+    <dimen name="text_tag">@dimen/text_small</dimen>
     <dimen name="text_tab">@dimen/text_normal</dimen>
 
     <!-- CornerRadius -->
     <dimen name="default_corner_radius">5dp</dimen>
+    <dimen name="tag_corner_radius">16dp</dimen>
     <dimen name="bottom_sheet_corner_radius">20dp</dimen>
 
     <!-- Other -->

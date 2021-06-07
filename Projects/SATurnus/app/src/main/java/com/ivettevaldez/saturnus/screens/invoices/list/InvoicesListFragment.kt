@@ -82,7 +82,7 @@ class InvoicesListFragment : BaseFragment(),
         screensNavigator.navigateUp()
     }
 
-    override fun onInvoiceClick(folio: String) {
+    override fun onDetailsClicked(folio: String) {
         // TODO:
     }
 

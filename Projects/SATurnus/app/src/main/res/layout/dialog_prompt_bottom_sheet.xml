@@ -26,7 +26,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dialog_vertical_spacing" />
+            android:layout_height="@dimen/spacing_medium" />
 
         <Button
             android:id="@+id/prompt_bottom_sheet_button_option_one"

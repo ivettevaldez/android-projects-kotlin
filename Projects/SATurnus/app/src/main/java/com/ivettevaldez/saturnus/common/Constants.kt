@@ -9,6 +9,9 @@ object Constants {
     const val PHYSICAL_PERSON = "Física"
     const val MORAL_PERSON = "Moral"
 
+    const val INVOICE_STATUS_ACTIVE = "Vigente"
+    const val INVOICE_STATUS_INACTIVE = "Inactivo"
+
     const val RFC_LENGTH_MORAL_PERSON = 12
     const val RFC_LENGTH_PHYSICAL_PERSON = 13
 

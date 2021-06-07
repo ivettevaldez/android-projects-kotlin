@@ -9,9 +9,11 @@
 
     <!-- Actions -->
     <string name="action_ok">OK</string>
+    <string name="action_see_details">Ver detalle</string>
     <string name="action_assign">Asignar</string>
     <string name="action_change">Cambiar</string>
     <string name="action_calculate">Calcular</string>
+    <string name="action_editing">Editando…</string>
     <string name="action_back">Atrás</string>
     <string name="action_next">Siguiente</string>
     <string name="action_save">Guardar</string>
@@ -80,6 +82,7 @@
     <string name="invoices_status_inactive">Inactivo</string>
     <string name="invoices_status_cancellable">Cancelable sin aceptación</string>
     <string name="invoices_status_non_cancellable">No cancelable</string>
+    <string name="invoices_concept_template">%s por %s (%s)</string>
     <string-array name="invoices_effects">
         <item>@string/message_select_type</item>
         <item>@string/invoices_income</item>
@@ -122,5 +125,6 @@
     <string name="content_navigate_up">Atrás</string>
     <string name="content_add_new_person">Agregar una nueva persona</string>
     <string name="content_add_new_invoice">Agregar un nuevo comprobante</string>
+    <string name="content_person_type">Tipo de persona</string>
 
 </resources>
