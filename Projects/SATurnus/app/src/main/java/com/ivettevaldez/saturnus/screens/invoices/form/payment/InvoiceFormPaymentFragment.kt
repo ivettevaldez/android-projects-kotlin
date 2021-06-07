@@ -4,46 +4,50 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toDoubleValue
+import com.ivettevaldez.saturnus.invoices.Invoice
+import com.ivettevaldez.saturnus.invoices.InvoicePayment
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragmentEvent
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import javax.inject.Inject
 
 class InvoiceFormPaymentFragment : BaseFragment(),
     Step,
-    IInvoiceFormPaymentViewMvc.Listener {
+    IInvoiceFormPaymentViewMvc.Listener,
+    FragmentsEventBus.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
+    @Inject
+    lateinit var fragmentsEventBus: FragmentsEventBus
+
+    @Inject
+    lateinit var dialogsManager: DialogsManager
+
     private lateinit var viewMvc: IInvoiceFormPaymentViewMvc
 
-    private var issuingRfc: String? = null
+    private var invoice: Invoice? = null
+    private var receiverPersonType: String? = null
+    private var isSubtotalChanged = false
 
     companion object {
 
-        private const val ARG_ISSUING_RFC = "ARG_ISSUING_RFC"
-
         @JvmStatic
-        fun newInstance(issuingRfc: String) =
-            InvoiceFormPaymentFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_ISSUING_RFC, issuingRfc)
-                }
-            }
+        fun newInstance() = InvoiceFormPaymentFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
         super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            issuingRfc = it.getString(ARG_ISSUING_RFC)
-        }
     }
 
     override fun onCreateView(
@@ -53,56 +57,123 @@ class InvoiceFormPaymentFragment : BaseFragment(),
     ): View {
 
         viewMvc = viewMvcFactory.newInvoiceFormPaymentViewMvc(parent)
-
-        initFields()
-
         return viewMvc.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
+
         viewMvc.registerListener(this)
+        fragmentsEventBus.registerListener(this)
     }
 
     override fun onStop() {
         super.onStop()
+
         viewMvc.unregisterListener(this)
+        fragmentsEventBus.unregisterListener(this)
+    }
+
+    override fun onFragmentEvent(event: Any) {
+        if (event is InvoiceFormDetailsFragmentEvent) {
+            invoice = event.invoice
+            receiverPersonType = invoice?.receiver?.personType
+
+            setDefaults()
+        }
     }
 
     override fun verifyStep(): VerificationError? {
-        // TODO:
-        return null
+        val error = hasFormErrors()
+        return if (error != null) {
+            return VerificationError(error)
+        } else {
+            returnCompleteInvoice()
+            null
+        }
     }
 
     override fun onSelected() {
-        // TODO:
+        // Nothing to do here.
     }
 
     override fun onError(error: VerificationError) {
-        // TODO:
+        dialogsManager.showGenericSavingError(null, error.errorMessage)
+    }
+
+    override fun onSubtotalChanged() {
+        isSubtotalChanged = true
     }
 
     override fun onCalculateClicked(subtotal: String) {
+        isSubtotalChanged = false
+
         val subtotalValue = subtotal.toDoubleValue()
+        val invoicePayment = generateInvoicePayment(subtotalValue)
 
-        val iva = subtotalValue * Constants.IVA
-        viewMvc.setIva(iva.toCurrency())
+        viewMvc.setIva(invoicePayment.iva.toCurrency())
+        viewMvc.setTotal(invoicePayment.total.toCurrency())
 
-        val isrWithholding = subtotalValue * Constants.ISR_WITHHOLDING
-        viewMvc.setIsrWithholding(isrWithholding.toCurrency())
+        if (receiverPersonType == Constants.MORAL_PERSON) {
+            viewMvc.setIvaWithholding(invoicePayment.ivaWithholding.toCurrency())
+            viewMvc.setIsrWithholding(invoicePayment.isrWithholding.toCurrency())
+        }
 
-        val ivaWithholding = subtotalValue * Constants.IVA_WITHHOLDING
-        viewMvc.setIvaWithholding(ivaWithholding.toCurrency())
-
-        val total = subtotalValue + iva - ivaWithholding - isrWithholding
-        viewMvc.setTotal(total.toCurrency())
+        invoice?.payment = invoicePayment
     }
 
-    private fun initFields() {
-        viewMvc.setSubTotal("0".toCurrency())
-        viewMvc.setIva("0".toCurrency())
-        viewMvc.setIvaWithholding("0".toCurrency())
-        viewMvc.setIsrWithholding("0".toCurrency())
-        viewMvc.setTotal("0".toCurrency())
+    private fun setDefaults() {
+        val defaultZero = getString(R.string.default_zero).toCurrency()
+        val defaultWithholding = if (receiverPersonType == Constants.PHYSICAL_PERSON) {
+            getString(R.string.default_unavailable)
+        } else {
+            defaultZero
+        }
+
+        viewMvc.setSubTotal(defaultZero)
+        viewMvc.setIva(defaultZero)
+        viewMvc.setIvaWithholding(defaultWithholding)
+        viewMvc.setIsrWithholding(defaultWithholding)
+        viewMvc.setTotal(defaultZero)
+    }
+
+    private fun generateInvoicePayment(subtotal: Double): InvoicePayment {
+        var isrWithholding = 0.0
+        var ivaWithholding = 0.0
+
+        if (receiverPersonType == Constants.MORAL_PERSON) {
+            ivaWithholding = subtotal * Constants.IVA_WITHHOLDING
+            isrWithholding = subtotal * Constants.ISR_WITHHOLDING
+        }
+
+        val iva = subtotal * Constants.IVA
+
+        return InvoicePayment(
+            subtotal = subtotal,
+            iva = iva,
+            ivaWithholding = ivaWithholding,
+            isrWithholding = isrWithholding,
+            total = subtotal + iva - ivaWithholding - isrWithholding
+        )
+    }
+
+    private fun hasFormErrors(): String? {
+        val defaultZero = getString(R.string.default_zero).toCurrency()
+
+        return if (viewMvc.getSubtotal() == defaultZero ||
+            viewMvc.getIva() == defaultZero ||
+            viewMvc.getTotal() == defaultZero ||
+            isSubtotalChanged
+        ) {
+            getString(R.string.error_missing_calculation)
+        } else {
+            null
+        }
+    }
+
+    private fun returnCompleteInvoice() {
+        fragmentsEventBus.postEvent(
+            InvoiceFormPaymentFragmentEvent(invoice!!)
+        )
     }
 }

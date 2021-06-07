@@ -21,7 +21,7 @@ class InvoiceFormMainStepperAdapter(
         return if (position == INVOICE_DETAILS_FORM_POSITION) {
             InvoiceFormDetailsFragment.newInstance(issuingRfc)
         } else {
-            InvoiceFormPaymentFragment.newInstance(issuingRfc)
+            InvoiceFormPaymentFragment.newInstance()
         }
     }
 

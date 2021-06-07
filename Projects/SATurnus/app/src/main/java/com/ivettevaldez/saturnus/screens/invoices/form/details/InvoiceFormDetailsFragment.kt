@@ -16,7 +16,7 @@ import com.ivettevaldez.saturnus.screens.common.datepickers.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
-import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceChangeFragmentEvent
+import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -236,7 +236,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     private fun notifyFormChanges() {
         if (!hasNotifiedChanges) {
             fragmentsEventBus.postEvent(
-                InvoiceChangeFragmentEvent()
+                InvoiceFormChangeFragmentEvent()
             )
 
             hasNotifiedChanges = true

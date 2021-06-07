@@ -4,6 +4,8 @@
     <string name="app_name">Saturnus</string>
     <string name="app_author_name">Ivette Valdez</string>
     <string name="app_copyright_template">Copyright © %s, %s v.%s</string>
+    <string name="default_zero">0</string>
+    <string name="default_unavailable">N/A</string>
 
     <!-- Actions -->
     <string name="action_ok">OK</string>
@@ -37,6 +39,7 @@
     <string name="error_missing_receiver">
         Debes elegir a la persona receptora del comprobante para poder continuar.
     </string>
+    <string name="error_missing_calculation">Debes hacer un cálculo para poder continuar.</string>
     <string name="error_saving_title">Problema al guardar</string>
     <string name="error_saving_message">
         Ha ocurrido un error, revisa los datos e intenta de nuevo.

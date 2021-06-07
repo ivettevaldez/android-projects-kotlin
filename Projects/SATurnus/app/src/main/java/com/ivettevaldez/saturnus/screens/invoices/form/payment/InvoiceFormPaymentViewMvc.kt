@@ -18,10 +18,15 @@ interface IInvoiceFormPaymentViewMvc : IObservableViewMvc<IInvoiceFormPaymentVie
 
     interface Listener {
 
+        fun onSubtotalChanged()
         fun onCalculateClicked(subtotal: String)
     }
 
     fun getSubtotal(): String
+    fun getIva(): String
+    fun getIvaWithholding(): String
+    fun getIsrWithholding(): String
+    fun getTotal(): String
     fun setSubTotal(value: String)
     fun setIva(value: String)
     fun setIvaWithholding(value: String)
@@ -73,6 +78,14 @@ class InvoiceFormPaymentViewMvcImpl(
     }
 
     override fun getSubtotal(): String = inputSubtotal.getText()
+
+    override fun getIva(): String = inputIva.getText()
+
+    override fun getIvaWithholding(): String = inputIvaWithholding.getText()
+
+    override fun getIsrWithholding(): String = inputIsrWithholding.getText()
+
+    override fun getTotal(): String = inputTotal.getText()
 
     override fun setSubTotal(value: String) {
         inputSubtotal.setText(value)
@@ -131,6 +144,11 @@ class InvoiceFormPaymentViewMvcImpl(
             override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 inputSubtotal.removeTextChangedListener(this)
                 setSubTotal(value!!.toCurrency())
+
+                for (listener in listeners) {
+                    listener.onSubtotalChanged()
+                }
+
                 inputSubtotal.addTextChangedListener(this)
             }
 

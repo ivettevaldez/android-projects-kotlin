@@ -3,17 +3,25 @@ package com.ivettevaldez.saturnus.screens.invoices.form.main
 /* ktlint-disable no-wildcard-imports */
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ivettevaldez.saturnus.R
+import com.ivettevaldez.saturnus.common.Constants
+import com.ivettevaldez.saturnus.invoices.Invoice
+import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogEvent
+import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
-import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceChangeFragmentEvent
+import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
+import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentFragmentEvent
 import javax.inject.Inject
 
 class InvoiceFormMainFragment : BaseFragment(),
@@ -35,10 +43,17 @@ class InvoiceFormMainFragment : BaseFragment(),
     @Inject
     lateinit var dialogsManager: DialogsManager
 
+    @Inject
+    lateinit var messagesHelper: MessagesHelper
+
+    @Inject
+    lateinit var invoiceDao: InvoiceDao
+
     private lateinit var viewMvc: IInvoiceFormMainViewMvc
     private lateinit var issuingRfc: String
 
     private var hasFormChanges: Boolean = false
+    private var invoice: Invoice? = null
 
     companion object {
 
@@ -99,8 +114,10 @@ class InvoiceFormMainFragment : BaseFragment(),
     }
 
     override fun onFragmentEvent(event: Any) {
-        if (event is InvoiceChangeFragmentEvent) {
+        if (event is InvoiceFormChangeFragmentEvent) {
             hasFormChanges = true
+        } else if (event is InvoiceFormPaymentFragmentEvent) {
+            invoice = event.invoice
         }
     }
 
@@ -118,18 +135,27 @@ class InvoiceFormMainFragment : BaseFragment(),
     }
 
     override fun onStepSelected() {
-        // TODO:
+        // Nothing to do here.
     }
 
     override fun onReturnToPreviousStep() {
-        // TODO:
+        // Nothing to do here.
     }
 
     override fun onStepError() {
-        // TODO:
+        // Nothing to do here.
     }
 
     override fun onCompletedInvoice() {
-        // TODO:
+        invoiceDao.save(invoice!!)
+
+        messagesHelper.showShortMessage(
+            viewMvc.getRootView(),
+            getString(R.string.message_saved)
+        )
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            screensNavigator.navigateUp()
+        }, Constants.SHOW_MESSAGE_DELAY)
     }
 }

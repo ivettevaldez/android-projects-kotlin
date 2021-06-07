@@ -33,7 +33,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/invoices_list_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/invoices_list_text_issued"/>
 
     <TextView
         android:id="@+id/invoices_list_text_add_new"

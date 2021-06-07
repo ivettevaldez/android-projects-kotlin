@@ -62,6 +62,8 @@
         layout="@layout/element_button_primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/person_form_layout_fields" />
+        android:layout_below="@id/person_form_layout_fields"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
 
 </RelativeLayout>
