@@ -35,8 +35,8 @@ class InvoiceListItemViewMvcImpl(
     private val textFolio: TextView = findViewById(R.id.item_invoice_text_folio)
     private val textConcept: TextView = findViewById(R.id.item_invoice_text_concept)
     private val textDescription: TextView = findViewById(R.id.item_invoice_text_description)
-    private val textPersonName: TextView = findViewById(R.id.item_invoice_text_person_name)
-    private val imagePersonType: ImageView = findViewById(R.id.item_invoice_image_person_type)
+    private val textReceiverName: TextView = findViewById(R.id.item_invoice_text_receiver_name)
+    private val imageReceiverType: ImageView = findViewById(R.id.item_invoice_image_receiver_type)
     private val buttonSeeDetails: Button = findViewById(R.id.item_invoice_button_details)
 
     private lateinit var invoice: Invoice
@@ -49,16 +49,14 @@ class InvoiceListItemViewMvcImpl(
     override fun bindInvoice(invoice: Invoice) {
         this.invoice = invoice
 
-        textStatus.text = invoice.status
-        textStatus.setBackgroundResource(getStatusBackgroundColor())
+        bindStatus()
 
+        textFolio.text = getFolio()
         textConcept.text = getConcept()
         textDescription.text = invoice.description
-        textFolio.text = getFolio()
 
         if (invoice.receiver != null) {
-            textPersonName.text = invoice.receiver!!.name
-            imagePersonType.setImageResource(getPersonTypeIcon())
+            bindReceiver()
         }
     }
 
@@ -70,15 +68,25 @@ class InvoiceListItemViewMvcImpl(
         }
     }
 
-    private fun getStatusBackgroundColor(): Int = when (invoice.status) {
+    private fun bindStatus() {
+        textStatus.text = invoice.status.uppercase()
+        textStatus.setBackgroundResource(getStatusBackground())
+    }
+
+    private fun bindReceiver() {
+        textReceiverName.text = invoice.receiver!!.name
+        imageReceiverType.setImageResource(getPersonTypeIcon())
+    }
+
+    private fun getStatusBackground(): Int = when (invoice.status) {
         Constants.INVOICE_STATUS_ACTIVE -> R.drawable.shape_tag_active
-        Constants.INVOICE_STATUS_INACTIVE -> R.drawable.shape_tag_canceled
+        Constants.INVOICE_STATUS_INACTIVE -> R.drawable.shape_tag_inactive
         else -> R.drawable.shape_tag_active
     }
 
     private fun getFolio(): String = String.format(
         "%s: %s",
-        context.getString(R.string.invoices_folio),
+        context.getString(R.string.invoices_folio).uppercase(),
         invoice.folio
     )
 

@@ -141,7 +141,7 @@ class PeopleListFragment : BaseFragment(),
                 editPerson()
             }
             PromptBottomSheetDialogEvent.Button.OPTION_TWO -> {
-                dialogsManager.showDeletePersonConfirmationDialog(
+                dialogsManager.showDeletePersonConfirmation(
                     TAG_PEOPLE_LIST_CONFIRMATION_DIALOG
                 )
             }

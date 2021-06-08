@@ -37,6 +37,7 @@ interface IPersonFormViewMvc : IObservableViewMvc<IPersonFormViewMvc.Listener> {
     fun cleanFields()
     fun showProgressIndicator()
     fun hideProgressIndicator()
+    fun setToolbarTitle(title: String)
     fun setPersonType(type: String)
 }
 
@@ -76,7 +77,8 @@ class PersonFormViewMvcImpl(
 
     init {
 
-        initToolbar()
+        toolbarContainer.addView(toolbar.getRootView())
+
         initFields()
         setListenerEvents()
     }
@@ -114,13 +116,12 @@ class PersonFormViewMvcImpl(
         layoutProgress.visibility = View.GONE
     }
 
-    override fun setPersonType(type: String) {
-        inputPersonType.setText(type)
+    override fun setToolbarTitle(title: String) {
+        toolbar.setTitle(title)
     }
 
-    private fun initToolbar() {
-        toolbar.setTitle(context.getString(R.string.people_add_new_person))
-        toolbarContainer.addView(toolbar.getRootView())
+    override fun setPersonType(type: String) {
+        inputPersonType.setText(type)
     }
 
     private fun initFields() {

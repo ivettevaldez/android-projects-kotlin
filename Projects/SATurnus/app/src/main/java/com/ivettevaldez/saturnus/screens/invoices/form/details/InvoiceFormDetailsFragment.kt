@@ -134,7 +134,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     override fun onSelectIssuingDateClicked() {
-        val currentDate = viewMvc.getIssuingDate().getCalendar()
+        val currentDate = viewMvc.getIssuingDate().calendar()
         datePickerManager.showDatePicker(
             currentDate,
             this,
@@ -143,7 +143,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     override fun onSelectCertificationDateClicked() {
-        val currentDate = viewMvc.getCertificationDate().getCalendar()
+        val currentDate = viewMvc.getCertificationDate().calendar()
         datePickerManager.showDatePicker(
             currentDate,
             this,
@@ -159,7 +159,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
 
     private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)
 
-    private fun String.getCalendar(): Calendar = if (this.isNotBlank()) {
+    private fun String.calendar(): Calendar = if (this.isBlank()) {
         Calendar.getInstance()
     } else {
         datePickerManager.parseToCalendar(this)
@@ -170,7 +170,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         if (person != null) {
             viewMvc.bindIssuingPerson(person)
         } else {
-            throw RuntimeException("Person with RFC $issuingRfc cannot be found")
+            throw RuntimeException("@@@@@ Person with RFC $issuingRfc cannot be found")
         }
     }
 
@@ -179,7 +179,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         if (person != null) {
             viewMvc.bindReceiverPerson(person)
         } else {
-            throw RuntimeException("Person with RFC $receiverRfc cannot be found")
+            throw RuntimeException("@@@@@ Person with RFC $receiverRfc cannot be found")
         }
     }
 
@@ -223,8 +223,8 @@ class InvoiceFormDetailsFragment : BaseFragment(),
             effect = viewMvc.getEffect(),
             status = viewMvc.getStatus(),
             cancellationStatus = viewMvc.getCancellationStatus(),
-            issuedAt = viewMvc.getIssuingDate().getCalendar().time,
-            certificatedAt = viewMvc.getCertificationDate().getCalendar().time
+            issuedAt = viewMvc.getIssuingDate().calendar().time,
+            certificatedAt = viewMvc.getCertificationDate().calendar().time
         )
 
         // Pass the invoice draft to InvoiceFormPaymentFragment to continue working on it.

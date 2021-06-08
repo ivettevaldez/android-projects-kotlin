@@ -18,10 +18,9 @@
         <TextView
             android:id="@+id/item_invoice_text_status"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_tag_active"
-            android:textSize="@dimen/text_small"
-            android:textColor="@color/black_pearl" />
+            android:layout_height="match_parent"
+            android:textColor="@color/black_pearl"
+            android:textSize="@dimen/text_tag" />
 
         <androidx.legacy.widget.Space
             android:layout_width="@dimen/spacing_normal"
@@ -88,7 +87,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/item_invoice_image_person_type"
+                android:id="@+id/item_invoice_image_receiver_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_person_grey_36dp"
@@ -99,7 +98,7 @@
                 android:layout_height="@dimen/spacing_small" />
 
             <TextView
-                android:id="@+id/item_invoice_text_person_name"
+                android:id="@+id/item_invoice_text_receiver_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

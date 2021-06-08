@@ -102,7 +102,7 @@ class InvoicesListFragment : BaseFragment(),
             if (person != null) {
                 viewMvc.setToolbarTitle(person.name)
             } else {
-                throw IllegalArgumentException("Invalid RFC: $rfc")
+                throw IllegalArgumentException("@@@@@ Invalid RFC: $rfc")
             }
         }.start()
     }

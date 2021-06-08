@@ -5,6 +5,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.FrameLayout
 import com.ivettevaldez.saturnus.R
@@ -111,6 +112,7 @@ class InvoiceFormPaymentViewMvcImpl(
         // Subtotal field
         inputSubtotal.setHint(context.getString(R.string.invoices_subtotal))
         inputSubtotal.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_CLASS_NUMBER)
+        inputSubtotal.setImeOptions(EditorInfo.IME_ACTION_DONE)
         inputSubtotalContainer.addView(inputSubtotal.getRootView())
 
         // IVA field
@@ -143,6 +145,7 @@ class InvoiceFormPaymentViewMvcImpl(
 
             override fun onTextChanged(value: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 inputSubtotal.removeTextChangedListener(this)
+
                 setSubTotal(value!!.toCurrency())
 
                 for (listener in listeners) {

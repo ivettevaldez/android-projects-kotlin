@@ -32,7 +32,6 @@ class PeopleListViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
     private val uiHandler: Handler,
-    private val utilsHelper: UtilsHelper,
     private val viewMvcFactory: ViewMvcFactory
 ) : BaseObservableViewMvc<IPeopleListViewMvc.Listener>(
     inflater,
@@ -103,7 +102,7 @@ class PeopleListViewMvcImpl(
             layoutManager = linearLayoutManager
             adapter = peopleListRecyclerAdapter
             addItemDecoration(
-                utilsHelper.getDividerItemDecoration()
+                UtilsHelper.getDividerItemDecoration(context)
             )
         }
     }

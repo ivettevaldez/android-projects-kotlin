@@ -4,7 +4,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorListItemViewMvc
@@ -51,7 +50,6 @@ class ViewMvcFactory @Inject constructor(
     private val inflater: Provider<LayoutInflater>,
     private val fragmentManager: FragmentManager,
     private val uiHandler: Provider<Handler>,
-    private val utilsHelper: Provider<UtilsHelper>,
     private val navDrawerHelper: Provider<INavDrawerHelper>
 ) {
 
@@ -105,7 +103,6 @@ class ViewMvcFactory @Inject constructor(
             inflater.get(),
             parent,
             uiHandler.get(),
-            utilsHelper.get(),
             navDrawerHelper.get(),
             this
         )
@@ -116,7 +113,6 @@ class ViewMvcFactory @Inject constructor(
             inflater.get(),
             parent,
             uiHandler.get(),
-            utilsHelper.get(),
             this
         )
     }
@@ -146,7 +142,6 @@ class ViewMvcFactory @Inject constructor(
             inflater.get(),
             parent,
             uiHandler.get(),
-            utilsHelper.get(),
             this
         )
     }

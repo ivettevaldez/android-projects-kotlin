@@ -22,7 +22,7 @@ interface IInvoiceFormMainViewMvc : IObservableViewMvc<IInvoiceFormMainViewMvc.L
         fun onStepSelected()
         fun onReturnToPreviousStep()
         fun onStepError()
-        fun onCompletedInvoice()
+        fun onCompletedSteps()
     }
 
     fun initStepper(issuingRfc: String)
@@ -70,23 +70,9 @@ class InvoiceFormMainViewMvcImpl(
         layoutProgress.visibility = View.GONE
     }
 
-    private fun initToolbar() {
-        toolbarViewMvc.setTitle(context.getString(R.string.invoices_new))
-
-        toolbarViewMvc.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
-            override fun onNavigateUpClicked() {
-                for (listener in listeners) {
-                    listener.onNavigateUpClicked()
-                }
-            }
-        })
-
-        toolbar.addView(toolbarViewMvc.getRootView())
-    }
-
     override fun onCompleted(completeButton: View?) {
         for (listener in listeners) {
-            listener.onCompletedInvoice()
+            listener.onCompletedSteps()
         }
     }
 
@@ -106,5 +92,19 @@ class InvoiceFormMainViewMvcImpl(
         for (listener in listeners) {
             listener.onReturnToPreviousStep()
         }
+    }
+
+    private fun initToolbar() {
+        toolbarViewMvc.setTitle(context.getString(R.string.invoices_new))
+
+        toolbarViewMvc.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
+            override fun onNavigateUpClicked() {
+                for (listener in listeners) {
+                    listener.onNavigateUpClicked()
+                }
+            }
+        })
+
+        toolbar.addView(toolbarViewMvc.getRootView())
     }
 }

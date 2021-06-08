@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.WorkerThread
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
@@ -59,6 +60,7 @@ class InvoiceIssuingPeopleFragment : BaseFragment(),
         viewMvc.unregisterListener(this)
     }
 
+    @WorkerThread
     private fun getPeople(): List<Person> = peopleDao.findAllIssuing()
 
     private fun bindPeople() {
@@ -71,9 +73,5 @@ class InvoiceIssuingPeopleFragment : BaseFragment(),
 
     override fun onPersonClick(rfc: String) {
         screensNavigator.toInvoicesList(rfc)
-    }
-
-    override fun onPersonLongClick(rfc: String) {
-        // TODO:
     }
 }

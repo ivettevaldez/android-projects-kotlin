@@ -172,6 +172,8 @@ class InvoiceFormPaymentFragment : BaseFragment(),
     }
 
     private fun returnCompleteInvoice() {
+        setDefaults()
+
         fragmentsEventBus.postEvent(
             InvoiceFormPaymentFragmentEvent(invoice!!)
         )

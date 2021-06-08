@@ -72,10 +72,14 @@ class PersonFormFragment : BaseFragment(),
 
         viewMvc = viewMvcFactory.newPersonFormViewMvc(parent)
 
-        if (rfc != null) {
+        val toolbarTitle = if (rfc != null) {
             bindPerson()
+            getString(R.string.action_editing)
+        } else {
+            getString(R.string.people_add_new_person)
         }
 
+        viewMvc.setToolbarTitle(toolbarTitle)
         return viewMvc.getRootView()
     }
 

@@ -7,6 +7,7 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.Person
@@ -120,23 +121,9 @@ class InvoiceFormDetailsViewMvcImpl(
 
     override fun getCancellationStatus(): String = inputCancellationStatus.getText()
 
-    override fun getIssuingDate(): String {
-        val issuingDate = inputIssuingDate.getText()
-        return if (issuingDate.isNotBlank()) {
-            issuingDate
-        } else {
-            ""
-        }
-    }
+    override fun getIssuingDate(): String = inputIssuingDate.getText()
 
-    override fun getCertificationDate(): String {
-        val certificationDate = inputCertificationDate.getText()
-        return if (certificationDate.isNotBlank()) {
-            certificationDate
-        } else {
-            ""
-        }
-    }
+    override fun getCertificationDate(): String = inputCertificationDate.getText()
 
     override fun bindIssuingPerson(person: Person) {
         personIssuingViewMvc.bindPerson(person)
@@ -184,16 +171,19 @@ class InvoiceFormDetailsViewMvcImpl(
         // Folio field
         inputFolio.setHint(context.getString(R.string.invoices_folio))
         inputFolio.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+        inputFolio.setImeOptions(EditorInfo.IME_ACTION_DONE)
         inputFolioContainer.addView(inputFolio.getRootView())
 
         // Concept field
         inputConcept.setHint(context.getString(R.string.invoices_concept))
         inputConcept.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        inputConcept.setImeOptions(EditorInfo.IME_ACTION_DONE)
         inputConceptContainer.addView(inputConcept.getRootView())
 
         // Description field
         inputDescription.setHint(context.getString(R.string.invoices_description))
         inputDescription.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+        inputDescription.setImeOptions(EditorInfo.IME_ACTION_DONE)
         inputDescriptionContainer.addView(inputDescription.getRootView())
 
         // Effect field

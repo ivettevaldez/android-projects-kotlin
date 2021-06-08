@@ -37,17 +37,6 @@ class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
-    fun showExitWithoutSavingChanges(tag: String?) {
-        val dialogFragment: PromptDialog =
-            PromptDialog.newPromptDialog(
-                getString(R.string.action_exit),
-                getString(R.string.message_exit_without_saving_confirmation),
-                getString(R.string.action_exit),
-                getString(R.string.action_cancel)
-            )
-        dialogFragment.show(fragmentManager, tag)
-    }
-
     fun showSavePersonError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
@@ -78,6 +67,27 @@ class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
+    fun showExitWithoutSavingChangesConfirmation(tag: String?) {
+        val dialogFragment: PromptDialog =
+            PromptDialog.newPromptDialog(
+                getString(R.string.action_exit),
+                getString(R.string.message_exit_without_saving_confirmation),
+                getString(R.string.action_exit),
+                getString(R.string.action_cancel)
+            )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
+    fun showDeletePersonConfirmation(tag: String?) {
+        val dialogFragment: DialogFragment = PromptDialog.newPromptDialog(
+            getString(R.string.action_delete_person),
+            getString(R.string.message_delete_person_confirmation),
+            getString(R.string.action_delete),
+            getString(R.string.action_cancel)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
     fun showPersonOptionsDialog(tag: String?) {
         val bottomSheetDialog: BottomSheetDialogFragment =
             PromptBottomSheetDialog.newPromptBottomSheetDialog(
@@ -86,16 +96,6 @@ class DialogsManager @Inject constructor(
                 getString(R.string.action_delete_person)
             )
         bottomSheetDialog.show(fragmentManager, tag)
-    }
-
-    fun showDeletePersonConfirmationDialog(tag: String?) {
-        val dialogFragment: DialogFragment = PromptDialog.newPromptDialog(
-            getString(R.string.action_delete_person),
-            getString(R.string.message_delete_person_confirmation),
-            getString(R.string.action_delete),
-            getString(R.string.action_cancel)
-        )
-        dialogFragment.show(fragmentManager, tag)
     }
 
     fun showPersonSelectorDialog(

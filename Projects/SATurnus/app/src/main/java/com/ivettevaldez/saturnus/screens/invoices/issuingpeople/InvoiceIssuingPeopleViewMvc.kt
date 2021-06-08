@@ -25,7 +25,6 @@ interface IInvoiceIssuingPeopleViewMvc : IObservableViewMvc<IInvoiceIssuingPeopl
     interface Listener {
 
         fun onPersonClick(rfc: String)
-        fun onPersonLongClick(rfc: String)
     }
 
     fun bindPeople(people: List<Person>)
@@ -37,7 +36,6 @@ class InvoiceIssuingPeopleViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
     private val uiHandler: Handler,
-    private val utilsHelper: UtilsHelper,
     private val navDrawerHelper: INavDrawerHelper,
     private val viewMvcFactory: ViewMvcFactory
 ) : BaseObservableViewMvc<IInvoiceIssuingPeopleViewMvc.Listener>(
@@ -48,11 +46,11 @@ class InvoiceIssuingPeopleViewMvcImpl(
     IPeopleListItemViewMvc.Listener {
 
     private val toolbar: Toolbar = findViewById(R.id.invoice_issuing_people_toolbar)
+    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
+
     private val layoutProgress: FrameLayout = findViewById(R.id.people_list_progress)
     private val recycler: RecyclerView = findViewById(R.id.people_list_recycler)
     private val textAddNew: TextView = findViewById(R.id.people_list_text_add_new)
-
-    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
 
     private lateinit var peopleListRecyclerAdapter: PeopleListRecyclerAdapter
 
@@ -95,15 +93,11 @@ class InvoiceIssuingPeopleViewMvcImpl(
     }
 
     override fun onPersonLongClick(rfc: String) {
-        for (listener in listeners) {
-            listener.onPersonLongClick(rfc)
-        }
+        // Nothing to do here.
     }
 
     private fun initToolbar() {
-        toolbarViewMvc.setTitle(
-            context.getString(R.string.menu_invoices)
-        )
+        toolbarViewMvc.setTitle(context.getString(R.string.menu_invoices))
 
         toolbarViewMvc.enableMenuAndListen(object : IToolbarViewMvc.MenuClickListener {
             override fun onMenuClicked() {
@@ -127,7 +121,7 @@ class InvoiceIssuingPeopleViewMvcImpl(
             layoutManager = linearLayoutManager
             adapter = peopleListRecyclerAdapter
             addItemDecoration(
-                utilsHelper.getDividerItemDecoration()
+                UtilsHelper.getDividerItemDecoration(context)
             )
         }
     }

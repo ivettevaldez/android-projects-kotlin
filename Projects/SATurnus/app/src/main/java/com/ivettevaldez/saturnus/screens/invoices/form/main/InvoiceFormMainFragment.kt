@@ -1,7 +1,5 @@
 package com.ivettevaldez.saturnus.screens.invoices.form.main
 
-/* ktlint-disable no-wildcard-imports */
-
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -26,7 +24,8 @@ import javax.inject.Inject
 
 class InvoiceFormMainFragment : BaseFragment(),
     IInvoiceFormMainViewMvc.Listener,
-    DialogsEventBus.Listener, FragmentsEventBus.Listener {
+    FragmentsEventBus.Listener,
+    DialogsEventBus.Listener {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -107,7 +106,7 @@ class InvoiceFormMainFragment : BaseFragment(),
 
     override fun onNavigateUpClicked() {
         if (hasFormChanges) {
-            dialogsManager.showExitWithoutSavingChanges(null)
+            dialogsManager.showExitWithoutSavingChangesConfirmation(null)
         } else {
             screensNavigator.navigateUp()
         }
@@ -128,7 +127,7 @@ class InvoiceFormMainFragment : BaseFragment(),
                     screensNavigator.navigateUp()
                 }
                 PromptDialogEvent.Button.NEGATIVE -> {
-                    // Do nothing
+                    // Nothing to do here.
                 }
             }
         }
@@ -146,13 +145,10 @@ class InvoiceFormMainFragment : BaseFragment(),
         // Nothing to do here.
     }
 
-    override fun onCompletedInvoice() {
+    override fun onCompletedSteps() {
         invoiceDao.save(invoice!!)
 
-        messagesHelper.showShortMessage(
-            viewMvc.getRootView(),
-            getString(R.string.message_saved)
-        )
+        messagesHelper.showShortMessage(viewMvc.getRootView(), R.string.message_saved)
 
         Handler(Looper.getMainLooper()).postDelayed({
             screensNavigator.navigateUp()

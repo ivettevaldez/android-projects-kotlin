@@ -37,7 +37,6 @@ class InvoicesListViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?,
     private val uiHandler: Handler,
-    private val utilsHelper: UtilsHelper,
     private val viewMvcFactory: ViewMvcFactory
 ) : BaseObservableViewMvc<IInvoicesListViewMvc.Listener>(
     inflater,
@@ -47,13 +46,13 @@ class InvoicesListViewMvcImpl(
     IInvoiceListItemViewMvc.Listener {
 
     private val toolbar: Toolbar = findViewById(R.id.invoices_list_toolbar)
+    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
+
     private val layoutProgress: FrameLayout = findViewById(R.id.invoices_list_progress)
     private val recycler: RecyclerView = findViewById(R.id.invoices_list_recycler)
     private val textAddNew: TextView = findViewById(R.id.invoices_list_text_add_new)
     private val textIssued: TextView = findViewById(R.id.invoices_list_text_issued)
     private val fabAddNew: FloatingActionButton = findViewById(R.id.invoices_list_fab_add_new)
-
-    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
 
     private lateinit var invoicesListRecyclerAdapter: InvoicesListRecyclerAdapter
 
@@ -65,7 +64,9 @@ class InvoicesListViewMvcImpl(
     }
 
     override fun setToolbarTitle(title: String) {
-        toolbarViewMvc.setTitle(title)
+        uiHandler.post {
+            toolbarViewMvc.setTitle(title)
+        }
     }
 
     override fun bindInvoices(invoices: List<Invoice>) {
@@ -127,7 +128,7 @@ class InvoicesListViewMvcImpl(
             layoutManager = linearLayoutManager
             adapter = invoicesListRecyclerAdapter
             addItemDecoration(
-                utilsHelper.getDividerItemDecoration()
+                UtilsHelper.getDividerItemDecoration(context)
             )
         }
     }
