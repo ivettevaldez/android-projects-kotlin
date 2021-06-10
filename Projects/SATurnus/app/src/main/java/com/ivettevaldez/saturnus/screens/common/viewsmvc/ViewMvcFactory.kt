@@ -20,6 +20,7 @@ import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.ToolbarViewMvcImpl
+import com.ivettevaldez.saturnus.screens.invoices.InvoicesHelper
 import com.ivettevaldez.saturnus.screens.invoices.details.IInvoiceDetailsViewMvc
 import com.ivettevaldez.saturnus.screens.invoices.details.InvoiceDetailsViewMvcImpl
 import com.ivettevaldez.saturnus.screens.invoices.form.details.IInvoiceFormDetailsViewMvc
@@ -52,7 +53,8 @@ class ViewMvcFactory @Inject constructor(
     private val inflater: Provider<LayoutInflater>,
     private val fragmentManager: FragmentManager,
     private val uiHandler: Provider<Handler>,
-    private val navDrawerHelper: Provider<INavDrawerHelper>
+    private val navDrawerHelper: Provider<INavDrawerHelper>,
+    private val invoicesHelper: Provider<InvoicesHelper>
 ) {
 
     fun newNavDrawerViewMvc(parent: ViewGroup?): INavDrawerViewMvc {
@@ -120,11 +122,11 @@ class ViewMvcFactory @Inject constructor(
     }
 
     fun newInvoiceListItemViewMvc(parent: ViewGroup?): IInvoiceListItemViewMvc {
-        return InvoiceListItemViewMvcImpl(inflater.get(), parent)
+        return InvoiceListItemViewMvcImpl(inflater.get(), parent, invoicesHelper.get())
     }
 
     fun newInvoiceDetailsViewMvc(parent: ViewGroup?): IInvoiceDetailsViewMvc {
-        return InvoiceDetailsViewMvcImpl(inflater.get(), parent, this)
+        return InvoiceDetailsViewMvcImpl(inflater.get(), parent, this, invoicesHelper.get())
     }
 
     fun newInvoiceFormMainViewMvc(parent: ViewGroup?): IInvoiceFormMainViewMvc {

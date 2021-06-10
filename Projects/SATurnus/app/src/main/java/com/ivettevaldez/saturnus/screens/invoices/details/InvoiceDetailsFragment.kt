@@ -80,7 +80,7 @@ class InvoiceDetailsFragment : BaseFragment(),
     private fun bindInvoice() {
         val invoice = getInvoice()
         if (invoice != null) {
-            // TODO:
+            viewMvc.bindInvoice(invoice)
         }
     }
 }

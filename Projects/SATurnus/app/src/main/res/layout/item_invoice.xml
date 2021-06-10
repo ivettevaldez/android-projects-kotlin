@@ -10,31 +10,10 @@
     android:paddingEnd="@dimen/item_padding"
     android:paddingBottom="@dimen/item_padding">
 
-    <LinearLayout
+    <include
+        layout="@layout/partial_invoice_status"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/item_invoice_text_status"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_tag" />
-
-        <androidx.legacy.widget.Space
-            android:layout_width="@dimen/spacing_normal"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/item_invoice_text_folio"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:textSize="@dimen/text_small"
-            android:textColor="@color/link_water" />
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <androidx.legacy.widget.Space
         android:layout_width="match_parent"

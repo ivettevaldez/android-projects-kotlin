@@ -6,6 +6,7 @@
     <string name="app_copyright_template">Copyright © %s, %s v.%s</string>
     <string name="default_zero">0</string>
     <string name="default_unavailable">N/A</string>
+    <string name="default_label_value_template">%s: %s</string>
 
     <!-- Actions -->
     <string name="action_ok">OK</string>
@@ -58,7 +59,7 @@
 
     <!-- Module: Invoices -->
     <string name="invoices_title">Facturación</string>
-    <string name="invoices_invoice">Factura</string>
+    <string name="invoices_detail">Detalle de factura</string>
     <string name="invoices_add_new">Agrega nuevos comprobantes</string>
     <string name="invoices_new">Nuevo comprobante</string>
     <string name="invoices_issued">Comprobantes emitidos ante el SAT</string>

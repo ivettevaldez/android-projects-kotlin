@@ -6,11 +6,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
+import com.ivettevaldez.saturnus.screens.invoices.InvoicesHelper
 
 interface IInvoiceListItemViewMvc : IObservableViewMvc<IInvoiceListItemViewMvc.Listener> {
 
@@ -24,15 +24,16 @@ interface IInvoiceListItemViewMvc : IObservableViewMvc<IInvoiceListItemViewMvc.L
 
 class InvoiceListItemViewMvcImpl(
     inflater: LayoutInflater,
-    parent: ViewGroup?
+    parent: ViewGroup?,
+    private val invoicesHelper: InvoicesHelper
 ) : BaseObservableViewMvc<IInvoiceListItemViewMvc.Listener>(
     inflater,
     parent,
     R.layout.item_invoice
 ), IInvoiceListItemViewMvc {
 
-    private val textStatus: TextView = findViewById(R.id.item_invoice_text_status)
-    private val textFolio: TextView = findViewById(R.id.item_invoice_text_folio)
+    private val textStatus: TextView = findViewById(R.id.invoice_status_text_status)
+    private val textFolio: TextView = findViewById(R.id.invoice_status_text_folio)
     private val textConcept: TextView = findViewById(R.id.item_invoice_text_concept)
     private val textDescription: TextView = findViewById(R.id.item_invoice_text_description)
     private val textReceiverName: TextView = findViewById(R.id.item_invoice_text_receiver_name)
@@ -50,14 +51,8 @@ class InvoiceListItemViewMvcImpl(
         this.invoice = invoice
 
         bindStatus()
-
-        textFolio.text = getFolio()
-        textConcept.text = getConcept()
-        textDescription.text = invoice.description
-
-        if (invoice.receiver != null) {
-            bindReceiver()
-        }
+        bindGeneralData()
+        bindReceiver()
     }
 
     private fun setListenerEvents() {
@@ -69,39 +64,30 @@ class InvoiceListItemViewMvcImpl(
     }
 
     private fun bindStatus() {
-        textStatus.text = invoice.status.uppercase()
-        textStatus.setBackgroundResource(getStatusBackground())
+        textStatus.text = invoicesHelper.getFormattedStatus(invoice.status)
+        textStatus.setBackgroundResource(invoicesHelper.getStatusBackground(invoice.status))
+    }
+
+    private fun bindGeneralData() {
+        textFolio.text = invoicesHelper.getFormattedFolio(invoice.folio)
+
+        textConcept.text = invoicesHelper.getFormattedConcept(
+            invoice.concept,
+            invoice.payment!!.total.toCurrency(),
+            invoice.effect
+        )
+
+        textDescription.text = invoice.description
     }
 
     private fun bindReceiver() {
-        textReceiverName.text = invoice.receiver!!.name
-        imageReceiverType.setImageResource(getPersonTypeIcon())
-    }
-
-    private fun getStatusBackground(): Int = when (invoice.status) {
-        Constants.INVOICE_STATUS_ACTIVE -> R.drawable.shape_tag_active
-        Constants.INVOICE_STATUS_INACTIVE -> R.drawable.shape_tag_inactive
-        else -> R.drawable.shape_tag_active
-    }
-
-    private fun getFolio(): String = String.format(
-        "%s: %s",
-        context.getString(R.string.invoices_folio).uppercase(),
-        invoice.folio
-    )
-
-    private fun getConcept(): String = String.format(
-        context.getString(R.string.invoices_concept_template),
-        invoice.concept,
-        invoice.payment!!.total.toCurrency(),
-        invoice.effect
-    )
-
-    private fun getPersonTypeIcon(): Int {
-        return when (invoice.receiver!!.personType) {
-            Constants.PHYSICAL_PERSON -> R.mipmap.ic_person_grey_36dp
-            Constants.MORAL_PERSON -> R.mipmap.ic_people_grey_36dp
-            else -> R.mipmap.ic_person_plus_blue_36dp
+        if (invoice.receiver != null) {
+            textReceiverName.text = invoice.receiver!!.name
+            imageReceiverType.setImageResource(
+                invoicesHelper.getPersonTypeIcon(
+                    invoice.receiver!!.personType
+                )
+            )
         }
     }
 }

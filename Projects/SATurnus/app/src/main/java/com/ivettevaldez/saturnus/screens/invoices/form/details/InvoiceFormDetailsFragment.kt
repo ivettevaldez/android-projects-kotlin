@@ -12,7 +12,9 @@ import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
-import com.ivettevaldez.saturnus.screens.common.datepickers.DatePickerManager
+import com.ivettevaldez.saturnus.screens.common.dates.DatePickerManager
+import com.ivettevaldez.saturnus.common.helpers.DatesHelper
+import com.ivettevaldez.saturnus.common.helpers.DatesHelper.calendar
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
@@ -20,7 +22,6 @@ import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragment
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
-import java.util.*
 import javax.inject.Inject
 
 class InvoiceFormDetailsFragment : BaseFragment(),
@@ -114,7 +115,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        val date = datePickerManager.getUserFriendlyDate(year, monthOfYear, dayOfMonth)
+        val date = DatesHelper.friendlyDate(year, monthOfYear, dayOfMonth)
 
         if (view?.tag == DatePickerManager.TAG_ISSUING_DATE) {
             viewMvc.setIssuingDate(date)
@@ -158,12 +159,6 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)
-
-    private fun String.calendar(): Calendar = if (this.isBlank()) {
-        Calendar.getInstance()
-    } else {
-        datePickerManager.parseToCalendar(this)
-    }
 
     private fun bindIssuingPerson() {
         val person = getPerson(issuingRfc)

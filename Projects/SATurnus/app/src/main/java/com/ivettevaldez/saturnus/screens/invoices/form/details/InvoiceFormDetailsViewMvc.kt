@@ -53,13 +53,13 @@ class InvoiceFormDetailsViewMvcImpl(
 ), IInvoiceFormDetailsViewMvc,
     ISpinnerInputViewMvc.ItemSelectedListener {
 
-    private val personIssuing: FrameLayout = findViewById(R.id.invoice_form_details_issuing)
-    private val personIssuingViewMvc: IPersonItemViewMvc =
-        viewMvcFactory.newPersonItemViewMvc(personIssuing)
+    private val personIssuingContainer: FrameLayout = findViewById(R.id.invoice_form_details_issuing)
+    private val personIssuing: IPersonItemViewMvc =
+        viewMvcFactory.newPersonItemViewMvc(personIssuingContainer)
 
-    private val personItemReceiver: FrameLayout = findViewById(R.id.invoice_form_details_receiver)
-    private val personItemReceiverViewMvc: IPersonItemViewMvc = viewMvcFactory.newPersonItemViewMvc(
-        personItemReceiver
+    private val personReceiverContainer: FrameLayout = findViewById(R.id.invoice_form_details_receiver)
+    private val personReceiver: IPersonItemViewMvc = viewMvcFactory.newPersonItemViewMvc(
+        personReceiverContainer
     )
 
     private val inputFolioContainer: FrameLayout =
@@ -126,11 +126,11 @@ class InvoiceFormDetailsViewMvcImpl(
     override fun getCertificationDate(): String = inputCertificationDate.getText()
 
     override fun bindIssuingPerson(person: Person) {
-        personIssuingViewMvc.bindPerson(person)
+        personIssuing.bindPerson(person)
     }
 
     override fun bindReceiverPerson(person: Person) {
-        personItemReceiverViewMvc.bindPerson(person)
+        personReceiver.bindPerson(person)
     }
 
     override fun setIssuingDate(date: String) {
@@ -148,14 +148,14 @@ class InvoiceFormDetailsViewMvcImpl(
     }
 
     private fun initPersonItems() {
-        personIssuingViewMvc.seTitle(context.getString(R.string.invoices_issuing))
-        personIssuingViewMvc.setBackgroundColor(R.color.color_primary)
-        personIssuing.addView(personIssuingViewMvc.getRootView())
+        personIssuing.seTitle(context.getString(R.string.invoices_issuing))
+        personIssuing.setBackgroundColor(R.color.color_primary)
+        personIssuingContainer.addView(personIssuing.getRootView())
 
-        personItemReceiverViewMvc.seTitle(context.getString(R.string.invoices_receiver))
-        personItemReceiverViewMvc.setBackgroundColor(R.color.color_primary)
-        personItemReceiverViewMvc.setEmpty()
-        personItemReceiverViewMvc.enableActionAndListen(
+        personReceiver.seTitle(context.getString(R.string.invoices_receiver))
+        personReceiver.setBackgroundColor(R.color.color_primary)
+        personReceiver.setEmpty()
+        personReceiver.enableActionAndListen(
             context.getString(R.string.action_change),
             object : IPersonItemViewMvc.ActionClickListener {
                 override fun onActionClicked() {
@@ -164,7 +164,7 @@ class InvoiceFormDetailsViewMvcImpl(
                     }
                 }
             })
-        personItemReceiver.addView(personItemReceiverViewMvc.getRootView())
+        personReceiverContainer.addView(personReceiver.getRootView())
     }
 
     private fun initFields() {
