@@ -19,7 +19,7 @@
             android:id="@+id/item_invoice_text_status"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textColor="@color/black_pearl"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_tag" />
 
         <androidx.legacy.widget.Space
@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:textSize="@dimen/text_small"
-            android:textColor="@color/aluminium" />
+            android:textColor="@color/link_water" />
 
     </LinearLayout>
 

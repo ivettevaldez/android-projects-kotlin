@@ -58,6 +58,7 @@
 
     <!-- Module: Invoices -->
     <string name="invoices_title">Facturación</string>
+    <string name="invoices_invoice">Factura</string>
     <string name="invoices_add_new">Agrega nuevos comprobantes</string>
     <string name="invoices_new">Nuevo comprobante</string>
     <string name="invoices_issued">Comprobantes emitidos ante el SAT</string>
@@ -83,6 +84,27 @@
     <string name="invoices_status_cancellable">Cancelable sin aceptación</string>
     <string name="invoices_status_non_cancellable">No cancelable</string>
     <string name="invoices_concept_template">%s por %s (%s)</string>
+
+    <!-- Module: People -->
+    <string name="people_title">Personas</string>
+    <string name="people_add_new">Agrega nuevas personas</string>
+    <string name="people_add_new_person">Nueva persona</string>
+    <string name="people_name">Nombre o razón social</string>
+    <string name="people_rfc">RFC</string>
+    <string name="people_type">Tipo de persona</string>
+    <string name="people_client_type">Tipo de RFC</string>
+    <string name="people_select_client_type">Elige el tipo de RFC</string>
+    <string name="people_client_type_issuing">Emisor</string>
+    <string name="people_client_type_receiver">Receptor</string>
+
+    <!-- Content -->
+    <string name="content_menu">Menú</string>
+    <string name="content_navigate_up">Atrás</string>
+    <string name="content_add_new_person">Agregar una nueva persona</string>
+    <string name="content_add_new_invoice">Agregar un nuevo comprobante</string>
+    <string name="content_person_type">Tipo de persona</string>
+
+    <!-- Arrays -->
     <string-array name="invoices_effects">
         <item>@string/message_select_type</item>
         <item>@string/invoices_income</item>
@@ -98,18 +120,6 @@
         <item>@string/invoices_status_cancellable</item>
         <item>@string/invoices_status_non_cancellable</item>
     </string-array>
-
-    <!-- Module: People -->
-    <string name="people_title">Personas</string>
-    <string name="people_add_new">Agrega nuevas personas</string>
-    <string name="people_add_new_person">Nueva persona</string>
-    <string name="people_name">Nombre o razón social</string>
-    <string name="people_rfc">RFC</string>
-    <string name="people_type">Tipo de persona</string>
-    <string name="people_client_type">Tipo de RFC</string>
-    <string name="people_select_client_type">Elige el tipo de RFC</string>
-    <string name="people_client_type_issuing">Emisor</string>
-    <string name="people_client_type_receiver">Receptor</string>
     <string-array name="people_tabs_titles">
         <item>Emisoras</item>
         <item>Receptoras</item>
@@ -119,12 +129,5 @@
         <item>@string/people_client_type_issuing</item>
         <item>@string/people_client_type_receiver</item>
     </string-array>
-
-    <!-- Content -->
-    <string name="content_menu">Menú</string>
-    <string name="content_navigate_up">Atrás</string>
-    <string name="content_add_new_person">Agregar una nueva persona</string>
-    <string name="content_add_new_invoice">Agregar un nuevo comprobante</string>
-    <string name="content_person_type">Tipo de persona</string>
 
 </resources>
