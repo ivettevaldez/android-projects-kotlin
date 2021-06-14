@@ -3,7 +3,7 @@
     android:id="@+id/button_primary_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_primary"
+    android:background="@color/color_surface"
     android:paddingStart="@dimen/screen_padding"
     android:paddingTop="@dimen/item_padding"
     android:paddingEnd="@dimen/screen_padding"

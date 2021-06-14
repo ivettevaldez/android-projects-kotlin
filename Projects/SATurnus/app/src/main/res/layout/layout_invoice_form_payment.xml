@@ -22,7 +22,7 @@
             android:paddingTop="@dimen/screen_padding"
             android:paddingStart="@dimen/screen_padding"
             android:paddingEnd="@dimen/screen_padding"
-            android:background="@color/color_primary">
+            android:background="@color/color_surface">
 
             <include
                 android:id="@+id/invoice_form_payment_input_subtotal"

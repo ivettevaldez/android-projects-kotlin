@@ -51,7 +51,6 @@ class InvoicesListViewMvcImpl(
     private val layoutProgress: FrameLayout = findViewById(R.id.invoices_list_progress)
     private val recycler: RecyclerView = findViewById(R.id.invoices_list_recycler)
     private val textAddNew: TextView = findViewById(R.id.invoices_list_text_add_new)
-    private val textIssued: TextView = findViewById(R.id.invoices_list_text_issued)
     private val fabAddNew: FloatingActionButton = findViewById(R.id.invoices_list_fab_add_new)
 
     private lateinit var invoicesListRecyclerAdapter: InvoicesListRecyclerAdapter
@@ -73,11 +72,9 @@ class InvoicesListViewMvcImpl(
         uiHandler.post {
             if (invoices.isEmpty()) {
                 textAddNew.visibility = View.VISIBLE
-                textIssued.visibility = View.GONE
                 recycler.visibility = View.GONE
             } else {
                 textAddNew.visibility = View.GONE
-                textIssued.visibility = View.VISIBLE
                 recycler.visibility = View.VISIBLE
 
                 invoicesListRecyclerAdapter.updateData(invoices)

@@ -24,7 +24,7 @@
             android:textColor="@color/link_water"
             android:textSize="@dimen/text_medium" />
 
-        <Space
+        <androidx.legacy.widget.Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/spacing_medium" />
 

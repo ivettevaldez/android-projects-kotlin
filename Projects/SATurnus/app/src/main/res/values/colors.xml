@@ -17,7 +17,9 @@
     <color name="color_primary">@color/cinder</color>
     <color name="color_primary_variant">@color/black_pearl</color>
     <color name="color_secondary">@color/havelock_blue</color>
-    <color name="color_secondary_variant">@color/havelock_blue</color>
+    <color name="color_secondary_variant">@color/monte_carlo</color>
+
+    <color name="color_surface">@color/color_primary</color>
     <color name="color_background">@color/color_primary_variant</color>
 
     <!--

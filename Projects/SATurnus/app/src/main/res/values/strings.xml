@@ -40,7 +40,7 @@
     <!-- Errors -->
     <string name="error_missing_fields">Debes llenar todos los campos para poder continuar.</string>
     <string name="error_missing_receiver">
-        Debes elegir a la persona receptora del comprobante para poder continuar.
+        Debes elegir a la persona que recibirá la factura para poder continuar.
     </string>
     <string name="error_missing_calculation">Debes hacer un cálculo para poder continuar.</string>
     <string name="error_saving_title">Problema al guardar</string>
@@ -60,15 +60,15 @@
     <!-- Module: Invoices -->
     <string name="invoices_title">Facturación</string>
     <string name="invoices_detail">Detalle de factura</string>
-    <string name="invoices_add_new">Agrega nuevos comprobantes</string>
-    <string name="invoices_new">Nuevo comprobante</string>
-    <string name="invoices_issued">Comprobantes emitidos ante el SAT</string>
-    <string name="invoices_issuing">Emisor/a del comprobante</string>
-    <string name="invoices_receiver">Receptor/a del comprobante</string>
+    <string name="invoices_add_new">Agrega nuevas facturas</string>
+    <string name="invoices_new">Nueva factura</string>
+    <string name="invoices_issued">Facturas emitidas ante el SAT</string>
+    <string name="invoices_issuing">Emisor/a de la factura</string>
+    <string name="invoices_receiver">Receptor/a de la factura</string>
     <string name="invoices_folio">Folio</string>
     <string name="invoices_concept">Concepto</string>
     <string name="invoices_description">Descripción</string>
-    <string name="invoices_effect">Efecto del comprobante</string>
+    <string name="invoices_effect">Efecto de la factura</string>
     <string name="invoices_issuing_date">Fecha de emisión</string>
     <string name="invoices_certification_date">Fecha de certificación</string>
     <string name="invoices_income">Ingreso</string>
@@ -102,7 +102,7 @@
     <string name="content_menu">Menú</string>
     <string name="content_navigate_up">Atrás</string>
     <string name="content_add_new_person">Agregar una nueva persona</string>
-    <string name="content_add_new_invoice">Agregar un nuevo comprobante</string>
+    <string name="content_add_new_invoice">Agregar una nueva factura</string>
     <string name="content_person_type">Tipo de persona</string>
 
     <!-- Arrays -->

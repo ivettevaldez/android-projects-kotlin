@@ -19,22 +19,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/invoices_list_text_issued"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/invoices_issued"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_medium"
-        android:padding="@dimen/item_padding"
-        android:visibility="gone"
-        android:layout_below="@id/invoices_list_toolbar" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/invoices_list_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/invoices_list_text_issued"/>
+        android:layout_below="@id/invoices_list_toolbar"/>
 
     <TextView
         android:id="@+id/invoices_list_text_add_new"
