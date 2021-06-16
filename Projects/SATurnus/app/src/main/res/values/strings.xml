@@ -6,6 +6,8 @@
     <string name="app_copyright_template">Copyright © %s, %s v.%s</string>
     <string name="default_zero">0</string>
     <string name="default_unavailable">N/A</string>
+    <string name="default_plus_template">+%s</string>
+    <string name="default_minus_template">-%s</string>
     <string name="default_label_value_template">%s: %s</string>
 
     <!-- Actions -->
@@ -85,6 +87,7 @@
     <string name="invoices_status_cancellable">Cancelable sin aceptación</string>
     <string name="invoices_status_non_cancellable">No cancelable</string>
     <string name="invoices_concept_template">%s por %s (%s)</string>
+    <string name="invoices_amount">Importe</string>
 
     <!-- Module: People -->
     <string name="people_title">Personas</string>

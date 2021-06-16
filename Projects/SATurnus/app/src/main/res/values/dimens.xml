@@ -56,5 +56,6 @@
 
     <!-- Other -->
     <dimen name="icon_size_medium">34dp</dimen>
+    <dimen name="invoice_label_size">140dp</dimen>
 
 </resources>

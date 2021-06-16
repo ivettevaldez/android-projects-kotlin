@@ -1,10 +1,13 @@
 package com.ivettevaldez.saturnus.screens.invoices.details
 
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.invoices.Invoice
@@ -14,6 +17,7 @@ import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import com.ivettevaldez.saturnus.screens.invoices.InvoicesHelper
 import com.ivettevaldez.saturnus.screens.people.item.IPersonItemViewMvc
+import java.util.*
 
 interface IInvoiceDetailsViewMvc : IObservableViewMvc<IInvoiceDetailsViewMvc.Listener> {
 
@@ -48,6 +52,32 @@ class InvoiceDetailsViewMvcImpl(
         personReceiverContainer
     )
 
+    private val layoutSubtotal: LinearLayout = findViewById(R.id.invoice_details_subtotal)
+    private val textSubtotalLabel: TextView = layoutSubtotal.findViewById(R.id.amount_text_label)
+    private val textSubtotalValue: TextView = layoutSubtotal.findViewById(R.id.amount_text_value)
+
+    private val layoutIva: LinearLayout = findViewById(R.id.invoice_details_iva)
+    private val textIvaLabel: TextView = layoutIva.findViewById(R.id.amount_text_label)
+    private val textIvaValue: TextView = layoutIva.findViewById(R.id.amount_text_value)
+
+    private val layoutIvaWithholding: LinearLayout =
+        findViewById(R.id.invoice_details_iva_withholding)
+    private val textIvaWithholdingLabel: TextView =
+        layoutIvaWithholding.findViewById(R.id.amount_text_label)
+    private val textIvaWithholdingValue: TextView =
+        layoutIvaWithholding.findViewById(R.id.amount_text_value)
+
+    private val layoutIsrWithholding: LinearLayout =
+        findViewById(R.id.invoice_details_isr_withholding)
+    private val textIsrWithholdingLabel: TextView =
+        layoutIsrWithholding.findViewById(R.id.amount_text_label)
+    private val textIsrWithholdingValue: TextView =
+        layoutIsrWithholding.findViewById(R.id.amount_text_value)
+
+    private val layoutTotal: LinearLayout = findViewById(R.id.invoice_details_total)
+    private val textTotalLabel: TextView = layoutTotal.findViewById(R.id.amount_text_label)
+    private val textTotalValue: TextView = layoutTotal.findViewById(R.id.amount_text_value)
+
     private val textStatus: TextView = findViewById(R.id.invoice_status_text_status)
     private val textFolio: TextView = findViewById(R.id.invoice_status_text_folio)
     private val textConcept: TextView = findViewById(R.id.invoice_details_text_concept)
@@ -62,6 +92,7 @@ class InvoiceDetailsViewMvcImpl(
 
         initToolbar()
         initPersonItems()
+        initAmounts()
     }
 
     override fun bindInvoice(invoice: Invoice) {
@@ -71,6 +102,7 @@ class InvoiceDetailsViewMvcImpl(
         bindStatus()
         bindGeneralData()
         bindDates()
+        bindAmounts()
     }
 
     private fun initToolbar() {
@@ -95,6 +127,53 @@ class InvoiceDetailsViewMvcImpl(
         personReceiver.seTitle(context.getString(R.string.invoices_receiver))
         personReceiver.setBackgroundColor(R.color.color_primary)
         personReceiverContainer.addView(personReceiver.getRootView())
+    }
+
+    private fun initAmounts() {
+        textSubtotalLabel.text = context.getString(R.string.invoices_subtotal)
+
+        textIvaLabel.text = context.getString(R.string.invoices_iva)
+        textIvaValue.setTextColor(ContextCompat.getColor(context, R.color.monte_carlo))
+
+        textIvaWithholdingLabel.text = context.getString(R.string.invoices_iva_withholding)
+        textIvaWithholdingValue.setTextColor(ContextCompat.getColor(context, R.color.light_coral))
+
+        textIsrWithholdingLabel.text = context.getString(R.string.invoices_isr_withholding)
+        textIsrWithholdingValue.setTextColor(ContextCompat.getColor(context, R.color.light_coral))
+
+        textTotalLabel.text = context.getString(R.string.invoices_total)
+        textTotalLabel.typeface = Typeface.DEFAULT_BOLD
+        textTotalValue.typeface = Typeface.DEFAULT_BOLD
+    }
+
+    private fun bindAmounts() {
+        textSubtotalValue.text = invoice.payment!!.subtotal.toCurrency()
+
+        textIvaValue.text = String.format(
+            Locale.getDefault(),
+            context.getString(
+                R.string.default_plus_template,
+                invoice.payment!!.iva.toCurrency()
+            )
+        )
+
+        textIvaWithholdingValue.text = String.format(
+            Locale.getDefault(),
+            context.getString(
+                R.string.default_minus_template,
+                invoice.payment!!.ivaWithholding.toCurrency()
+            )
+        )
+
+        textIsrWithholdingValue.text = String.format(
+            Locale.getDefault(),
+            context.getString(
+                R.string.default_minus_template,
+                invoice.payment!!.isrWithholding.toCurrency()
+            )
+        )
+
+        textTotalValue.text = invoice.payment!!.total.toCurrency()
     }
 
     private fun bindPeople() {
