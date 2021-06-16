@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_background"
     tools:context=".screens.invoices.form.payment.InvoiceFormPaymentFragment">
 
@@ -11,59 +12,74 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.legacy.widget.Space
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_small" />
+            android:layout_height="match_parent"
+            android:background="@color/color_surface"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_very_small"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:contentPadding="@dimen/item_padding"
+            android:orientation="vertical">
 
-        <LinearLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/invoice_form_payment_input_subtotal"
+                    layout="@layout/element_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/invoice_form_payment_input_iva"
+                    layout="@layout/element_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/invoice_form_payment_input_iva_withholding"
+                    layout="@layout/element_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/invoice_form_payment_input_isr_withholding"
+                    layout="@layout/element_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/invoice_form_payment_input_total"
+                    layout="@layout/element_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="@dimen/screen_padding"
-            android:paddingStart="@dimen/screen_padding"
-            android:paddingEnd="@dimen/screen_padding"
-            android:background="@color/color_surface">
+            android:layout_height="match_parent"
+            android:background="@color/color_surface"
+            android:layout_marginTop="@dimen/spacing_very_small"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:layout_marginBottom="@dimen/spacing_small"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            android:orientation="vertical">
 
             <include
-                android:id="@+id/invoice_form_payment_input_subtotal"
-                layout="@layout/element_container"
+                layout="@layout/element_button_primary"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
-            <include
-                android:id="@+id/invoice_form_payment_input_iva"
-                layout="@layout/element_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/invoice_form_payment_input_iva_withholding"
-                layout="@layout/element_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/invoice_form_payment_input_isr_withholding"
-                layout="@layout/element_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <include
-                android:id="@+id/invoice_form_payment_input_total"
-                layout="@layout/element_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <include
-            layout="@layout/element_button_primary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <androidx.legacy.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/spacing_small" />
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

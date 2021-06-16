@@ -6,7 +6,7 @@
         android:width="300dp"
         android:height="@dimen/spinner_item_height" />
 
-    <solid android:color="@color/link_water" />
+    <solid android:color="@color/lavender" />
 
     <padding
         android:bottom="@dimen/spinner_item_vertical_padding"

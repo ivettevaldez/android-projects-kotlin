@@ -35,7 +35,7 @@
             android:paddingEnd="@dimen/activity_horizontal_big_margin"
             android:paddingBottom="@dimen/activity_vertical_big_margin"
             android:text="@string/app_copyright_template"
-            android:textColor="@color/aluminium"
+            android:textColor="@color/color_label_text"
             android:textSize="@dimen/text_small" />
 
     </com.google.android.material.navigation.NavigationView>

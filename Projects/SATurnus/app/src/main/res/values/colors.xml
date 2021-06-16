@@ -8,19 +8,25 @@
     <color name="shuttle_grey">#5C6267</color>
     <color name="aluminium">#7D8185</color>
     <color name="link_water">#BDBEC1</color>
+    <color name="lavender">#E9E9EA</color>
+    <color name="white_smoke">#F4F4F4</color>
+    <color name="white_60">#99FFFFFF</color>
     <color name="white">#FFFFFF</color>
 
     <color name="havelock_blue">#5883C8</color>
     <color name="monte_carlo">#7EC8B9</color>
     <color name="light_coral">#FD8886</color>
 
-    <color name="color_primary">@color/cinder</color>
-    <color name="color_primary_variant">@color/black_pearl</color>
+    <color name="color_primary">@color/white</color>
+    <color name="color_primary_variant">@color/white_smoke</color>
     <color name="color_secondary">@color/havelock_blue</color>
     <color name="color_secondary_variant">@color/monte_carlo</color>
 
     <color name="color_surface">@color/color_primary</color>
     <color name="color_background">@color/color_primary_variant</color>
+    <color name="color_primary_text">@color/black_pearl</color>
+    <color name="color_secondary_text">@color/aluminium</color>
+    <color name="color_label_text">@color/link_water</color>
 
     <!--
        Alpha Prefixes

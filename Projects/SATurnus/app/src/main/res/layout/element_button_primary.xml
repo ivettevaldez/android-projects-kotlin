@@ -4,10 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_surface"
-    android:paddingStart="@dimen/screen_padding"
-    android:paddingTop="@dimen/item_padding"
-    android:paddingEnd="@dimen/screen_padding"
-    android:paddingBottom="@dimen/item_padding">
+    android:padding="@dimen/item_padding">
 
     <Button
         android:id="@+id/button_primary"

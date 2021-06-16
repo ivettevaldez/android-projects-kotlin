@@ -19,7 +19,7 @@
             android:contentDescription="@string/content_navigate_up"
             android:padding="16dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_arrow_left_white"
+            android:src="@mipmap/ic_arrow_left_dark"
             android:visibility="gone" />
 
         <ImageButton
@@ -31,7 +31,7 @@
             android:contentDescription="@string/content_menu"
             android:padding="16dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_menu_white"
+            android:src="@mipmap/ic_menu_dark"
             android:visibility="gone" />
 
     </FrameLayout>
@@ -43,7 +43,10 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:padding="16dp"
-        android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="@color/color_primary_text"
+        android:textSize="@dimen/text_bigger"
+        android:textStyle="bold"/>
 
 </LinearLayout>

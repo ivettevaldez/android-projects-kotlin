@@ -1,92 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_invoice_person_layout_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_background"
-    android:padding="@dimen/item_padding"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/item_invoice_person_text_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/invoices_issuing"
-        android:textSize="@dimen/text_normal"
-        android:textColor="@color/aluminium"/>
-
-    <androidx.legacy.widget.Space
-        android:id="@+id/item_invoice_person_space_1"
-        android:layout_width="match_parent"
-        android:layout_height="16dp" />
+    android:background="@color/color_surface"
+    android:layout_marginTop="@dimen/spacing_very_small"
+    android:layout_marginStart="@dimen/spacing_very_small"
+    android:layout_marginEnd="@dimen/spacing_very_small"
+    android:layout_marginBottom="@dimen/spacing_very_small"
+    app:contentPadding="@dimen/item_padding"
+    app:cardCornerRadius="@dimen/card_corner_radius">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/item_invoice_person_image_person_type"
-                android:layout_width="@dimen/icon_size_medium"
-                android:layout_height="@dimen/icon_size_medium"
-                android:layout_gravity="center"
-                tools:ignore="ContentDescription" />
-
-        </FrameLayout>
+        <TextView
+            android:id="@+id/item_invoice_person_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/invoices_issuing"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/color_label_text"/>
 
         <androidx.legacy.widget.Space
-            android:layout_width="16dp"
-            android:layout_height="match_parent" />
+            android:id="@+id/item_invoice_person_space_1"
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
 
         <LinearLayout
-            android:id="@+id/item_invoice_person_layout_details"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/item_invoice_person_text_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="@dimen/text_medium" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/item_invoice_person_image_person_type"
+                    android:layout_width="@dimen/icon_size_medium"
+                    android:layout_height="@dimen/icon_size_medium"
+                    android:layout_gravity="center"
+                    tools:ignore="ContentDescription" />
+
+            </FrameLayout>
 
             <androidx.legacy.widget.Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp" />
+                android:layout_width="16dp"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/item_invoice_person_layout_details"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_invoice_person_text_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_primary_text"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_medium" />
+
+                <androidx.legacy.widget.Space
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp" />
+
+                <TextView
+                    android:id="@+id/item_invoice_person_text_rfc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/color_secondary_text"
+                    android:textSize="@dimen/text_normal" />
+
+            </LinearLayout>
+
+            <androidx.legacy.widget.Space
+                android:id="@+id/item_invoice_person_space_2"
+                android:layout_width="16dp"
+                android:layout_height="match_parent" />
 
             <TextView
-                android:id="@+id/item_invoice_person_text_rfc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/link_water"
-                android:textSize="@dimen/text_normal" />
+                android:id="@+id/item_invoice_person_text_action"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:visibility="gone"
+                android:text="@string/action_change"
+                android:textSize="@dimen/text_medium"
+                android:textColor="@color/color_secondary"/>
 
         </LinearLayout>
 
-        <androidx.legacy.widget.Space
-            android:id="@+id/item_invoice_person_space_2"
-            android:layout_width="16dp"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:id="@+id/item_invoice_person_text_action"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:visibility="gone"
-            android:text="@string/action_change"
-            android:textSize="@dimen/text_medium"
-            android:textColor="@color/havelock_blue"/>
-
     </LinearLayout>
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

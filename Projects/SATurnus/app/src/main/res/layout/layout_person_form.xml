@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_background"
     tools:context=".screens.people.form.PersonFormFragment">
 
@@ -18,52 +19,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/person_form_layout_fields"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_surface"
         android:layout_below="@id/person_form_toolbar"
-        android:paddingTop="@dimen/screen_padding"
-        android:paddingBottom="@dimen/item_padding"
-        android:paddingStart="@dimen/screen_padding"
-        android:paddingEnd="@dimen/screen_padding"
         android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small"
-        android:orientation="vertical">
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_very_small"
+        android:orientation="vertical"
+        app:contentPadding="@dimen/item_padding"
+        app:cardCornerRadius="@dimen/card_corner_radius">
 
-        <include
-            android:id="@+id/person_form_input_name"
-            layout="@layout/element_container"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/person_form_input_rfc"
-            layout="@layout/element_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/person_form_input_name"
+                layout="@layout/element_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/person_form_input_person_type"
-            layout="@layout/element_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/person_form_input_rfc"
+                layout="@layout/element_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/person_form_input_client_type"
-            layout="@layout/element_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/person_form_input_person_type"
+                layout="@layout/element_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    </LinearLayout>
+            <include
+                android:id="@+id/person_form_input_client_type"
+                layout="@layout/element_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-    <include
-        layout="@layout/element_button_primary"
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/person_form_layout_fields"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp" />
+        android:layout_marginTop="@dimen/spacing_very_small"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_marginEnd="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_very_small"
+        app:contentPadding="@dimen/item_padding"
+        app:cardCornerRadius="@dimen/card_corner_radius">
+
+        <Button
+            android:id="@+id/button_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/action_save"
+            android:textColor="@color/white"
+            android:theme="@style/Theme.ButtonPrimary"/>
+
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

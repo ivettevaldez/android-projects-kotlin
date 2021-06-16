@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_background"
+    android:paddingTop="@dimen/spacing_very_small"
+    android:paddingStart="@dimen/spacing_small"
+    android:paddingEnd="@dimen/spacing_small"
+    android:paddingBottom="@dimen/spacing_very_small"
     tools:context=".screens.people.list.PeopleListFragment">
 
     <include

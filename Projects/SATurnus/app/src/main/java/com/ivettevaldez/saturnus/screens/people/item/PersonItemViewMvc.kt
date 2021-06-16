@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.legacy.widget.Space
 import com.ivettevaldez.saturnus.R
@@ -51,7 +52,7 @@ class PersonItemViewMvcImpl(
     R.layout.item_person
 ), IPersonItemViewMvc {
 
-    private val layoutRoot: LinearLayout = findViewById(R.id.item_invoice_person_layout_root)
+    private val cardRoot: CardView = findViewById(R.id.item_invoice_person_layout_root)
     private val layoutDetails: LinearLayout = findViewById(R.id.item_invoice_person_layout_details)
     private val textTitle: TextView = findViewById(R.id.item_invoice_person_text_title)
     private val textName: TextView = findViewById(R.id.item_invoice_person_text_name)
@@ -73,7 +74,7 @@ class PersonItemViewMvcImpl(
     }
 
     override fun setBackgroundColor(@ColorRes color: Int) {
-        layoutRoot.setBackgroundColor(ContextCompat.getColor(context, color))
+        cardRoot.setBackgroundColor(ContextCompat.getColor(context, color))
     }
 
     override fun setEmpty() {
@@ -128,7 +129,7 @@ class PersonItemViewMvcImpl(
     }
 
     private fun setListenerEvents() {
-        with(layoutRoot) {
+        with(cardRoot) {
             setOnClickListener {
                 itemClickListener?.onItemClicked()
             }
