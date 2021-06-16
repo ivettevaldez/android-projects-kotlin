@@ -120,11 +120,10 @@
     </style>
 
     <style name="Theme.ButtonSecondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="android:backgroundTint">@color/color_primary_variant</item>
-        <item name="backgroundTint">@color/color_primary</item>
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorOnSurface">@color/color_secondary_variant</item>
-        <item name="android:textColor">@color/color_secondary</item>
-        <item name="android:padding">24dp</item>
+        <item name="android:backgroundTint">@color/color_surface</item>
+        <item name="backgroundTint">@color/color_surface</item>
+        <item name="colorPrimary">@color/color_surface</item>
+        <item name="android:textColor">@color/color_secondary_text</item>
+        <item name="android:padding">@dimen/button_primary_padding</item>
     </style>
 </resources>

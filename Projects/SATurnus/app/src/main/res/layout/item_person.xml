@@ -95,7 +95,8 @@
                 android:visibility="gone"
                 android:text="@string/action_change"
                 android:textSize="@dimen/text_medium"
-                android:textColor="@color/color_secondary"/>
+                android:textColor="@color/color_secondary"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
