@@ -16,6 +16,7 @@
     <string name="action_assign">Asignar</string>
     <string name="action_change">Cambiar</string>
     <string name="action_calculate">Calcular</string>
+    <string name="action_edit">Editar</string>
     <string name="action_editing">Editando…</string>
     <string name="action_back">Atrás</string>
     <string name="action_next">Siguiente</string>
@@ -26,6 +27,7 @@
     <string name="action_edit_person">Editar persona</string>
     <string name="action_delete_person">Borrar persona</string>
     <string name="action_select_person">Elegir a una persona</string>
+    <string name="action_delete_invoice">Borrar factura</string>
 
     <!-- Messages -->
     <string name="message_saved">Los datos han sido guardados.</string>
@@ -33,11 +35,15 @@
     <string name="message_delete_person_confirmation">
         ¿Estás seguro/a de que deseas borrar a la persona elegida?
     </string>
+    <string name="message_delete_invoice_confirmation">
+        ¿Estás seguro/a de que deseas borrar esta factura?
+    </string>
     <string name="message_exit_without_saving_confirmation">
         ¿Estás seguro/a de que deseas salir sin guardar los cambios realizados?
     </string>
     <string name="message_select_type">Elige un tipo</string>
     <string name="message_select_status">Elige un estatus</string>
+    <string name="message_deleted_invoice">La factura ha sido borrada.</string>
 
     <!-- Errors -->
     <string name="error_missing_fields">Debes llenar todos los campos para poder continuar.</string>

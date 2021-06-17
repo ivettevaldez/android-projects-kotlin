@@ -26,6 +26,7 @@ interface IInvoiceDetailsViewMvc : IObservableViewMvc<IInvoiceDetailsViewMvc.Lis
     interface Listener {
 
         fun onNavigateUpClicked()
+        fun onDeleteInvoiceClicked()
     }
 
     fun bindInvoice(invoice: Invoice)
@@ -114,6 +115,14 @@ class InvoiceDetailsViewMvcImpl(
             override fun onNavigateUpClicked() {
                 for (listener in listeners) {
                     listener.onNavigateUpClicked()
+                }
+            }
+        })
+
+        toolbar.enableDeleteAndListen(object : IToolbarViewMvc.DeleteClickListener {
+            override fun onDeleteClicked() {
+                for (listener in listeners) {
+                    listener.onDeleteInvoiceClicked()
                 }
             }
         })

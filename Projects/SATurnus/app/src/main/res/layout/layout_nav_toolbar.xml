@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <FrameLayout
-        android:id="@+id/toolbar_frame_buttons"
+        android:id="@+id/toolbar_frame_navigation"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical">
@@ -17,9 +17,9 @@
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_navigate_up"
-            android:padding="16dp"
+            android:padding="@dimen/spacing_normal"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_arrow_left_dark"
+            android:src="@mipmap/ic_menu_arrow_left_dark"
             android:visibility="gone" />
 
         <ImageButton
@@ -29,9 +29,9 @@
             android:layout_gravity="center_vertical"
             android:background="@android:color/transparent"
             android:contentDescription="@string/content_menu"
-            android:padding="16dp"
+            android:padding="@dimen/spacing_normal"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_menu_dark"
+            android:src="@mipmap/ic_menu_hamburguer_dark"
             android:visibility="gone" />
 
     </FrameLayout>
@@ -42,11 +42,51 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:padding="16dp"
+        android:paddingTop="14dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="14dp"
         android:maxLines="1"
         android:ellipsize="end"
         android:textColor="@color/color_primary_text"
         android:textSize="@dimen/text_bigger"
         android:textStyle="bold"/>
+
+    <LinearLayout
+        android:id="@+id/toolbar_frame_options"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/toolbar_button_edit"
+            android:layout_width="@dimen/toolbar_icon_size"
+            android:layout_height="@dimen/toolbar_icon_size"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/action_edit"
+            android:padding="@dimen/spacing_small"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_menu_pencil_dark"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/toolbar_button_delete"
+            android:layout_width="@dimen/toolbar_icon_size"
+            android:layout_height="@dimen/toolbar_icon_size"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/action_delete"
+            android:padding="@dimen/spacing_small"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_menu_trash_can_dark"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <androidx.legacy.widget.Space
+        android:layout_width="@dimen/spacing_small"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
