@@ -1,5 +1,7 @@
 package com.ivettevaldez.saturnus.screens.invoices.details
 
+/* ktlint-disable no-wildcard-imports */
+
 import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -133,13 +135,13 @@ class InvoiceDetailsViewMvcImpl(
         textSubtotalLabel.text = context.getString(R.string.invoices_subtotal)
 
         textIvaLabel.text = context.getString(R.string.invoices_iva)
-        textIvaValue.setTextColor(ContextCompat.getColor(context, R.color.monte_carlo))
+        textIvaValue.setTextColor(ContextCompat.getColor(context, R.color.puerto_rico))
 
         textIvaWithholdingLabel.text = context.getString(R.string.invoices_iva_withholding)
-        textIvaWithholdingValue.setTextColor(ContextCompat.getColor(context, R.color.light_coral))
+        textIvaWithholdingValue.setTextColor(ContextCompat.getColor(context, R.color.bittersweet))
 
         textIsrWithholdingLabel.text = context.getString(R.string.invoices_isr_withholding)
-        textIsrWithholdingValue.setTextColor(ContextCompat.getColor(context, R.color.light_coral))
+        textIsrWithholdingValue.setTextColor(ContextCompat.getColor(context, R.color.bittersweet))
 
         textTotalLabel.text = context.getString(R.string.invoices_total)
         textTotalLabel.typeface = Typeface.DEFAULT_BOLD

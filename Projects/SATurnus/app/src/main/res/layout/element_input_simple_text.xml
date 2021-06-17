@@ -4,14 +4,15 @@
     style="@style/Theme.TextInputLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_primary_text_input"
-    android:layout_marginBottom="@dimen/spacing_small">
+    android:layout_marginBottom="@dimen/spacing_small"
+    android:background="@drawable/shape_primary_text_input">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/text_input_edit_text_simple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawablePadding="8dp"
         android:drawableTint="@color/aluminium"
-        android:drawablePadding="8dp" />
+        android:theme="@style/Theme.TextInputLayout" />
 
 </com.google.android.material.textfield.TextInputLayout>

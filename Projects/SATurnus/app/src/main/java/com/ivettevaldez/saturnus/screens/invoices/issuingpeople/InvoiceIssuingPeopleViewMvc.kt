@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.Person
-import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
@@ -120,9 +119,6 @@ class InvoiceIssuingPeopleViewMvcImpl(
         with(recycler) {
             layoutManager = linearLayoutManager
             adapter = peopleListRecyclerAdapter
-            addItemDecoration(
-                UtilsHelper.getDividerItemDecoration(context)
-            )
         }
     }
 }

@@ -7,26 +7,30 @@
     <color name="tuna">#484B4E</color>
     <color name="shuttle_grey">#5C6267</color>
     <color name="aluminium">#7D8185</color>
+    <color name="hit_grey">#A0A6A6</color>
     <color name="link_water">#BDBEC1</color>
     <color name="lavender">#E9E9EA</color>
     <color name="white_smoke">#F4F4F4</color>
     <color name="white_60">#99FFFFFF</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="dodger_blue">#1D72F7</color>
     <color name="havelock_blue">#5883C8</color>
-    <color name="monte_carlo">#7EC8B9</color>
-    <color name="light_coral">#FD8886</color>
+    <color name="puerto_rico">#49AB98</color>
+    <color name="bittersweet">#FF7A5D</color>
+    <color name="gorse">#FFEA3E</color>
 
     <color name="color_primary">@color/white</color>
     <color name="color_primary_variant">@color/white_smoke</color>
     <color name="color_secondary">@color/havelock_blue</color>
-    <color name="color_secondary_variant">@color/monte_carlo</color>
+    <color name="color_secondary_variant">@color/puerto_rico</color>
 
     <color name="color_surface">@color/color_primary</color>
     <color name="color_background">@color/color_primary_variant</color>
+
     <color name="color_primary_text">@color/black_pearl</color>
-    <color name="color_secondary_text">@color/aluminium</color>
-    <color name="color_label_text">@color/link_water</color>
+    <color name="color_secondary_text">@color/shuttle_grey</color>
+    <color name="color_label_text">@color/hit_grey</color>
 
     <!--
        Alpha Prefixes

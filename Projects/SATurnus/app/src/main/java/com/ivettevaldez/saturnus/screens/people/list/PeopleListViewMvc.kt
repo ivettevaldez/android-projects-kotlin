@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.people.Person
-import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
@@ -101,9 +100,6 @@ class PeopleListViewMvcImpl(
         with(recycler) {
             layoutManager = linearLayoutManager
             adapter = peopleListRecyclerAdapter
-            addItemDecoration(
-                UtilsHelper.getDividerItemDecoration(context)
-            )
         }
     }
 }

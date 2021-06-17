@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.invoices.Invoice
-import com.ivettevaldez.saturnus.screens.common.UtilsHelper
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
@@ -124,9 +123,6 @@ class InvoicesListViewMvcImpl(
         with(recycler) {
             layoutManager = linearLayoutManager
             adapter = invoicesListRecyclerAdapter
-            addItemDecoration(
-                UtilsHelper.getDividerItemDecoration(context)
-            )
         }
     }
 
