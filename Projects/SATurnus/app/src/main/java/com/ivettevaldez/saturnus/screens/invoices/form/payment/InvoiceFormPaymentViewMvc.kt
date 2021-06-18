@@ -28,11 +28,13 @@ interface IInvoiceFormPaymentViewMvc : IObservableViewMvc<IInvoiceFormPaymentVie
     fun getIvaWithholding(): String
     fun getIsrWithholding(): String
     fun getTotal(): String
-    fun setSubTotal(value: String)
-    fun setIva(value: String)
-    fun setIvaWithholding(value: String)
-    fun setIsrWithholding(value: String)
-    fun setTotal(value: String)
+    fun bindPayment(
+        subtotal: String,
+        iva: String,
+        ivaWithholding: String,
+        isrWithholding: String,
+        total: String
+    )
 }
 
 class InvoiceFormPaymentViewMvcImpl(
@@ -88,24 +90,18 @@ class InvoiceFormPaymentViewMvcImpl(
 
     override fun getTotal(): String = inputTotal.getText()
 
-    override fun setSubTotal(value: String) {
-        inputSubtotal.setText(value)
-    }
-
-    override fun setIva(value: String) {
-        inputIva.setText(value)
-    }
-
-    override fun setIvaWithholding(value: String) {
-        inputIvaWithholding.setText(value)
-    }
-
-    override fun setIsrWithholding(value: String) {
-        inputIsrWithholding.setText(value)
-    }
-
-    override fun setTotal(value: String) {
-        inputTotal.setText(value)
+    override fun bindPayment(
+        subtotal: String,
+        iva: String,
+        ivaWithholding: String,
+        isrWithholding: String,
+        total: String
+    ) {
+        setSubTotal(subtotal)
+        setIva(iva)
+        setIvaWithholding(ivaWithholding)
+        setIsrWithholding(isrWithholding)
+        setTotal(total)
     }
 
     private fun initViews() {
@@ -163,5 +159,25 @@ class InvoiceFormPaymentViewMvcImpl(
                 listener.onCalculateClicked(getSubtotal())
             }
         }
+    }
+
+    private fun setSubTotal(value: String) {
+        inputSubtotal.setText(value)
+    }
+
+    private fun setIva(value: String) {
+        inputIva.setText(value)
+    }
+
+    private fun setIvaWithholding(value: String) {
+        inputIvaWithholding.setText(value)
+    }
+
+    private fun setIsrWithholding(value: String) {
+        inputIsrWithholding.setText(value)
+    }
+
+    private fun setTotal(value: String) {
+        inputTotal.setText(value)
     }
 }

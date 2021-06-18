@@ -4,6 +4,7 @@ package com.ivettevaldez.saturnus.screens.invoices.details
 
 import android.graphics.Typeface
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -26,10 +27,13 @@ interface IInvoiceDetailsViewMvc : IObservableViewMvc<IInvoiceDetailsViewMvc.Lis
     interface Listener {
 
         fun onNavigateUpClicked()
+        fun onEditInvoiceClicked()
         fun onDeleteInvoiceClicked()
     }
 
     fun bindInvoice(invoice: Invoice)
+    fun showProgressIndicator()
+    fun hideProgressIndicator()
 }
 
 class InvoiceDetailsViewMvcImpl(
@@ -42,6 +46,8 @@ class InvoiceDetailsViewMvcImpl(
     parent,
     R.layout.layout_invoice_details
 ), IInvoiceDetailsViewMvc {
+
+    private val layoutProgress: FrameLayout = findViewById(R.id.invoice_details_progress)
 
     private val toolbarContainer: Toolbar = findViewById(R.id.invoice_details_toolbar)
     private val toolbar: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbarContainer)
@@ -108,6 +114,14 @@ class InvoiceDetailsViewMvcImpl(
         bindAmounts()
     }
 
+    override fun showProgressIndicator() {
+        layoutProgress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgressIndicator() {
+        layoutProgress.visibility = View.GONE
+    }
+
     private fun initToolbar() {
         toolbar.setTitle(context.getString(R.string.invoices_detail))
 
@@ -115,6 +129,14 @@ class InvoiceDetailsViewMvcImpl(
             override fun onNavigateUpClicked() {
                 for (listener in listeners) {
                     listener.onNavigateUpClicked()
+                }
+            }
+        })
+
+        toolbar.enableEditAndListen(object : IToolbarViewMvc.EditClickListener {
+            override fun onEditClicked() {
+                for (listener in listeners) {
+                    listener.onEditInvoiceClicked()
                 }
             }
         })

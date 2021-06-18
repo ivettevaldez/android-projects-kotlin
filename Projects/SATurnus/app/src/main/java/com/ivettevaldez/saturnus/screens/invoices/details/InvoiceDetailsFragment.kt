@@ -44,6 +44,8 @@ class InvoiceDetailsFragment : BaseFragment(),
     private lateinit var viewMvc: IInvoiceDetailsViewMvc
     private lateinit var folio: String
 
+    private var editionMode: Boolean = false
+
     companion object {
 
         private const val ARG_FOLIO = "ARG_FOLIO"
@@ -86,6 +88,14 @@ class InvoiceDetailsFragment : BaseFragment(),
         dialogsEventBus.registerListener(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (editionMode) {
+            bindInvoice()
+        }
+    }
+
     override fun onStop() {
         super.onStop()
 
@@ -110,6 +120,17 @@ class InvoiceDetailsFragment : BaseFragment(),
         screensNavigator.navigateUp()
     }
 
+    override fun onEditInvoiceClicked() {
+        val issuingRfc = getInvoice()?.issuing?.rfc
+
+        if (issuingRfc == null) {
+            messagesHelper.showShortMessage(viewMvc.getRootView(), R.string.error_standard)
+        } else {
+            editionMode = true
+            screensNavigator.toInvoiceForm(folio = folio)
+        }
+    }
+
     override fun onDeleteInvoiceClicked() {
         dialogsManager.showDeleteInvoiceConfirmation(null)
     }
@@ -117,10 +138,14 @@ class InvoiceDetailsFragment : BaseFragment(),
     private fun getInvoice(): Invoice? = invoiceDao.findByFolio(folio)
 
     private fun bindInvoice() {
+        viewMvc.showProgressIndicator()
+
         val invoice = getInvoice()
         if (invoice != null) {
             viewMvc.bindInvoice(invoice)
         }
+
+        viewMvc.hideProgressIndicator()
     }
 
     private fun deleteInvoice() {

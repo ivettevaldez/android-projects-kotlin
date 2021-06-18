@@ -175,7 +175,7 @@ class PersonFormFragment : BaseFragment(),
     }
 
     private fun close() {
-        // TODO: Refresh PeopleList when a new person is saved.
+        // FIXME: Refresh PeopleList when a new person is saved.
         uiHandler.postDelayed({
             screensNavigator.navigateUp()
         }, Constants.SHOW_MESSAGE_DELAY)

@@ -14,14 +14,15 @@ private const val STEPS = 2
 class InvoiceFormMainStepperAdapter(
     context: Context,
     fragmentManager: FragmentManager,
-    private val issuingRfc: String
+    private val folio: String?,
+    private val issuingRfc: String?
 ) : AbstractFragmentStepAdapter(fragmentManager, context) {
 
     override fun createStep(position: Int): Step {
         return if (position == INVOICE_DETAILS_FORM_POSITION) {
-            InvoiceFormDetailsFragment.newInstance(issuingRfc)
+            InvoiceFormDetailsFragment.newInstance(folio, issuingRfc)
         } else {
-            InvoiceFormPaymentFragment.newInstance()
+            InvoiceFormPaymentFragment.newInstance(folio)
         }
     }
 

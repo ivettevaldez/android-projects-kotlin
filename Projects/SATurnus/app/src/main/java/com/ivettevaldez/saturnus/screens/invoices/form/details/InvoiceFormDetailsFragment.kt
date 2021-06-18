@@ -7,14 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.R
+import com.ivettevaldez.saturnus.common.helpers.DatesHelper.calendar
+import com.ivettevaldez.saturnus.common.helpers.DatesHelper.friendlyDate
 import com.ivettevaldez.saturnus.invoices.Invoice
+import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dates.DatePickerManager
-import com.ivettevaldez.saturnus.common.helpers.DatesHelper
-import com.ivettevaldez.saturnus.common.helpers.DatesHelper.calendar
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
@@ -45,20 +46,27 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     @Inject
     lateinit var personDao: PersonDao
 
-    private lateinit var viewMvc: IInvoiceFormDetailsViewMvc
-    private lateinit var issuingRfc: String
+    @Inject
+    lateinit var invoiceDao: InvoiceDao
 
+    private lateinit var viewMvc: IInvoiceFormDetailsViewMvc
+
+    private var folio: String? = null
+    private var issuingRfc: String? = null
     private var receiverRfc: String? = null
+    private var invoice: Invoice? = null
     private var hasNotifiedChanges: Boolean = false
 
     companion object {
 
         private const val ARG_ISSUING_RFC = "ARG_ISSUING_RFC"
+        private const val ARG_FOLIO = "ARG_FOLIO"
 
         @JvmStatic
-        fun newInstance(issuingRfc: String) =
+        fun newInstance(folio: String?, issuingRfc: String?) =
             InvoiceFormDetailsFragment().apply {
                 arguments = Bundle().apply {
+                    putString(ARG_FOLIO, folio)
                     putString(ARG_ISSUING_RFC, issuingRfc)
                 }
             }
@@ -69,7 +77,8 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         super.onCreate(savedInstanceState)
 
         requireArguments().let {
-            issuingRfc = it.getString(ARG_ISSUING_RFC)!!
+            folio = it.getString(ARG_FOLIO)
+            issuingRfc = it.getString(ARG_ISSUING_RFC)
         }
     }
 
@@ -80,6 +89,17 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     ): View {
 
         viewMvc = viewMvcFactory.newInvoiceFormDetailsViewMvc(parent)
+
+        if (folio != null) {
+            invoice = invoiceDao.findByFolio(folio!!)
+
+            if (invoice != null) {
+                issuingRfc = invoice?.issuing?.rfc
+                receiverRfc = invoice?.receiver?.rfc
+
+                bindInvoice(invoice!!)
+            }
+        }
 
         bindIssuingPerson()
 
@@ -115,7 +135,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        val date = DatesHelper.friendlyDate(year, monthOfYear, dayOfMonth)
+        val date = friendlyDate(year, monthOfYear, dayOfMonth)
 
         if (view?.tag == DatePickerManager.TAG_ISSUING_DATE) {
             viewMvc.setIssuingDate(date)
@@ -160,8 +180,18 @@ class InvoiceFormDetailsFragment : BaseFragment(),
 
     private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)
 
+    private fun bindInvoice(invoice: Invoice) {
+        viewMvc.bindInvoice(invoice)
+
+        viewMvc.setIssuingDate(invoice.issuedAt!!.friendlyDate())
+
+        if (invoice.certificatedAt != null) {
+            viewMvc.setIssuingDate(invoice.certificatedAt!!.friendlyDate())
+        }
+    }
+
     private fun bindIssuingPerson() {
-        val person = getPerson(issuingRfc)
+        val person = getPerson(issuingRfc!!)
         if (person != null) {
             viewMvc.bindIssuingPerson(person)
         } else {
@@ -196,7 +226,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     }
 
     private fun folioExists(folio: String): Boolean {
-        val issuingPerson = personDao.findByRfc(issuingRfc)
+        val issuingPerson = personDao.findByRfc(issuingRfc!!)
 
         return if (issuingPerson != null) {
             val folioExists: Boolean = issuingPerson.invoices.any {
@@ -210,7 +240,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
 
     private fun generateInvoice() {
         val invoice = Invoice(
-            issuing = getPerson(issuingRfc),
+            issuing = getPerson(issuingRfc!!),
             receiver = getPerson(receiverRfc!!),
             folio = viewMvc.getFolio(),
             concept = viewMvc.getConcept(),

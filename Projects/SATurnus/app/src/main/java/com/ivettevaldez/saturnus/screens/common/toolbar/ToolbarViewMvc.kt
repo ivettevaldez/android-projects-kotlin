@@ -21,6 +21,11 @@ interface IToolbarViewMvc : IViewMvc {
         fun onNavigateUpClicked()
     }
 
+    interface EditClickListener {
+
+        fun onEditClicked()
+    }
+
     interface DeleteClickListener {
 
         fun onDeleteClicked()
@@ -29,6 +34,7 @@ interface IToolbarViewMvc : IViewMvc {
     fun setTitle(title: String)
     fun enableMenuAndListen(listener: MenuClickListener)
     fun enableNavigateUpAndListen(listener: NavigateUpClickListener)
+    fun enableEditAndListen(listener: EditClickListener)
     fun enableDeleteAndListen(listener: DeleteClickListener)
 }
 
@@ -44,10 +50,12 @@ class ToolbarViewMvcImpl(
     private val textTitle: TextView = findViewById(R.id.toolbar_text_title)
     private val buttonMenu: ImageButton = findViewById(R.id.toolbar_button_menu)
     private val buttonNavigateUp: ImageButton = findViewById(R.id.toolbar_button_navigate_up)
+    private val buttonEdit: ImageButton = findViewById(R.id.toolbar_button_edit)
     private val buttonDelete: ImageButton = findViewById(R.id.toolbar_button_delete)
 
     private var menuClickListener: IToolbarViewMvc.MenuClickListener? = null
     private var navigateUpClickListener: IToolbarViewMvc.NavigateUpClickListener? = null
+    private var editClickListener: IToolbarViewMvc.EditClickListener? = null
     private var deleteClickListener: IToolbarViewMvc.DeleteClickListener? = null
 
     init {
@@ -75,6 +83,11 @@ class ToolbarViewMvcImpl(
         buttonNavigateUp.visibility = View.VISIBLE
     }
 
+    override fun enableEditAndListen(listener: IToolbarViewMvc.EditClickListener) {
+        editClickListener = listener
+        buttonEdit.visibility = View.VISIBLE
+    }
+
     override fun enableDeleteAndListen(listener: IToolbarViewMvc.DeleteClickListener) {
         deleteClickListener = listener
         buttonDelete.visibility = View.VISIBLE
@@ -87,6 +100,10 @@ class ToolbarViewMvcImpl(
 
         buttonNavigateUp.setOnClickListener {
             navigateUpClickListener!!.onNavigateUpClicked()
+        }
+
+        buttonEdit.setOnClickListener {
+            editClickListener!!.onEditClicked()
         }
 
         buttonDelete.setOnClickListener {

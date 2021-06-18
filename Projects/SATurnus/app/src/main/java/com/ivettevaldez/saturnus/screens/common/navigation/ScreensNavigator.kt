@@ -40,9 +40,9 @@ class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: Frag
         )
     }
 
-    fun toInvoiceForm(issuingRfc: String) {
+    fun toInvoiceForm(folio: String? = null, issuingRfc: String? = null) {
         fragmentFrameHelper.replaceFragment(
-            InvoiceFormMainFragment.newInstance(issuingRfc)
+            InvoiceFormMainFragment.newInstance(folio, issuingRfc)
         )
     }
 

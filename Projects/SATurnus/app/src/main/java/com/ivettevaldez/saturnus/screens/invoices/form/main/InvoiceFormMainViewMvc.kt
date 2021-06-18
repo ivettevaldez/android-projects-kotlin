@@ -25,7 +25,8 @@ interface IInvoiceFormMainViewMvc : IObservableViewMvc<IInvoiceFormMainViewMvc.L
         fun onCompletedSteps()
     }
 
-    fun initStepper(issuingRfc: String)
+    fun initStepper(folio: String?, issuingRfc: String?)
+    fun setToolbarTitle(title: String)
     fun showProgressIndicator()
     fun hideProgressIndicator()
 }
@@ -42,8 +43,8 @@ class InvoiceFormMainViewMvcImpl(
 ), IInvoiceFormMainViewMvc,
     StepperLayout.StepperListener {
 
-    private val toolbar: Toolbar = findViewById(R.id.invoice_form_main_toolbar)
-    private val toolbarViewMvc: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbar)
+    private val toolbarContainer: Toolbar = findViewById(R.id.invoice_form_main_toolbar)
+    private val toolbar: IToolbarViewMvc = viewMvcFactory.newToolbarViewMvc(toolbarContainer)
 
     private val layoutProgress: FrameLayout = findViewById(R.id.invoice_form_main_progress)
     private val stepper: StepperLayout = findViewById(R.id.invoice_form_main_stepper)
@@ -53,13 +54,18 @@ class InvoiceFormMainViewMvcImpl(
         initToolbar()
     }
 
-    override fun initStepper(issuingRfc: String) {
+    override fun initStepper(folio: String?, issuingRfc: String?) {
         stepper.setListener(this)
         stepper.adapter = InvoiceFormMainStepperAdapter(
             context,
             fragmentManager,
+            folio,
             issuingRfc
         )
+    }
+
+    override fun setToolbarTitle(title: String) {
+        toolbar.setTitle(title)
     }
 
     override fun showProgressIndicator() {
@@ -95,9 +101,9 @@ class InvoiceFormMainViewMvcImpl(
     }
 
     private fun initToolbar() {
-        toolbarViewMvc.setTitle(context.getString(R.string.invoices_new))
+        toolbar.setTitle(context.getString(R.string.invoices_new))
 
-        toolbarViewMvc.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
+        toolbar.enableNavigateUpAndListen(object : IToolbarViewMvc.NavigateUpClickListener {
             override fun onNavigateUpClicked() {
                 for (listener in listeners) {
                     listener.onNavigateUpClicked()
@@ -105,6 +111,6 @@ class InvoiceFormMainViewMvcImpl(
             }
         })
 
-        toolbar.addView(toolbarViewMvc.getRootView())
+        toolbarContainer.addView(toolbar.getRootView())
     }
 }

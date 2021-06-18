@@ -87,7 +87,7 @@ class InvoicesListFragment : BaseFragment(),
     }
 
     override fun onAddNewInvoiceClick() {
-        screensNavigator.toInvoiceForm(rfc)
+        screensNavigator.toInvoiceForm(issuingRfc = rfc)
     }
 
     @WorkerThread

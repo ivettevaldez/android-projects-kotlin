@@ -95,7 +95,7 @@ class PeopleListFragment : BaseFragment(),
     }
 
     override fun onPersonClick(rfc: String) {
-        // TODO:
+        // TODO: Open person details (add a new screen).
     }
 
     override fun onPersonLongClick(rfc: String) {

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.FrameLayout
 import com.ivettevaldez.saturnus.R
+import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.screens.common.fields.ISimpleTextInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.fields.ISpinnerInputViewMvc
@@ -36,6 +37,7 @@ interface IInvoiceFormDetailsViewMvc : IObservableViewMvc<IInvoiceFormDetailsVie
     fun getCancellationStatus(): String
     fun getIssuingDate(): String
     fun getCertificationDate(): String
+    fun bindInvoice(invoice: Invoice)
     fun bindIssuingPerson(person: Person)
     fun bindReceiverPerson(person: Person)
     fun setIssuingDate(date: String)
@@ -53,11 +55,13 @@ class InvoiceFormDetailsViewMvcImpl(
 ), IInvoiceFormDetailsViewMvc,
     ISpinnerInputViewMvc.ItemSelectedListener {
 
-    private val personIssuingContainer: FrameLayout = findViewById(R.id.invoice_form_details_issuing)
+    private val personIssuingContainer: FrameLayout =
+        findViewById(R.id.invoice_form_details_issuing)
     private val personIssuing: IPersonItemViewMvc =
         viewMvcFactory.newPersonItemViewMvc(personIssuingContainer)
 
-    private val personReceiverContainer: FrameLayout = findViewById(R.id.invoice_form_details_receiver)
+    private val personReceiverContainer: FrameLayout =
+        findViewById(R.id.invoice_form_details_receiver)
     private val personReceiver: IPersonItemViewMvc = viewMvcFactory.newPersonItemViewMvc(
         personReceiverContainer
     )
@@ -124,6 +128,20 @@ class InvoiceFormDetailsViewMvcImpl(
     override fun getIssuingDate(): String = inputIssuingDate.getText()
 
     override fun getCertificationDate(): String = inputCertificationDate.getText()
+
+    override fun bindInvoice(invoice: Invoice) {
+        bindReceiverPerson(invoice.receiver!!)
+
+        inputFolio.setText(invoice.folio)
+        inputConcept.setText(invoice.concept)
+        inputDescription.setText(invoice.description)
+
+        inputEffect.setSelection(getEffectPosition(invoice.effect))
+        inputStatus.setSelection(getStatusPosition(invoice.status))
+        inputCancellationStatus.setSelection(
+            getCancellationStatusPosition(invoice.cancellationStatus)
+        )
+    }
 
     override fun bindIssuingPerson(person: Person) {
         personIssuing.bindPerson(person)
@@ -250,5 +268,20 @@ class InvoiceFormDetailsViewMvcImpl(
         inputEffect.addItemSelectedListener(this)
         inputStatus.addItemSelectedListener(this)
         inputCancellationStatus.addItemSelectedListener(this)
+    }
+
+    private fun getEffectPosition(effect: String): Int {
+        val effectsArray = context.resources.getStringArray(R.array.invoices_effects)
+        return effectsArray.indexOf(effect)
+    }
+
+    private fun getStatusPosition(status: String): Int {
+        val statusesArray = context.resources.getStringArray(R.array.invoices_statuses)
+        return statusesArray.indexOf(status)
+    }
+
+    private fun getCancellationStatusPosition(status: String): Int {
+        val statusesArray = context.resources.getStringArray(R.array.invoices_cancellation_statuses)
+        return statusesArray.indexOf(status)
     }
 }

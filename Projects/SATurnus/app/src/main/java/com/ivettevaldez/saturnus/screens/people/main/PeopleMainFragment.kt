@@ -41,7 +41,7 @@ class PeopleMainFragment : BaseFragment(),
         viewMvc = viewMvcFactory.newPeopleMainViewMvc(parent)
 
         viewMvc.setViewPager(
-            // TODO: Fix this.
+            // FIXME: Fix this dependency.
             PeopleMainPagerAdapter(requireActivity() as AppCompatActivity),
             PeopleMainPagerAdapter.TAB_CLIENT_TYPE_ISSUING
         )

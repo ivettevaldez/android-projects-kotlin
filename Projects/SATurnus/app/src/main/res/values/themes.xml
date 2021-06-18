@@ -50,7 +50,7 @@
         <item name="ms_inactiveStepColor">@color/link_water</item>
         <item name="ms_completeButtonColor">@color/color_secondary</item>
         <item name="ms_nextButtonColor">@color/color_primary_text</item>
-        <item name="ms_backButtonColor">@color/color_primary_text</item>
+        <item name="ms_backButtonColor">@color/color_label_text</item>
         <item name="ms_backButtonText">@string/action_back</item>
         <item name="ms_nextButtonText">@string/action_next</item>
         <item name="ms_completeButtonText">@string/action_save</item>

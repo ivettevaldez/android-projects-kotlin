@@ -49,19 +49,22 @@ class InvoiceFormMainFragment : BaseFragment(),
     lateinit var invoiceDao: InvoiceDao
 
     private lateinit var viewMvc: IInvoiceFormMainViewMvc
-    private lateinit var issuingRfc: String
 
-    private var hasFormChanges: Boolean = false
+    private var folio: String? = null
+    private var issuingRfc: String? = null
     private var invoice: Invoice? = null
+    private var hasFormChanges: Boolean = false
 
     companion object {
 
+        private const val ARG_FOLIO = "ARG_FOLIO"
         private const val ARG_ISSUING_RFC = "ARG_ISSUING_RFC"
 
         @JvmStatic
-        fun newInstance(issuingRfc: String) =
+        fun newInstance(folio: String?, issuingRfc: String?) =
             InvoiceFormMainFragment().apply {
                 arguments = Bundle().apply {
+                    putString(ARG_FOLIO, folio)
                     putString(ARG_ISSUING_RFC, issuingRfc)
                 }
             }
@@ -72,7 +75,8 @@ class InvoiceFormMainFragment : BaseFragment(),
         super.onCreate(savedInstanceState)
 
         requireArguments().let {
-            issuingRfc = it.getString(ARG_ISSUING_RFC)!!
+            issuingRfc = it.getString(ARG_ISSUING_RFC)
+            folio = it.getString(ARG_FOLIO)
         }
     }
 
@@ -82,8 +86,21 @@ class InvoiceFormMainFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
+        // FIXME: The complete form disappears when this screen is opened more than once.
+
         viewMvc = viewMvcFactory.newInvoiceFormMainViewMvc(parent)
-        viewMvc.initStepper(issuingRfc)
+
+        var toolbarTitle: String = getString(R.string.invoices_new)
+
+        if (folio != null) {
+            invoice = invoiceDao.findByFolio(folio!!)
+            issuingRfc = invoice?.issuing?.rfc
+
+            toolbarTitle = getString(R.string.action_editing)
+        }
+
+        viewMvc.initStepper(folio, issuingRfc)
+        viewMvc.setToolbarTitle(toolbarTitle)
 
         return viewMvc.getRootView()
     }
