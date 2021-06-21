@@ -1,4 +1,4 @@
-package com.ivettevaldez.unittesting.unittestingfundamentals.exercise1
+package com.ivettevaldez.unittesting.unittestingfundamentals.example1
 
 class PositiveNumberValidator {
 

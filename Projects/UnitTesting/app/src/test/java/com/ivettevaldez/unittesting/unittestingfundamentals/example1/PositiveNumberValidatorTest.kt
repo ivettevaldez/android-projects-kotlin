@@ -1,11 +1,18 @@
-package com.ivettevaldez.unittesting.unittestingfundamentals.exercise1
+package com.ivettevaldez.unittesting.unittestingfundamentals.example1
 
+import com.ivettevaldez.unittesting.unittestingfundamentals.example1.PositiveNumberValidator
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class PositiveNumberValidatorTest {
 
-    private val sut: PositiveNumberValidator = PositiveNumberValidator()
+    private lateinit var sut: PositiveNumberValidator
+
+    @Before
+    fun setUp() {
+        sut = PositiveNumberValidator()
+    }
 
     @Test
     fun test1() {
