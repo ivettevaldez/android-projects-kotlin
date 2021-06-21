@@ -23,6 +23,14 @@ class IntervalsOverlapDetectorTest {
     }
 
     @Test
+    fun isOverlap_interval1BeforeAndAdjacentInterval2_falseReturned() {
+        val interval1 = Interval(-1, 5)
+        val interval2 = Interval(5, 8)
+        val result = sut.isOverlap(interval1, interval2)
+        assertFalse(result)
+    }
+
+    @Test
     fun isOverlap_interval1OverlapsInterval2OnStart_trueReturned() {
         val interval1 = Interval(-1, 5)
         val interval2 = Interval(3, 12)
@@ -47,27 +55,19 @@ class IntervalsOverlapDetectorTest {
     }
 
     @Test
-    fun isOverlap_interval1OverlapsInterval2OnEnd_trueReturned() {
+    fun isOverlap_intervalEqualsInterval2_trueReturned() {
         val interval1 = Interval(-1, 5)
-        val interval2 = Interval(-4, 4)
+        val interval2 = Interval(-1, 5)
         val result = sut.isOverlap(interval1, interval2)
         assertTrue(result)
     }
 
     @Test
-    fun isOverlap_interval1AfterInterval2_falseReturned() {
+    fun isOverlap_interval1OverlapsInterval2OnEnd_trueReturned() {
         val interval1 = Interval(-1, 5)
-        val interval2 = Interval(-10, -3)
+        val interval2 = Interval(-4, 4)
         val result = sut.isOverlap(interval1, interval2)
-        assertFalse(result)
-    }
-
-    @Test
-    fun isOverlap_interval1BeforeAndAdjacentInterval2_falseReturned() {
-        val interval1 = Interval(-1, 5)
-        val interval2 = Interval(5, 8)
-        val result = sut.isOverlap(interval1, interval2)
-        assertFalse(result)
+        assertTrue(result)
     }
 
     @Test
@@ -79,10 +79,10 @@ class IntervalsOverlapDetectorTest {
     }
 
     @Test
-    fun isOverlap_interval1SameThanInterval2_trueReturned() {
+    fun isOverlap_interval1AfterInterval2_falseReturned() {
         val interval1 = Interval(-1, 5)
-        val interval2 = Interval(-1, 5)
+        val interval2 = Interval(-10, -3)
         val result = sut.isOverlap(interval1, interval2)
-        assertTrue(result)
+        assertFalse(result)
     }
 }

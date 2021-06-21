@@ -24,6 +24,14 @@ class IntervalAdjacencyDetectorTest {
     }
 
     @Test
+    fun isAdjacent_interval1BeforeAndAdjacentInterval2_trueReturned() {
+        val interval1 = Interval(-1, 5)
+        val interval2 = Interval(5, 8)
+        val result = sut.isAdjacent(interval1, interval2)
+        assertTrue(result)
+    }
+
+    @Test
     fun isAdjacent_interval1OverlapsInterval2OnStart_falseReturned() {
         val interval1 = Interval(-1, 5)
         val interval2 = Interval(3, 12)
@@ -48,27 +56,19 @@ class IntervalAdjacencyDetectorTest {
     }
 
     @Test
+    fun isOverlap_interval1EqualsInterval2_falseReturned() {
+        val interval1 = Interval(-1, 5)
+        val interval2 = Interval(-1, 5)
+        val result = sut.isAdjacent(interval1, interval2)
+        assertFalse(result)
+    }
+
+    @Test
     fun isAdjacent_interval1OverlapsInterval2OnEnd_falseReturned() {
         val interval1 = Interval(-1, 5)
         val interval2 = Interval(-4, 4)
         val result = sut.isAdjacent(interval1, interval2)
         assertFalse(result)
-    }
-
-    @Test
-    fun isAdjacent_interval1AfterInterval2_falseReturned() {
-        val interval1 = Interval(-1, 5)
-        val interval2 = Interval(-10, -3)
-        val result = sut.isAdjacent(interval1, interval2)
-        assertFalse(result)
-    }
-
-    @Test
-    fun isAdjacent_interval1BeforeAndAdjacentInterval2_trueReturned() {
-        val interval1 = Interval(-1, 5)
-        val interval2 = Interval(5, 8)
-        val result = sut.isAdjacent(interval1, interval2)
-        assertTrue(result)
     }
 
     @Test
@@ -80,9 +80,9 @@ class IntervalAdjacencyDetectorTest {
     }
 
     @Test
-    fun isOverlap_interval1SameThanInterval2_falseReturned() {
+    fun isAdjacent_interval1AfterInterval2_falseReturned() {
         val interval1 = Interval(-1, 5)
-        val interval2 = Interval(-1, 5)
+        val interval2 = Interval(-10, -3)
         val result = sut.isAdjacent(interval1, interval2)
         assertFalse(result)
     }
