@@ -1,11 +1,17 @@
 package com.ivettevaldez.unittesting.unittestingfundamentals.exercise1
 
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class NegativeNumberValidatorTest {
 
-    private val sut: NegativeNumberValidator = NegativeNumberValidator()
+    private lateinit var sut: NegativeNumberValidator
+
+    @Before
+    fun setUp() {
+        sut = NegativeNumberValidator()
+    }
 
     @Test
     fun test1() {
