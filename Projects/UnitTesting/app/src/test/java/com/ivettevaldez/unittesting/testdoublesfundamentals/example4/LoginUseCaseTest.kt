@@ -11,14 +11,21 @@ import com.ivettevaldez.unittesting.testdoublesfundamentals.example4.loginhttpen
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.mockito.ArgumentCaptor
+import org.mockito.Mockito.*
+import org.mockito.kotlin.any
+import org.mockito.kotlin.doAnswer
 
 class LoginUseCaseTest {
 
     private lateinit var sut: LoginUseCase
 
-    private lateinit var loginHttpEndpoint: LoginHttpEndpointTd
-    private lateinit var authTokenCache: AuthTokenCacheTd
-    private lateinit var eventBusPoster: EventBusPosterTd
+    private lateinit var loginHttpEndpointMock: LoginHttpEndpoint
+    private lateinit var authTokenCacheMock: AuthTokenCache
+    private lateinit var eventBusPosterMock: EventBusPoster
+
+    private val stringCaptor: ArgumentCaptor<String> = ArgumentCaptor.forClass(String::class.java)
+    private val objectCaptor: ArgumentCaptor<Any> = ArgumentCaptor.forClass(Any::class.java)
 
     companion object {
 
@@ -31,172 +38,157 @@ class LoginUseCaseTest {
 
     @Before
     fun setUp() {
-        loginHttpEndpoint = LoginHttpEndpointTd()
-        authTokenCache = AuthTokenCacheTd()
-        eventBusPoster = EventBusPosterTd()
+        loginHttpEndpointMock = mock(LoginHttpEndpoint::class.java)
+        authTokenCacheMock = mock(AuthTokenCache::class.java)
+        eventBusPosterMock = mock(EventBusPoster::class.java)
 
         sut = LoginUseCase(
-            loginHttpEndpoint,
-            authTokenCache,
-            eventBusPoster
+            loginHttpEndpointMock,
+            authTokenCacheMock,
+            eventBusPosterMock
         )
+
+        success()
     }
 
     @Test
     fun login_success_userAndPasswordPassedToEndpoint() {
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(loginHttpEndpoint.userName, USER_NAME)
-        assertEquals(loginHttpEndpoint.password, PASSWORD)
+        verify(loginHttpEndpointMock).loginSync(capture(stringCaptor), capture(stringCaptor))
+        assertEquals(stringCaptor.allValues[0], USER_NAME)
+        assertEquals(stringCaptor.allValues[1], PASSWORD)
     }
 
     @Test
     fun login_success_authTokenCached() {
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(authTokenCache.authToken, AUTH_TOKEN)
+        verify(authTokenCacheMock).cacheAuthToken(capture(stringCaptor))
+        assertEquals(stringCaptor.value, AUTH_TOKEN)
     }
 
     @Test
     fun login_generalError_authTokenNotCached() {
-        loginHttpEndpoint.isGeneralError = true
+        generalError()
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(authTokenCache.authToken, DEFAULT_AUTH_TOKEN)
+        verifyNoMoreInteractions(authTokenCacheMock)
     }
 
     @Test
     fun login_authError_authTokenNotCached() {
-        loginHttpEndpoint.isAuthError = true
+        authError()
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(authTokenCache.authToken, DEFAULT_AUTH_TOKEN)
+        verifyNoMoreInteractions(authTokenCacheMock)
     }
 
     @Test
     fun login_serverError_authTokenNotCached() {
-        loginHttpEndpoint.isServerError = true
+        serverError()
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(authTokenCache.authToken, DEFAULT_AUTH_TOKEN)
+        verifyNoMoreInteractions(authTokenCacheMock)
     }
 
     @Test
     fun login_success_loggedInEventPosted() {
         sut.login(USER_NAME, PASSWORD)
-        assert(eventBusPoster.event is LoggedInEvent)
+        verify(eventBusPosterMock).postEvent(capture(objectCaptor))
+        assert(objectCaptor.value is LoggedInEvent)
     }
 
     @Test
     fun login_generalError_notInteractedWithEventBusPoster() {
-        loginHttpEndpoint.isGeneralError = true
+        generalError()
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(eventBusPoster.interactionsCount, 0)
+        verifyNoMoreInteractions(eventBusPosterMock)
     }
 
     @Test
     fun login_authError_notInteractedWithEventBusPoster() {
-        loginHttpEndpoint.isAuthError = true
+        authError()
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(eventBusPoster.interactionsCount, 0)
+        verifyNoMoreInteractions(eventBusPosterMock)
     }
 
     @Test
     fun login_serverError_notInteractedWithEventBusPoster() {
-        loginHttpEndpoint.isServerError = true
+        serverError()
         sut.login(USER_NAME, PASSWORD)
-        assertEquals(eventBusPoster.interactionsCount, 0)
+        verifyNoMoreInteractions(eventBusPosterMock)
     }
 
     @Test
     fun login_success_successReturned() {
-        val result: UseCaseResult = sut.login(USER_NAME, PASSWORD)
+        val result = sut.login(USER_NAME, PASSWORD)
         assertEquals(result, UseCaseResult.SUCCESS)
     }
 
     @Test
     fun login_generalError_failureReturned() {
-        loginHttpEndpoint.isGeneralError = true
-        val result: UseCaseResult = sut.login(USER_NAME, PASSWORD)
+        generalError()
+        val result = sut.login(USER_NAME, PASSWORD)
         assertEquals(result, UseCaseResult.FAILURE)
     }
 
     @Test
     fun login_authError_failureReturned() {
-        loginHttpEndpoint.isAuthError = true
-        val result: UseCaseResult = sut.login(USER_NAME, PASSWORD)
+        authError()
+        val result = sut.login(USER_NAME, PASSWORD)
         assertEquals(result, UseCaseResult.FAILURE)
+
     }
 
     @Test
     fun login_serverError_failureReturned() {
-        loginHttpEndpoint.isServerError = true
-        val result: UseCaseResult = sut.login(USER_NAME, PASSWORD)
+        serverError()
+        val result = sut.login(USER_NAME, PASSWORD)
         assertEquals(result, UseCaseResult.FAILURE)
     }
 
     @Test
     fun login_networkError_failureReturned() {
-        loginHttpEndpoint.isNetworkError = true
-        val result: UseCaseResult = sut.login(USER_NAME, PASSWORD)
+        networkError()
+        val result = sut.login(USER_NAME, PASSWORD)
         assertEquals(result, UseCaseResult.NETWORK_ERROR)
     }
 
-    // --------------------------------------------------------------------------------------------
-    // HELPER CLASSES
-    // --------------------------------------------------------------------------------------------
+    private fun <T> capture(argumentCaptor: ArgumentCaptor<T>): T = argumentCaptor.capture()
 
-    private class LoginHttpEndpointTd : LoginHttpEndpoint {
-
-        lateinit var userName: String
-        lateinit var password: String
-
-        var isGeneralError: Boolean = false
-        var isAuthError: Boolean = false
-        var isServerError: Boolean = false
-        var isNetworkError: Boolean = false
-
-        override fun loginSync(
-            userName: String,
-            password: String
-        ): EndpointResult {
-
-            this.userName = userName
-            this.password = password
-
-            return when {
-                isGeneralError -> {
-                    EndpointResult(EndpointResultStatus.GENERAL_ERROR, DEFAULT_AUTH_TOKEN)
-                }
-                isAuthError -> {
-                    EndpointResult(EndpointResultStatus.AUTH_ERROR, DEFAULT_AUTH_TOKEN)
-                }
-                isServerError -> {
-                    EndpointResult(EndpointResultStatus.SERVER_ERROR, DEFAULT_AUTH_TOKEN)
-                }
-                isNetworkError -> {
-                    throw NetworkErrorException()
-                }
-                else -> {
-                    EndpointResult(EndpointResultStatus.SUCCESS, AUTH_TOKEN)
-                }
-            }
-        }
+    private fun success() {
+        `when`(
+            loginHttpEndpointMock.loginSync(any(), any())
+        ).thenReturn(
+            EndpointResult(EndpointResultStatus.SUCCESS, AUTH_TOKEN)
+        )
     }
 
-    private class AuthTokenCacheTd : AuthTokenCache {
-
-        var authToken: String = DEFAULT_AUTH_TOKEN
-
-        override fun cacheAuthToken(authToken: String) {
-            this.authToken = authToken
-        }
+    private fun generalError() {
+        `when`(
+            loginHttpEndpointMock.loginSync(any(), any())
+        ).thenReturn(
+            EndpointResult(EndpointResultStatus.GENERAL_ERROR, DEFAULT_AUTH_TOKEN)
+        )
     }
 
-    private class EventBusPosterTd : EventBusPoster {
+    private fun authError() {
+        `when`(
+            loginHttpEndpointMock.loginSync(any(), any())
+        ).thenReturn(
+            EndpointResult(EndpointResultStatus.AUTH_ERROR, DEFAULT_AUTH_TOKEN)
+        )
+    }
 
-        lateinit var event: Any
+    private fun serverError() {
+        `when`(
+            loginHttpEndpointMock.loginSync(any(), any())
+        ).thenReturn(
+            EndpointResult(EndpointResultStatus.SERVER_ERROR, DEFAULT_AUTH_TOKEN)
+        )
+    }
 
-        var interactionsCount: Int = 0
-
-        override fun postEvent(event: Any) {
-            this.event = event
-            this.interactionsCount++
+    private fun networkError() {
+        `when`(
+            loginHttpEndpointMock.loginSync(any(), any())
+        ).doAnswer {
+            throw NetworkErrorException()
         }
     }
 }
