@@ -1,6 +1,5 @@
 package com.ivettevaldez.unittesting.unittestingfundamentals.example2
 
-import com.ivettevaldez.unittesting.unittestingfundamentals.example2.StringReverser
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

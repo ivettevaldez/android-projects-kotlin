@@ -15,7 +15,7 @@ import org.junit.Test
 class LoginUseCaseTest {
 
     private lateinit var sut: LoginUseCase
-    
+
     private lateinit var loginHttpEndpoint: LoginHttpEndpointTd
     private lateinit var authTokenCache: AuthTokenCacheTd
     private lateinit var eventBusPoster: EventBusPosterTd

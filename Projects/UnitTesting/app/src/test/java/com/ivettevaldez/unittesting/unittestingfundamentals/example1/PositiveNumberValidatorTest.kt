@@ -1,6 +1,5 @@
 package com.ivettevaldez.unittesting.unittestingfundamentals.example1
 
-import com.ivettevaldez.unittesting.unittestingfundamentals.example1.PositiveNumberValidator
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
