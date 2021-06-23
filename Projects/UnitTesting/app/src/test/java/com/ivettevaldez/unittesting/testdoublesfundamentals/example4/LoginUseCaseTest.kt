@@ -54,7 +54,7 @@ class LoginUseCaseTest {
     @Test
     fun login_success_userAndPasswordPassedToEndpoint() {
         sut.login(USER_NAME, PASSWORD)
-        verify(loginHttpEndpointMock).loginSync(capture(stringCaptor), capture(stringCaptor))
+        verify(loginHttpEndpointMock).login(capture(stringCaptor), capture(stringCaptor))
         assertEquals(stringCaptor.allValues[0], USER_NAME)
         assertEquals(stringCaptor.allValues[1], PASSWORD)
     }
@@ -67,21 +67,21 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun login_generalError_authTokenNotCached() {
+    fun login_generalError_notInteractedWithAuthTokenCache() {
         generalError()
         sut.login(USER_NAME, PASSWORD)
         verifyNoMoreInteractions(authTokenCacheMock)
     }
 
     @Test
-    fun login_authError_authTokenNotCached() {
+    fun login_authError_notInteractedWithAuthTokenCache() {
         authError()
         sut.login(USER_NAME, PASSWORD)
         verifyNoMoreInteractions(authTokenCacheMock)
     }
 
     @Test
-    fun login_serverError_authTokenNotCached() {
+    fun login_serverError_notInteractedWithAuthTokenCache() {
         serverError()
         sut.login(USER_NAME, PASSWORD)
         verifyNoMoreInteractions(authTokenCacheMock)
@@ -144,7 +144,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun login_networkError_failureReturned() {
+    fun login_networkError_networkErrorReturned() {
         networkError()
         val result = sut.login(USER_NAME, PASSWORD)
         assertEquals(result, UseCaseResult.NETWORK_ERROR)
@@ -154,7 +154,7 @@ class LoginUseCaseTest {
 
     private fun success() {
         `when`(
-            loginHttpEndpointMock.loginSync(any(), any())
+            loginHttpEndpointMock.login(any(), any())
         ).thenReturn(
             EndpointResult(EndpointResultStatus.SUCCESS, AUTH_TOKEN)
         )
@@ -162,7 +162,7 @@ class LoginUseCaseTest {
 
     private fun generalError() {
         `when`(
-            loginHttpEndpointMock.loginSync(any(), any())
+            loginHttpEndpointMock.login(any(), any())
         ).thenReturn(
             EndpointResult(EndpointResultStatus.GENERAL_ERROR, DEFAULT_AUTH_TOKEN)
         )
@@ -170,7 +170,7 @@ class LoginUseCaseTest {
 
     private fun authError() {
         `when`(
-            loginHttpEndpointMock.loginSync(any(), any())
+            loginHttpEndpointMock.login(any(), any())
         ).thenReturn(
             EndpointResult(EndpointResultStatus.AUTH_ERROR, DEFAULT_AUTH_TOKEN)
         )
@@ -178,7 +178,7 @@ class LoginUseCaseTest {
 
     private fun serverError() {
         `when`(
-            loginHttpEndpointMock.loginSync(any(), any())
+            loginHttpEndpointMock.login(any(), any())
         ).thenReturn(
             EndpointResult(EndpointResultStatus.SERVER_ERROR, DEFAULT_AUTH_TOKEN)
         )
@@ -186,7 +186,7 @@ class LoginUseCaseTest {
 
     private fun networkError() {
         `when`(
-            loginHttpEndpointMock.loginSync(any(), any())
+            loginHttpEndpointMock.login(any(), any())
         ).doAnswer {
             throw NetworkErrorException()
         }

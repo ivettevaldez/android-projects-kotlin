@@ -151,7 +151,7 @@ class LoginUseCaseTestTd {
         var isServerError: Boolean = false
         var isNetworkError: Boolean = false
 
-        override fun loginSync(
+        override fun login(
             userName: String,
             password: String
         ): EndpointResult {

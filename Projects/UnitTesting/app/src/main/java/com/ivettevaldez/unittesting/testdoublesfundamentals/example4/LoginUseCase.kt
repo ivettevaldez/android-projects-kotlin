@@ -21,7 +21,7 @@ class LoginUseCase(
 
     fun login(userName: String, password: String): UseCaseResult {
         return try {
-            val result: EndpointResult = loginHttpEndpoint.loginSync(userName, password)
+            val result: EndpointResult = loginHttpEndpoint.login(userName, password)
 
             if (result.isSuccessful()) {
                 authTokenCache.cacheAuthToken(result.authToken)

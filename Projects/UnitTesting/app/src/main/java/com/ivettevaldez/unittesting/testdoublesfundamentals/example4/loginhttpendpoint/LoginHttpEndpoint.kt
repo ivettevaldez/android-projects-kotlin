@@ -2,7 +2,7 @@ package com.ivettevaldez.unittesting.testdoublesfundamentals.example4.loginhttpe
 
 interface LoginHttpEndpoint {
 
-    fun loginSync(userName: String, password: String): EndpointResult
+    fun login(userName: String, password: String): EndpointResult
 
     enum class EndpointResultStatus {
 
