@@ -1,0 +1,3 @@
+package com.ivettevaldez.unittesting.mockitofundamentals.example7.eventbus
+
+class LoggedInEvent

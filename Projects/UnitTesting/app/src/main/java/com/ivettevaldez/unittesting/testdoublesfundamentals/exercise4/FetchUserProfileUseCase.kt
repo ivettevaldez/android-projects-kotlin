@@ -1,6 +1,6 @@
 package com.ivettevaldez.unittesting.testdoublesfundamentals.exercise4
 
-import com.ivettevaldez.unittesting.testdoublesfundamentals.example4.loginhttpendpoint.NetworkErrorException
+import com.ivettevaldez.unittesting.mockitofundamentals.example7.loginhttpendpoint.NetworkErrorException
 import com.ivettevaldez.unittesting.testdoublesfundamentals.exercise4.networking.UserProfileHttpEndpoint
 import com.ivettevaldez.unittesting.testdoublesfundamentals.exercise4.networking.UserProfileHttpEndpoint.EndpointResult
 import com.ivettevaldez.unittesting.testdoublesfundamentals.exercise4.networking.UserProfileHttpEndpoint.EndpointResultStatus

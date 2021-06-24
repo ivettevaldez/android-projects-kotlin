@@ -1,4 +1,4 @@
-package com.ivettevaldez.unittesting.testdoublesfundamentals.example4
+package com.ivettevaldez.unittesting.mockitofundamentals.example7
 
 import com.ivettevaldez.unittesting.mockitofundamentals.example7.authtokencache.AuthTokenCache
 import com.ivettevaldez.unittesting.mockitofundamentals.example7.eventbus.EventBusPoster

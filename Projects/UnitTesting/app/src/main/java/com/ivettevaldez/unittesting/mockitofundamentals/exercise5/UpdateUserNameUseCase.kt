@@ -1,11 +1,11 @@
 package com.ivettevaldez.unittesting.mockitofundamentals.exercise5
 
+import com.ivettevaldez.unittesting.mockitofundamentals.example7.eventbus.EventBusPoster
+import com.ivettevaldez.unittesting.mockitofundamentals.example7.loginhttpendpoint.NetworkErrorException
 import com.ivettevaldez.unittesting.mockitofundamentals.exercise5.eventbus.UserDetailsChangedEvent
 import com.ivettevaldez.unittesting.mockitofundamentals.exercise5.networking.UpdateUserNameHttpEndpoint
 import com.ivettevaldez.unittesting.mockitofundamentals.exercise5.networking.UpdateUserNameHttpEndpoint.EndpointResult
 import com.ivettevaldez.unittesting.mockitofundamentals.exercise5.networking.UpdateUserNameHttpEndpoint.EndpointResultStatus
-import com.ivettevaldez.unittesting.testdoublesfundamentals.example4.eventbus.EventBusPoster
-import com.ivettevaldez.unittesting.testdoublesfundamentals.example4.loginhttpendpoint.NetworkErrorException
 import com.ivettevaldez.unittesting.testdoublesfundamentals.exercise4.users.User
 import com.ivettevaldez.unittesting.testdoublesfundamentals.exercise4.users.UsersCache
 
