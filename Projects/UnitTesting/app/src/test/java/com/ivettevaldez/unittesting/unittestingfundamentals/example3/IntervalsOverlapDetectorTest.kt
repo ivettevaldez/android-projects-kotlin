@@ -16,9 +16,12 @@ class IntervalsOverlapDetectorTest {
 
     @Test
     fun isOverlap_interval1beforeInterval2_falseReturned() {
+        // Arrange
         val interval1 = Interval(-1, 5)
         val interval2 = Interval(8, 12)
+        // Act
         val result = sut.isOverlap(interval1, interval2)
+        // Assert
         assertFalse(result)
     }
 

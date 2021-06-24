@@ -12,17 +12,26 @@ import com.ivettevaldez.unittesting.testdoublesfundamentals.example4.LoginUseCas
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.ArgumentCaptor
+import org.mockito.Mock
 import org.mockito.Mockito.*
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.doAnswer
 
+@RunWith(MockitoJUnitRunner::class)
 class LoginUseCaseTest {
 
     private lateinit var sut: LoginUseCase
 
+    @Mock
     private lateinit var loginHttpEndpointMock: LoginHttpEndpoint
+
+    @Mock
     private lateinit var authTokenCacheMock: AuthTokenCache
+
+    @Mock
     private lateinit var eventBusPosterMock: EventBusPoster
 
     private val stringCaptor: ArgumentCaptor<String> = ArgumentCaptor.forClass(String::class.java)
@@ -39,10 +48,6 @@ class LoginUseCaseTest {
 
     @Before
     fun setUp() {
-        loginHttpEndpointMock = mock(LoginHttpEndpoint::class.java)
-        authTokenCacheMock = mock(AuthTokenCache::class.java)
-        eventBusPosterMock = mock(EventBusPoster::class.java)
-
         sut = LoginUseCase(
             loginHttpEndpointMock,
             authTokenCacheMock,
