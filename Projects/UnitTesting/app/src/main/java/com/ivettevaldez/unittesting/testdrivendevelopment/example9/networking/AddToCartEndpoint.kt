@@ -7,5 +7,5 @@ interface AddToCartEndpoint {
         SUCCESS, GENERAL_ERROR, AUTH_ERROR
     }
 
-    fun addToCart(cartItemScheme: CartItemScheme): EndpointResultStatus
+    fun addToCart(cartItemSchema: CartItemSchema): EndpointResultStatus
 }

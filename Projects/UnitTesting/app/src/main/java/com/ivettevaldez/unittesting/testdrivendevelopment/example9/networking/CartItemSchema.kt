@@ -1,6 +1,6 @@
 package com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking
 
-data class CartItemScheme(
+data class CartItemSchema(
     val offerId: Int,
     val amount: Int
 )

@@ -4,7 +4,7 @@ import com.ivettevaldez.unittesting.mockitofundamentals.example7.loginhttpendpoi
 import com.ivettevaldez.unittesting.testdrivendevelopment.example9.AddToCartUseCase.UseCaseResult
 import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.AddToCartEndpoint
 import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.AddToCartEndpoint.EndpointResultStatus
-import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.CartItemScheme
+import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.CartItemSchema
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -25,8 +25,8 @@ class AddToCartUseCaseTest {
     @Mock
     private lateinit var addToCartEndpointMock: AddToCartEndpoint
 
-    private val cartItemCaptor: ArgumentCaptor<CartItemScheme> =
-        ArgumentCaptor.forClass(CartItemScheme::class.java)
+    private val cartItemCaptor: ArgumentCaptor<CartItemSchema> =
+        ArgumentCaptor.forClass(CartItemSchema::class.java)
 
     companion object {
 

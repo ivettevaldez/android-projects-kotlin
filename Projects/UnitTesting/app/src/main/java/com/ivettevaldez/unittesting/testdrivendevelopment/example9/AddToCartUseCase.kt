@@ -3,7 +3,7 @@ package com.ivettevaldez.unittesting.testdrivendevelopment.example9
 import com.ivettevaldez.unittesting.mockitofundamentals.example7.loginhttpendpoint.NetworkErrorException
 import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.AddToCartEndpoint
 import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.AddToCartEndpoint.EndpointResultStatus
-import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.CartItemScheme
+import com.ivettevaldez.unittesting.testdrivendevelopment.example9.networking.CartItemSchema
 
 class AddToCartUseCase(private val addToCartEndpoint: AddToCartEndpoint) {
 
@@ -17,7 +17,7 @@ class AddToCartUseCase(private val addToCartEndpoint: AddToCartEndpoint) {
     fun addToCart(offerId: Int, amount: Int): UseCaseResult {
         return try {
             val result = addToCartEndpoint.addToCart(
-                CartItemScheme(
+                CartItemSchema(
                     offerId, amount
                 )
             )
