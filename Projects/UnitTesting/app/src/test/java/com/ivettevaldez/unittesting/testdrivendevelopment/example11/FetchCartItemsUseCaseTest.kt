@@ -61,10 +61,7 @@ class FetchCartItemsUseCaseTest {
         // Act
         sut.fetchCartItemsAndNotify(LIMIT)
         // Assert
-        verify(fetchCartItemsHttpEndpointMock).fetchCartItems(
-            capture(intCaptor),
-            any()
-        )
+        verify(fetchCartItemsHttpEndpointMock).fetchCartItems(capture(intCaptor), any())
         assertEquals(intCaptor.value, LIMIT)
     }
 
