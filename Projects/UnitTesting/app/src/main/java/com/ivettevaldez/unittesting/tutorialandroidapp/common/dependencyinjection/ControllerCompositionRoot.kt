@@ -57,7 +57,9 @@ class ControllerCompositionRoot(
     fun fetchLastActiveQuestionsUseCase() =
         FetchLastActiveQuestionsUseCase(getFetchLastActiveQuestionsEndpoint())
 
-    fun getFetchQuestionDetailsEndpoint() = FetchQuestionDetailsEndpoint(getStackOverflowApi())
+    private fun getFetchQuestionDetailsEndpoint() =
+        FetchQuestionDetailsEndpoint(getStackOverflowApi())
 
-    fun fetchQuestionDetailsUseCase() = FetchQuestionDetailsUseCase()
+    fun fetchQuestionDetailsUseCase() =
+        FetchQuestionDetailsUseCase(getFetchQuestionDetailsEndpoint())
 }
