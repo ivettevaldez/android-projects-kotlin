@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ivettevaldez.unittesting.R
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.controllers.BaseFragment
 
 class QuestionsListFragment : BaseFragment() {
+
+    private lateinit var controller: QuestionsListController
 
     companion object {
 
@@ -16,10 +17,26 @@ class QuestionsListFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.layout_questions_list, container, false)
+
+        val viewMvc = getCompositionRoot().getViewMvcFactory().getQuestionsListViewMvc(parent)
+
+        controller = getCompositionRoot().getQuestionsListController()
+        controller.bindView(viewMvc)
+
+        return viewMvc.getRootView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        controller.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        controller.onStop()
     }
 }

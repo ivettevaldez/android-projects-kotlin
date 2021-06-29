@@ -17,6 +17,7 @@ import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.fragmentfr
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.navdrawer.NavDrawerHelper
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.screensnavigator.ScreensNavigator
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.toasts.ToastsHelper
+import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questionslist.QuestionsListController
 
 class ControllerCompositionRoot(
     private val compositionRoot: CompositionRoot,
@@ -45,7 +46,7 @@ class ControllerCompositionRoot(
 
     fun getViewMvcFactory() = ViewMvcFactory(getLayoutInflater(), getNavDrawerHelper())
 
-    fun getToastHelper(): ToastsHelper = ToastsHelper(getContext())
+    private fun getToastHelper(): ToastsHelper = ToastsHelper(getContext())
 
     fun getScreensNavigator(): ScreensNavigator = ScreensNavigator(getFragmentFrameHelper())
 
@@ -54,8 +55,16 @@ class ControllerCompositionRoot(
     private fun getFetchLastActiveQuestionsEndpoint() =
         FetchLastActiveQuestionsEndpoint(getStackOverflowApi())
 
-    fun fetchLastActiveQuestionsUseCase() =
+    private fun fetchLastActiveQuestionsUseCase() =
         FetchLastActiveQuestionsUseCase(getFetchLastActiveQuestionsEndpoint())
+
+    fun getQuestionsListController(): QuestionsListController {
+        return QuestionsListController(
+            fetchLastActiveQuestionsUseCase(),
+            getScreensNavigator(),
+            getToastHelper()
+        )
+    }
 
     private fun getFetchQuestionDetailsEndpoint() =
         FetchQuestionDetailsEndpoint(getStackOverflowApi())
