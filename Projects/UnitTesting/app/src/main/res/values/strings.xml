@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">UnitTesting</string>
     <string name="error_network_call_failed">Network call failed</string>
+    <string name="drawer_menu_item_questions_list">Last active questions</string>
 </resources>

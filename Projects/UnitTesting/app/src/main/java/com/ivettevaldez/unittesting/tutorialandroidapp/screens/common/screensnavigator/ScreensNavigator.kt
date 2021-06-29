@@ -1,6 +1,7 @@
 package com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.screensnavigator
 
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.fragmentframehelper.FragmentFrameHelper
+import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questionslist.QuestionsListFragment
 
 class ScreensNavigator(private val fragmentFrameHelper: FragmentFrameHelper) {
 
@@ -8,11 +9,13 @@ class ScreensNavigator(private val fragmentFrameHelper: FragmentFrameHelper) {
         fragmentFrameHelper.navigateUp()
     }
 
-    fun toLastActiveQuestionsList() {
-
+    fun toQuestionsList() {
+        fragmentFrameHelper.replaceFragment(
+            QuestionsListFragment.newInstance()
+        )
     }
 
     fun toQuestionDetails(id: String) {
-
+        // TODO:
     }
 }

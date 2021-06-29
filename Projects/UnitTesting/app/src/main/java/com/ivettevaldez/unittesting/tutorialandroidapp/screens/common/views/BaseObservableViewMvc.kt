@@ -3,7 +3,7 @@ package com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.views
 import java.util.*
 import kotlin.collections.HashSet
 
-class BaseObservableViewMvc<ListenerType> : BaseViewMvc(), ObservableViewMvc<ListenerType> {
+open class BaseObservableViewMvc<ListenerType> : BaseViewMvc(), ObservableViewMvc<ListenerType> {
 
     private val listeners: MutableSet<ListenerType> = HashSet()
 

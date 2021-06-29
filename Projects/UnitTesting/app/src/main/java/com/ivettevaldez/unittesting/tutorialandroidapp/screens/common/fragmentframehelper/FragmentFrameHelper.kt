@@ -98,6 +98,6 @@ class FragmentFrameHelper(
     }
 
     private fun getFragmentFrameId(): Int {
-        return fragmentFrameWrapper.getFragmentFrame().getId()
+        return fragmentFrameWrapper.getFragmentFrame().id
     }
 }
