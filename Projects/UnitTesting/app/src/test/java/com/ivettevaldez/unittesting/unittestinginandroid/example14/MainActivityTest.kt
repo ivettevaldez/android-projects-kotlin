@@ -1,6 +1,6 @@
 package com.ivettevaldez.unittesting.unittestinginandroid.example14
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 

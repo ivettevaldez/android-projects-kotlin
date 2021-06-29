@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">UnitTesting</string>
+    <string name="error_network_call_failed">Network call failed</string>
 </resources>
