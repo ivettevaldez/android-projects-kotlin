@@ -4,8 +4,8 @@ import com.ivettevaldez.unittesting.tutorialandroidapp.common.BaseObservable
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.QuestionSchema
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.list.FetchLastActiveQuestionsEndpoint
 
-class FetchLastActiveQuestionsUseCase(
-    private val fetchLastActiveQuestionsEndpoint: FetchLastActiveQuestionsEndpoint
+open class FetchLastActiveQuestionsUseCase(
+    private val fetchLastActiveQuestionsEndpoint: FetchLastActiveQuestionsEndpoint?
 ) : BaseObservable<FetchLastActiveQuestionsUseCase.Listener>(),
     FetchLastActiveQuestionsEndpoint.Listener {
 
@@ -25,8 +25,8 @@ class FetchLastActiveQuestionsUseCase(
         notifyFailure()
     }
 
-    fun fetchAndNotify() {
-        fetchLastActiveQuestionsEndpoint.fetchLastActiveQuestions(this)
+    open fun fetchAndNotify() {
+        fetchLastActiveQuestionsEndpoint!!.fetchLastActiveQuestions(this)
     }
 
     private fun getQuestionsFromSchemas(schemas: List<QuestionSchema?>): List<Question> {

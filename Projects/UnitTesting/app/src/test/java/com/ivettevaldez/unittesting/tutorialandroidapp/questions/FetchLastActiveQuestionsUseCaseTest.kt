@@ -2,6 +2,7 @@ package com.ivettevaldez.unittesting.tutorialandroidapp.questions
 
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.QuestionSchema
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.list.FetchLastActiveQuestionsEndpoint
+import com.ivettevaldez.unittesting.tutorialandroidapp.testsdata.QuestionsTestData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -28,15 +29,7 @@ class FetchLastActiveQuestionsUseCaseTest {
     @Captor
     private lateinit var questionsCaptor: ArgumentCaptor<List<Question>>
 
-    companion object {
-
-        private const val ID_1 = "id1"
-        private const val ID_2 = "id2"
-        private const val TITLE_1 = "title1"
-        private const val TITLE_2 = "title2"
-        private const val BODY_1 = "body1"
-        private const val BODY_2 = "body2"
-    }
+    private val expectedQuestions: List<Question> = QuestionsTestData.getQuestions()
 
     @Before
     fun setUp() {
@@ -57,8 +50,8 @@ class FetchLastActiveQuestionsUseCaseTest {
         verify(listenerMock2).onLastActiveQuestionsFetched(capture(questionsCaptor))
         val capture1 = questionsCaptor.allValues[0]
         val capture2 = questionsCaptor.allValues[1]
-        assertEquals(capture1, getExpectedQuestions())
-        assertEquals(capture2, getExpectedQuestions())
+        assertEquals(capture1, expectedQuestions)
+        assertEquals(capture2, expectedQuestions)
     }
 
     @Test
@@ -79,13 +72,6 @@ class FetchLastActiveQuestionsUseCaseTest {
     // -----------------------------------------------------------------------------------------
 
     private fun <T> capture(argumentCaptor: ArgumentCaptor<T>): T = argumentCaptor.capture()
-
-    private fun getExpectedQuestions(): List<Question> {
-        return listOf(
-            Question(ID_1, TITLE_1),
-            Question(ID_2, TITLE_2)
-        )
-    }
 
     private fun success() {
         // Nothing to do here for now.
@@ -109,8 +95,16 @@ class FetchLastActiveQuestionsUseCaseTest {
             } else {
                 listener.onQuestionsFetched(
                     listOf(
-                        QuestionSchema(ID_1, TITLE_1, BODY_1),
-                        QuestionSchema(ID_2, TITLE_2, BODY_2)
+                        QuestionSchema(
+                            QuestionsTestData.ID_1,
+                            QuestionsTestData.TITLE_1,
+                            QuestionsTestData.BODY_1
+                        ),
+                        QuestionSchema(
+                            QuestionsTestData.ID_2,
+                            QuestionsTestData.TITLE_2,
+                            QuestionsTestData.BODY_2
+                        )
                     )
                 )
             }

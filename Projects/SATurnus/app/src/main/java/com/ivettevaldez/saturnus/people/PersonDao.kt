@@ -48,13 +48,19 @@ class PersonDao @Inject constructor() {
 
     fun findAllIssuing(): List<Person> {
         return Person().querySorted(UPDATED_AT, Sort.DESCENDING) {
-            equalTo(CLIENT_TYPE, ClientType.getString(ClientType.Type.ISSUING))
+            equalTo(
+                CLIENT_TYPE,
+                ClientType.getString(ClientType.Type.ISSUING)
+            )
         }
     }
 
     fun findAllReceivers(): List<Person> {
         return Person().querySorted(UPDATED_AT, Sort.DESCENDING) {
-            equalTo(CLIENT_TYPE, ClientType.getString(ClientType.Type.RECEIVER))
+            equalTo(
+                CLIENT_TYPE,
+                ClientType.getString(ClientType.Type.RECEIVER)
+            )
         }
     }
 

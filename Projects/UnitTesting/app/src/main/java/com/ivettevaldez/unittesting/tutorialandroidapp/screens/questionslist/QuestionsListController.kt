@@ -14,27 +14,43 @@ class QuestionsListController(
 
     private lateinit var viewMvc: QuestionsListViewMvc
 
+    private var questions: MutableList<Question>? = null
+
     fun bindView(viewMvc: QuestionsListViewMvc) {
         this.viewMvc = viewMvc
     }
 
     fun onStart() {
         viewMvc.registerListener(this)
+        fetchLastActiveQuestionsUseCase.registerListener(this)
+
+        if (questions != null) {
+            viewMvc.bindQuestions(questions!!)
+        } else {
+            viewMvc.showProgressIndicator()
+            fetchLastActiveQuestionsUseCase.fetchAndNotify()
+        }
     }
 
     fun onStop() {
         viewMvc.unregisterListener(this)
+        fetchLastActiveQuestionsUseCase.unregisterListener(this)
     }
 
     override fun onQuestionClicked(question: Question) {
-        TODO("Not yet implemented")
+        screensNavigator.toQuestionDetails(question.id)
     }
 
     override fun onLastActiveQuestionsFetched(questions: List<Question>) {
-        TODO("Not yet implemented")
+        this.questions = mutableListOf()
+        this.questions!!.addAll(questions)
+
+        viewMvc.hideProgressIndicator()
+        viewMvc.bindQuestions(questions)
     }
 
     override fun onFetchLastActiveQuestionsFailed() {
-        TODO("Not yet implemented")
+        viewMvc.hideProgressIndicator()
+        toastsHelper.showUseCaseError()
     }
 }

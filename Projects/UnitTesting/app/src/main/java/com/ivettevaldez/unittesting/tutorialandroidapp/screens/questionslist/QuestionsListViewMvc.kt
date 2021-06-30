@@ -15,6 +15,8 @@ interface QuestionsListViewMvc : ObservableViewMvc<QuestionsListViewMvc.Listener
     }
 
     fun bindQuestions(questions: List<Question>)
+    fun showProgressIndicator()
+    fun hideProgressIndicator()
 }
 
 class QuestionsListViewMvcImpl(
@@ -31,6 +33,14 @@ class QuestionsListViewMvcImpl(
     }
 
     override fun bindQuestions(questions: List<Question>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun showProgressIndicator() {
+        TODO("Not yet implemented")
+    }
+
+    override fun hideProgressIndicator() {
         TODO("Not yet implemented")
     }
 }

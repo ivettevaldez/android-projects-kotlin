@@ -3,7 +3,7 @@ package com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.screensna
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.fragmentframehelper.FragmentFrameHelper
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questionslist.QuestionsListFragment
 
-class ScreensNavigator(private val fragmentFrameHelper: FragmentFrameHelper) {
+open class ScreensNavigator(private val fragmentFrameHelper: FragmentFrameHelper) {
 
     fun navigateUp() {
         fragmentFrameHelper.navigateUp()
@@ -15,7 +15,7 @@ class ScreensNavigator(private val fragmentFrameHelper: FragmentFrameHelper) {
         )
     }
 
-    fun toQuestionDetails(id: String) {
+    open fun toQuestionDetails(id: String) {
         // TODO:
     }
 }
