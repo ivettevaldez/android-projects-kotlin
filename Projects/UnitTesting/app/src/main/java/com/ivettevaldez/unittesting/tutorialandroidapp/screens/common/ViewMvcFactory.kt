@@ -7,6 +7,8 @@ import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.navdrawer.
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.navdrawer.NavDrawerViewMvcImpl
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.toolbar.ToolbarViewMvc
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.toolbar.ToolbarViewMvcImpl
+import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questiondetails.QuestionDetailsViewMvc
+import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questiondetails.QuestionDetailsViewMvcImpl
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questionslist.QuestionsListItemViewMvc
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questionslist.QuestionsListItemViewMvcImpl
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.questionslist.QuestionsListViewMvc
@@ -31,5 +33,9 @@ class ViewMvcFactory(
 
     fun getQuestionsListItemViewMvc(parent: ViewGroup?): QuestionsListItemViewMvc {
         return QuestionsListItemViewMvcImpl(inflater, parent)
+    }
+
+    fun getQuestionDetailsViewMvc(parent: ViewGroup?): QuestionDetailsViewMvc {
+        return QuestionDetailsViewMvcImpl(inflater, parent)
     }
 }
