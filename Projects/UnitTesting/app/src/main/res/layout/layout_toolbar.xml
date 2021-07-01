@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_700">
+    android:background="@color/purple_500">
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true">
+        android:layout_height="match_parent">
 
         <ImageButton
             android:id="@+id/toolbar_button_navigate_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical"
             android:padding="16dp"
             android:background="@android:color/transparent"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@mipmap/ic_arrow_left_white"
             android:visibility="gone"
+            android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/toolbar_button_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical"
             android:padding="16dp"
             android:background="@android:color/transparent"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@mipmap/ic_menu_white"
             android:visibility="gone"
+            android:scaleType="centerCrop"
             tools:ignore="ContentDescription" />
 
     </FrameLayout>
@@ -38,8 +40,11 @@
         android:id="@+id/toolbar_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
         android:textColor="@color/white"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:padding="8dp" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -3,7 +3,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/drawer_menu_questions_list"
-            android:icon="@mipmap/ic_launcher_round"
+            android:icon="@mipmap/ic_comment_question_outline_grey_24dp"
             android:title="@string/drawer_menu_item_questions_list" />
     </group>
 </menu>

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.unittesting.R
@@ -77,6 +77,7 @@ class QuestionsListViewMvcImpl(
 
     private fun initToolbar() {
         toolbarViewMvc = viewMvcFactory.getToolbarViewMvc(toolbarContainer)
+        toolbarViewMvc.setTitle(getContext().getString(R.string.last_active_questions))
         toolbarViewMvc.enableMenuAndListen(object : ToolbarViewMvc.MenuListener {
             override fun onMenuClicked() {
                 navDrawerHelper.openDrawer()

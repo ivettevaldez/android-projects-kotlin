@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.navigation.NavigationView
 import com.ivettevaldez.unittesting.R
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.views.BaseObservableViewMvc
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.views.ObservableViewMvc
@@ -28,6 +29,7 @@ class NavDrawerViewMvcImpl(
 
     private val drawerLayout: DrawerLayout
     private val frameContainer: FrameLayout
+    private val navigationView: NavigationView
 
     init {
 
@@ -37,6 +39,9 @@ class NavDrawerViewMvcImpl(
 
         drawerLayout = getRootView()!!.findViewById(R.id.drawer_layout)
         frameContainer = getRootView()!!.findViewById(R.id.frame_content)
+        navigationView = getRootView()!!.findViewById(R.id.nav_view)
+
+        setListenerEvents()
     }
 
     override fun getFragmentFrame(): FrameLayout = frameContainer
@@ -49,5 +54,18 @@ class NavDrawerViewMvcImpl(
 
     override fun closeDrawer() {
         drawerLayout.closeDrawers()
+    }
+
+    private fun setListenerEvents() {
+        navigationView.setNavigationItemSelectedListener {
+            if (it.itemId == R.id.drawer_menu_questions_list) {
+                for (listener in getListeners()) {
+                    listener.onQuestionsListClicked()
+                }
+            }
+
+            closeDrawer()
+            false
+        }
     }
 }
