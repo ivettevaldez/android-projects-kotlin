@@ -44,5 +44,15 @@ class QuestionDetailsFragment : BaseFragment() {
         return viewMvc.getRootView()
     }
 
+    override fun onStart() {
+        super.onStart()
+        controller.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        controller.onStop()
+    }
+
     private fun getQuestionId(): String = requireArguments().getString(ARG_QUESTION_ID)!!
 }
