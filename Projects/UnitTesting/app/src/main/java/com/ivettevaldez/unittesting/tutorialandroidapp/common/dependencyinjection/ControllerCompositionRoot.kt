@@ -43,7 +43,7 @@ class ControllerCompositionRoot(
 
     private fun getStackOverflowApi(): StackOverflowApi = compositionRoot.getStackoverflowApi()
 
-    fun getTimeProvider(): TimeProvider = compositionRoot.getTimeProvider()
+    private fun getTimeProvider(): TimeProvider = compositionRoot.getTimeProvider()
 
     fun getViewMvcFactory() = ViewMvcFactory(getLayoutInflater(), getNavDrawerHelper())
 
@@ -63,7 +63,8 @@ class ControllerCompositionRoot(
         return QuestionsListController(
             getFetchLastActiveQuestionsUseCase(),
             getScreensNavigator(),
-            getToastHelper()
+            getToastHelper(),
+            getTimeProvider()
         )
     }
 

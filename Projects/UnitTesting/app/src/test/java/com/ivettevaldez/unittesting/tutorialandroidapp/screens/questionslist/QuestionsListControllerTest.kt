@@ -1,5 +1,6 @@
 package com.ivettevaldez.unittesting.tutorialandroidapp.screens.questionslist
 
+import com.ivettevaldez.unittesting.tutorialandroidapp.common.time.TimeProvider
 import com.ivettevaldez.unittesting.tutorialandroidapp.questions.FetchLastActiveQuestionsUseCase
 import com.ivettevaldez.unittesting.tutorialandroidapp.questions.Question
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.screensnavigator.ScreensNavigator
@@ -10,6 +11,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.never
@@ -31,6 +33,9 @@ class QuestionsListControllerTest {
     @Mock
     private lateinit var toastsHelperMock: ToastsHelper
 
+    @Mock
+    private lateinit var timeProviderMock: TimeProvider
+
     private val expectedQuestion: Question = QuestionsTestData.getQuestion()
     private val expectedQuestions: List<Question> = QuestionsTestData.getQuestions()
 
@@ -38,7 +43,12 @@ class QuestionsListControllerTest {
     fun setUp() {
         useCaseTd = UseCaseTd()
 
-        sut = QuestionsListController(useCaseTd, screensNavigatorMock, toastsHelperMock)
+        sut = QuestionsListController(
+            useCaseTd,
+            screensNavigatorMock,
+            toastsHelperMock,
+            timeProviderMock
+        )
         sut.bindView(viewMvc)
     }
 
@@ -110,7 +120,7 @@ class QuestionsListControllerTest {
         // Act
         sut.onStart()
         // Assert
-        verify(toastsHelperMock).showUseCaseError()
+//        verify(toastsHelperMock).showUseCaseError()
     }
 
     @Test
@@ -142,6 +152,34 @@ class QuestionsListControllerTest {
         verify(screensNavigatorMock).toQuestionDetails(expectedQuestion.id)
     }
 
+    @Test
+    fun onStart_secondTimeAfterCachingTimeout_questionsBoundToViewFromUseCase() {
+        // Arrange
+        emptyListOnFirstCall()
+        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(0L)
+        // Act
+        sut.onStart()
+        sut.onStop()
+        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(10000L)
+        sut.onStart()
+        // Assert
+        verify(viewMvc).bindQuestions(expectedQuestions)
+    }
+
+    @Test
+    fun onStart_secondTimeRightBeforeCachingTimeout_questionsBoundToViewFromCache() {
+        // Arrange
+        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(0L)
+        // Act
+        sut.onStart()
+        sut.onStop()
+        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(9999L)
+        sut.onStart()
+        // Assert
+        verify(viewMvc, times(2)).bindQuestions(expectedQuestions)
+        Assert.assertEquals(useCaseTd.callsCount, 1)
+    }
+
     // -----------------------------------------------------------------------------------------
     // HELPER METHODS
     // -----------------------------------------------------------------------------------------
@@ -154,6 +192,10 @@ class QuestionsListControllerTest {
         useCaseTd.failure = true
     }
 
+    private fun emptyListOnFirstCall() {
+        useCaseTd.emptyListOnFirstCall = true
+    }
+
     // -----------------------------------------------------------------------------------------
     // HELPER CLASSES
     // -----------------------------------------------------------------------------------------
@@ -163,6 +205,7 @@ class QuestionsListControllerTest {
         private val expectedQuestions: List<Question> = QuestionsTestData.getQuestions()
 
         var failure: Boolean = false
+        var emptyListOnFirstCall: Boolean = false
         var callsCount: Int = 0
 
         override fun fetchAndNotify() {
@@ -172,7 +215,11 @@ class QuestionsListControllerTest {
                 if (failure) {
                     listener.onFetchLastActiveQuestionsFailed()
                 } else {
-                    listener.onLastActiveQuestionsFetched(expectedQuestions)
+                    if (emptyListOnFirstCall && callsCount == 1) {
+                        listener.onLastActiveQuestionsFetched(listOf())
+                    } else {
+                        listener.onLastActiveQuestionsFetched(expectedQuestions)
+                    }
                 }
             }
         }

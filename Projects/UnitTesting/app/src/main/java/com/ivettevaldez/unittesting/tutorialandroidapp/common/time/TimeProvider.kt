@@ -1,3 +1,6 @@
 package com.ivettevaldez.unittesting.tutorialandroidapp.common.time
 
-class TimeProvider
+open class TimeProvider {
+
+    open fun getCurrentTimestamp(): Long = System.currentTimeMillis()
+}

@@ -110,7 +110,7 @@ class FetchQuestionDetailsUseCaseTest {
         var questionId: String? = null
         var failure: Boolean = false
 
-        override fun fetchQuestionDetails(questionId: String?, listener: Listener) {
+        override fun fetchQuestionDetails(questionId: String, listener: Listener) {
             this.questionId = questionId
 
             if (failure) {
