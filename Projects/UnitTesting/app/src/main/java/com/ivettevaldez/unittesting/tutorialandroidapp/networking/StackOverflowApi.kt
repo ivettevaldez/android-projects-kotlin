@@ -1,7 +1,7 @@
 package com.ivettevaldez.unittesting.tutorialandroidapp.networking
 
 import com.ivettevaldez.unittesting.tutorialandroidapp.common.Constants
-import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.details.QuestionDetailsSchema
+import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.details.QuestionDetailsResponseSchema
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.list.QuestionsListResponseSchema
 import retrofit2.Call
 import retrofit2.http.GET
@@ -14,5 +14,5 @@ interface StackOverflowApi {
     fun fetchLastActiveQuestions(@Query("pagesize") pageSize: Int?): Call<QuestionsListResponseSchema?>?
 
     @GET("/questions/{questionId}?key=" + Constants.STACKOVERFLOW_API_KEY + "&site=stackoverflow&filter=withbody")
-    fun fetchQuestionDetails(@Path("questionId") questionId: String?): Call<QuestionDetailsSchema?>?
+    fun fetchQuestionDetails(@Path("questionId") questionId: String?): Call<QuestionDetailsResponseSchema?>?
 }

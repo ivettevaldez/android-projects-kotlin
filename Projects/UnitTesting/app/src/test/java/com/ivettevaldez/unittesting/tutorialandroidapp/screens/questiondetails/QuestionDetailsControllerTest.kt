@@ -34,7 +34,7 @@ class QuestionDetailsControllerTest {
 
         sut = QuestionDetailsController(useCaseTd, screensNavigatorMock, toastsHelperMock)
         sut.bindView(viewMvcMock)
-        sut.bindQuestionId(expectedQuestionDetails.id)
+        sut.bindQuestionId(expectedQuestionDetails.id!!)
     }
 
     @Test

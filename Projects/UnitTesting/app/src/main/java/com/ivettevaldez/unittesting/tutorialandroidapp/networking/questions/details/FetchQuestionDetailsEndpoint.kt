@@ -13,21 +13,21 @@ open class FetchQuestionDetailsEndpoint(private val stackOverflowApi: StackOverf
         fun onQuestionDetailsFetchFailed()
     }
 
-    open fun fetchQuestionDetails(questionId: String?, listener: Listener) {
+    open fun fetchQuestionDetails(questionId: String, listener: Listener) {
         stackOverflowApi!!.fetchQuestionDetails(questionId)!!
-            .enqueue(object : Callback<QuestionDetailsSchema?> {
+            .enqueue(object : Callback<QuestionDetailsResponseSchema?> {
                 override fun onResponse(
-                    call: Call<QuestionDetailsSchema?>?,
-                    response: Response<QuestionDetailsSchema?>
+                    call: Call<QuestionDetailsResponseSchema?>?,
+                    response: Response<QuestionDetailsResponseSchema?>
                 ) {
                     if (response.isSuccessful) {
-                        listener.onQuestionDetailsFetched(response.body()!!)
+                        listener.onQuestionDetailsFetched(response.body()!!.items[0])
                     } else {
                         listener.onQuestionDetailsFetchFailed()
                     }
                 }
 
-                override fun onFailure(call: Call<QuestionDetailsSchema?>?, t: Throwable?) {
+                override fun onFailure(call: Call<QuestionDetailsResponseSchema?>?, t: Throwable?) {
                     listener.onQuestionDetailsFetchFailed()
                 }
             })

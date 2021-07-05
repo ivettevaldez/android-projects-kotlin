@@ -36,6 +36,6 @@ class ViewMvcFactory(
     }
 
     fun getQuestionDetailsViewMvc(parent: ViewGroup?): QuestionDetailsViewMvc {
-        return QuestionDetailsViewMvcImpl(inflater, parent)
+        return QuestionDetailsViewMvcImpl(inflater, parent, this)
     }
 }
