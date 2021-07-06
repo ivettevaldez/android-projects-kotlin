@@ -6,10 +6,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.unittesting.tutorialandroidapp.common.time.TimeProvider
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.StackOverflowApi
-import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.details.FetchQuestionDetailsEndpoint
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.list.FetchLastActiveQuestionsEndpoint
 import com.ivettevaldez.unittesting.tutorialandroidapp.questions.FetchLastActiveQuestionsUseCase
-import com.ivettevaldez.unittesting.tutorialandroidapp.questions.FetchQuestionDetailsUseCase
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.ViewMvcFactory
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.controllers.BackPressDispatcher
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.fragmentframehelper.FragmentFrameHelper
@@ -41,7 +39,7 @@ class ControllerCompositionRoot(
 
     private fun getNavDrawerHelper(): NavDrawerHelper = activity as NavDrawerHelper
 
-    private fun getStackOverflowApi(): StackOverflowApi = compositionRoot.getStackoverflowApi()
+    private fun getStackOverflowApi(): StackOverflowApi = compositionRoot.getStackOverflowApi()
 
     private fun getTimeProvider(): TimeProvider = compositionRoot.getTimeProvider()
 
@@ -68,11 +66,7 @@ class ControllerCompositionRoot(
         )
     }
 
-    private fun getFetchQuestionDetailsEndpoint() =
-        FetchQuestionDetailsEndpoint(getStackOverflowApi())
-
-    private fun getFetchQuestionDetailsUseCase() =
-        FetchQuestionDetailsUseCase(getFetchQuestionDetailsEndpoint())
+    private fun getFetchQuestionDetailsUseCase() = compositionRoot.getFetchQuestionDetailsUseCase()
 
     fun getQuestionDetailsController(): QuestionDetailsController {
         return QuestionDetailsController(

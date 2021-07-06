@@ -1,7 +1,9 @@
 package com.ivettevaldez.unittesting.tutorialandroidapp.questions
 
+import com.ivettevaldez.unittesting.tutorialandroidapp.common.time.TimeProvider
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.details.FetchQuestionDetailsEndpoint
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.details.QuestionDetailsSchema
+import com.ivettevaldez.unittesting.tutorialandroidapp.testsdata.QuestionsTestData
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -25,30 +27,27 @@ class FetchQuestionDetailsUseCaseTest {
     @Mock
     private lateinit var listenerMock2: FetchQuestionDetailsUseCase.Listener
 
+    @Mock
+    private lateinit var timeProviderMock: TimeProvider
+
     @Captor
     private lateinit var detailsCaptor: ArgumentCaptor<QuestionDetails>
 
-    companion object {
-
-        private const val QUESTION_ID: String = "questionId"
-        private const val ID: String = "questionId"
-        private const val TITLE: String = "title"
-        private const val BODY: String = "body"
-    }
+    private val questionDetails: QuestionDetails = QuestionsTestData.getQuestionDetails1()
 
     @Before
     fun setUp() {
         endpointTd = EndpointTd()
-        sut = FetchQuestionDetailsUseCase(endpointTd)
+        sut = FetchQuestionDetailsUseCase(endpointTd, timeProviderMock)
     }
 
     @Test
     fun fetchAndNotify_correctQuestionIdPassedToEndpoint() {
         // Arrange
         // Act
-        sut.fetchAndNotify(QUESTION_ID)
+        sut.fetchAndNotify(questionDetails.id)
         // Assert
-        assertEquals(endpointTd.questionId, QUESTION_ID)
+        assertEquals(endpointTd.questionId, questionDetails.id)
     }
 
     @Test
@@ -58,7 +57,7 @@ class FetchQuestionDetailsUseCaseTest {
         sut.registerListener(listenerMock1)
         sut.registerListener(listenerMock2)
         // Act
-        sut.fetchAndNotify(QUESTION_ID)
+        sut.fetchAndNotify(questionDetails.id)
         // Assert
         verify(listenerMock1).onQuestionDetailsFetched(capture(detailsCaptor))
         verify(listenerMock2).onQuestionDetailsFetched(capture(detailsCaptor))
@@ -75,7 +74,7 @@ class FetchQuestionDetailsUseCaseTest {
         sut.registerListener(listenerMock1)
         sut.registerListener(listenerMock2)
         // Act
-        sut.fetchAndNotify(QUESTION_ID)
+        sut.fetchAndNotify(questionDetails.id)
         // Assert
         verify(listenerMock1).onFetchQuestionDetailsFailed()
         verify(listenerMock2).onFetchQuestionDetailsFailed()
@@ -95,11 +94,7 @@ class FetchQuestionDetailsUseCaseTest {
         endpointTd.failure = true
     }
 
-    private fun getExpectedQuestionDetails(): QuestionDetails {
-        return QuestionDetails(
-            ID, TITLE, BODY
-        )
-    }
+    private fun getExpectedQuestionDetails(): QuestionDetails = questionDetails
 
     // -----------------------------------------------------------------------------------------
     // HELPER CLASSES
@@ -107,10 +102,14 @@ class FetchQuestionDetailsUseCaseTest {
 
     private class EndpointTd : FetchQuestionDetailsEndpoint(null) {
 
+        private val questionDetails: QuestionDetails = QuestionsTestData.getQuestionDetails1()
+
+        var callsCount: Int = 0
         var questionId: String? = null
         var failure: Boolean = false
 
         override fun fetchQuestionDetails(questionId: String, listener: Listener) {
+            callsCount++
             this.questionId = questionId
 
             if (failure) {
@@ -118,7 +117,9 @@ class FetchQuestionDetailsUseCaseTest {
             } else {
                 listener.onQuestionDetailsFetched(
                     QuestionDetailsSchema(
-                        ID, TITLE, BODY
+                        questionDetails.id,
+                        questionDetails.title,
+                        questionDetails.body
                     )
                 )
             }

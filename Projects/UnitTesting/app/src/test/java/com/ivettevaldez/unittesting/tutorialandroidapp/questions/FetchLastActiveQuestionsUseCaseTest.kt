@@ -87,6 +87,9 @@ class FetchLastActiveQuestionsUseCaseTest {
 
     private class EndpointTd : FetchLastActiveQuestionsEndpoint(null) {
 
+        private val questionDetails1: QuestionDetails = QuestionsTestData.getQuestionDetails1()
+        private val questionDetails2: QuestionDetails = QuestionsTestData.getQuestionDetails2()
+
         var failure: Boolean = false
 
         override fun fetchLastActiveQuestions(listener: Listener) {
@@ -96,14 +99,14 @@ class FetchLastActiveQuestionsUseCaseTest {
                 listener.onQuestionsFetched(
                     listOf(
                         QuestionSchema(
-                            QuestionsTestData.ID_1,
-                            QuestionsTestData.TITLE_1,
-                            QuestionsTestData.BODY_1
+                            questionDetails1.id,
+                            questionDetails1.title,
+                            questionDetails1.body
                         ),
                         QuestionSchema(
-                            QuestionsTestData.ID_2,
-                            QuestionsTestData.TITLE_2,
-                            QuestionsTestData.BODY_2
+                            questionDetails2.id,
+                            questionDetails2.title,
+                            questionDetails2.body
                         )
                     )
                 )

@@ -26,7 +26,7 @@ class QuestionDetailsControllerTest {
     @Mock
     private lateinit var toastsHelperMock: ToastsHelper
 
-    private val expectedQuestionDetails = QuestionsTestData.getQuestionDetails()
+    private val expectedQuestionDetails = QuestionsTestData.getQuestionDetails1()
 
     @Before
     fun setUp() {
@@ -34,7 +34,7 @@ class QuestionDetailsControllerTest {
 
         sut = QuestionDetailsController(useCaseTd, screensNavigatorMock, toastsHelperMock)
         sut.bindView(viewMvcMock)
-        sut.bindQuestionId(expectedQuestionDetails.id!!)
+        sut.bindQuestionId(expectedQuestionDetails.id)
     }
 
     @Test
@@ -131,9 +131,9 @@ class QuestionDetailsControllerTest {
     // HELPER CLASSES
     // -----------------------------------------------------------------------------------------
 
-    private class UseCaseTd : FetchQuestionDetailsUseCase(null) {
+    private class UseCaseTd : FetchQuestionDetailsUseCase(null, null) {
 
-        private val expectedQuestionDetails = QuestionsTestData.getQuestionDetails()
+        private val expectedQuestionDetails = QuestionsTestData.getQuestionDetails1()
 
         var failure: Boolean = false
 

@@ -6,7 +6,7 @@ import com.ivettevaldez.unittesting.tutorialandroidapp.questions.Question
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.screensnavigator.ScreensNavigator
 import com.ivettevaldez.unittesting.tutorialandroidapp.screens.common.toasts.ToastsHelper
 import com.ivettevaldez.unittesting.tutorialandroidapp.testsdata.QuestionsTestData
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,6 +38,11 @@ class QuestionsListControllerTest {
 
     private val expectedQuestion: Question = QuestionsTestData.getQuestion()
     private val expectedQuestions: List<Question> = QuestionsTestData.getQuestions()
+
+    companion object {
+
+        private const val CACHE_TIMEOUT_MS: Long = 10000L
+    }
 
     @Before
     fun setUp() {
@@ -90,7 +95,7 @@ class QuestionsListControllerTest {
         sut.onStart()
         // Assert
         verify(viewMvc, times(2)).bindQuestions(expectedQuestions)
-        Assert.assertEquals(useCaseTd.callsCount, 1)
+        assertEquals(useCaseTd.callsCount, 1)
     }
 
     @Test
@@ -160,7 +165,7 @@ class QuestionsListControllerTest {
         // Act
         sut.onStart()
         sut.onStop()
-        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(10000L)
+        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(CACHE_TIMEOUT_MS)
         sut.onStart()
         // Assert
         verify(viewMvc).bindQuestions(expectedQuestions)
@@ -173,11 +178,11 @@ class QuestionsListControllerTest {
         // Act
         sut.onStart()
         sut.onStop()
-        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(9999L)
+        `when`(timeProviderMock.getCurrentTimestamp()).thenReturn(CACHE_TIMEOUT_MS - 1)
         sut.onStart()
         // Assert
         verify(viewMvc, times(2)).bindQuestions(expectedQuestions)
-        Assert.assertEquals(useCaseTd.callsCount, 1)
+        assertEquals(useCaseTd.callsCount, 1)
     }
 
     // -----------------------------------------------------------------------------------------

@@ -3,16 +3,19 @@ package com.ivettevaldez.unittesting.tutorialandroidapp.common.dependencyinjecti
 import com.ivettevaldez.unittesting.tutorialandroidapp.common.Constants
 import com.ivettevaldez.unittesting.tutorialandroidapp.common.time.TimeProvider
 import com.ivettevaldez.unittesting.tutorialandroidapp.networking.StackOverflowApi
+import com.ivettevaldez.unittesting.tutorialandroidapp.networking.questions.details.FetchQuestionDetailsEndpoint
+import com.ivettevaldez.unittesting.tutorialandroidapp.questions.FetchQuestionDetailsUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class CompositionRoot {
 
     private var retrofit: Retrofit? = null
+    private var fetchQuestionDetailsUseCase: FetchQuestionDetailsUseCase? = null
 
     fun getTimeProvider(): TimeProvider = TimeProvider()
 
-    fun getStackoverflowApi(): StackOverflowApi {
+    fun getStackOverflowApi(): StackOverflowApi {
         return getRetrofit().create(StackOverflowApi::class.java)
     }
 
@@ -24,5 +27,18 @@ class CompositionRoot {
                 .build()
         }
         return retrofit!!
+    }
+
+    private fun getFetchQuestionDetailsEndpoint() =
+        FetchQuestionDetailsEndpoint(getStackOverflowApi())
+
+    fun getFetchQuestionDetailsUseCase(): FetchQuestionDetailsUseCase {
+        if (fetchQuestionDetailsUseCase == null) {
+            fetchQuestionDetailsUseCase = FetchQuestionDetailsUseCase(
+                getFetchQuestionDetailsEndpoint(),
+                getTimeProvider()
+            )
+        }
+        return fetchQuestionDetailsUseCase!!
     }
 }

@@ -5,12 +5,14 @@ import com.ivettevaldez.unittesting.tutorialandroidapp.questions.QuestionDetails
 
 object QuestionsTestData {
 
-    const val ID_1 = "id1"
-    const val ID_2 = "id2"
-    const val TITLE_1 = "title1"
-    const val TITLE_2 = "title2"
-    const val BODY_1 = "body1"
-    const val BODY_2 = "body2"
+    private const val ID_1 = "id1"
+    private const val ID_2 = "id2"
+    private const val TITLE_1 = "title1"
+    private const val TITLE_2 = "title2"
+    private const val BODY_1 = "body1"
+    private const val BODY_2 = "body2"
+
+    fun getQuestion(): Question = Question(ID_1, TITLE_1)
 
     fun getQuestions(): List<Question> {
         return listOf(
@@ -19,9 +21,11 @@ object QuestionsTestData {
         )
     }
 
-    fun getQuestion(): Question = Question(ID_1, TITLE_1)
-
-    fun getQuestionDetails(): QuestionDetails {
+    fun getQuestionDetails1(): QuestionDetails {
         return QuestionDetails(ID_1, TITLE_1, BODY_1)
+    }
+
+    fun getQuestionDetails2(): QuestionDetails {
+        return QuestionDetails(ID_2, TITLE_2, BODY_2)
     }
 }
