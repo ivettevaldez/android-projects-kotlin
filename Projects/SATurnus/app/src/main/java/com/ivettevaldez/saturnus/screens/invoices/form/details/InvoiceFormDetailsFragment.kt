@@ -186,7 +186,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         viewMvc.setIssuingDate(invoice.issuedAt!!.friendlyDate())
 
         if (invoice.certificatedAt != null) {
-            viewMvc.setIssuingDate(invoice.certificatedAt!!.friendlyDate())
+            viewMvc.setCertificationDate(invoice.certificatedAt!!.friendlyDate())
         }
     }
 
@@ -248,9 +248,13 @@ class InvoiceFormDetailsFragment : BaseFragment(),
             effect = viewMvc.getEffect(),
             status = viewMvc.getStatus(),
             cancellationStatus = viewMvc.getCancellationStatus(),
-            issuedAt = viewMvc.getIssuingDate().calendar().time,
-            certificatedAt = viewMvc.getCertificationDate().calendar().time
+            issuedAt = viewMvc.getIssuingDate().calendar().time
         )
+
+        val certificationDate = viewMvc.getCertificationDate()
+        if (certificationDate.isNotBlank()) {
+            invoice.certificatedAt = certificationDate.calendar().time
+        }
 
         // Pass the invoice draft to InvoiceFormPaymentFragment to continue working on it.
         fragmentsEventBus.postEvent(

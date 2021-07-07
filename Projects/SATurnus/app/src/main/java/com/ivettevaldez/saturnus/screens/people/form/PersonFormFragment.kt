@@ -103,10 +103,10 @@ class PersonFormFragment : BaseFragment(),
 
     override fun onRfcChanged(rfc: String) {
         when (rfc.length) {
-            Constants.RFC_LENGTH_MORAL_PERSON -> {
+            Constants.RFC_MORAL_PERSON_LENGTH -> {
                 viewMvc.setPersonType(Constants.MORAL_PERSON)
             }
-            Constants.RFC_LENGTH_PHYSICAL_PERSON -> {
+            Constants.RFC_PHYSICAL_PERSON_LENGTH -> {
                 viewMvc.setPersonType(Constants.PHYSICAL_PERSON)
             }
             else -> {
@@ -128,8 +128,8 @@ class PersonFormFragment : BaseFragment(),
 
     private fun String.isValidRfc(): Boolean {
         // TODO: Validate RFC format.
-        return (this.length == Constants.RFC_LENGTH_MORAL_PERSON ||
-                this.length == Constants.RFC_LENGTH_PHYSICAL_PERSON) &&
+        return (this.length == Constants.RFC_MORAL_PERSON_LENGTH ||
+                this.length == Constants.RFC_PHYSICAL_PERSON_LENGTH) &&
                 !this.contains(" ", true)
     }
 
