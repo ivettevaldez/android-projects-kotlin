@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc

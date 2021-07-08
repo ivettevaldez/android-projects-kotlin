@@ -9,7 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.FrameLayout
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.screens.common.fields.ISimpleTextInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc

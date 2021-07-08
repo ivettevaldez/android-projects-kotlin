@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc

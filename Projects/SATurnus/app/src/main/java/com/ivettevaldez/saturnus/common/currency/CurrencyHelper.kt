@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.common.helpers
+package com.ivettevaldez.saturnus.common.currency
 
 import java.text.NumberFormat
 

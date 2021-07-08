@@ -1,8 +1,8 @@
-package com.ivettevaldez.saturnus.common.helpers
+package com.ivettevaldez.saturnus.common.currency
 
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.clean
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toDoubleValue
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.clean
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toDoubleValue
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test

@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.common.helpers
+package com.ivettevaldez.saturnus.common.dates
 
 /* ktlint-disable no-wildcard-imports */
 
@@ -9,9 +9,8 @@ import java.util.*
 
 object DatesHelper {
 
-    private const val USER_FRIENDLY_FORMAT = "dd/MMMM/yyyy"
-
     private val objectTag: String = this::class.java.simpleName
+    private val dateProvider = DateProvider()
 
     fun String.calendar(): Calendar = try {
         val calendar = getCalendar()
@@ -25,13 +24,28 @@ object DatesHelper {
     fun Date.friendlyDate(): String = getUserFriendlyFormat().format(this)
 
     fun friendlyDate(year: Int, month: Int, day: Int): String {
+        if (!year.validYear() || !month.validMonth() || !day.validDayOfMonth()) {
+            Log.e(
+                objectTag,
+                "@@@@@ Invalid date - Year: $year, Month: $month, Day of month: $day"
+            )
+            return ""
+        }
         val calendar = getCalendar()
         calendar.set(year, month, day)
         return getUserFriendlyFormat().format(calendar.time)
     }
 
-    private fun getCalendar(): Calendar = Calendar.getInstance(Locale.getDefault())
+    private fun getCalendar(): Calendar = dateProvider.getCalendar()
 
-    private fun getUserFriendlyFormat(): SimpleDateFormat =
-        SimpleDateFormat(USER_FRIENDLY_FORMAT, Locale.getDefault())
+    private fun getUserFriendlyFormat(): SimpleDateFormat = dateProvider.getUserFriendlyFormat()
+
+    private fun Int.validYear(): Boolean {
+        val currentYear = getCalendar().get(Calendar.YEAR)
+        return this >= currentYear - 10 || this <= currentYear + 10
+    }
+
+    private fun Int.validMonth(): Boolean = this in 0..12
+
+    private fun Int.validDayOfMonth(): Boolean = this in 0..12
 }

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.Constants
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toCurrency
-import com.ivettevaldez.saturnus.common.helpers.CurrencyHelper.toDoubleValue
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
+import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toDoubleValue
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.invoices.InvoicePayment
