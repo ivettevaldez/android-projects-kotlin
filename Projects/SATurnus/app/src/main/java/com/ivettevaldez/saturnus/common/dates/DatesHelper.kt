@@ -17,7 +17,9 @@ object DatesHelper {
         calendar.time = getUserFriendlyFormat().parse(this)!!
         calendar
     } catch (ex: ParseException) {
-        Log.e(objectTag, "@@@@@ Attempting to parse a date: $this", ex)
+        if (this.isNotBlank()) {
+            Log.e(objectTag, "@@@@@ Attempting to parse a date: $this", ex)
+        }
         getCalendar()
     }
 
@@ -47,5 +49,5 @@ object DatesHelper {
 
     private fun Int.validMonth(): Boolean = this in 0..12
 
-    private fun Int.validDayOfMonth(): Boolean = this in 0..12
+    private fun Int.validDayOfMonth(): Boolean = this in 0..31
 }

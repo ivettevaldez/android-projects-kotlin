@@ -1,8 +1,7 @@
-package com.ivettevaldez.saturnus.common.currency
+package com.ivettevaldez.saturnus.common.dates
 
 /* ktlint-disable no-wildcard-imports */
 
-import com.ivettevaldez.saturnus.common.dates.DateProvider
 import com.ivettevaldez.saturnus.common.dates.DatesHelper.calendar
 import com.ivettevaldez.saturnus.common.dates.DatesHelper.friendlyDate
 import org.junit.Assert.assertEquals
