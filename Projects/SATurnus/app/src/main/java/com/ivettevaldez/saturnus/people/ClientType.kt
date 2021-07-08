@@ -7,8 +7,10 @@ object ClientType {
     private const val CLIENT_ISSUING = "Emisor"
     private const val CLIENT_RECEIVER = "Receptor"
 
-    enum class Type : Serializable {
+    private const val POSITION_ISSUING: Int = 1
+    private const val POSITION_RECEIVER: Int = 2
 
+    enum class Type : Serializable {
         ISSUING,
         RECEIVER
     }
@@ -24,15 +26,15 @@ object ClientType {
         return when (type) {
             CLIENT_ISSUING -> Type.ISSUING
             CLIENT_RECEIVER -> Type.RECEIVER
-            else -> throw RuntimeException("@@@@@ Invalid type: $type")
+            else -> throw RuntimeException("@@@@@ Unsupported type: $type")
         }
     }
 
     fun getPosition(type: String): Int {
         return when (type) {
-            CLIENT_ISSUING -> 1
-            CLIENT_RECEIVER -> 2
-            else -> throw RuntimeException("@@@@@ Invalid type: $type")
+            CLIENT_ISSUING -> POSITION_ISSUING
+            CLIENT_RECEIVER -> POSITION_RECEIVER
+            else -> throw RuntimeException("@@@@@ Unsupported type: $type")
         }
     }
 }
