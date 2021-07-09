@@ -21,10 +21,10 @@ interface INavDrawerViewMvc : IObservableViewMvc<INavDrawerViewMvc.Listener>,
     }
 
     fun getFragmentFrame(): FrameLayout
-    fun setCopyright(copyright: String)
+    fun bindCopyright(copyright: String)
 }
 
-class NavDrawerViewMvcImpl(
+open class NavDrawerViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
 ) : BaseObservableViewMvc<INavDrawerViewMvc.Listener>(
@@ -55,7 +55,7 @@ class NavDrawerViewMvcImpl(
         drawerLayout.closeDrawers()
     }
 
-    override fun setCopyright(copyright: String) {
+    override fun bindCopyright(copyright: String) {
         textCopyright.text = copyright
     }
 

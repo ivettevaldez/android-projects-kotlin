@@ -10,19 +10,21 @@ import com.ivettevaldez.saturnus.screens.people.main.PeopleMainFragment
 import com.ivettevaldez.saturnus.screens.splash.SplashFragment
 import javax.inject.Inject
 
-class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: FragmentFrameHelper) {
+open class ScreensNavigator @Inject constructor(
+    private val fragmentFrameHelper: FragmentFrameHelper
+) {
 
-    fun navigateUp() {
+    open fun navigateUp() {
         fragmentFrameHelper.navigateUp()
     }
 
-    fun toSplash() {
+    open fun toSplash() {
         fragmentFrameHelper.replaceFragmentAndClearBackstack(
             SplashFragment.newInstance()
         )
     }
 
-    fun toInvoiceIssuingPeople() {
+    open fun toInvoiceIssuingPeople() {
         fragmentFrameHelper.replaceFragmentAndClearBackstack(
             InvoiceIssuingPeopleFragment.newInstance()
         )
@@ -46,7 +48,7 @@ class ScreensNavigator @Inject constructor(private val fragmentFrameHelper: Frag
         )
     }
 
-    fun toPeople() {
+    open fun toPeople() {
         fragmentFrameHelper.replaceFragment(
             PeopleMainFragment.newInstance()
         )

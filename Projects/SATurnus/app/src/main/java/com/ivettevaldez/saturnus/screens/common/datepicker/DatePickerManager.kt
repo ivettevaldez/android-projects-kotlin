@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.screens.common.dates
+package com.ivettevaldez.saturnus.screens.common.datepicker
 
 /* ktlint-disable no-wildcard-imports */
 
