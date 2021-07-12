@@ -3,13 +3,18 @@ package com.ivettevaldez.saturnus.screens.common.main
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.FrameLayout
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseActivity
 import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
+import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.IFragmentFrameWrapper
+import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(),
+    INavDrawerHelper,
+    IFragmentFrameWrapper {
 
     private val classTag: String = this::class.java.simpleName
 
@@ -20,8 +25,6 @@ class MainActivity : BaseActivity() {
     lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var controller: MainController
-
-    private var consumedOnBackPress: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
@@ -35,6 +38,7 @@ class MainActivity : BaseActivity() {
 
         setContentView(viewMvc.getRootView())
 
+        // TODO: Is it possible to mock savedInstanceState?
         if (savedInstanceState == null) {
             controller.toSplash()
         }
@@ -51,26 +55,39 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (consumedOnBackPress) {
-            super.onBackPressed()
+        if (isDrawerOpen()) {
+            closeDrawer()
         } else {
-            consumedOnBackPress = controller.onBackPressed()
+            super.onBackPressed()
         }
     }
 
-    // TODO: Move this method to controller
-    private fun getCopyright(): String {
-        try {
-            val versionName = packageManager.getPackageInfo(packageName, 0).versionName
-            return String.format(
-                getString(R.string.app_copyright_template),
-                getString(R.string.app_author_name),
-                getString(R.string.app_name),
-                versionName
-            )
+    override fun isDrawerOpen(): Boolean = controller.isDrawerOpen()
+
+    override fun openDrawer() {
+        controller.openDrawer()
+    }
+
+    override fun closeDrawer() {
+        controller.closeDrawer()
+    }
+
+    override fun getFragmentFrame(): FrameLayout = controller.getFragmentFrame()
+
+    private fun getCopyright(): String = String.format(
+        getString(R.string.app_copyright_template),
+        getString(R.string.app_author_name),
+        getString(R.string.app_name),
+        getVersionName()
+    )
+
+    // TODO: Is it possible to mock this method?
+    private fun getVersionName(): String {
+        return try {
+            packageManager.getPackageInfo(packageName, 0).versionName
         } catch (ex: PackageManager.NameNotFoundException) {
             Log.e(classTag, "@@@@@ Attempting to get the app version name", ex)
+            ""
         }
-        return ""
     }
 }

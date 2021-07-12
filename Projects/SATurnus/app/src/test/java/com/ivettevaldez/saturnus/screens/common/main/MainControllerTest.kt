@@ -40,7 +40,6 @@ class MainControllerTest {
         sut.bindView(viewMvcMock)
     }
 
-    // TODO: Is it possible to mock savedInstanceState?
     @Test
     fun toSplash_nullSavedInstanceState_navigatesToSplashScreen() {
         // Arrange
@@ -75,27 +74,6 @@ class MainControllerTest {
         sut.onStop()
         // Assert
         verify(viewMvcMock).unregisterListener(sut)
-    }
-
-    @Test
-    fun onBackPressed_drawerOpened_closesDrawer() {
-        // Arrange
-        openedDrawer()
-        // Act
-        sut.onBackPressed()
-        // Assert
-        verify(viewMvcMock).closeDrawer()
-    }
-
-    @Test
-    fun onBackPressed_drawerClosed_appFinishes() {
-        // Arrange
-        closedDrawer()
-        // Act
-        sut.onBackPressed()
-        // Assert
-        // TODO:
-        verify(screensNavigatorMock).navigateUp()
     }
 
     @Test

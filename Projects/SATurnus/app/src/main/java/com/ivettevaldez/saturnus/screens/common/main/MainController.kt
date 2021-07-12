@@ -1,17 +1,13 @@
 package com.ivettevaldez.saturnus.screens.common.main
 
 import android.widget.FrameLayout
-import com.ivettevaldez.saturnus.screens.common.fragmentframehelper.IFragmentFrameWrapper
-import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import javax.inject.Inject
 
 class MainController @Inject constructor(
     private val screensNavigator: ScreensNavigator
-) : INavDrawerViewMvc.Listener,
-    IFragmentFrameWrapper,
-    INavDrawerHelper {
+) : INavDrawerViewMvc.Listener {
 
     private lateinit var viewMvc: INavDrawerViewMvc
 
@@ -35,27 +31,17 @@ class MainController @Inject constructor(
         viewMvc.unregisterListener(this)
     }
 
-    fun onBackPressed(): Boolean {
-        return if (viewMvc.isDrawerOpen()) {
-            viewMvc.closeDrawer()
-            false
-        } else {
-            screensNavigator.navigateUp()
-            true
-        }
-    }
+    fun isDrawerOpen(): Boolean = viewMvc.isDrawerOpen()
 
-    override fun isDrawerOpen(): Boolean = viewMvc.isDrawerOpen()
-
-    override fun openDrawer() {
+    fun openDrawer() {
         viewMvc.openDrawer()
     }
 
-    override fun closeDrawer() {
+    fun closeDrawer() {
         viewMvc.closeDrawer()
     }
 
-    override fun getFragmentFrame(): FrameLayout = viewMvc.getFragmentFrame()
+    fun getFragmentFrame(): FrameLayout = viewMvc.getFragmentFrame()
 
     override fun onPeopleClicked() {
         screensNavigator.toPeople()
