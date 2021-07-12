@@ -27,12 +27,14 @@ class InvoiceIssuingPeopleController(
     fun getPeople(): List<Person> = personDao.findAllIssuing()
 
     fun bindPeople() {
+        viewMvc.showProgressIndicator()
+
         val people = getPeople()
         if (people.isNotEmpty()) {
-            viewMvc.showProgressIndicator()
             viewMvc.bindPeople(people)
-            viewMvc.hideProgressIndicator()
         }
+
+        viewMvc.hideProgressIndicator()
     }
 
     override fun onPersonClick(rfc: String) {

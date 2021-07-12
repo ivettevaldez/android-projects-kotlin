@@ -60,6 +60,25 @@ class InvoiceIssuingPeopleControllerTest {
     }
 
     @Test
+    fun onStart_progressIndicatorShown() {
+        // Arrange
+        // Act
+        sut.onStart()
+        // Assert
+        verify(viewMvcMock).showProgressIndicator()
+    }
+
+    @Test
+    fun onStart_progressIndicatorHidden() {
+        // Arrange
+        peopleSavedInDb()
+        // Act
+        sut.onStart()
+        // Assert
+        verify(viewMvcMock).hideProgressIndicator()
+    }
+
+    @Test
     fun onStart_peopleSavedInDb_peopleBoundToView() {
         // Arrange
         peopleSavedInDb()
@@ -86,26 +105,6 @@ class InvoiceIssuingPeopleControllerTest {
         sut.onPersonClick(RFC)
         // Assert
         verify(screensNavigatorMock).toInvoicesList(RFC)
-    }
-
-    @Test
-    fun bindPeople_beforeBindingPeople_progressIndicatorShown() {
-        // Arrange
-        peopleSavedInDb()
-        // Act
-        sut.bindPeople()
-        // Assert
-        verify(viewMvcMock).showProgressIndicator()
-    }
-
-    @Test
-    fun bindPeople_afterBindingPeople_progressIndicatorHidden() {
-        // Arrange
-        peopleSavedInDb()
-        // Act
-        sut.bindPeople()
-        // Assert
-        verify(viewMvcMock).hideProgressIndicator()
     }
 
     // -----------------------------------------------------------------------------------------

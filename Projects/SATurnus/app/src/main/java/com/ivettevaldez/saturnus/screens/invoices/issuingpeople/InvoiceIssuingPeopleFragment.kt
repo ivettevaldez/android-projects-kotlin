@@ -27,7 +27,6 @@ class InvoiceIssuingPeopleFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
-
         controller = controllerFactory.newInvoiceIssuingPeopleController()
 
         super.onCreate(savedInstanceState)
@@ -38,11 +37,8 @@ class InvoiceIssuingPeopleFragment : BaseFragment() {
         parent: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         val viewMvc = viewMvcFactory.newInvoiceIssuingPeopleViewMvc(parent)
-
         controller.bindView(viewMvc)
-
         return viewMvc.getRootView()
     }
 
