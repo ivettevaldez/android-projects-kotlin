@@ -37,12 +37,11 @@ class InvoicesListFragment : BaseFragment(),
         private const val ARG_RFC = "ARG_RFC"
 
         @JvmStatic
-        fun newInstance(rfc: String) =
-            InvoicesListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_RFC, rfc)
-                }
+        fun newInstance(rfc: String) = InvoicesListFragment().apply {
+            arguments = Bundle().apply {
+                putString(ARG_RFC, rfc)
             }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

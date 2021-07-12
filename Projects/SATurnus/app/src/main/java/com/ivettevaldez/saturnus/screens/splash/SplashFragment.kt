@@ -20,8 +20,6 @@ class SplashFragment : BaseFragment() {
     @Inject
     lateinit var screensNavigator: ScreensNavigator
 
-    private lateinit var viewMvc: SplashViewMvc
-
     companion object {
 
         @JvmStatic
@@ -39,7 +37,7 @@ class SplashFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        viewMvc = viewMvcFactory.newSplashViewMvc(parent)
+        val viewMvc = viewMvcFactory.newSplashViewMvc(parent)
 
         Handler(Looper.getMainLooper()).postDelayed({
             screensNavigator.toInvoiceIssuingPeople()

@@ -3,7 +3,7 @@ package com.ivettevaldez.saturnus.screens.common.main
 /* ktlint-disable no-wildcard-imports */
 
 import android.widget.FrameLayout
-import com.ivettevaldez.saturnus.screens.common.navigation.NavDrawerViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.navigation.INavDrawerViewMvc
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import org.junit.Assert.*
 import org.junit.Before
@@ -21,7 +21,7 @@ class MainControllerTest {
     private lateinit var sut: MainController
 
     @Mock
-    private lateinit var viewMvcMock: NavDrawerViewMvcImpl
+    private lateinit var viewMvcMock: INavDrawerViewMvc
 
     @Mock
     private lateinit var screensNavigatorMock: ScreensNavigator

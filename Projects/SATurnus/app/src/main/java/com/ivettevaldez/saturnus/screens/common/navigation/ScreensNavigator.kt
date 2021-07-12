@@ -30,7 +30,7 @@ open class ScreensNavigator @Inject constructor(
         )
     }
 
-    fun toInvoicesList(rfc: String) {
+    open fun toInvoicesList(rfc: String) {
         fragmentFrameHelper.replaceFragment(
             InvoicesListFragment.newInstance(rfc)
         )

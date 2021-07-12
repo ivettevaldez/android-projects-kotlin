@@ -4,27 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.WorkerThread
-import com.ivettevaldez.saturnus.people.Person
-import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
-import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class InvoiceIssuingPeopleFragment : BaseFragment(),
-    IInvoiceIssuingPeopleViewMvc.Listener {
+class InvoiceIssuingPeopleFragment : BaseFragment() {
+
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    @Inject
-    lateinit var screensNavigator: ScreensNavigator
-
-    @Inject
-    lateinit var peopleDao: PersonDao
-
-    private lateinit var viewMvc: IInvoiceIssuingPeopleViewMvc
+    private lateinit var controller: InvoiceIssuingPeopleController
 
     companion object {
 
@@ -34,6 +27,9 @@ class InvoiceIssuingPeopleFragment : BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
+
+        controller = controllerFactory.newInvoiceIssuingPeopleController()
+
         super.onCreate(savedInstanceState)
     }
 
@@ -43,35 +39,20 @@ class InvoiceIssuingPeopleFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
-        viewMvc = viewMvcFactory.newInvoiceIssuingPeopleViewMvc(parent)
+        val viewMvc = viewMvcFactory.newInvoiceIssuingPeopleViewMvc(parent)
 
-        bindPeople()
+        controller.bindView(viewMvc)
 
         return viewMvc.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        viewMvc.unregisterListener(this)
-    }
-
-    @WorkerThread
-    private fun getPeople(): List<Person> = peopleDao.findAllIssuing()
-
-    private fun bindPeople() {
-        Thread {
-            viewMvc.showProgressIndicator()
-            viewMvc.bindPeople(getPeople())
-            viewMvc.hideProgressIndicator()
-        }.start()
-    }
-
-    override fun onPersonClick(rfc: String) {
-        screensNavigator.toInvoicesList(rfc)
+        controller.onStop()
     }
 }

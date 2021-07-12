@@ -12,7 +12,7 @@ import io.realm.exceptions.RealmException
 import java.util.*
 import javax.inject.Inject
 
-class PersonDao @Inject constructor() {
+open class PersonDao @Inject constructor() {
 
     private val classTag = this::class.java.simpleName
     private val baseClassTag = Person::class.java.simpleName
@@ -46,7 +46,7 @@ class PersonDao @Inject constructor() {
         return person
     }
 
-    fun findAllIssuing(): List<Person> {
+    open fun findAllIssuing(): List<Person> {
         return Person().querySorted(UPDATED_AT, Sort.DESCENDING) {
             equalTo(
                 CLIENT_TYPE,
