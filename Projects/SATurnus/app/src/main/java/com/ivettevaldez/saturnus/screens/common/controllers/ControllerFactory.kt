@@ -1,15 +1,29 @@
 package com.ivettevaldez.saturnus.screens.common.controllers
 
+import android.content.Context
+import android.os.Handler
+import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.people.PersonDao
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.main.MainController
+import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.saturnus.screens.invoices.form.main.InvoiceFormMainController
 import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.InvoiceIssuingPeopleController
 import javax.inject.Inject
 import javax.inject.Provider
 
 class ControllerFactory @Inject constructor(
+    private val context: Provider<Context>,
     private val screensNavigator: Provider<ScreensNavigator>,
-    private val personDao: Provider<PersonDao>
+    private val fragmentsEventBus: Provider<FragmentsEventBus>,
+    private val dialogsEventBus: Provider<DialogsEventBus>,
+    private val dialogsManager: Provider<DialogsManager>,
+    private val messagesHelper: Provider<MessagesHelper>,
+    private val uiHandler: Provider<Handler>,
+    private val personDao: Provider<PersonDao>,
+    private val invoiceDao: Provider<InvoiceDao>
 ) {
 
     fun newMainController(): MainController {
@@ -18,5 +32,18 @@ class ControllerFactory @Inject constructor(
 
     fun newInvoiceIssuingPeopleController(): InvoiceIssuingPeopleController {
         return InvoiceIssuingPeopleController(screensNavigator.get(), personDao.get())
+    }
+
+    fun newInvoiceFormMainController(): InvoiceFormMainController {
+        return InvoiceFormMainController(
+            context.get(),
+            screensNavigator.get(),
+            fragmentsEventBus.get(),
+            dialogsEventBus.get(),
+            dialogsManager.get(),
+            messagesHelper.get(),
+            uiHandler.get(),
+            invoiceDao.get()
+        )
     }
 }

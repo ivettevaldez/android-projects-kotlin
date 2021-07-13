@@ -11,8 +11,16 @@ object PeopleTestData {
 
     fun getPeople(): List<Person> {
         return listOf(
-            Person(RFC_1, NAME_1),
-            Person(RFC_2, NAME_2)
+            getPerson1(),
+            getPerson2()
         )
+    }
+
+    fun getPerson1(): Person {
+        return Person(rfc = RFC_1, name = NAME_1)
+    }
+
+    private fun getPerson2(): Person {
+        return Person(rfc = RFC_2, name = NAME_2)
     }
 }

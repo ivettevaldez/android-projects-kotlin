@@ -1,6 +1,6 @@
 package com.ivettevaldez.saturnus.screens.common.dialogs.prompt
 
-class PromptDialogEvent(val clickedButton: Button) {
+open class PromptDialogEvent(open val clickedButton: Button) {
 
     enum class Button {
         POSITIVE, NEGATIVE

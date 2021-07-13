@@ -5,7 +5,7 @@ import com.ivettevaldez.saturnus.common.observable.BaseObservable
 import javax.inject.Inject
 
 @ActivityScope
-class FragmentsEventBus @Inject constructor() : BaseObservable<FragmentsEventBus.Listener>() {
+open class FragmentsEventBus @Inject constructor() : BaseObservable<FragmentsEventBus.Listener>() {
 
     interface Listener {
 

@@ -1,25 +1,14 @@
 package com.ivettevaldez.saturnus.screens.invoices.form.main
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.Constants
-import com.ivettevaldez.saturnus.invoices.Invoice
-import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
-import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
-import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogEvent
-import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
-import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
-import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
-import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentFragmentEvent
 import javax.inject.Inject
 
 class InvoiceFormMainFragment : BaseFragment(),
@@ -28,32 +17,12 @@ class InvoiceFormMainFragment : BaseFragment(),
     DialogsEventBus.Listener {
 
     @Inject
+    lateinit var controllerFactory: ControllerFactory
+
+    @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    @Inject
-    lateinit var screensNavigator: ScreensNavigator
-
-    @Inject
-    lateinit var fragmentsEventBus: FragmentsEventBus
-
-    @Inject
-    lateinit var dialogsEventBus: DialogsEventBus
-
-    @Inject
-    lateinit var dialogsManager: DialogsManager
-
-    @Inject
-    lateinit var messagesHelper: MessagesHelper
-
-    @Inject
-    lateinit var invoiceDao: InvoiceDao
-
-    private lateinit var viewMvc: IInvoiceFormMainViewMvc
-
-    private var folio: String? = null
-    private var issuingRfc: String? = null
-    private var invoice: Invoice? = null
-    private var hasFormChanges: Boolean = false
+    private lateinit var controller: InvoiceFormMainController
 
     companion object {
 
@@ -74,9 +43,14 @@ class InvoiceFormMainFragment : BaseFragment(),
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
+        controller = controllerFactory.newInvoiceFormMainController()
+
         requireArguments().let {
-            issuingRfc = it.getString(ARG_ISSUING_RFC)
-            folio = it.getString(ARG_FOLIO)
+            val issuingRfc = it.getString(ARG_ISSUING_RFC)
+            val folio = it.getString(ARG_FOLIO)
+
+            controller.bindArguments(issuingRfc, folio)
+            controller.findInvoiceIfEditionMode()
         }
     }
 
@@ -88,66 +62,35 @@ class InvoiceFormMainFragment : BaseFragment(),
 
         // FIXME: The complete form disappears when this screen is opened more than once.
 
-        viewMvc = viewMvcFactory.newInvoiceFormMainViewMvc(parent)
+        val viewMvc = viewMvcFactory.newInvoiceFormMainViewMvc(parent)
 
-        var toolbarTitle: String = getString(R.string.invoices_new)
-
-        if (folio != null) {
-            invoice = invoiceDao.findByFolio(folio!!)
-            issuingRfc = invoice?.issuing?.rfc
-
-            toolbarTitle = getString(R.string.action_editing)
-        }
-
-        viewMvc.initStepper(folio, issuingRfc)
-        viewMvc.setToolbarTitle(toolbarTitle)
+        controller.bindView(viewMvc)
+        controller.setToolbarTitle()
+        controller.initStepper()
 
         return viewMvc.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
-
-        viewMvc.registerListener(this)
-        fragmentsEventBus.registerListener(this)
-        dialogsEventBus.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-
-        viewMvc.unregisterListener(this)
-        fragmentsEventBus.unregisterListener(this)
-        dialogsEventBus.unregisterListener(this)
+        controller.onStop()
     }
 
     override fun onNavigateUpClicked() {
-        if (hasFormChanges) {
-            dialogsManager.showExitWithoutSavingChangesConfirmation(null)
-        } else {
-            screensNavigator.navigateUp()
-        }
+        controller.onNavigateUpClicked()
     }
 
     override fun onFragmentEvent(event: Any) {
-        if (event is InvoiceFormChangeFragmentEvent) {
-            hasFormChanges = true
-        } else if (event is InvoiceFormPaymentFragmentEvent) {
-            invoice = event.invoice
-        }
+        controller.onFragmentEvent(event)
     }
 
     override fun onDialogEvent(event: Any) {
-        if (event is PromptDialogEvent) {
-            when (event.clickedButton) {
-                PromptDialogEvent.Button.POSITIVE -> {
-                    screensNavigator.navigateUp()
-                }
-                PromptDialogEvent.Button.NEGATIVE -> {
-                    // Nothing to do here.
-                }
-            }
-        }
+        controller.onDialogEvent(event)
     }
 
     override fun onStepSelected() {
@@ -163,12 +106,6 @@ class InvoiceFormMainFragment : BaseFragment(),
     }
 
     override fun onCompletedSteps() {
-        invoiceDao.save(invoice!!)
-
-        messagesHelper.showShortMessage(viewMvc.getRootView(), R.string.message_saved)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            screensNavigator.navigateUp()
-        }, Constants.SHOW_MESSAGE_DELAY)
+        controller.onCompletedSteps()
     }
 }

@@ -14,7 +14,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.Prompt
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
 import javax.inject.Inject
 
-class DialogsManager @Inject constructor(
+open class DialogsManager @Inject constructor(
     private val context: Context,
     private val fragmentManager: FragmentManager
 ) {
@@ -67,7 +67,7 @@ class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
-    fun showExitWithoutSavingChangesConfirmation(tag: String?) {
+    open fun showExitWithoutSavingChangesConfirmation(tag: String?) {
         val dialogFragment: PromptDialog =
             PromptDialog.newPromptDialog(
                 getString(R.string.action_exit),

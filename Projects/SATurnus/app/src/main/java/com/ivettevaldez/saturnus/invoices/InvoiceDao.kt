@@ -9,7 +9,7 @@ import io.realm.Sort
 import io.realm.exceptions.RealmException
 import javax.inject.Inject
 
-class InvoiceDao @Inject constructor() {
+open class InvoiceDao @Inject constructor() {
 
     private val classTag = this::class.java.simpleName
     private val baseClassTag = Invoice::class.java.simpleName
@@ -21,7 +21,7 @@ class InvoiceDao @Inject constructor() {
         private const val CREATED_AT = "createdAt"
     }
 
-    fun save(invoice: Invoice): Boolean {
+    open fun save(invoice: Invoice): Boolean {
         return try {
             invoice.save()
             true
@@ -35,7 +35,7 @@ class InvoiceDao @Inject constructor() {
         }
     }
 
-    fun findByFolio(folio: String): Invoice? {
+    open fun findByFolio(folio: String): Invoice? {
         val invoice = Invoice().queryFirst { equalTo(FOLIO, folio) }
         if (invoice == null) {
             Log.e(classTag, "@@@@@ $baseClassTag with $FOLIO '$folio' does not exist")

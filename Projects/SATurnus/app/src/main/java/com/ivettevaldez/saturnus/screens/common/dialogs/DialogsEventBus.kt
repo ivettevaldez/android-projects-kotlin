@@ -5,7 +5,7 @@ import com.ivettevaldez.saturnus.common.observable.BaseObservable
 import javax.inject.Inject
 
 @ActivityScope
-class DialogsEventBus @Inject constructor() : BaseObservable<DialogsEventBus.Listener>() {
+open class DialogsEventBus @Inject constructor() : BaseObservable<DialogsEventBus.Listener>() {
 
     interface Listener {
 

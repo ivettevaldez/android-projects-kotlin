@@ -5,9 +5,9 @@ import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class MessagesHelper @Inject constructor() {
+open class MessagesHelper @Inject constructor() {
 
-    fun showShortMessage(rootView: View, @StringRes message: Int) {
+    open fun showShortMessage(rootView: View, @StringRes message: Int) {
         Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
     }
 
@@ -15,7 +15,7 @@ class MessagesHelper @Inject constructor() {
         Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    fun showLongMessage(rootView: View, @StringRes message: Int) {
+    open fun showLongMessage(rootView: View, @StringRes message: Int) {
         Snackbar.make(rootView, message, Snackbar.LENGTH_LONG).show()
     }
 
