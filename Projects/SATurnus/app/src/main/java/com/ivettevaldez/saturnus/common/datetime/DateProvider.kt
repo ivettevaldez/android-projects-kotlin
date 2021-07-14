@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.common.dates
+package com.ivettevaldez.saturnus.common.datetime
 
 /* ktlint-disable no-wildcard-imports */
 

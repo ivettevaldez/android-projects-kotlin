@@ -1,9 +1,9 @@
-package com.ivettevaldez.saturnus.common.dates
+package com.ivettevaldez.saturnus.common.datetime
 
 /* ktlint-disable no-wildcard-imports */
 
-import com.ivettevaldez.saturnus.common.dates.DatesHelper.calendar
-import com.ivettevaldez.saturnus.common.dates.DatesHelper.friendlyDate
+import com.ivettevaldez.saturnus.common.datetime.DatesHelper.calendar
+import com.ivettevaldez.saturnus.common.datetime.DatesHelper.friendlyDate
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

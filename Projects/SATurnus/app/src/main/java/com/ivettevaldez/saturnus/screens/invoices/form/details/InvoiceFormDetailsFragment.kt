@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.dates.DatesHelper.calendar
-import com.ivettevaldez.saturnus.common.dates.DatesHelper.friendlyDate
+import com.ivettevaldez.saturnus.common.datetime.DatesHelper.calendar
+import com.ivettevaldez.saturnus.common.datetime.DatesHelper.friendlyDate
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.people.Person

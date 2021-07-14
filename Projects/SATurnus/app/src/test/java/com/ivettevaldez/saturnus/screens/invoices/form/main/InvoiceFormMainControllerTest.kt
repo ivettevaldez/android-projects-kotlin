@@ -26,9 +26,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.eq
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
-import org.mockito.kotlin.verify
-import org.mockito.kotlin.verifyNoMoreInteractions
+import org.mockito.kotlin.*
 
 @RunWith(MockitoJUnitRunner::class)
 class InvoiceFormMainControllerTest {
@@ -103,45 +101,49 @@ class InvoiceFormMainControllerTest {
             invoiceDaoMock
         )
 
-        sut.bindArguments(ISSUING_RFC, FOLIO)
         sut.bindView(viewMvcMock)
     }
 
     @Test
-    fun findInvoiceIfEditionMode_editingInvoice_invoiceAndIssuingRfcAreNotNull() {
+    fun findInvoice_queryTheDatabaseAndSetInvoiceAndIssuingRfcIfInvoiceIsFound() {
         // Arrange
-        editingInvoice()
+        `when`(invoiceDaoMock.findByFolio(FOLIO)).thenReturn(fakeInvoice)
+        sut.folio = FOLIO
         // Act
-        sut.findInvoiceIfEditionMode()
+        sut.findInvoiceAndIssuingRfc()
         // Assert
-        assert(sut.invoice != null)
+        verify(invoiceDaoMock).findByFolio(FOLIO)
         assert(sut.issuingRfc != null)
     }
 
     @Test
-    fun isNewInvoice_newInvoice_returnsTrue() {
+    fun bindArguments_newInvoice_invoiceIsNull() {
         // Arrange
-        newInvoice()
         // Act
-        val result = sut.isNewInvoice()
+        newInvoice()
         // Assert
-        assertTrue(result)
+        assertTrue(sut.newInvoice)
+        assertFalse(sut.editingInvoice)
+        assert(sut.invoice == null)
     }
 
     @Test
-    fun isNewInvoice_editingInvoice_returnsFalse() {
+    fun bindArguments_editingInvoice_invoiceAndIssuingRfcAreNotNull() {
         // Arrange
-        editingInvoice()
         // Act
-        val result = sut.isNewInvoice()
+        editingInvoice()
         // Assert
-        assertFalse(result)
+        assertFalse(sut.newInvoice)
+        assertTrue(sut.editingInvoice)
+        assert(sut.invoice != null)
+        assert(sut.issuingRfc != null)
     }
 
     @Test
     fun getToolbarTitle_newInvoice_returnsNewInvoiceString() {
         // Arrange
         newInvoice()
+        returnToolbarTitle()
         // Act
         val result = sut.getToolbarTitle()
         // Assert
@@ -152,6 +154,7 @@ class InvoiceFormMainControllerTest {
     fun getToolbarTitle_editingInvoice_returnsEditingInvoiceString() {
         // Arrange
         editingInvoice()
+        returnToolbarTitle()
         // Act
         val result = sut.getToolbarTitle()
         // Assert
@@ -161,7 +164,7 @@ class InvoiceFormMainControllerTest {
     @Test
     fun setToolbarTitle_toolbarTitleIsSet() {
         // Arrange
-        getAnyTitle()
+        returnAnyTitle()
         // Act
         sut.setToolbarTitle()
         // Assert
@@ -174,7 +177,7 @@ class InvoiceFormMainControllerTest {
         // Act
         sut.initStepper()
         // Assert
-        verify(viewMvcMock).initStepper(FOLIO, ISSUING_RFC)
+        verify(viewMvcMock).initStepper(anyOrNull(), anyOrNull())
     }
 
     @Test
@@ -261,8 +264,7 @@ class InvoiceFormMainControllerTest {
     @Test
     fun onCompletedSteps_newInvoice_invoiceIsSaved() {
         // Arrange
-        // TODO: Check this
-        setNewInvoiceChanges()
+        newInvoiceChanges()
         // Act
         sut.onCompletedSteps()
         // Assert
@@ -272,9 +274,7 @@ class InvoiceFormMainControllerTest {
     @Test
     fun onCompletedSteps_editingInvoice_invoiceIsSaved() {
         // Arrange
-        // TODO: Check this
         editingInvoice()
-        sut.findInvoiceIfEditionMode()
         // Act
         sut.onCompletedSteps()
         // Assert
@@ -282,17 +282,16 @@ class InvoiceFormMainControllerTest {
     }
 
     @Test
-    fun onCompletedSteps_successMessageIsShownAndNavigatesAfterDelay() {
+    fun onCompletedSteps_successMessageIsShownAndNavigatesAfterShowMessageDelay() {
         // Arrange
-        setNewInvoiceChanges()
-        getRootView()
+        newInvoiceChanges()
+        returnRootView()
+        delayPassed()
         // Act
         sut.onCompletedSteps()
         // Assert
         verify(messagesHelperMock).showShortMessage(any(), eq(ID_SAVED_CHANGES_MESSAGE))
         verify(uiHandlerMock).postDelayed(any(), eq(Constants.SHOW_MESSAGE_DELAY))
-
-        // TODO: Pass this assertion
         verify(screensNavigatorMock).navigateUp()
     }
 
@@ -301,25 +300,37 @@ class InvoiceFormMainControllerTest {
     // -----------------------------------------------------------------------------------------
 
     private fun newInvoice() {
-        sut.folio = null
-        `when`(contextMock.getString(ID_NEW_INVOICE)).thenReturn(TITLE_NEW_INVOICE)
+        sut.bindArguments(ISSUING_RFC, null)
     }
 
     private fun editingInvoice() {
-        sut.folio = FOLIO
-        `when`(contextMock.getString(ID_EDITING_INVOICE)).thenReturn(TITLE_EDITING)
-        `when`(invoiceDaoMock.findByFolio(any())).thenReturn(fakeInvoice)
+        `when`(invoiceDaoMock.findByFolio(FOLIO)).thenReturn(fakeInvoice)
+        sut.bindArguments(null, FOLIO)
     }
 
-    private fun getAnyTitle() {
+    private fun returnToolbarTitle() {
+        when {
+            sut.newInvoice -> {
+                `when`(contextMock.getString(ID_NEW_INVOICE)).thenReturn(TITLE_NEW_INVOICE)
+            }
+            sut.editingInvoice -> {
+                `when`(contextMock.getString(ID_EDITING_INVOICE)).thenReturn(TITLE_EDITING)
+            }
+            else -> {
+                throw RuntimeException("Ain't new invoice neither editing invoice")
+            }
+        }
+    }
+
+    private fun returnAnyTitle() {
         `when`(contextMock.getString(any())).thenReturn(TITLE_ANY_STRING)
     }
 
-    private fun getRootView() {
+    private fun returnRootView() {
         `when`(viewMvcMock.getRootView()).thenReturn(viewMock)
     }
 
-    private fun setNewInvoiceChanges() {
+    private fun newInvoiceChanges() {
         newInvoice()
         setInvoiceFormPaymentFragmentEvent()
         sut.onFragmentEvent(invoiceFormPaymentFragmentEventMock)
@@ -335,5 +346,14 @@ class InvoiceFormMainControllerTest {
 
     private fun negativeButtonOfDialogClicked() {
         `when`(promptDialogEventMock.clickedButton).thenReturn(PromptDialogEvent.Button.NEGATIVE)
+    }
+
+    private fun delayPassed() {
+        `when`(
+            uiHandlerMock.postDelayed(any(), any())
+        ).doAnswer {
+            it.getArgument<Runnable>(0).run()
+            null
+        }
     }
 }

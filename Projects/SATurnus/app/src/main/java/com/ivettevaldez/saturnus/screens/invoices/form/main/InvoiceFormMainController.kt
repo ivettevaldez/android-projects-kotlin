@@ -35,16 +35,27 @@ class InvoiceFormMainController(
     var invoice: Invoice? = null
     var hasFormChanges: Boolean = false
 
+    var newInvoice: Boolean = false
+    var editingInvoice: Boolean = false
+
     fun bindArguments(issuingRfc: String?, folio: String?) {
         this.issuingRfc = issuingRfc
         this.folio = folio
+
+        if (folio == null) {
+            newInvoice = true
+        } else {
+            editingInvoice = true
+        }
+
+        if (editingInvoice) {
+            findInvoiceAndIssuingRfc()
+        }
     }
 
-    fun findInvoiceIfEditionMode() {
-        if (!isNewInvoice()) {
-            invoice = invoiceDao.findByFolio(folio!!)
-            issuingRfc = invoice?.issuing?.rfc
-        }
+    fun findInvoiceAndIssuingRfc() {
+        invoice = invoiceDao.findByFolio(folio!!)
+        issuingRfc = invoice?.issuing?.rfc
     }
 
     fun bindView(viewMvc: IInvoiceFormMainViewMvc) {
@@ -63,9 +74,7 @@ class InvoiceFormMainController(
         dialogsEventBus.unregisterListener(this)
     }
 
-    fun isNewInvoice(): Boolean = folio == null
-
-    fun getToolbarTitle(): String = if (isNewInvoice()) {
+    fun getToolbarTitle(): String = if (newInvoice) {
         context.getString(R.string.invoices_new)
     } else {
         context.getString(R.string.action_editing)
@@ -128,7 +137,6 @@ class InvoiceFormMainController(
 
         messagesHelper.showShortMessage(viewMvc.getRootView(), R.string.message_saved)
 
-        // TODO: Add TimeProvider class
         uiHandler.postDelayed({
             screensNavigator.navigateUp()
         }, Constants.SHOW_MESSAGE_DELAY)

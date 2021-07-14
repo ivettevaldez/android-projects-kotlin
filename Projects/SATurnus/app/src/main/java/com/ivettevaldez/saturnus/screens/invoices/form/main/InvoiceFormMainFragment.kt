@@ -6,15 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
 import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
-import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
-import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class InvoiceFormMainFragment : BaseFragment(),
-    IInvoiceFormMainViewMvc.Listener,
-    FragmentsEventBus.Listener,
-    DialogsEventBus.Listener {
+class InvoiceFormMainFragment : BaseFragment() {
 
     @Inject
     lateinit var controllerFactory: ControllerFactory
@@ -45,13 +40,7 @@ class InvoiceFormMainFragment : BaseFragment(),
 
         controller = controllerFactory.newInvoiceFormMainController()
 
-        requireArguments().let {
-            val issuingRfc = it.getString(ARG_ISSUING_RFC)
-            val folio = it.getString(ARG_FOLIO)
-
-            controller.bindArguments(issuingRfc, folio)
-            controller.findInvoiceIfEditionMode()
-        }
+        bindArguments()
     }
 
     override fun onCreateView(
@@ -81,31 +70,12 @@ class InvoiceFormMainFragment : BaseFragment(),
         controller.onStop()
     }
 
-    override fun onNavigateUpClicked() {
-        controller.onNavigateUpClicked()
-    }
+    private fun bindArguments() {
+        requireArguments().let {
+            val issuingRfc = it.getString(ARG_ISSUING_RFC)
+            val folio = it.getString(ARG_FOLIO)
 
-    override fun onFragmentEvent(event: Any) {
-        controller.onFragmentEvent(event)
-    }
-
-    override fun onDialogEvent(event: Any) {
-        controller.onDialogEvent(event)
-    }
-
-    override fun onStepSelected() {
-        // Nothing to do here.
-    }
-
-    override fun onReturnToPreviousStep() {
-        // Nothing to do here.
-    }
-
-    override fun onStepError() {
-        // Nothing to do here.
-    }
-
-    override fun onCompletedSteps() {
-        controller.onCompletedSteps()
+            controller.bindArguments(issuingRfc, folio)
+        }
     }
 }
