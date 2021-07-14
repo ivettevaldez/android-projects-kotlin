@@ -54,8 +54,7 @@ class InvoiceFormMainFragment : BaseFragment() {
         val viewMvc = viewMvcFactory.newInvoiceFormMainViewMvc(parent)
 
         controller.bindView(viewMvc)
-        controller.setToolbarTitle()
-        controller.initStepper()
+        controller.initViews()
 
         return viewMvc.getRootView()
     }

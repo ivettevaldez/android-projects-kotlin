@@ -162,21 +162,13 @@ class InvoiceFormMainControllerTest {
     }
 
     @Test
-    fun setToolbarTitle_toolbarTitleIsSet() {
+    fun initViews_toolbarTitleSetAndStepperInitialized() {
         // Arrange
         returnAnyTitle()
         // Act
-        sut.setToolbarTitle()
+        sut.initViews()
         // Assert
         verify(viewMvcMock).setToolbarTitle(any())
-    }
-
-    @Test
-    fun onStart_stepperInitialized() {
-        // Arrange
-        // Act
-        sut.initStepper()
-        // Assert
         verify(viewMvcMock).initStepper(anyOrNull(), anyOrNull())
     }
 

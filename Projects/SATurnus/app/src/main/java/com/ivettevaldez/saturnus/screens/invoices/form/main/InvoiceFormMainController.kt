@@ -62,6 +62,11 @@ class InvoiceFormMainController(
         this.viewMvc = viewMvc
     }
 
+    fun initViews() {
+        viewMvc.setToolbarTitle(getToolbarTitle())
+        viewMvc.initStepper(folio, issuingRfc)
+    }
+
     fun onStart() {
         viewMvc.registerListener(this)
         fragmentsEventBus.registerListener(this)
@@ -78,14 +83,6 @@ class InvoiceFormMainController(
         context.getString(R.string.invoices_new)
     } else {
         context.getString(R.string.action_editing)
-    }
-
-    fun setToolbarTitle() {
-        viewMvc.setToolbarTitle(getToolbarTitle())
-    }
-
-    fun initStepper() {
-        viewMvc.initStepper(folio, issuingRfc)
     }
 
     override fun onNavigateUpClicked() {
