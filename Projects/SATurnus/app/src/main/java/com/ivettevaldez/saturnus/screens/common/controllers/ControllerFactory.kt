@@ -52,6 +52,7 @@ class ControllerFactory @Inject constructor(
 
     fun newInvoiceFormDetailsController(): InvoiceFormDetailsController {
         return InvoiceFormDetailsController(
+            context.get(),
             fragmentsEventBus.get(),
             dialogsManager.get(),
             datePickerManager.get(),

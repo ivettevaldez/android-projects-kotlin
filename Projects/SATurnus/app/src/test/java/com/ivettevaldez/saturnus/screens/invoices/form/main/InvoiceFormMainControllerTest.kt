@@ -113,18 +113,20 @@ class InvoiceFormMainControllerTest {
         sut.findInvoiceAndIssuingRfc()
         // Assert
         verify(invoiceDaoMock).findByFolio(FOLIO)
-        assert(sut.issuingRfc != null)
+        assertNotNull(sut.invoice)
+        assertNotNull(sut.issuingRfc)
     }
 
     @Test
-    fun bindArguments_newInvoice_invoiceIsNull() {
+    fun bindArguments_newInvoice_issuingRfcIsNotNull() {
         // Arrange
         // Act
         newInvoice()
         // Assert
         assertTrue(sut.newInvoice)
         assertFalse(sut.editingInvoice)
-        assert(sut.invoice == null)
+        assertNull(sut.invoice)
+        assertNotNull(sut.issuingRfc)
     }
 
     @Test
@@ -135,8 +137,8 @@ class InvoiceFormMainControllerTest {
         // Assert
         assertFalse(sut.newInvoice)
         assertTrue(sut.editingInvoice)
-        assert(sut.invoice != null)
-        assert(sut.issuingRfc != null)
+        assertNotNull(sut.invoice)
+        assertNotNull(sut.issuingRfc)
     }
 
     @Test
@@ -230,7 +232,7 @@ class InvoiceFormMainControllerTest {
         // Act
         sut.onFragmentEvent(invoiceFormPaymentFragmentEventMock)
         // Assert
-        assertTrue(sut.invoice != null)
+        assertNotNull(sut.invoice)
     }
 
     @Test

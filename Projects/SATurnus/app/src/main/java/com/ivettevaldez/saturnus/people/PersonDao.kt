@@ -64,6 +64,16 @@ open class PersonDao @Inject constructor() {
         }
     }
 
+    open fun invoiceFolioExists(rfc: String, folio: String): Boolean {
+        val person = findByRfc(rfc)
+        if (person != null) {
+            return person.invoices.any {
+                it.folio == folio
+            }
+        }
+        return false
+    }
+
     fun activate(rfc: String) {
         val person = findByRfc(rfc)
         if (person != null) {

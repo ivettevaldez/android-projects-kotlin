@@ -19,7 +19,7 @@ open class DialogsManager @Inject constructor(
     private val fragmentManager: FragmentManager
 ) {
 
-    fun showGenericSavingError(tag: String?, error: String) {
+    open fun showGenericSavingError(tag: String?, error: String) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
             error,

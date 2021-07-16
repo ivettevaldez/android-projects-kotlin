@@ -7,13 +7,15 @@ import java.util.*
 
 open class DateProvider {
 
+    private val locale = Locale.getDefault()
+
     companion object {
 
         private const val USER_FRIENDLY_FORMAT = "dd/MMMM/yyyy"
     }
 
-    open fun getCalendar(): Calendar = Calendar.getInstance(Locale.getDefault())
+    open fun getCalendar(): Calendar = Calendar.getInstance(locale)
 
     open fun getUserFriendlyFormat(): SimpleDateFormat =
-        SimpleDateFormat(USER_FRIENDLY_FORMAT, Locale.getDefault())
+        SimpleDateFormat(USER_FRIENDLY_FORMAT, locale)
 }

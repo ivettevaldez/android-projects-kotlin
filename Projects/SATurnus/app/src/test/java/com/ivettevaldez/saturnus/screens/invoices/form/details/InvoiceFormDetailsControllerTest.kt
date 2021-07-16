@@ -2,6 +2,8 @@ package com.ivettevaldez.saturnus.screens.invoices.form.details
 
 /* ktlint-disable no-wildcard-imports */
 
+import android.content.Context
+import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.datetime.DatesHelper.calendar
 import com.ivettevaldez.saturnus.common.datetime.DatesHelper.friendlyDate
 import com.ivettevaldez.saturnus.invoices.Invoice
@@ -14,6 +16,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
 import com.ivettevaldez.saturnus.testdata.InvoiceTestData
 import com.ivettevaldez.saturnus.testdata.PeopleTestData
+import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import org.junit.Assert.*
 import org.junit.Before
@@ -22,8 +25,7 @@ import org.junit.runner.RunWith
 import org.mockito.ArgumentCaptor
 import org.mockito.Captor
 import org.mockito.Mock
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.verifyNoInteractions
+import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.never
@@ -35,6 +37,9 @@ import java.util.*
 class InvoiceFormDetailsControllerTest {
 
     private lateinit var sut: InvoiceFormDetailsController
+
+    @Mock
+    private lateinit var contextMock: Context
 
     @Mock
     private lateinit var viewMvcMock: IInvoiceFormDetailsViewMvc
@@ -57,9 +62,16 @@ class InvoiceFormDetailsControllerTest {
     @Mock
     private lateinit var datePickerDialog: DatePickerDialog
 
+    @Mock
+    private lateinit var verificationErrorMock: VerificationError
+
     @Captor
     private val changeEventCaptor: ArgumentCaptor<InvoiceFormChangeFragmentEvent> =
         ArgumentCaptor.forClass(InvoiceFormChangeFragmentEvent::class.java)
+
+    @Captor
+    private val invoiceDetailsEventCaptor: ArgumentCaptor<InvoiceFormDetailsFragmentEvent> =
+        ArgumentCaptor.forClass(InvoiceFormDetailsFragmentEvent::class.java)
 
     private val fakeInvoice: Invoice = InvoiceTestData.getInvoice()
     private val fakeIssuingPerson: Person = PeopleTestData.getPerson1()
@@ -70,6 +82,11 @@ class InvoiceFormDetailsControllerTest {
     private val folio: String = fakeInvoice.folio
     private val issuingDate: Date = fakeInvoice.issuedAt!!
     private val certificationDate: Date = fakeInvoice.certificatedAt!!
+
+    enum class FakeFieldValues {
+
+        ALL_BLANK, NOT_BLANK, ONLY_LAST_ONE_IS_BLANK
+    }
 
     companion object {
 
@@ -84,6 +101,7 @@ class InvoiceFormDetailsControllerTest {
     @Before
     fun setUp() {
         sut = InvoiceFormDetailsController(
+            contextMock,
             fragmentsEventBusMock,
             dialogsManagerMock,
             datePickerManager,
@@ -302,6 +320,80 @@ class InvoiceFormDetailsControllerTest {
         assertTrue(sut.hasNotifiedChanges)
     }
 
+    @Test
+    fun verifyStep_nullReceiverError_returnsVerificationErrorWithCorrectMessage() {
+        // Arrange
+        nullReceiverError()
+        // Act
+        val result = sut.verifyStep()
+        // Assert
+        assertNotNull(result)
+        assert(result is VerificationError)
+        verify(contextMock).getString(R.string.error_missing_receiver)
+    }
+
+    @Test
+    fun verifyStep_missingFieldsError_returnsVerificationErrorWithCorrectMessage() {
+        // Arrange
+        missingFieldsError()
+        // Act
+        val result = sut.verifyStep()
+        // Assert
+        assertNotNull(result)
+        assert(result is VerificationError)
+        verify(contextMock).getString(R.string.error_missing_fields)
+    }
+
+    @Test
+    fun verifyStep_existingFolioError_returnsVerificationErrorWithCorrectMessage() {
+        // Arrange
+        existingFolioError()
+        // Act
+        val result = sut.verifyStep()
+        // Assert
+        assertNotNull(result)
+        assert(result is VerificationError)
+        verify(contextMock).getString(R.string.error_folio_must_be_unique)
+    }
+
+    @Test
+    fun verifyStep_noFormErrors_generatesInvoiceAndReturnsNull() {
+        // Arrange
+        noFormErrors()
+        // Act
+        val result = sut.verifyStep()
+        // Assert
+        assertNull(result)
+    }
+
+    @Test
+    fun generateInvoice_createsANewInvoiceAndPostsItAsAnInvoiceFormDetailsFragmentEvent() {
+        // Arrange
+        noFormErrors()
+        // Act
+        sut.generateInvoice()
+        // Assert
+        verify(fragmentsEventBusMock).postEvent(capture(invoiceDetailsEventCaptor))
+        assert(invoiceDetailsEventCaptor.value is InvoiceFormDetailsFragmentEvent)
+        // TODO: Check the required invoice fields
+    }
+
+    @Test
+    fun onError_nullReceiverError_genericSavingErrorIsShown() {
+        // Arrange
+        nullReceiverError()
+        // Act
+        sut.onError(verificationErrorMock)
+        // Assert
+        verify(dialogsManagerMock).showGenericSavingError(
+            null,
+            verificationErrorMock.errorMessage
+        )
+    }
+    
+    // onError_missingFieldsError_genericSavingErrorIsShown
+    // onError_existingFolioError_genericSavingErrorIsShown
+
     // -----------------------------------------------------------------------------------------
     // HELPER METHODS
     // -----------------------------------------------------------------------------------------
@@ -334,6 +426,73 @@ class InvoiceFormDetailsControllerTest {
 
     private fun certificationDateIsSet() {
         sut.selectedDatePicker = DatePickerManager.TAG_CERTIFICATION_DATE
+    }
+
+    private fun nullReceiverError() {
+        sut.receiverRfc = null
+
+        `when`(contextMock.getString(R.string.error_missing_receiver)).thenReturn("")
+        `when`(verificationErrorMock.errorMessage).thenReturn("")
+    }
+
+    private fun missingFieldsError() {
+        sut.receiverRfc = receiverRfc
+
+        setFieldsReturnValues(FakeFieldValues.ONLY_LAST_ONE_IS_BLANK)
+
+        `when`(contextMock.getString(R.string.error_missing_fields)).thenReturn("")
+    }
+
+    private fun existingFolioError() {
+        sut.receiverRfc = receiverRfc
+        sut.issuingRfc = issuingRfc
+
+        setFieldsReturnValues(FakeFieldValues.NOT_BLANK)
+
+        `when`(personDaoMock.invoiceFolioExists(anyString(), anyString())).thenReturn(true)
+        `when`(contextMock.getString(R.string.error_folio_must_be_unique)).thenReturn("")
+    }
+
+    private fun noFormErrors() {
+        sut.receiverRfc = receiverRfc
+        sut.issuingRfc = issuingRfc
+
+        setFieldsReturnValues(FakeFieldValues.NOT_BLANK)
+
+        `when`(personDaoMock.invoiceFolioExists(anyString(), anyString())).thenReturn(false)
+    }
+
+    private fun setFieldsReturnValues(fieldValues: FakeFieldValues) {
+        val fieldValue: String
+        val dateValue: String
+        val lastFieldValue: String
+
+        when (fieldValues) {
+            FakeFieldValues.ALL_BLANK -> {
+                fieldValue = ""
+                dateValue = ""
+                lastFieldValue = ""
+            }
+            FakeFieldValues.NOT_BLANK -> {
+                fieldValue = "x"
+                dateValue = ISSUING_DATE
+                lastFieldValue = "x"
+            }
+            FakeFieldValues.ONLY_LAST_ONE_IS_BLANK -> {
+                fieldValue = "x"
+                dateValue = ISSUING_DATE
+                lastFieldValue = ""
+            }
+        }
+
+        `when`(viewMvcMock.getFolio()).thenReturn(fieldValue)
+        `when`(viewMvcMock.getConcept()).thenReturn(fieldValue)
+        `when`(viewMvcMock.getDescription()).thenReturn(fieldValue)
+        `when`(viewMvcMock.getEffect()).thenReturn(fieldValue)
+        `when`(viewMvcMock.getStatus()).thenReturn(fieldValue)
+        `when`(viewMvcMock.getIssuingDate()).thenReturn(dateValue)
+        `when`(viewMvcMock.getCertificationDate()).thenReturn(dateValue)
+        `when`(viewMvcMock.getCancellationStatus()).thenReturn(lastFieldValue)
     }
 
     private fun <T> capture(argumentCaptor: ArgumentCaptor<T>): T = argumentCaptor.capture()

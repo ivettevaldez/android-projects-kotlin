@@ -1,5 +1,7 @@
 package com.ivettevaldez.saturnus.screens.invoices.form.details
 
+import android.content.Context
+import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.datetime.DatesHelper.calendar
 import com.ivettevaldez.saturnus.common.datetime.DatesHelper.friendlyDate
 import com.ivettevaldez.saturnus.invoices.Invoice
@@ -11,9 +13,12 @@ import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
+import com.stepstone.stepper.Step
+import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 
 class InvoiceFormDetailsController(
+    private val context: Context,
     private val fragmentsEventBus: FragmentsEventBus,
     private val dialogsManager: DialogsManager,
     private val datePickerManager: DatePickerManager,
@@ -21,7 +26,8 @@ class InvoiceFormDetailsController(
     private val invoiceDao: InvoiceDao
 ) : IInvoiceFormDetailsViewMvc.Listener,
     IPersonSelectorBottomSheetViewMvc.Listener,
-    DatePickerDialog.OnDateSetListener {
+    DatePickerDialog.OnDateSetListener,
+    Step {
 
     private lateinit var viewMvc: IInvoiceFormDetailsViewMvc
 
@@ -74,6 +80,24 @@ class InvoiceFormDetailsController(
 
     fun onStop() {
         viewMvc.unregisterListener(this)
+    }
+
+    override fun verifyStep(): VerificationError? {
+        val errorMessage = hasFormErrors()
+        return if (errorMessage != null) {
+            VerificationError(errorMessage)
+        } else {
+            generateInvoice()
+            null
+        }
+    }
+
+    override fun onSelected() {
+        // Nothing to do here.
+    }
+
+    override fun onError(error: VerificationError) {
+        dialogsManager.showGenericSavingError(null, error.errorMessage)
     }
 
     override fun onFieldChanged() {
@@ -162,5 +186,46 @@ class InvoiceFormDetailsController(
 
             hasNotifiedChanges = true
         }
+    }
+
+    private fun hasFormErrors(): String? = if (receiverRfc == null) {
+        context.getString(R.string.error_missing_receiver)
+    } else if (viewMvc.getFolio().isBlank() ||
+        viewMvc.getConcept().isBlank() ||
+        viewMvc.getDescription().isBlank() ||
+        viewMvc.getEffect().isBlank() ||
+        viewMvc.getStatus().isBlank() ||
+        viewMvc.getCancellationStatus().isBlank() ||
+        viewMvc.getIssuingDate().isBlank()
+    ) {
+        context.getString(R.string.error_missing_fields)
+    } else if (personDao.invoiceFolioExists(issuingRfc!!, viewMvc.getFolio())) {
+        context.getString(R.string.error_folio_must_be_unique)
+    } else {
+        null
+    }
+
+    fun generateInvoice() {
+        val invoice = Invoice(
+            issuing = getPerson(issuingRfc!!),
+            receiver = getPerson(receiverRfc!!),
+            folio = viewMvc.getFolio(),
+            concept = viewMvc.getConcept(),
+            description = viewMvc.getDescription(),
+            effect = viewMvc.getEffect(),
+            status = viewMvc.getStatus(),
+            cancellationStatus = viewMvc.getCancellationStatus(),
+            issuedAt = viewMvc.getIssuingDate().calendar().time
+        )
+
+        val certificationDate = viewMvc.getCertificationDate()
+        if (certificationDate.isNotBlank()) {
+            invoice.certificatedAt = certificationDate.calendar().time
+        }
+
+        // Pass the invoice draft to InvoiceFormPaymentFragment to continue working on it.
+        fragmentsEventBus.postEvent(
+            InvoiceFormDetailsFragmentEvent(invoice)
+        )
     }
 }
