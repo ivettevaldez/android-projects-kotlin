@@ -98,7 +98,7 @@ open class DialogsManager @Inject constructor(
         bottomSheetDialog.show(fragmentManager, tag)
     }
 
-    fun showPersonSelectorDialog(
+    open fun showPersonSelectorDialog(
         tag: String?,
         listener: IPersonSelectorBottomSheetViewMvc.Listener
     ) {

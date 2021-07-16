@@ -38,7 +38,7 @@ open class PersonDao @Inject constructor() {
         }
     }
 
-    fun findByRfc(rfc: String): Person? {
+    open fun findByRfc(rfc: String): Person? {
         val person = Person().queryFirst { equalTo(RFC, rfc) }
         if (person == null) {
             Log.e(classTag, "@@@@@ $baseClassTag with $RFC '$rfc' does not exist")

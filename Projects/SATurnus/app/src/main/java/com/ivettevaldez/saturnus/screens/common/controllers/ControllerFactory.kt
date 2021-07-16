@@ -4,11 +4,13 @@ import android.content.Context
 import android.os.Handler
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.people.PersonDao
+import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.main.MainController
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsController
 import com.ivettevaldez.saturnus.screens.invoices.form.main.InvoiceFormMainController
 import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.InvoiceIssuingPeopleController
 import javax.inject.Inject
@@ -21,6 +23,7 @@ class ControllerFactory @Inject constructor(
     private val dialogsEventBus: Provider<DialogsEventBus>,
     private val dialogsManager: Provider<DialogsManager>,
     private val messagesHelper: Provider<MessagesHelper>,
+    private val datePickerManager: Provider<DatePickerManager>,
     private val uiHandler: Provider<Handler>,
     private val personDao: Provider<PersonDao>,
     private val invoiceDao: Provider<InvoiceDao>
@@ -43,6 +46,16 @@ class ControllerFactory @Inject constructor(
             dialogsManager.get(),
             messagesHelper.get(),
             uiHandler.get(),
+            invoiceDao.get()
+        )
+    }
+
+    fun newInvoiceFormDetailsController(): InvoiceFormDetailsController {
+        return InvoiceFormDetailsController(
+            fragmentsEventBus.get(),
+            dialogsManager.get(),
+            datePickerManager.get(),
+            personDao.get(),
             invoiceDao.get()
         )
     }

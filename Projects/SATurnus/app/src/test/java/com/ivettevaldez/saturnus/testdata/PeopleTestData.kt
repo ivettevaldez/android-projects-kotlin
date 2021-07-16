@@ -20,7 +20,7 @@ object PeopleTestData {
         return Person(rfc = RFC_1, name = NAME_1)
     }
 
-    private fun getPerson2(): Person {
+    fun getPerson2(): Person {
         return Person(rfc = RFC_2, name = NAME_2)
     }
 }

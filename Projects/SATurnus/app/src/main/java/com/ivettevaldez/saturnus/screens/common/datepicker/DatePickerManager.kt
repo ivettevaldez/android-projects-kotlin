@@ -7,7 +7,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import java.util.*
 import javax.inject.Inject
 
-class DatePickerManager @Inject constructor(private val fragmentManager: FragmentManager) {
+open class DatePickerManager @Inject constructor(private val fragmentManager: FragmentManager) {
 
     companion object {
 
@@ -15,7 +15,7 @@ class DatePickerManager @Inject constructor(private val fragmentManager: Fragmen
         const val TAG_CERTIFICATION_DATE = "TAG_CERTIFICATION_DATE"
     }
 
-    fun showDatePicker(
+    open fun showDatePicker(
         date: Calendar,
         listener: DatePickerDialog.OnDateSetListener,
         tag: String?

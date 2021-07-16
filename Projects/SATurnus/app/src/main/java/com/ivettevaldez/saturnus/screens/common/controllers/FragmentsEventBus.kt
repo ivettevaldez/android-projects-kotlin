@@ -12,7 +12,7 @@ open class FragmentsEventBus @Inject constructor() : BaseObservable<FragmentsEve
         fun onFragmentEvent(event: Any)
     }
 
-    fun postEvent(event: Any) {
+    open fun postEvent(event: Any) {
         for (listener in listeners) {
             listener.onFragmentEvent(event)
         }

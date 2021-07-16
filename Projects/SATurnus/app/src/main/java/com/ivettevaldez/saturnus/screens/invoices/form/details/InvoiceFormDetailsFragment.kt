@@ -8,28 +8,23 @@ import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.datetime.DatesHelper.calendar
-import com.ivettevaldez.saturnus.common.datetime.DatesHelper.friendlyDate
 import com.ivettevaldez.saturnus.invoices.Invoice
-import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
-import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
-import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
-import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import javax.inject.Inject
 
 class InvoiceFormDetailsFragment : BaseFragment(),
-    Step,
-    IInvoiceFormDetailsViewMvc.Listener,
-    IPersonSelectorBottomSheetViewMvc.Listener,
-    DatePickerDialog.OnDateSetListener {
+    Step {
+
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -41,21 +36,13 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     lateinit var dialogsManager: DialogsManager
 
     @Inject
-    lateinit var datePickerManager: DatePickerManager
-
-    @Inject
     lateinit var personDao: PersonDao
 
-    @Inject
-    lateinit var invoiceDao: InvoiceDao
-
+    private lateinit var controller: InvoiceFormDetailsController
     private lateinit var viewMvc: IInvoiceFormDetailsViewMvc
 
-    private var folio: String? = null
     private var issuingRfc: String? = null
     private var receiverRfc: String? = null
-    private var invoice: Invoice? = null
-    private var hasNotifiedChanges: Boolean = false
 
     companion object {
 
@@ -76,10 +63,9 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        requireArguments().let {
-            folio = it.getString(ARG_FOLIO)
-            issuingRfc = it.getString(ARG_ISSUING_RFC)
-        }
+        controller = controllerFactory.newInvoiceFormDetailsController()
+
+        bindArguments()
     }
 
     override fun onCreateView(
@@ -90,30 +76,20 @@ class InvoiceFormDetailsFragment : BaseFragment(),
 
         viewMvc = viewMvcFactory.newInvoiceFormDetailsViewMvc(parent)
 
-        if (folio != null) {
-            invoice = invoiceDao.findByFolio(folio!!)
-
-            if (invoice != null) {
-                issuingRfc = invoice?.issuing?.rfc
-                receiverRfc = invoice?.receiver?.rfc
-
-                bindInvoice(invoice!!)
-            }
-        }
-
-        bindIssuingPerson()
+        controller.bindView(viewMvc)
+        controller.bindData()
 
         return viewMvc.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        viewMvc.unregisterListener(this)
+        controller.onStop()
     }
 
     override fun verifyStep(): VerificationError? {
@@ -134,79 +110,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         dialogsManager.showGenericSavingError(null, error.errorMessage)
     }
 
-    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        val date = friendlyDate(year, monthOfYear, dayOfMonth)
-
-        if (view?.tag == DatePickerManager.TAG_ISSUING_DATE) {
-            viewMvc.setIssuingDate(date)
-        } else if (view?.tag == DatePickerManager.TAG_CERTIFICATION_DATE) {
-            viewMvc.setCertificationDate(date)
-        }
-
-        notifyFormChanges()
-    }
-
-    override fun onFieldChanged() {
-        notifyFormChanges()
-    }
-
-    override fun onSelectReceiverClicked() {
-        dialogsManager.showPersonSelectorDialog(null, this)
-    }
-
-    override fun onSelectIssuingDateClicked() {
-        val currentDate = viewMvc.getIssuingDate().calendar()
-        datePickerManager.showDatePicker(
-            currentDate,
-            this,
-            DatePickerManager.TAG_ISSUING_DATE
-        )
-    }
-
-    override fun onSelectCertificationDateClicked() {
-        val currentDate = viewMvc.getCertificationDate().calendar()
-        datePickerManager.showDatePicker(
-            currentDate,
-            this,
-            DatePickerManager.TAG_CERTIFICATION_DATE
-        )
-    }
-
-    override fun onPersonSelected(rfc: String) {
-        receiverRfc = rfc
-        bindReceiverPerson()
-        notifyFormChanges()
-    }
-
     private fun getPerson(rfc: String): Person? = personDao.findByRfc(rfc)
-
-    private fun bindInvoice(invoice: Invoice) {
-        viewMvc.bindInvoice(invoice)
-
-        viewMvc.setIssuingDate(invoice.issuedAt!!.friendlyDate())
-
-        if (invoice.certificatedAt != null) {
-            viewMvc.setCertificationDate(invoice.certificatedAt!!.friendlyDate())
-        }
-    }
-
-    private fun bindIssuingPerson() {
-        val person = getPerson(issuingRfc!!)
-        if (person != null) {
-            viewMvc.bindIssuingPerson(person)
-        } else {
-            throw RuntimeException("@@@@@ Person with RFC $issuingRfc cannot be found")
-        }
-    }
-
-    private fun bindReceiverPerson() {
-        val person = getPerson(receiverRfc!!)
-        if (person != null) {
-            viewMvc.bindReceiverPerson(person)
-        } else {
-            throw RuntimeException("@@@@@ Person with RFC $receiverRfc cannot be found")
-        }
-    }
 
     private fun hasFormErrors(): String? = if (receiverRfc == null) {
         getString(R.string.error_missing_receiver)
@@ -262,13 +166,12 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         )
     }
 
-    private fun notifyFormChanges() {
-        if (!hasNotifiedChanges) {
-            fragmentsEventBus.postEvent(
-                InvoiceFormChangeFragmentEvent()
-            )
+    private fun bindArguments() {
+        requireArguments().let {
+            val issuingRfc = it.getString(ARG_ISSUING_RFC)
+            val folio = it.getString(ARG_FOLIO)
 
-            hasNotifiedChanges = true
+            controller.bindArguments(issuingRfc, folio)
         }
     }
 }
