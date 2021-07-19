@@ -13,7 +13,6 @@ import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
-import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 
@@ -26,8 +25,7 @@ class InvoiceFormDetailsController(
     private val invoiceDao: InvoiceDao
 ) : IInvoiceFormDetailsViewMvc.Listener,
     IPersonSelectorBottomSheetViewMvc.Listener,
-    DatePickerDialog.OnDateSetListener,
-    Step {
+    DatePickerDialog.OnDateSetListener {
 
     private lateinit var viewMvc: IInvoiceFormDetailsViewMvc
 
@@ -82,7 +80,7 @@ class InvoiceFormDetailsController(
         viewMvc.unregisterListener(this)
     }
 
-    override fun verifyStep(): VerificationError? {
+    fun verifyStep(): VerificationError? {
         val errorMessage = hasFormErrors()
         return if (errorMessage != null) {
             VerificationError(errorMessage)
@@ -92,11 +90,7 @@ class InvoiceFormDetailsController(
         }
     }
 
-    override fun onSelected() {
-        // Nothing to do here.
-    }
-
-    override fun onError(error: VerificationError) {
+    fun onError(error: VerificationError) {
         dialogsManager.showGenericSavingError(null, error.errorMessage)
     }
 
