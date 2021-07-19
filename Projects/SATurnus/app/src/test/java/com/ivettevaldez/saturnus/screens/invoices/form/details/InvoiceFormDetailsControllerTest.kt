@@ -390,9 +390,32 @@ class InvoiceFormDetailsControllerTest {
             verificationErrorMock.errorMessage
         )
     }
-    
-    // onError_missingFieldsError_genericSavingErrorIsShown
-    // onError_existingFolioError_genericSavingErrorIsShown
+
+    @Test
+    fun onError_missingFieldsError_genericSavingErrorIsShown() {
+        // Arrange
+        missingFieldsError()
+        // Act
+        sut.onError(verificationErrorMock)
+        // Assert
+        verify(dialogsManagerMock).showGenericSavingError(
+            null,
+            verificationErrorMock.errorMessage
+        )
+    }
+
+    @Test
+    fun onError_existingFolioError_genericSavingErrorIsShown() {
+        // Arrange
+        existingFolioError()
+        // Act
+        sut.onError(verificationErrorMock)
+        // Assert
+        verify(dialogsManagerMock).showGenericSavingError(
+            null,
+            verificationErrorMock.errorMessage
+        )
+    }
 
     // -----------------------------------------------------------------------------------------
     // HELPER METHODS
@@ -441,6 +464,7 @@ class InvoiceFormDetailsControllerTest {
         setFieldsReturnValues(FakeFieldValues.ONLY_LAST_ONE_IS_BLANK)
 
         `when`(contextMock.getString(R.string.error_missing_fields)).thenReturn("")
+        `when`(verificationErrorMock.errorMessage).thenReturn("")
     }
 
     private fun existingFolioError() {
@@ -451,6 +475,7 @@ class InvoiceFormDetailsControllerTest {
 
         `when`(personDaoMock.invoiceFolioExists(anyString(), anyString())).thenReturn(true)
         `when`(contextMock.getString(R.string.error_folio_must_be_unique)).thenReturn("")
+        `when`(verificationErrorMock.errorMessage).thenReturn("")
     }
 
     private fun noFormErrors() {
