@@ -1,8 +1,9 @@
 package com.ivettevaldez.saturnus.invoices.payment
 
 import com.ivettevaldez.saturnus.common.Constants
+import javax.inject.Inject
 
-open class GenerateInvoicePaymentUseCase {
+open class GenerateInvoicePaymentUseCase @Inject constructor() {
 
     open fun generatePayment(subtotal: Double, receiverPersonType: String): InvoicePayment {
         var isrWithholding = 0.0

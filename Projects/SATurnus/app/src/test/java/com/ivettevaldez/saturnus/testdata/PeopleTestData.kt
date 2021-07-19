@@ -1,5 +1,6 @@
 package com.ivettevaldez.saturnus.testdata
 
+import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.people.Person
 
 object PeopleTestData {
@@ -11,16 +12,24 @@ object PeopleTestData {
 
     fun getPeople(): List<Person> {
         return listOf(
-            getPerson1(),
-            getPerson2()
+            getPhysicalPerson(),
+            getMoralPerson()
         )
     }
 
-    fun getPerson1(): Person {
-        return Person(rfc = RFC_1, name = NAME_1)
+    fun getPhysicalPerson(): Person {
+        return Person(
+            rfc = RFC_1,
+            name = NAME_1,
+            personType = Constants.PHYSICAL_PERSON
+        )
     }
 
-    fun getPerson2(): Person {
-        return Person(rfc = RFC_2, name = NAME_2)
+    fun getMoralPerson(): Person {
+        return Person(
+            rfc = RFC_2,
+            name = NAME_2,
+            personType = Constants.MORAL_PERSON
+        )
     }
 }

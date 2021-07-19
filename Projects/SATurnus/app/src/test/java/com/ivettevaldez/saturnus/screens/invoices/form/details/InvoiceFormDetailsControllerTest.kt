@@ -74,8 +74,8 @@ class InvoiceFormDetailsControllerTest {
         ArgumentCaptor.forClass(InvoiceFormDetailsFragmentEvent::class.java)
 
     private val fakeInvoice: Invoice = InvoiceTestData.getInvoice()
-    private val fakeIssuingPerson: Person = PeopleTestData.getPerson1()
-    private val fakeReceiverPerson: Person = PeopleTestData.getPerson2()
+    private val fakeIssuingPerson: Person = PeopleTestData.getPhysicalPerson()
+    private val fakeReceiverPerson: Person = PeopleTestData.getMoralPerson()
 
     private val issuingRfc: String = fakeIssuingPerson.rfc
     private val receiverRfc: String = fakeReceiverPerson.rfc
@@ -134,6 +134,7 @@ class InvoiceFormDetailsControllerTest {
         // Assert
         assertTrue(sut.newInvoice)
         assertFalse(sut.editingInvoice)
+        assertNull(sut.folio)
         assertNull(sut.invoice)
         assertNotNull(sut.issuingRfc)
         assertNull(sut.receiverRfc)
@@ -147,27 +148,10 @@ class InvoiceFormDetailsControllerTest {
         // Assert
         assertFalse(sut.newInvoice)
         assertTrue(sut.editingInvoice)
+        assertNotNull(sut.folio)
         assertNotNull(sut.invoice)
         assertNotNull(sut.issuingRfc)
         assertNotNull(sut.receiverRfc)
-    }
-
-    @Test
-    fun onStart_listenersRegistered() {
-        // Arrange
-        // Act
-        sut.onStart()
-        // Assert
-        verify(viewMvcMock).registerListener(sut)
-    }
-
-    @Test
-    fun onStop_listenersUnregistered() {
-        // Arrange
-        // Act
-        sut.onStop()
-        // Assert
-        verify(viewMvcMock).unregisterListener(sut)
     }
 
     @Test
@@ -211,6 +195,24 @@ class InvoiceFormDetailsControllerTest {
         verify(viewMvcMock).bindInvoice(fakeInvoice)
         verify(viewMvcMock).setIssuingDate(issuingDate.friendlyDate())
         verify(viewMvcMock, never()).setCertificationDate(any())
+    }
+
+    @Test
+    fun onStart_listenersRegistered() {
+        // Arrange
+        // Act
+        sut.onStart()
+        // Assert
+        verify(viewMvcMock).registerListener(sut)
+    }
+
+    @Test
+    fun onStop_listenersUnregistered() {
+        // Arrange
+        // Act
+        sut.onStop()
+        // Assert
+        verify(viewMvcMock).unregisterListener(sut)
     }
 
     @Test
@@ -473,9 +475,9 @@ class InvoiceFormDetailsControllerTest {
 
         setFieldsReturnValues(FakeFieldValues.NOT_BLANK)
 
-        `when`(personDaoMock.invoiceFolioExists(anyString(), anyString())).thenReturn(true)
         `when`(contextMock.getString(R.string.error_folio_must_be_unique)).thenReturn("")
         `when`(verificationErrorMock.errorMessage).thenReturn("")
+        `when`(personDaoMock.invoiceFolioExists(anyString(), anyString())).thenReturn(true)
     }
 
     private fun noFormErrors() {

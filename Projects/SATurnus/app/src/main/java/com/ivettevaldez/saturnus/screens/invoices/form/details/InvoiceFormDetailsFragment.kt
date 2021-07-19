@@ -1,7 +1,5 @@
 package com.ivettevaldez.saturnus.screens.invoices.form.details
 
-/* ktlint-disable no-wildcard-imports */
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

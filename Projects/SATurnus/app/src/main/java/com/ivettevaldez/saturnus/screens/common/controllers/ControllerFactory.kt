@@ -3,6 +3,7 @@ package com.ivettevaldez.saturnus.screens.common.controllers
 import android.content.Context
 import android.os.Handler
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
+import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
@@ -12,6 +13,7 @@ import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsController
 import com.ivettevaldez.saturnus.screens.invoices.form.main.InvoiceFormMainController
+import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentController
 import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.InvoiceIssuingPeopleController
 import javax.inject.Inject
 import javax.inject.Provider
@@ -26,7 +28,8 @@ class ControllerFactory @Inject constructor(
     private val datePickerManager: Provider<DatePickerManager>,
     private val uiHandler: Provider<Handler>,
     private val personDao: Provider<PersonDao>,
-    private val invoiceDao: Provider<InvoiceDao>
+    private val invoiceDao: Provider<InvoiceDao>,
+    private val generateInvoicePaymentUseCase: Provider<GenerateInvoicePaymentUseCase>
 ) {
 
     fun newMainController(): MainController {
@@ -57,6 +60,15 @@ class ControllerFactory @Inject constructor(
             dialogsManager.get(),
             datePickerManager.get(),
             personDao.get(),
+            invoiceDao.get()
+        )
+    }
+
+    fun newInvoiceFormPaymentController(): InvoiceFormPaymentController {
+        return InvoiceFormPaymentController(
+            context.get(),
+            generateInvoicePaymentUseCase.get(),
+            fragmentsEventBus.get(),
             invoiceDao.get()
         )
     }

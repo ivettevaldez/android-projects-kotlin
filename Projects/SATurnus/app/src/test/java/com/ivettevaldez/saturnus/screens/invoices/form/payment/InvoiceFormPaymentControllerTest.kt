@@ -2,9 +2,12 @@ package com.ivettevaldez.saturnus.screens.invoices.form.payment
 
 /* ktlint-disable no-wildcard-imports */
 
-import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
+import android.content.Context
+import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
+import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
+import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragmentEvent
 import com.ivettevaldez.saturnus.testdata.InvoiceTestData
@@ -23,10 +26,16 @@ class InvoiceFormPaymentControllerTest {
     private lateinit var sut: InvoiceFormPaymentController
 
     @Mock
+    private lateinit var contextMock: Context
+
+    @Mock
     private lateinit var viewMvcMock: IInvoiceFormPaymentViewMvc
 
     @Mock
     private lateinit var fragmentsEventBusMock: FragmentsEventBus
+
+    @Mock
+    private lateinit var generateInvoicePaymentUseCaseMock: GenerateInvoicePaymentUseCase
 
     @Mock
     private lateinit var invoiceDaoMock: InvoiceDao
@@ -35,12 +44,24 @@ class InvoiceFormPaymentControllerTest {
     private lateinit var invoiceFormDetailsFragmentEventMock: InvoiceFormDetailsFragmentEvent
 
     private val fakeInvoice: Invoice = InvoiceTestData.getInvoice()
+    private val fakeInvoicePayment: InvoicePayment = InvoiceTestData.getPayment()
 
     private val folio: String = fakeInvoice.folio
+
+    companion object {
+
+        private const val DELTA: Double = 0.0
+        private const val SUBTOTAL: String = "1000000"
+
+        private const val UNAVAILABLE_STRING_ID: Int = R.string.default_unavailable
+        private const val UNAVAILABLE_STRING_VALUE: String = "N/A"
+    }
 
     @Before
     fun setUp() {
         sut = InvoiceFormPaymentController(
+            contextMock,
+            generateInvoicePaymentUseCaseMock,
             fragmentsEventBusMock,
             invoiceDaoMock
         )
@@ -154,17 +175,41 @@ class InvoiceFormPaymentControllerTest {
     @Test
     fun onCalculateClicked_generatedPaymentIsBoundToInvoiceAndHasChangesIsFalse() {
         // Arrange
-        editingInvoice()
-        val subtotal = fakeInvoice.payment!!.subtotal.toCurrency()
+        setInvoiceFormDetailsFragmentEvent()
+        sut.onFragmentEvent(invoiceFormDetailsFragmentEventMock)
+        generateInvoicePayment()
         // Act
-        sut.onCalculateClicked(subtotal)
+        sut.onCalculateClicked(SUBTOTAL)
         // Assert
-        assertNotNull(sut.invoice!!.payment)
+        val invoicePayment = sut.invoice!!.payment!!
+        assertEquals(invoicePayment.subtotal, fakeInvoicePayment.subtotal, DELTA)
+        assertEquals(invoicePayment.iva, fakeInvoicePayment.iva, DELTA)
+        assertEquals(invoicePayment.ivaWithholding, fakeInvoicePayment.ivaWithholding, DELTA)
+        assertEquals(invoicePayment.isrWithholding, fakeInvoicePayment.isrWithholding, DELTA)
+        assertEquals(invoicePayment.total, fakeInvoicePayment.total, DELTA)
+
         assertFalse(sut.hasChanges)
     }
 
-    // onCalculateClicked_moralReceiverPerson_generatedPaymentIsBoundToViewWithDefaultWithholdings
-    // onCalculateClicked_physicalReceiverPerson_generatedPaymentIsBoundToView
+//    @Test
+//    fun onCalculateClicked_physicalReceiver_generatedPaymentIsBoundToViewWithDefaultWithholdings() {
+//        // Arrange
+//        setInvoiceFormDetailsFragmentEvent()
+//        sut.onFragmentEvent(invoiceFormDetailsFragmentEventMock)
+//        generateInvoicePayment()
+//        sut.receiverPersonType = Constants.PHYSICAL_PERSON
+//        getUnavailableString()
+//        // Act
+//        sut.onCalculateClicked(SUBTOTAL)
+//        // Assert
+//        verify(viewMvcMock).bindPayment(
+//            anyString(),
+//            anyString(),
+//            contains(UNAVAILABLE_STRING_VALUE),
+//            contains(UNAVAILABLE_STRING_VALUE),
+//            anyString()
+//        )
+//    }
 
     // -----------------------------------------------------------------------------------------
     // HELPER METHODS
@@ -182,5 +227,18 @@ class InvoiceFormPaymentControllerTest {
 
     private fun setInvoiceFormDetailsFragmentEvent() {
         `when`(invoiceFormDetailsFragmentEventMock.invoice).thenReturn(fakeInvoice)
+    }
+
+    private fun generateInvoicePayment() {
+        `when`(
+            generateInvoicePaymentUseCaseMock.generatePayment(
+                anyDouble(),
+                anyString()
+            )
+        ).thenReturn(fakeInvoicePayment)
+    }
+
+    private fun getUnavailableString() {
+        `when`(contextMock.getString(UNAVAILABLE_STRING_ID)).thenReturn(UNAVAILABLE_STRING_VALUE)
     }
 }

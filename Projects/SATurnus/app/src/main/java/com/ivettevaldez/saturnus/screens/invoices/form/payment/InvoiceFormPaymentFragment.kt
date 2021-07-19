@@ -10,20 +10,22 @@ import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toDoubleValue
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
-import com.ivettevaldez.saturnus.invoices.InvoicePayment
+import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
-import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragmentEvent
 import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import javax.inject.Inject
 
 class InvoiceFormPaymentFragment : BaseFragment(),
     Step,
-    IInvoiceFormPaymentViewMvc.Listener,
-    FragmentsEventBus.Listener {
+    IInvoiceFormPaymentViewMvc.Listener {
+
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -37,9 +39,9 @@ class InvoiceFormPaymentFragment : BaseFragment(),
     @Inject
     lateinit var invoiceDao: InvoiceDao
 
+    private lateinit var controller: InvoiceFormPaymentController
     private lateinit var viewMvc: IInvoiceFormPaymentViewMvc
 
-    private var folio: String? = null
     private var invoice: Invoice? = null
     private var receiverPersonType: String? = null
     private var subtotal: Double? = null
@@ -60,12 +62,11 @@ class InvoiceFormPaymentFragment : BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
-
-        requireArguments().let {
-            folio = it.getString(ARG_FOLIO)
-        }
-
         super.onCreate(savedInstanceState)
+
+        controller = controllerFactory.newInvoiceFormPaymentController()
+
+        bindArguments()
     }
 
     override fun onCreateView(
@@ -76,46 +77,20 @@ class InvoiceFormPaymentFragment : BaseFragment(),
 
         viewMvc = viewMvcFactory.newInvoiceFormPaymentViewMvc(parent)
 
-        if (folio != null) {
-            invoice = invoiceDao.findByFolio(folio!!)
-
-            if (invoice != null) {
-                subtotal = invoice!!.payment!!.subtotal
-
-                bindPayment(
-                    invoice!!.payment!!.subtotal.toCurrency(),
-                    invoice!!.payment!!.iva.toCurrency(),
-                    invoice!!.payment!!.ivaWithholding.toCurrency(),
-                    invoice!!.payment!!.isrWithholding.toCurrency(),
-                    invoice!!.payment!!.total.toCurrency()
-                )
-            }
-        }
+        controller.bindView(viewMvc)
+        controller.bindData()
 
         return viewMvc.getRootView()
     }
 
     override fun onStart() {
         super.onStart()
-
-        viewMvc.registerListener(this)
-        fragmentsEventBus.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-
-        viewMvc.unregisterListener(this)
-        fragmentsEventBus.unregisterListener(this)
-    }
-
-    override fun onFragmentEvent(event: Any) {
-        if (event is InvoiceFormDetailsFragmentEvent) {
-            hasChanges = true
-
-            invoice = event.invoice
-            receiverPersonType = invoice?.receiver?.personType
-        }
+        controller.onStop()
     }
 
     override fun verifyStep(): VerificationError? {
@@ -137,7 +112,7 @@ class InvoiceFormPaymentFragment : BaseFragment(),
     }
 
     override fun onSubtotalChanged() {
-        hasChanges = true
+//        hasChanges = true
     }
 
     override fun onCalculateClicked(subtotal: String) {
@@ -236,5 +211,13 @@ class InvoiceFormPaymentFragment : BaseFragment(),
         fragmentsEventBus.postEvent(
             InvoiceFormPaymentFragmentEvent(invoice!!)
         )
+    }
+
+    private fun bindArguments() {
+        requireArguments().let {
+            val folio: String? = it.getString(ARG_FOLIO)
+
+            controller.bindArguments(folio)
+        }
     }
 }
