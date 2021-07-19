@@ -2,6 +2,7 @@ package com.ivettevaldez.saturnus.invoices
 
 /* ktlint-disable no-wildcard-imports */
 
+import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
 import com.ivettevaldez.saturnus.people.Person
 import io.realm.RealmObject
 import io.realm.RealmResults

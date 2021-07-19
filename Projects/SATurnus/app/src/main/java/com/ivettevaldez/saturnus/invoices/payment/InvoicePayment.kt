@@ -1,7 +1,8 @@
-package com.ivettevaldez.saturnus.invoices
+package com.ivettevaldez.saturnus.invoices.payment
 
 /* ktlint-disable no-wildcard-imports */
 
+import com.ivettevaldez.saturnus.invoices.Invoice
 import io.realm.RealmObject
 import io.realm.RealmResults
 import io.realm.annotations.Index
