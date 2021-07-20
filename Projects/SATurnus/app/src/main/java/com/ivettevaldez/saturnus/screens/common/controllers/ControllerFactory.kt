@@ -67,6 +67,7 @@ class ControllerFactory @Inject constructor(
     fun newInvoiceFormPaymentController(): InvoiceFormPaymentController {
         return InvoiceFormPaymentController(
             context.get(),
+            dialogsManager.get(),
             generateInvoicePaymentUseCase.get(),
             fragmentsEventBus.get(),
             invoiceDao.get()

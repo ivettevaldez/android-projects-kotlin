@@ -51,6 +51,7 @@
     <string name="error_missing_receiver">
         Debes elegir a la persona que recibirá la factura para poder continuar.
     </string>
+    <string name="error_missing_subtotal">Debes ingresar un subtotal para poder continuar.</string>
     <string name="error_missing_calculation">Debes hacer un cálculo para poder continuar.</string>
     <string name="error_missing_recalculation">
         Debes confirmar el cálculo pulsando el botón \"calcular\" para poder continuar.

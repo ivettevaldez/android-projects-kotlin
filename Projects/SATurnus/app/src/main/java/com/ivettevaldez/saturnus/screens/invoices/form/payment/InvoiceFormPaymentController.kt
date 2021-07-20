@@ -1,16 +1,21 @@
 package com.ivettevaldez.saturnus.screens.invoices.form.payment
 
 import android.content.Context
+import com.ivettevaldez.saturnus.R
+import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toDoubleValue
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragmentEvent
+import com.stepstone.stepper.VerificationError
 
 class InvoiceFormPaymentController(
     private val context: Context,
+    private val dialogsManager: DialogsManager,
     private val generateInvoicePaymentUseCase: GenerateInvoicePaymentUseCase,
     private val fragmentsEventBus: FragmentsEventBus,
     private val invoiceDao: InvoiceDao
@@ -88,32 +93,45 @@ class InvoiceFormPaymentController(
     }
 
     override fun onCalculateClicked(subtotal: String) {
-        this.subtotal = subtotal.toDoubleValue()
-        val payment = generateInvoicePaymentUseCase.generatePayment(
-            this.subtotal!!,
-            receiverPersonType!!
-        )
+        if (subtotal.isBlank()) {
+            showSavingErrorDialog(context.getString(R.string.error_missing_subtotal))
+        } else {
+            this.subtotal = subtotal.toDoubleValue()
+            val payment = generateInvoicePaymentUseCase.generatePayment(
+                this.subtotal!!,
+                receiverPersonType!!
+            )
 
-        invoice?.payment = payment
+            invoice?.payment = payment
 
-//        var ivaWithholding: String = ""
-//        var isrWithholding: String = ""
-//
-//        if (receiverPersonType == Constants.PHYSICAL_PERSON) {
-//            val defaultUnavailable = context.getString(R.string.default_unavailable)
-//            ivaWithholding = defaultUnavailable
-//            isrWithholding = defaultUnavailable
-//        }
-//
-//        bindPayment(
-//            payment.subtotal.toCurrency(),
-//            payment.iva.toCurrency(),
-//            ivaWithholding,
-//            isrWithholding,
-//            payment.total.toCurrency()
-//        )
+            val ivaWithholding: String
+            val isrWithholding: String
 
-        hasChanges = false
+            when (receiverPersonType) {
+                Constants.PHYSICAL_PERSON -> {
+                    val defaultUnavailable = context.getString(R.string.default_unavailable)
+                    ivaWithholding = defaultUnavailable
+                    isrWithholding = defaultUnavailable
+                }
+                Constants.MORAL_PERSON -> {
+                    ivaWithholding = payment.ivaWithholding.toCurrency()
+                    isrWithholding = payment.isrWithholding.toCurrency()
+                }
+                else -> {
+                    throw RuntimeException("Unsupported receiver type: $receiverPersonType")
+                }
+            }
+
+            bindPayment(
+                payment.subtotal.toCurrency(),
+                payment.iva.toCurrency(),
+                ivaWithholding,
+                isrWithholding,
+                payment.total.toCurrency()
+            )
+
+            hasChanges = false
+        }
     }
 
     override fun onFragmentEvent(event: Any) {
@@ -123,5 +141,63 @@ class InvoiceFormPaymentController(
             invoice = event.invoice
             receiverPersonType = invoice!!.receiver!!.personType
         }
+    }
+
+    fun verifyStep(): VerificationError? {
+        val errorMessage: String? = hasFormErrors()
+        return if (errorMessage != null) {
+            VerificationError(errorMessage)
+        } else {
+            postCompleteInvoice()
+            null
+        }
+    }
+
+    fun onError(error: VerificationError) {
+        showSavingErrorDialog(error.errorMessage)
+    }
+
+    private fun hasFormErrors(): String? {
+        val defaultZero = context.getString(R.string.default_zero).toCurrency()
+
+        return if (viewMvc.getSubtotal() == defaultZero ||
+            viewMvc.getIva() == defaultZero ||
+            viewMvc.getTotal() == defaultZero
+        ) {
+            context.getString(R.string.error_missing_calculation)
+        } else if (hasChanges) {
+            context.getString(R.string.error_missing_recalculation)
+        } else {
+            null
+        }
+    }
+
+    private fun showSavingErrorDialog(error: String) {
+        dialogsManager.showGenericSavingError(null, error)
+    }
+
+    private fun setDefaults() {
+        val defaultZero: String = context.getString(R.string.default_zero).toCurrency()
+        val withholding: String = if (receiverPersonType == Constants.PHYSICAL_PERSON) {
+            context.getString(R.string.default_unavailable)
+        } else {
+            defaultZero
+        }
+
+        bindPayment(
+            subtotal = defaultZero,
+            iva = defaultZero,
+            ivaWithholding = withholding,
+            isrWithholding = withholding,
+            total = defaultZero
+        )
+    }
+
+    private fun postCompleteInvoice() {
+        setDefaults()
+
+        fragmentsEventBus.postEvent(
+            InvoiceFormPaymentFragmentEvent(invoice!!)
+        )
     }
 }
