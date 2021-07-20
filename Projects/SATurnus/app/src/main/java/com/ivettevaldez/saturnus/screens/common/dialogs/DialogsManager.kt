@@ -51,7 +51,7 @@ open class DialogsManager @Inject constructor(
             getString(R.string.error_saving_title),
             String.format(
                 getString(R.string.error_invalid_person_name_template),
-                PersonFormFragment.MIN_NAME_LENGTH
+                PersonFormFragment.MIN_NAME_LENGTH + 1
             ),
             getString(R.string.action_ok)
         )

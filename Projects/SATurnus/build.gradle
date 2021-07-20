@@ -2,7 +2,7 @@
 buildscript {
 
     ext.kotlin_version = "1.5.21"
-    ext.realm_version = "10.4.0"
+    ext.realm_version = "10.6.1"
     ext.dagger_version = "2.35.1"
     ext.mockito_version = "3.11.2"
     ext.mockito_kotlin_version = "3.2.0"
