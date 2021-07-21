@@ -1,27 +1,26 @@
 package com.ivettevaldez.saturnus.screens.invoices.details
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.screens.common.controllers.BaseFragment
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
-import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogEvent
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
 class InvoiceDetailsFragment : BaseFragment(),
-    IInvoiceDetailsViewMvc.Listener,
-    DialogsEventBus.Listener {
+    IInvoiceDetailsViewMvc.Listener {
+
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
@@ -41,7 +40,9 @@ class InvoiceDetailsFragment : BaseFragment(),
     @Inject
     lateinit var invoiceDao: InvoiceDao
 
+    private lateinit var controller: InvoiceDetailsController
     private lateinit var viewMvc: IInvoiceDetailsViewMvc
+
     private lateinit var folio: String
 
     private var editionMode: Boolean = false
@@ -63,6 +64,12 @@ class InvoiceDetailsFragment : BaseFragment(),
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
+        controller = controllerFactory.newInvoiceDetailsController()
+
+        bindArguments()
+    }
+
+    private fun bindArguments() {
         requireArguments().let {
             folio = it.getString(ARG_FOLIO)!!
         }
@@ -76,6 +83,7 @@ class InvoiceDetailsFragment : BaseFragment(),
 
         viewMvc = viewMvcFactory.newInvoiceDetailsViewMvc(parent)
 
+        controller.bindView(viewMvc)
         bindInvoice()
 
         return viewMvc.getRootView()
@@ -83,37 +91,17 @@ class InvoiceDetailsFragment : BaseFragment(),
 
     override fun onStart() {
         super.onStart()
-
-        viewMvc.registerListener(this)
-        dialogsEventBus.registerListener(this)
+        controller.onStart()
     }
 
     override fun onResume() {
         super.onResume()
-
-        if (editionMode) {
-            bindInvoice()
-        }
+        controller.onResume()
     }
 
     override fun onStop() {
         super.onStop()
-
-        viewMvc.unregisterListener(this)
-        dialogsEventBus.unregisterListener(this)
-    }
-
-    override fun onDialogEvent(event: Any) {
-        if (event is PromptDialogEvent) {
-            when (event.clickedButton) {
-                PromptDialogEvent.Button.POSITIVE -> {
-                    deleteInvoice()
-                }
-                PromptDialogEvent.Button.NEGATIVE -> {
-                    // Nothing to do here.
-                }
-            }
-        }
+        controller.onStop()
     }
 
     override fun onNavigateUpClicked() {
@@ -146,15 +134,5 @@ class InvoiceDetailsFragment : BaseFragment(),
         }
 
         viewMvc.hideProgressIndicator()
-    }
-
-    private fun deleteInvoice() {
-        invoiceDao.delete(folio)
-
-        messagesHelper.showShortMessage(viewMvc.getRootView(), R.string.message_deleted_invoice)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            screensNavigator.navigateUp()
-        }, Constants.SHOW_MESSAGE_DELAY)
     }
 }

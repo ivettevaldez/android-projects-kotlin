@@ -11,7 +11,7 @@ open class MessagesHelper @Inject constructor() {
         Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
     }
 
-    fun showShortMessage(rootView: View, message: String) {
+    open fun showShortMessage(rootView: View, message: String) {
         Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
     }
 

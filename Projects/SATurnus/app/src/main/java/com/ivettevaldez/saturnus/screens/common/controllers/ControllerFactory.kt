@@ -11,6 +11,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.main.MainController
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.saturnus.screens.invoices.details.InvoiceDetailsController
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsController
 import com.ivettevaldez.saturnus.screens.invoices.form.main.InvoiceFormMainController
 import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentController
@@ -79,6 +80,16 @@ class ControllerFactory @Inject constructor(
             dialogsManager.get(),
             generateInvoicePaymentUseCase.get(),
             fragmentsEventBus.get(),
+            invoiceDao.get()
+        )
+    }
+
+    fun newInvoiceDetailsController(): InvoiceDetailsController {
+        return InvoiceDetailsController(
+            screensNavigator.get(),
+            dialogsEventBus.get(),
+            messagesHelper.get(),
+            uiHandler.get(),
             invoiceDao.get()
         )
     }

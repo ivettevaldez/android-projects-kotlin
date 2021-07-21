@@ -14,7 +14,7 @@ class InvoicesListController(
 
     private lateinit var viewMvc: IInvoicesListViewMvc
 
-    var rfc: String? = null
+    lateinit var rfc: String
 
     fun bindView(viewMvc: IInvoicesListViewMvc) {
         this.viewMvc = viewMvc
@@ -59,7 +59,7 @@ class InvoicesListController(
         viewMvc.hideProgressIndicator()
     }
 
-    private fun getPerson(): Person? = personDao.findByRfc(rfc!!)
+    private fun getPerson(): Person? = personDao.findByRfc(rfc)
 
-    private fun getInvoices(): List<Invoice> = invoiceDao.findAllByIssuingRfc(rfc!!)
+    private fun getInvoices(): List<Invoice> = invoiceDao.findAllByIssuingRfc(rfc)
 }
