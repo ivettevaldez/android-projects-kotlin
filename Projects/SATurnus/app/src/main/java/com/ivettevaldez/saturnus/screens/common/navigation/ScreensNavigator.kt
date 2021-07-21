@@ -36,13 +36,13 @@ open class ScreensNavigator @Inject constructor(
         )
     }
 
-    fun toInvoiceDetails(folio: String) {
+    open fun toInvoiceDetails(folio: String) {
         fragmentFrameHelper.replaceFragment(
             InvoiceDetailsFragment.newInstance(folio)
         )
     }
 
-    fun toInvoiceForm(folio: String? = null, issuingRfc: String? = null) {
+    open fun toInvoiceForm(folio: String? = null, issuingRfc: String? = null) {
         fragmentFrameHelper.replaceFragment(
             InvoiceFormMainFragment.newInstance(folio, issuingRfc)
         )

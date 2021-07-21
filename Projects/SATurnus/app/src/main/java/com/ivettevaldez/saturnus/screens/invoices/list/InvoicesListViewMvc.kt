@@ -22,7 +22,7 @@ interface IInvoicesListViewMvc : IObservableViewMvc<IInvoicesListViewMvc.Listene
     interface Listener {
 
         fun onNavigateUpClicked()
-        fun onAddNewInvoiceClick()
+        fun onAddNewInvoiceClicked()
         fun onDetailsClicked(folio: String)
     }
 
@@ -129,7 +129,7 @@ class InvoicesListViewMvcImpl(
     private fun setListenerEvents() {
         fabAddNew.setOnClickListener {
             for (listener in listeners) {
-                listener.onAddNewInvoiceClick()
+                listener.onAddNewInvoiceClicked()
             }
         }
     }

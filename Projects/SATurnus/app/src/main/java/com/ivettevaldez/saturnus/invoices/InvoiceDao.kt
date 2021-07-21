@@ -43,7 +43,7 @@ open class InvoiceDao @Inject constructor() {
         return invoice
     }
 
-    fun findAllByIssuingRfc(rfc: String): List<Invoice> {
+    open fun findAllByIssuingRfc(rfc: String): List<Invoice> {
         return Invoice().querySorted(CREATED_AT, Sort.DESCENDING) {
             equalTo(ISSUING_RFC, rfc)
         }

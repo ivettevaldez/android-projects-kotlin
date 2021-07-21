@@ -8,6 +8,12 @@ import java.util.*
 
 object InvoiceTestData {
 
+    fun getInvoicesList(): List<Invoice> = listOf(
+        getInvoice(),
+        getInvoice(),
+        getInvoice()
+    )
+
     fun getInvoice(): Invoice = Invoice(
         issuing = PeopleTestData.getPhysicalPerson(),
         receiver = PeopleTestData.getMoralPerson(),
