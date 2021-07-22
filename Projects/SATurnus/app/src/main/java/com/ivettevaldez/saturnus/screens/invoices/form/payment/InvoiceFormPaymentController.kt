@@ -8,6 +8,7 @@ import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toDoubleValue
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
+import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragmentEvent
@@ -25,7 +26,7 @@ class InvoiceFormPaymentController(
     private lateinit var viewMvc: IInvoiceFormPaymentViewMvc
 
     var invoice: Invoice? = null
-    var subtotal: Double? = null
+    var invoicePayment: InvoicePayment? = null
     var receiverPersonType: String? = null
 
     var newInvoice: Boolean = false
@@ -36,7 +37,7 @@ class InvoiceFormPaymentController(
         this.viewMvc = viewMvc
     }
 
-    fun bindArguments(folio: String?) {
+    fun initVariables(folio: String?) {
         if (folio == null) {
             newInvoice = true
         } else {
@@ -44,43 +45,47 @@ class InvoiceFormPaymentController(
         }
 
         if (editingInvoice) {
-            findInvoice(folio!!)
+            findInvoiceWithPayment(folio!!)
         }
     }
 
-    fun findInvoice(folio: String) {
+    private fun findInvoiceWithPayment(folio: String) {
         invoice = invoiceDao.findByFolio(folio)
 
         if (invoice != null) {
-            subtotal = invoice!!.payment!!.subtotal
+            invoicePayment = invoice!!.payment
         }
     }
 
-    fun bindData() {
-        if (editingInvoice) {
-            bindPayment(
-                invoice!!.payment!!.subtotal.toCurrency(),
-                invoice!!.payment!!.iva.toCurrency(),
-                invoice!!.payment!!.ivaWithholding.toCurrency(),
-                invoice!!.payment!!.isrWithholding.toCurrency(),
-                invoice!!.payment!!.total.toCurrency()
-            )
-        }
-    }
+    private fun bindPayment() {
+        val ivaWithholding: String
+        val isrWithholding: String
 
-    private fun bindPayment(
-        subtotal: String,
-        iva: String,
-        ivaWithholding: String,
-        isrWithholding: String,
-        total: String
-    ) {
-        viewMvc.bindPayment(subtotal, iva, ivaWithholding, isrWithholding, total)
+        if (receiverPersonType == Constants.PHYSICAL_PERSON) {
+            val defaultUnavailable = context.getString(R.string.default_unavailable)
+            ivaWithholding = defaultUnavailable
+            isrWithholding = defaultUnavailable
+        } else {
+            ivaWithholding = invoicePayment!!.ivaWithholding.toCurrency()
+            isrWithholding = invoicePayment!!.isrWithholding.toCurrency()
+        }
+
+        viewMvc.bindPayment(
+            invoicePayment!!.subtotal.toCurrency(),
+            invoicePayment!!.iva.toCurrency(),
+            ivaWithholding,
+            isrWithholding,
+            invoicePayment!!.total.toCurrency()
+        )
     }
 
     fun onStart() {
         viewMvc.registerListener(this)
         fragmentsEventBus.registerListener(this)
+
+        if (editingInvoice) {
+            bindPayment()
+        }
     }
 
     fun onStop() {
@@ -93,42 +98,18 @@ class InvoiceFormPaymentController(
     }
 
     override fun onCalculateClicked(subtotal: String) {
-        if (subtotal.isBlank()) {
+        val defaultZero = context.getString(R.string.default_zero).toCurrency()
+
+        if (subtotal.isBlank() || subtotal == defaultZero) {
             showSavingErrorDialog(context.getString(R.string.error_missing_subtotal))
         } else {
-            this.subtotal = subtotal.toDoubleValue()
-            val payment = generateInvoicePaymentUseCase.generatePayment(
-                this.subtotal!!,
+            val subtotalDouble = subtotal.toDoubleValue()
+            invoicePayment = generateInvoicePaymentUseCase.generatePayment(
+                subtotalDouble,
                 receiverPersonType!!
             )
 
-            invoice?.payment = payment
-
-            val ivaWithholding: String
-            val isrWithholding: String
-
-            when (receiverPersonType) {
-                Constants.PHYSICAL_PERSON -> {
-                    val defaultUnavailable = context.getString(R.string.default_unavailable)
-                    ivaWithholding = defaultUnavailable
-                    isrWithholding = defaultUnavailable
-                }
-                Constants.MORAL_PERSON -> {
-                    ivaWithholding = payment.ivaWithholding.toCurrency()
-                    isrWithholding = payment.isrWithholding.toCurrency()
-                }
-                else -> {
-                    throw RuntimeException("Unsupported receiver type: $receiverPersonType")
-                }
-            }
-
-            bindPayment(
-                payment.subtotal.toCurrency(),
-                payment.iva.toCurrency(),
-                ivaWithholding,
-                isrWithholding,
-                payment.total.toCurrency()
-            )
+            bindPayment()
 
             hasChanges = false
         }
@@ -136,10 +117,12 @@ class InvoiceFormPaymentController(
 
     override fun onFragmentEvent(event: Any) {
         if (event is InvoiceFormDetailsFragmentEvent) {
-            hasChanges = true
-
             invoice = event.invoice
             receiverPersonType = invoice!!.receiver!!.personType
+
+            if (editingInvoice) {
+                onCalculateClicked(viewMvc.getSubtotal())
+            }
         }
     }
 
@@ -178,23 +161,31 @@ class InvoiceFormPaymentController(
 
     private fun setDefaults() {
         val defaultZero: String = context.getString(R.string.default_zero).toCurrency()
-        val withholding: String = if (receiverPersonType == Constants.PHYSICAL_PERSON) {
-            context.getString(R.string.default_unavailable)
+        val ivaWithholding: String
+        val isrWithholding: String
+
+        if (receiverPersonType == Constants.PHYSICAL_PERSON) {
+            val defaultUnavailable = context.getString(R.string.default_unavailable)
+            ivaWithholding = defaultUnavailable
+            isrWithholding = defaultUnavailable
         } else {
-            defaultZero
+            ivaWithholding = defaultZero
+            isrWithholding = defaultZero
         }
 
-        bindPayment(
-            subtotal = defaultZero,
-            iva = defaultZero,
-            ivaWithholding = withholding,
-            isrWithholding = withholding,
-            total = defaultZero
+        viewMvc.bindPayment(
+            defaultZero,
+            defaultZero,
+            ivaWithholding,
+            isrWithholding,
+            defaultZero
         )
     }
 
     private fun postCompleteInvoice() {
         setDefaults()
+
+        invoice!!.payment = invoicePayment
 
         fragmentsEventBus.postEvent(
             InvoiceFormPaymentFragmentEvent(invoice!!)

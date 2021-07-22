@@ -12,6 +12,7 @@ import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
 import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
+import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragmentEvent
 import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentControllerTest.FakeFieldValues.ALL_FILLED
 import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentControllerTest.FakeFieldValues.SUBTOTAL_IS_ZERO
@@ -26,6 +27,7 @@ import org.mockito.Captor
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.anyOrNull
 import org.mockito.kotlin.capture
 import org.mockito.kotlin.verify
 
@@ -56,17 +58,17 @@ class InvoiceFormPaymentControllerTest {
     private lateinit var invoiceFormDetailsFragmentEventMock: InvoiceFormDetailsFragmentEvent
 
     @Mock
-    private lateinit var verificationErrorMock: VerificationError
+    private lateinit var wrongEventMock: InvoiceFormChangeFragmentEvent
 
-    @Captor
-    private val stringCaptor: ArgumentCaptor<String> = ArgumentCaptor.forClass(String::class.java)
+    @Mock
+    private lateinit var verificationErrorMock: VerificationError
 
     @Captor
     private val paymentEventCaptor: ArgumentCaptor<InvoiceFormPaymentFragmentEvent> =
         ArgumentCaptor.forClass(InvoiceFormPaymentFragmentEvent::class.java)
 
     private val fakeInvoice: Invoice = InvoiceTestData.getInvoice()
-    private val fakeInvoicePayment: InvoicePayment = InvoiceTestData.getPayment()
+    private val fakeInvoicePayment: InvoicePayment = fakeInvoice.payment!!
 
     private val folio: String = fakeInvoice.folio
 
@@ -77,7 +79,6 @@ class InvoiceFormPaymentControllerTest {
 
     companion object {
 
-        private const val DELTA: Double = 0.0
         private const val SUBTOTAL: String = "1000000"
 
         private const val UNAVAILABLE_STRING_ID: Int = R.string.default_unavailable
@@ -105,64 +106,78 @@ class InvoiceFormPaymentControllerTest {
     }
 
     @Test
-    fun findInvoice_queryTheDatabaseAndSetInvoiceAndSubtotalIfInvoiceIsFound() {
-        // Arrange
-        findInvoiceByFolio()
-        // Act
-        sut.findInvoice(folio)
-        // Assert
-        verify(invoiceDaoMock).findByFolio(folio)
-        assertNotNull(sut.invoice)
-        assertNotNull(sut.subtotal)
-    }
-
-    @Test
-    fun bindArguments_newInvoice_folioIsNull() {
+    fun initVariables_nullFolio_configuresNewInvoice() {
         // Arrange
         newInvoice()
         // Act
         // Assert
+        verify(invoiceDaoMock, never()).findByFolio(anyOrNull())
+
         assertTrue(sut.newInvoice)
         assertFalse(sut.editingInvoice)
         assertNull(sut.invoice)
-        assertNull(sut.subtotal)
+        assertNull(sut.invoicePayment)
     }
 
     @Test
-    fun bindArguments_editingInvoice_folioIsNotNull() {
+    fun initVariables_folioIsNotNull_configuresEditingInvoice() {
         // Arrange
         editingInvoice()
         // Act
         // Assert
+        verify(invoiceDaoMock).findByFolio(folio)
+
         assertFalse(sut.newInvoice)
         assertTrue(sut.editingInvoice)
-        assertNotNull(sut.invoice)
-        assertNotNull(sut.subtotal)
+        assertEquals(sut.invoice, fakeInvoice)
+        assertEquals(sut.invoicePayment, fakeInvoicePayment)
     }
 
     @Test
-    fun bindData_newInvoice_noDataIsBoundToView() {
+    fun onStart_newInvoice_noDataIsBoundToView() {
         // Arrange
         newInvoice()
         // Act
-        sut.bindData()
+        sut.onStart()
         // Assert
-        verifyNoInteractions(viewMvcMock)
+        verify(viewMvcMock, never()).bindPayment(
+            anyOrNull(),
+            anyOrNull(),
+            anyOrNull(),
+            anyOrNull(),
+            anyOrNull()
+        )
     }
 
     @Test
-    fun bindData_editingInvoice_invoicePaymentIsBoundToView() {
+    fun onStart_editingInvoiceWithPhysicalReceiver_invoicePaymentIsBoundToViewWithCorrectData() {
         // Arrange
-        editingInvoice()
+        editingInvoiceWithPhysicalReceiver()
         // Act
-        sut.bindData()
+        sut.onStart()
         // Assert
         verify(viewMvcMock).bindPayment(
-            anyString(),
-            anyString(),
-            anyString(),
-            anyString(),
-            anyString()
+            subtotal = anyString(),
+            iva = anyString(),
+            ivaWithholding = org.mockito.kotlin.eq(UNAVAILABLE_STRING_VALUE),
+            isrWithholding = org.mockito.kotlin.eq(UNAVAILABLE_STRING_VALUE),
+            total = anyString()
+        )
+    }
+
+    @Test
+    fun onStart_editingInvoiceWithMoralReceiver_invoicePaymentIsBoundToViewWithCorrectData() {
+        // Arrange
+        editingInvoiceWithMoralReceiver()
+        // Act
+        sut.onStart()
+        // Assert
+        verify(viewMvcMock).bindPayment(
+            subtotal = anyString(),
+            iva = anyString(),
+            ivaWithholding = anyString(),
+            isrWithholding = anyString(),
+            total = anyString()
         )
     }
 
@@ -187,15 +202,51 @@ class InvoiceFormPaymentControllerTest {
     }
 
     @Test
-    fun onFragmentEvent_eventIsInvoiceFormDetailsFragmentEvent_invoiceAndReceiverPersonTypeAreBoundToView() {
+    fun onFragmentEvent_eventIsNotInvoiceFormDetailsFragmentEvent_noDataIsBound() {
+        // Arrange
+        sut.invoice = null
+        sut.receiverPersonType = null
+        sut.invoicePayment = null
+        // Act
+        sut.onFragmentEvent(wrongEventMock)
+        // Assert
+        assertNull(sut.invoice)
+        assertNull(sut.receiverPersonType)
+        assertNull(sut.invoicePayment)
+        verifyNoInteractions(viewMvcMock)
+    }
+
+    @Test
+    fun onFragmentEvent_newInvoiceWithInvoiceFormDetailsFragmentEvent_onlyInvoiceAndReceiverPersonTypeAreBound() {
         // Arrange
         setInvoiceFormDetailsFragmentEvent()
         // Act
         sut.onFragmentEvent(invoiceFormDetailsFragmentEventMock)
         // Assert
-        assertTrue(sut.hasChanges)
         assertNotNull(sut.invoice)
         assertNotNull(sut.receiverPersonType)
+        verifyNoInteractions(viewMvcMock)
+    }
+
+    @Test
+    fun onFragmentEvent_editingInvoiceWithInvoiceFormDetailsFragmentEvent_dataIsBoundToView() {
+        // Arrange
+        editingInvoiceWithInvoiceFormDetailsFragmentEvent()
+        // Act
+        sut.onFragmentEvent(invoiceFormDetailsFragmentEventMock)
+        // Assert
+        assertNotNull(sut.invoice)
+        assertNotNull(sut.receiverPersonType)
+        assertEquals(sut.invoicePayment, fakeInvoicePayment)
+        assertFalse(sut.hasChanges)
+
+        verify(viewMvcMock).bindPayment(
+            anyString(),
+            anyString(),
+            anyString(),
+            anyString(),
+            anyString()
+        )
     }
 
     @Test
@@ -210,6 +261,7 @@ class InvoiceFormPaymentControllerTest {
     @Test
     fun onCalculateClicked_emptySubtotal_genericSavingErrorDialogIsShown() {
         // Arrange
+        getDefaultZeroString()
         getMissingSubtotalString()
         // Act
         sut.onCalculateClicked("")
@@ -219,62 +271,43 @@ class InvoiceFormPaymentControllerTest {
     }
 
     @Test
-    fun onCalculateClicked_generatedPaymentIsBoundToInvoiceAndHasChangesIsFalse() {
-        // Arrange
-        generateInvoicePayment(Constants.PHYSICAL_PERSON)
-        // Act
-        sut.onCalculateClicked(SUBTOTAL)
-        // Assert
-        val invoicePayment = sut.invoice!!.payment!!
-        assertEquals(invoicePayment.subtotal, fakeInvoicePayment.subtotal, DELTA)
-        assertEquals(invoicePayment.iva, fakeInvoicePayment.iva, DELTA)
-        assertEquals(invoicePayment.ivaWithholding, fakeInvoicePayment.ivaWithholding, DELTA)
-        assertEquals(invoicePayment.isrWithholding, fakeInvoicePayment.isrWithholding, DELTA)
-        assertEquals(invoicePayment.total, fakeInvoicePayment.total, DELTA)
-
-        assertFalse(sut.hasChanges)
-    }
-
-    @Test
     fun onCalculateClicked_physicalReceiver_generatedPaymentIsBoundToViewWithDefaultWithholdings() {
         // Arrange
+        getDefaultZeroString()
         generateInvoicePayment(Constants.PHYSICAL_PERSON)
         // Act
         sut.onCalculateClicked(SUBTOTAL)
         // Assert
+        assertEquals(sut.invoicePayment, fakeInvoicePayment)
+        assertFalse(sut.hasChanges)
+
         verify(viewMvcMock).bindPayment(
             subtotal = anyString(),
             iva = anyString(),
-            ivaWithholding = capture(stringCaptor),
-            isrWithholding = capture(stringCaptor),
+            ivaWithholding = org.mockito.kotlin.eq(UNAVAILABLE_STRING_VALUE),
+            isrWithholding = org.mockito.kotlin.eq(UNAVAILABLE_STRING_VALUE),
             total = anyString()
         )
-
-        val ivaWithholding: String = stringCaptor.allValues[0]
-        assertEquals(ivaWithholding, UNAVAILABLE_STRING_VALUE)
-        val isrWithholding: String = stringCaptor.allValues[1]
-        assertEquals(isrWithholding, UNAVAILABLE_STRING_VALUE)
     }
 
     @Test
     fun onCalculateClicked_moralReceiver_generatedPaymentIsBoundToView() {
         // Arrange
+        getDefaultZeroString()
         generateInvoicePayment(Constants.MORAL_PERSON)
         // Act
         sut.onCalculateClicked(SUBTOTAL)
         // Assert
+        assertEquals(sut.invoicePayment, fakeInvoicePayment)
+        assertFalse(sut.hasChanges)
+
         verify(viewMvcMock).bindPayment(
             subtotal = anyString(),
             iva = anyString(),
-            ivaWithholding = capture(stringCaptor),
-            isrWithholding = capture(stringCaptor),
+            ivaWithholding = anyString(),
+            isrWithholding = anyString(),
             total = anyString()
         )
-
-        val ivaWithholding: String = stringCaptor.allValues[0]
-        assertNotEquals(ivaWithholding, UNAVAILABLE_STRING_VALUE)
-        val isrWithholding: String = stringCaptor.allValues[1]
-        assertNotEquals(isrWithholding, UNAVAILABLE_STRING_VALUE)
     }
 
     @Test
@@ -309,6 +342,7 @@ class InvoiceFormPaymentControllerTest {
         val result = sut.verifyStep()
         // Assert
         assertNull(result)
+        assertEquals(sut.invoice!!.payment!!, sut.invoicePayment!!)
 
         verify(viewMvcMock).bindPayment(
             subtotal = DEFAULT_ZERO_VALUE.toCurrency(),
@@ -329,6 +363,7 @@ class InvoiceFormPaymentControllerTest {
         val result = sut.verifyStep()
         // Assert
         assertNull(result)
+        assertEquals(sut.invoice!!.payment!!, sut.invoicePayment!!)
 
         verify(viewMvcMock).bindPayment(
             subtotal = DEFAULT_ZERO_VALUE.toCurrency(),
@@ -372,13 +407,31 @@ class InvoiceFormPaymentControllerTest {
     // -----------------------------------------------------------------------------------------
 
     private fun newInvoice() {
-        sut.bindArguments(null)
+        sut.initVariables(null)
     }
 
     private fun editingInvoice() {
-        `when`(invoiceDaoMock.findByFolio(folio)).thenReturn(fakeInvoice)
+        findInvoiceByFolio()
+        sut.initVariables(folio)
+    }
 
-        sut.bindArguments(folio)
+    private fun editingInvoiceWithPhysicalReceiver() {
+        editingInvoice()
+        getUnavailableString()
+        sut.receiverPersonType = Constants.PHYSICAL_PERSON
+    }
+
+    private fun editingInvoiceWithInvoiceFormDetailsFragmentEvent() {
+        editingInvoiceWithPhysicalReceiver()
+        generateInvoicePayment(sut.receiverPersonType!!)
+        setInvoiceFormDetailsFragmentEvent()
+        getSubtotal()
+        getDefaultZeroString()
+    }
+
+    private fun editingInvoiceWithMoralReceiver() {
+        editingInvoice()
+        sut.receiverPersonType = Constants.MORAL_PERSON
     }
 
     private fun findInvoiceByFolio() {
@@ -401,6 +454,10 @@ class InvoiceFormPaymentControllerTest {
                 anyString()
             )
         ).thenReturn(fakeInvoicePayment)
+    }
+
+    private fun getSubtotal() {
+        `when`(viewMvcMock.getSubtotal()).thenReturn(SUBTOTAL)
     }
 
     private fun getUnavailableString() {

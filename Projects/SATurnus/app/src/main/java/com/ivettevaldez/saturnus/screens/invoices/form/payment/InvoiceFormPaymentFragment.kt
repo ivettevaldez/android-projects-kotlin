@@ -11,8 +11,7 @@ import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import javax.inject.Inject
 
-class InvoiceFormPaymentFragment : BaseFragment(),
-    Step {
+class InvoiceFormPaymentFragment : BaseFragment(), Step {
 
     @Inject
     lateinit var controllerFactory: ControllerFactory
@@ -21,7 +20,6 @@ class InvoiceFormPaymentFragment : BaseFragment(),
     lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var controller: InvoiceFormPaymentController
-    private lateinit var viewMvc: IInvoiceFormPaymentViewMvc
 
     companion object {
 
@@ -41,8 +39,9 @@ class InvoiceFormPaymentFragment : BaseFragment(),
         super.onCreate(savedInstanceState)
 
         controller = controllerFactory.newInvoiceFormPaymentController()
-
-        bindArguments()
+        controller.initVariables(
+            requireArguments().getString(ARG_FOLIO)
+        )
     }
 
     override fun onCreateView(
@@ -51,10 +50,9 @@ class InvoiceFormPaymentFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
-        viewMvc = viewMvcFactory.newInvoiceFormPaymentViewMvc(parent)
+        val viewMvc = viewMvcFactory.newInvoiceFormPaymentViewMvc(parent)
 
         controller.bindView(viewMvc)
-        controller.bindData()
 
         return viewMvc.getRootView()
     }
@@ -79,13 +77,5 @@ class InvoiceFormPaymentFragment : BaseFragment(),
 
     override fun onError(error: VerificationError) {
         controller.onError(error)
-    }
-
-    private fun bindArguments() {
-        requireArguments().let {
-            val folio: String? = it.getString(ARG_FOLIO)
-
-            controller.bindArguments(folio)
-        }
     }
 }
