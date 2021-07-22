@@ -87,6 +87,7 @@ class ControllerFactory @Inject constructor(
     fun newInvoiceDetailsController(): InvoiceDetailsController {
         return InvoiceDetailsController(
             screensNavigator.get(),
+            dialogsManager.get(),
             dialogsEventBus.get(),
             messagesHelper.get(),
             uiHandler.get(),

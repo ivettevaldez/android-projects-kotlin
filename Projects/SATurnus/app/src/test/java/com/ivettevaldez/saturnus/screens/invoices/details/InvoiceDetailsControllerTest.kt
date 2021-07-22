@@ -1,5 +1,7 @@
 package com.ivettevaldez.saturnus.screens.invoices.details
 
+/* ktlint-disable no-wildcard-imports */
+
 import android.os.Handler
 import android.view.View
 import com.ivettevaldez.saturnus.R
@@ -7,6 +9,7 @@ import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogEvent
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
@@ -37,6 +40,9 @@ class InvoiceDetailsControllerTest {
     private lateinit var screensNavigatorMock: ScreensNavigator
 
     @Mock
+    private lateinit var dialogsManager: DialogsManager
+
+    @Mock
     private lateinit var dialogsEventBusMock: DialogsEventBus
 
     @Mock
@@ -63,12 +69,14 @@ class InvoiceDetailsControllerTest {
     companion object {
 
         private const val DELETED_INVOICE_ID: Int = R.string.message_deleted_invoice
+        private const val STANDARD_ERROR_ID: Int = R.string.error_standard
     }
 
     @Before
     fun setUp() {
         sut = InvoiceDetailsController(
             screensNavigatorMock,
+            dialogsManager,
             dialogsEventBusMock,
             messagesHelperMock,
             uiHandlerMock,
@@ -79,17 +87,46 @@ class InvoiceDetailsControllerTest {
     }
 
     @Test
-    fun bindArguments_folioIsNotNull() {
+    fun bindFolio_folioIsNotNull() {
         // Arrange
         // Act
-        sut.bindArguments(folio)
+        sut.bindFolio(folio)
         // Assert
         assertNotNull(sut.folio)
     }
 
     @Test
+    fun onStart_issuingRfcIsNotNull_invoiceIsBoundToView() {
+        // Arrange
+        foundInvoiceByFolio()
+        // Act
+        sut.onStart()
+        // Assert
+        verify(invoiceDaoMock).findByFolio(folio)
+        viewMvcMock.inOrder {
+            verify().showProgressIndicator()
+            verify().bindInvoice(expectedInvoice)
+            verify().hideProgressIndicator()
+            verifyNoMoreInteractions()
+        }
+    }
+
+    @Test
+    fun onStart_nullInvoice_noInvoiceIsBoundToView() {
+        // Arrange
+        sut.bindFolio(folio)
+        getRootView()
+        // Act
+        sut.onStart()
+        // Assert
+        verify(viewMvcMock, never()).bindInvoice(anyOrNull())
+        verify(messagesHelperMock).showShortMessage(viewMock, STANDARD_ERROR_ID)
+    }
+
+    @Test
     fun onStart_listenersRegistered() {
         // Arrange
+        foundInvoiceByFolio()
         // Act
         sut.onStart()
         // Assert
@@ -108,37 +145,9 @@ class InvoiceDetailsControllerTest {
     }
 
     @Test
-    fun onResume_editionMode_invoiceIsBoundToView() {
-        // Arrange
-        sut.bindArguments(folio)
-        sut.editionMode = true
-        foundInvoiceByFolio()
-        // Act
-        sut.onResume()
-        // Assert
-        verify(invoiceDaoMock).findByFolio(folio)
-        viewMvcMock.inOrder {
-            verify().showProgressIndicator()
-            verify().bindInvoice(expectedInvoice)
-            verify().hideProgressIndicator()
-            verifyNoMoreInteractions()
-        }
-    }
-
-    @Test
-    fun onResume_readOnlyMode_noInvoiceIsBoundToView() {
-        // Arrange
-        sut.editionMode = false
-        // Act
-        sut.onResume()
-        // Assert
-        verifyNoInteractions(viewMvcMock)
-    }
-
-    @Test
     fun onDialogEvent_eventIsNotPromptDialogEvent_nothingHappens() {
         // Arrange
-        sut.bindArguments(folio)
+        sut.bindFolio(folio)
         // Act
         sut.onDialogEvent(wrongEventMock)
         // Assert
@@ -181,12 +190,59 @@ class InvoiceDetailsControllerTest {
         verifyNoInteractions(screensNavigatorMock)
     }
 
+    @Test
+    fun onNavigateUpClicked_navigatesUp() {
+        // Arrange
+        // Act
+        sut.onNavigateUpClicked()
+        // Assert
+        verify(screensNavigatorMock).navigateUp()
+    }
+
+    @Test
+    fun onEditInvoiceClicked_nullIssuingRfc_editionModeIsFalseAndStandardErrorMessageIsShown() {
+        // Arrange
+        foundInvoiceWithNullIssuingRfc()
+        // Act
+        sut.onEditInvoiceClicked()
+        // Assert
+        verify(invoiceDaoMock).findByFolio(folio)
+        verify(messagesHelperMock).showShortMessage(viewMock, STANDARD_ERROR_ID)
+    }
+
+    @Test
+    fun onEditInvoiceClicked_issuingRfcIsNotNull_editionModeIsTrueAndNavigatesToInvoiceFormScreen() {
+        // Arrange
+        foundInvoiceByFolio()
+        // Act
+        sut.onEditInvoiceClicked()
+        // Assert
+        verify(invoiceDaoMock).findByFolio(folio)
+        verify(screensNavigatorMock).toInvoiceForm(issuingRfc = expectedInvoice.issuing?.rfc)
+    }
+
+    @Test
+    fun onDeleteInvoiceClicked_deleteInvoiceConfirmationDialogIsShown() {
+        // Arrange
+        // Act
+        sut.onDeleteInvoiceClicked()
+        // Assert
+        verify(dialogsManager).showDeleteInvoiceConfirmation(null)
+    }
+
     // -----------------------------------------------------------------------------------------
     // HELPER METHODS
     // -----------------------------------------------------------------------------------------
 
     private fun foundInvoiceByFolio() {
+        sut.bindFolio(folio)
         `when`(invoiceDaoMock.findByFolio(folio)).thenReturn(expectedInvoice)
+    }
+
+    private fun foundInvoiceWithNullIssuingRfc() {
+        foundInvoiceByFolio()
+        getRootView()
+        expectedInvoice.issuing = null
     }
 
     private fun userClickedPositiveButtonFromPromptDialog() {
@@ -209,14 +265,14 @@ class InvoiceDetailsControllerTest {
     }
 
     private fun eventIsPromptDialogEventWithPositiveButtonClicked() {
-        sut.bindArguments(folio)
+        sut.bindFolio(folio)
         userClickedPositiveButtonFromPromptDialog()
         passedDelay()
         getRootView()
     }
 
     private fun eventIsPromptDialogEventWithNegativeButtonClicked() {
-        sut.bindArguments(folio)
+        sut.bindFolio(folio)
         userClickedNegativeButtonFromPromptDialog()
     }
 }

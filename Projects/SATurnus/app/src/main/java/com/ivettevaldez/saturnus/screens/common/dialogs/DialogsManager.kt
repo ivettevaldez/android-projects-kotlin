@@ -107,7 +107,7 @@ open class DialogsManager @Inject constructor(
         bottomSheetDialog.show(fragmentManager, tag)
     }
 
-    fun showDeleteInvoiceConfirmation(tag: String?) {
+    open fun showDeleteInvoiceConfirmation(tag: String?) {
         val dialogFragment: DialogFragment = PromptDialog.newPromptDialog(
             getString(R.string.action_delete_invoice),
             getString(R.string.message_delete_invoice_confirmation),
