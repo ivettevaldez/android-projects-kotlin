@@ -200,25 +200,13 @@ class InvoiceDetailsControllerTest {
     }
 
     @Test
-    fun onEditInvoiceClicked_nullIssuingRfc_editionModeIsFalseAndStandardErrorMessageIsShown() {
-        // Arrange
-        foundInvoiceWithNullIssuingRfc()
-        // Act
-        sut.onEditInvoiceClicked()
-        // Assert
-        verify(invoiceDaoMock).findByFolio(folio)
-        verify(messagesHelperMock).showShortMessage(viewMock, STANDARD_ERROR_ID)
-    }
-
-    @Test
-    fun onEditInvoiceClicked_issuingRfcIsNotNull_editionModeIsTrueAndNavigatesToInvoiceFormScreen() {
+    fun onEditInvoiceClicked_navigatesToInvoiceFormScreen() {
         // Arrange
         foundInvoiceByFolio()
         // Act
         sut.onEditInvoiceClicked()
         // Assert
-        verify(invoiceDaoMock).findByFolio(folio)
-        verify(screensNavigatorMock).toInvoiceForm(issuingRfc = expectedInvoice.issuing?.rfc)
+        verify(screensNavigatorMock).toInvoiceForm(folio = folio)
     }
 
     @Test
@@ -237,12 +225,6 @@ class InvoiceDetailsControllerTest {
     private fun foundInvoiceByFolio() {
         sut.bindFolio(folio)
         `when`(invoiceDaoMock.findByFolio(folio)).thenReturn(expectedInvoice)
-    }
-
-    private fun foundInvoiceWithNullIssuingRfc() {
-        foundInvoiceByFolio()
-        getRootView()
-        expectedInvoice.issuing = null
     }
 
     private fun userClickedPositiveButtonFromPromptDialog() {

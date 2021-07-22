@@ -54,13 +54,7 @@ class InvoiceDetailsController(
     }
 
     override fun onEditInvoiceClicked() {
-        val issuingRfc = getInvoice()?.issuing?.rfc
-
-        if (issuingRfc != null) {
-            screensNavigator.toInvoiceForm(issuingRfc = issuingRfc)
-        } else {
-            showShortMessage(R.string.error_standard)
-        }
+        screensNavigator.toInvoiceForm(folio = folio)
     }
 
     override fun onDeleteInvoiceClicked() {
@@ -90,7 +84,7 @@ class InvoiceDetailsController(
     private fun bindInvoice() {
         viewMvc.showProgressIndicator()
 
-        val invoice = invoiceDao.findByFolio(folio)
+        val invoice = getInvoice()
         if (invoice != null) {
             viewMvc.bindInvoice(invoice)
         } else {
