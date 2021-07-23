@@ -34,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/invoices_add_new"
-        android:textColor="@color/link_water"
+        android:textColor="@color/color_label_text"
         android:textSize="@dimen/text_big"
         android:visibility="gone"
         android:layout_centerInParent="true"

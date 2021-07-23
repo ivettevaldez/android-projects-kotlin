@@ -4,10 +4,12 @@ import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 
 class InvoicesListController(
     private val screensNavigator: ScreensNavigator,
+    private val dialogsManager: DialogsManager,
     private val personDao: PersonDao,
     private val invoiceDao: InvoiceDao
 ) : IInvoicesListViewMvc.Listener {
@@ -20,12 +22,14 @@ class InvoicesListController(
         this.viewMvc = viewMvc
     }
 
-    fun bindArguments(rfc: String) {
+    fun bindRfc(rfc: String) {
         this.rfc = rfc
     }
 
     fun onStart() {
         viewMvc.registerListener(this)
+
+        bindInvoices()
     }
 
     fun onStop() {
@@ -37,7 +41,11 @@ class InvoicesListController(
     }
 
     override fun onAddNewInvoiceClicked() {
-        screensNavigator.toInvoiceForm(issuingRfc = rfc)
+        if (getReceivers().isNotEmpty()) {
+            screensNavigator.toInvoiceForm(issuingRfc = rfc)
+        } else {
+            dialogsManager.showMissingReceiversError(null)
+        }
     }
 
     override fun onDetailsClicked(folio: String) {
@@ -53,13 +61,15 @@ class InvoicesListController(
         }
     }
 
-    fun bindInvoices() {
+    private fun bindInvoices() {
         viewMvc.showProgressIndicator()
         viewMvc.bindInvoices(getInvoices())
         viewMvc.hideProgressIndicator()
     }
 
     private fun getPerson(): Person? = personDao.findByRfc(rfc)
+
+    private fun getReceivers(): List<Person> = personDao.findAllReceivers()
 
     private fun getInvoices(): List<Invoice> = invoiceDao.findAllByIssuingRfc(rfc)
 }

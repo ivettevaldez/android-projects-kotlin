@@ -37,6 +37,15 @@ open class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
+    open fun showMissingReceiversError(tag: String?) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.error_missing_receivers_title),
+            getString(R.string.error_missing_receivers_message),
+            getString(R.string.action_ok)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
     fun showSavePersonError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),

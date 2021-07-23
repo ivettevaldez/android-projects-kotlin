@@ -65,6 +65,10 @@
     </string>
     <string name="error_invalid_rfc">El RFC ingresado es inválido.</string>
     <string name="error_folio_must_be_unique">El folio debe ser único.</string>
+    <string name="error_missing_receivers_title">Oops!</string>
+    <string name="error_missing_receivers_message">
+        Para crear una nueva factura, primero debes agregar al menos a una persona que reciba facturas.
+    </string>
 
     <!-- Menu -->
     <string name="menu_invoices">@string/invoices_title</string>

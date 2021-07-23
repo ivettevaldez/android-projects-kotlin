@@ -55,7 +55,7 @@ open class PersonDao @Inject constructor() {
         }
     }
 
-    fun findAllReceivers(): List<Person> {
+    open fun findAllReceivers(): List<Person> {
         return Person().querySorted(UPDATED_AT, Sort.DESCENDING) {
             equalTo(
                 CLIENT_TYPE,

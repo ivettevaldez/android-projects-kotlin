@@ -36,8 +36,9 @@ class InvoicesListFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
 
         controller = controllerFactory.newInvoicesListController()
-
-        bindArguments()
+        controller.bindRfc(
+            requireArguments().getString(ARG_RFC)!!
+        )
     }
 
     override fun onCreateView(
@@ -50,7 +51,6 @@ class InvoicesListFragment : BaseFragment() {
 
         controller.bindView(viewMvc)
         controller.setToolbarTitle()
-        controller.bindInvoices()
 
         return viewMvc.getRootView()
     }
@@ -63,13 +63,5 @@ class InvoicesListFragment : BaseFragment() {
     override fun onStop() {
         super.onStop()
         controller.onStop()
-    }
-
-    private fun bindArguments() {
-        requireArguments().let {
-            val rfc = it.getString(ARG_RFC)!!
-
-            controller.bindArguments(rfc)
-        }
     }
 }

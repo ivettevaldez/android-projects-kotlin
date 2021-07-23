@@ -4,6 +4,7 @@ import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
+import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.testdata.InvoiceTestData
 import com.ivettevaldez.saturnus.testdata.PeopleTestData
@@ -29,6 +30,9 @@ class InvoicesListControllerTest {
     private lateinit var screensNavigatorMock: ScreensNavigator
 
     @Mock
+    private lateinit var dialogsManagerMock: DialogsManager
+
+    @Mock
     private lateinit var personDaoMock: PersonDao
 
     @Mock
@@ -36,6 +40,7 @@ class InvoicesListControllerTest {
 
     private val expectedInvoices: List<Invoice> = InvoiceTestData.getInvoicesList()
     private val expectedPerson: Person = PeopleTestData.getPhysicalPerson()
+    private val expectedReceivers: List<Person> = PeopleTestData.getPeople()
     private val rfc: String = expectedPerson.rfc
 
     companion object {
@@ -47,6 +52,7 @@ class InvoicesListControllerTest {
     fun setUp() {
         sut = InvoicesListController(
             screensNavigatorMock,
+            dialogsManagerMock,
             personDaoMock,
             invoiceDaoMock
         )
@@ -55,17 +61,47 @@ class InvoicesListControllerTest {
     }
 
     @Test
-    fun bindArguments_rfcIsNotNull() {
+    fun bindRfc_rfcIsNotNull() {
         // Arrange
         // Act
-        sut.bindArguments(rfc)
+        sut.bindRfc(rfc)
         // Assert
         assertNotNull(sut.rfc)
     }
 
     @Test
+    fun setToolbarTitle_personNameIsSetAsToolbarTitle() {
+        // Arrange
+        sut.bindRfc(rfc)
+        foundPersonByRfc()
+        // Act
+        sut.setToolbarTitle()
+        // Assert
+        verify(personDaoMock).findByRfc(rfc)
+        verify(viewMvcMock).setToolbarTitle(expectedPerson.name)
+    }
+
+    @Test
+    fun onStart_invoicesAreBoundToView() {
+        // Arrange
+        sut.bindRfc(rfc)
+        foundInvoicesByIssuingRfc()
+        // Act
+        sut.onStart()
+        // Assert
+        verify(invoiceDaoMock).findAllByIssuingRfc(rfc)
+        viewMvcMock.inOrder {
+            verify().showProgressIndicator()
+            verify().bindInvoices(expectedInvoices)
+            verify().hideProgressIndicator()
+            verifyNoMoreInteractions()
+        }
+    }
+
+    @Test
     fun onStart_listenersRegistered() {
         // Arrange
+        sut.bindRfc(rfc)
         // Act
         sut.onStart()
         // Assert
@@ -91,13 +127,25 @@ class InvoicesListControllerTest {
     }
 
     @Test
-    fun onAddNewInvoiceClicked_navigatesToInvoiceForm() {
+    fun onAddNewInvoiceClicked_thereAreReceiversInDb_navigatesToInvoiceForm() {
         // Arrange
-        sut.bindArguments(rfc)
+        sut.bindRfc(rfc)
+        notEmptyReceiversList()
         // Act
         sut.onAddNewInvoiceClicked()
         // Assert
         verify(screensNavigatorMock).toInvoiceForm(issuingRfc = rfc)
+    }
+
+    @Test
+    fun onAddNewInvoiceClicked_thereAreNoReceiversInDb_showsErrorDialog() {
+        // Arrange
+        sut.bindRfc(rfc)
+        emptyReceiversList()
+        // Act
+        sut.onAddNewInvoiceClicked()
+        // Assert
+        verify(dialogsManagerMock).showMissingReceiversError(null)
     }
 
     @Test
@@ -107,35 +155,6 @@ class InvoicesListControllerTest {
         sut.onDetailsClicked(FOLIO)
         // Assert
         verify(screensNavigatorMock).toInvoiceDetails(FOLIO)
-    }
-
-    @Test
-    fun setToolbarTitle_setsPersonNameAsToolbarTitle() {
-        // Arrange
-        sut.bindArguments(rfc)
-        foundPersonByRfc()
-        // Act
-        sut.setToolbarTitle()
-        // Assert
-        verify(personDaoMock).findByRfc(rfc)
-        verify(viewMvcMock).setToolbarTitle(expectedPerson.name)
-    }
-
-    @Test
-    fun bindInvoices_invoicesBoundToView() {
-        // Arrange
-        sut.bindArguments(rfc)
-        foundInvoicesByIssuingRfc()
-        // Act
-        sut.bindInvoices()
-        // Assert
-        verify(invoiceDaoMock).findAllByIssuingRfc(rfc)
-        viewMvcMock.inOrder {
-            verify().showProgressIndicator()
-            verify().bindInvoices(expectedInvoices)
-            verify().hideProgressIndicator()
-            verifyNoMoreInteractions()
-        }
     }
 
     // -----------------------------------------------------------------------------------------
@@ -148,5 +167,13 @@ class InvoicesListControllerTest {
 
     private fun foundInvoicesByIssuingRfc() {
         `when`(invoiceDaoMock.findAllByIssuingRfc(rfc)).thenReturn(expectedInvoices)
+    }
+
+    private fun emptyReceiversList() {
+        `when`(personDaoMock.findAllReceivers()).thenReturn(listOf())
+    }
+
+    private fun notEmptyReceiversList() {
+        `when`(personDaoMock.findAllReceivers()).thenReturn(expectedReceivers)
     }
 }

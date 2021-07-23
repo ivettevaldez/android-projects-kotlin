@@ -45,6 +45,7 @@ class ControllerFactory @Inject constructor(
     fun newInvoicesListController(): InvoicesListController {
         return InvoicesListController(
             screensNavigator.get(),
+            dialogsManager.get(),
             personDao.get(),
             invoiceDao.get()
         )
