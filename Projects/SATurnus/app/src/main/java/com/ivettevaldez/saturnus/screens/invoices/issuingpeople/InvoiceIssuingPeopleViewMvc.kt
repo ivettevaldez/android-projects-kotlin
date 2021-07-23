@@ -1,5 +1,6 @@
 package com.ivettevaldez.saturnus.screens.invoices.issuingpeople
 
+import android.graphics.Paint
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivettevaldez.saturnus.R
@@ -23,7 +25,8 @@ interface IInvoiceIssuingPeopleViewMvc : IObservableViewMvc<IInvoiceIssuingPeopl
 
     interface Listener {
 
-        fun onPersonClick(rfc: String)
+        fun onAddNewPersonClicked()
+        fun onPersonClicked(rfc: String)
     }
 
     fun bindPeople(people: List<Person>)
@@ -68,6 +71,14 @@ class InvoiceIssuingPeopleViewMvcImpl(
                 peopleListRecyclerAdapter.updateData(people)
             } else {
                 textAddNew.visibility = View.VISIBLE
+                textAddNew.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                textAddNew.setTextColor(ContextCompat.getColor(context, R.color.dodger_blue))
+                textAddNew.setOnClickListener {
+                    for (listener in listeners) {
+                        listener.onAddNewPersonClicked()
+                    }
+                }
+
                 recycler.visibility = View.GONE
             }
         }
@@ -87,7 +98,7 @@ class InvoiceIssuingPeopleViewMvcImpl(
 
     override fun onPersonClick(rfc: String) {
         for (listener in listeners) {
-            listener.onPersonClick(rfc)
+            listener.onPersonClicked(rfc)
         }
     }
 

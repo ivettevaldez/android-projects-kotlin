@@ -28,16 +28,15 @@ class InvoiceIssuingPeopleController(
 
     fun bindPeople() {
         viewMvc.showProgressIndicator()
-
-        val people = getPeople()
-        if (people.isNotEmpty()) {
-            viewMvc.bindPeople(people)
-        }
-
+        viewMvc.bindPeople(getPeople())
         viewMvc.hideProgressIndicator()
     }
 
-    override fun onPersonClick(rfc: String) {
+    override fun onAddNewPersonClicked() {
+        screensNavigator.toPersonForm(null)
+    }
+
+    override fun onPersonClicked(rfc: String) {
         screensNavigator.toInvoicesList(rfc)
     }
 }

@@ -10,8 +10,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import org.mockito.kotlin.any
-import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
@@ -79,7 +77,7 @@ class InvoiceIssuingPeopleControllerTest {
     }
 
     @Test
-    fun onStart_peopleSavedInDb_peopleBoundToView() {
+    fun onStart_peopleBoundToView() {
         // Arrange
         peopleSavedInDb()
         // Act
@@ -89,20 +87,19 @@ class InvoiceIssuingPeopleControllerTest {
     }
 
     @Test
-    fun onStart_noPeopleSavedInDb_peopleNotBoundToView() {
+    fun onAddNewPersonClicked_navigatesToPersonFormScreen() {
         // Arrange
-        noPeopleSavedInDb()
         // Act
-        sut.onStart()
+        sut.onAddNewPersonClicked()
         // Assert
-        verify(viewMvcMock, never()).bindPeople(any())
+        verify(screensNavigatorMock).toPersonForm(null)
     }
 
     @Test
-    fun onPersonClick_navigatesToInvoicesListScreen() {
+    fun onPersonClicked_navigatesToInvoicesListScreen() {
         // Arrange
         // Act
-        sut.onPersonClick(RFC)
+        sut.onPersonClicked(RFC)
         // Assert
         verify(screensNavigatorMock).toInvoicesList(RFC)
     }
@@ -113,9 +110,5 @@ class InvoiceIssuingPeopleControllerTest {
 
     private fun peopleSavedInDb() {
         `when`(sut.getPeople()).thenReturn(expectedPeople)
-    }
-
-    private fun noPeopleSavedInDb() {
-        `when`(sut.getPeople()).thenReturn(listOf())
     }
 }

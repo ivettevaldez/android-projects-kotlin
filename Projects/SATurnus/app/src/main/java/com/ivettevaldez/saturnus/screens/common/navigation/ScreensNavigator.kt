@@ -54,7 +54,7 @@ open class ScreensNavigator @Inject constructor(
         )
     }
 
-    fun toPersonForm(rfc: String?) {
+    open fun toPersonForm(rfc: String?) {
         fragmentFrameHelper.replaceFragment(
             PersonFormFragment.newInstance(rfc)
         )
