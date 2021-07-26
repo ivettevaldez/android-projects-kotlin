@@ -11,8 +11,7 @@ import com.stepstone.stepper.Step
 import com.stepstone.stepper.VerificationError
 import javax.inject.Inject
 
-class InvoiceFormDetailsFragment : BaseFragment(),
-    Step {
+class InvoiceFormDetailsFragment : BaseFragment(), Step {
 
     @Inject
     lateinit var controllerFactory: ControllerFactory
@@ -21,7 +20,6 @@ class InvoiceFormDetailsFragment : BaseFragment(),
     lateinit var viewMvcFactory: ViewMvcFactory
 
     private lateinit var controller: InvoiceFormDetailsController
-    private lateinit var viewMvc: IInvoiceFormDetailsViewMvc
 
     companion object {
 
@@ -53,7 +51,7 @@ class InvoiceFormDetailsFragment : BaseFragment(),
         savedInstanceState: Bundle?
     ): View {
 
-        viewMvc = viewMvcFactory.newInvoiceFormDetailsViewMvc(parent)
+        val viewMvc = viewMvcFactory.newInvoiceFormDetailsViewMvc(parent)
 
         controller.bindView(viewMvc)
         controller.bindData()

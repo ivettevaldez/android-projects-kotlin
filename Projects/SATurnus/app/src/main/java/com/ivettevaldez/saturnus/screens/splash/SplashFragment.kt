@@ -2,7 +2,6 @@ package com.ivettevaldez.saturnus.screens.splash
 
 import android.os.Bundle
 import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,9 @@ class SplashFragment : BaseFragment() {
 
     @Inject
     lateinit var screensNavigator: ScreensNavigator
+
+    @Inject
+    lateinit var uiHandler: Handler
 
     companion object {
 
@@ -39,7 +41,7 @@ class SplashFragment : BaseFragment() {
 
         val viewMvc = viewMvcFactory.newSplashViewMvc(parent)
 
-        Handler(Looper.getMainLooper()).postDelayed({
+        uiHandler.postDelayed({
             screensNavigator.toInvoiceIssuingPeople()
         }, Constants.SPLASH_NAVIGATION_DELAY)
 

@@ -7,7 +7,7 @@ import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.screens.people.list.PeopleListFragment
 import javax.inject.Inject
 
-class PeopleMainPagerAdapter @Inject constructor(
+open class PeopleMainPagerAdapter @Inject constructor(
     activity: AppCompatActivity
 ) : FragmentStateAdapter(activity) {
 

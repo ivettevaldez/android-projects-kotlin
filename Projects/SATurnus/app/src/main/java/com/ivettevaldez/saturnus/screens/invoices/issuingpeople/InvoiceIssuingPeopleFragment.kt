@@ -27,7 +27,7 @@ class InvoiceIssuingPeopleFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
-        
+
         controller = controllerFactory.newInvoiceIssuingPeopleController()
 
         super.onCreate(savedInstanceState)
