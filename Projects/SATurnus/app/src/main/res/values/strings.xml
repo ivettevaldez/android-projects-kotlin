@@ -46,7 +46,7 @@
     <string name="message_deleted_invoice">La factura ha sido borrada.</string>
 
     <!-- Errors -->
-    <string name="error_standard">Oops! Ha ocurrido un error.</string>
+    <string name="error_standard">Ha ocurrido un error.</string>
     <string name="error_missing_fields">Debes llenar todos los campos para poder continuar.</string>
     <string name="error_missing_receiver">
         Debes elegir a la persona que recibirá la factura para poder continuar.
@@ -65,7 +65,7 @@
     </string>
     <string name="error_invalid_rfc">El RFC ingresado es inválido.</string>
     <string name="error_folio_must_be_unique">El folio debe ser único.</string>
-    <string name="error_missing_receivers_title">Oops!</string>
+    <string name="error_oops_title">Oops!</string>
     <string name="error_missing_receivers_message">
         Para crear una nueva factura, primero debes agregar al menos a una persona que reciba facturas.
     </string>

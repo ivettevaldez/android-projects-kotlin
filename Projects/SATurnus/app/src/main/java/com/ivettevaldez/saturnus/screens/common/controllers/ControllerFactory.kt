@@ -17,6 +17,7 @@ import com.ivettevaldez.saturnus.screens.invoices.form.main.InvoiceFormMainContr
 import com.ivettevaldez.saturnus.screens.invoices.form.payment.InvoiceFormPaymentController
 import com.ivettevaldez.saturnus.screens.invoices.issuingpeople.InvoiceIssuingPeopleController
 import com.ivettevaldez.saturnus.screens.invoices.list.InvoicesListController
+import com.ivettevaldez.saturnus.screens.people.list.PeopleListController
 import com.ivettevaldez.saturnus.screens.people.main.PeopleMainController
 import javax.inject.Inject
 import javax.inject.Provider
@@ -105,6 +106,15 @@ class ControllerFactory @Inject constructor(
     fun newPeopleMainController(): PeopleMainController {
         return PeopleMainController(
             screensNavigator.get()
+        )
+    }
+
+    fun newPeopleListController(): PeopleListController {
+        return PeopleListController(
+            screensNavigator.get(),
+            dialogsManager.get(),
+            dialogsEventBus.get(),
+            personDao.get()
         )
     }
 }
