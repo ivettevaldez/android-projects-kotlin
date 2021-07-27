@@ -6,8 +6,8 @@ import com.ivettevaldez.saturnus.people.Person
 
 object PeopleTestData {
 
-    private const val RFC_1: String = "rfc1"
-    private const val NAME_1: String = "name1"
+    private const val RFC_1: String = "XXXXXXXXXXXXX"
+    private const val NAME_1: String = "Rita Laura Segato"
     private const val RFC_2: String = "rfc2"
     private const val NAME_2: String = "name2"
     private const val RFC_3: String = "rfc3"
@@ -51,7 +51,8 @@ object PeopleTestData {
         return Person(
             rfc = RFC_1,
             name = NAME_1,
-            personType = Constants.PHYSICAL_PERSON
+            personType = Constants.PHYSICAL_PERSON,
+            clientType = ClientType.getString(ClientType.Type.ISSUING)
         )
     }
 
@@ -59,7 +60,8 @@ object PeopleTestData {
         return Person(
             rfc = RFC_2,
             name = NAME_2,
-            personType = Constants.MORAL_PERSON
+            personType = Constants.MORAL_PERSON,
+            clientType = ClientType.getString(ClientType.Type.RECEIVER)
         )
     }
 

@@ -11,7 +11,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSe
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
-import com.ivettevaldez.saturnus.screens.people.form.PersonFormFragment
+import com.ivettevaldez.saturnus.screens.people.form.PersonFormController
 import javax.inject.Inject
 
 open class DialogsManager @Inject constructor(
@@ -28,7 +28,7 @@ open class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
-    fun showMissingFieldsError(tag: String?) {
+    open fun showMissingFieldsError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
             getString(R.string.error_missing_fields),
@@ -46,7 +46,7 @@ open class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
-    fun showSavePersonError(tag: String?) {
+    open fun showSavePersonError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
             getString(R.string.error_saving_message),
@@ -55,19 +55,19 @@ open class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
-    fun showInvalidPersonNameError(tag: String?) {
+    open fun showInvalidPersonNameError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
             String.format(
                 getString(R.string.error_invalid_person_name_template),
-                PersonFormFragment.MIN_NAME_LENGTH + 1
+                PersonFormController.MIN_NAME_LENGTH + 1
             ),
             getString(R.string.action_ok)
         )
         dialogFragment.show(fragmentManager, tag)
     }
 
-    fun showInvalidRfcError(tag: String?) {
+    open fun showInvalidRfcError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
             getString(R.string.error_invalid_rfc),

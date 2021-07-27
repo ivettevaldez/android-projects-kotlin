@@ -24,7 +24,7 @@ open class PersonDao @Inject constructor() {
         private const val UPDATED_AT = "updatedAt"
     }
 
-    fun save(person: Person): Boolean {
+    open fun save(person: Person): Boolean {
         return try {
             person.save()
             true
