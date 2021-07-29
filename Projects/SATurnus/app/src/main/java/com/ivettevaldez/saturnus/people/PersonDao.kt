@@ -3,6 +3,7 @@ package com.ivettevaldez.saturnus.people
 /* ktlint-disable no-wildcard-imports */
 
 import android.util.Log
+import com.ivettevaldez.saturnus.people.clienttype.ClientType
 import com.vicpin.krealmextensions.delete
 import com.vicpin.krealmextensions.queryFirst
 import com.vicpin.krealmextensions.querySorted

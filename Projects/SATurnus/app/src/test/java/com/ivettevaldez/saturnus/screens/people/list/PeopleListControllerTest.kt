@@ -1,8 +1,8 @@
 package com.ivettevaldez.saturnus.screens.people.list
 
-import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
+import com.ivettevaldez.saturnus.people.clienttype.ClientType
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogEvent

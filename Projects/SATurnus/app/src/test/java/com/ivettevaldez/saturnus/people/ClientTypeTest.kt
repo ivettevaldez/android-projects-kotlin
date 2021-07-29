@@ -1,5 +1,6 @@
 package com.ivettevaldez.saturnus.people
 
+import com.ivettevaldez.saturnus.people.clienttype.ClientType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

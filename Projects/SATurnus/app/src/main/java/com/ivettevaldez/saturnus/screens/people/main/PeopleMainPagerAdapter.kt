@@ -3,7 +3,7 @@ package com.ivettevaldez.saturnus.screens.people.main
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.ivettevaldez.saturnus.people.ClientType
+import com.ivettevaldez.saturnus.people.clienttype.ClientType
 import com.ivettevaldez.saturnus.screens.people.list.PeopleListFragment
 import javax.inject.Inject
 

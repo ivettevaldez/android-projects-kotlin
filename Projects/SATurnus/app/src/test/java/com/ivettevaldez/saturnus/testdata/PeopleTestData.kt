@@ -1,8 +1,8 @@
 package com.ivettevaldez.saturnus.testdata
 
 import com.ivettevaldez.saturnus.common.Constants
-import com.ivettevaldez.saturnus.people.ClientType
 import com.ivettevaldez.saturnus.people.Person
+import com.ivettevaldez.saturnus.people.clienttype.ClientType
 
 object PeopleTestData {
 

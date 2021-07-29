@@ -1,4 +1,4 @@
-package com.ivettevaldez.saturnus.people
+package com.ivettevaldez.saturnus.people.clienttype
 
 import java.io.Serializable
 
