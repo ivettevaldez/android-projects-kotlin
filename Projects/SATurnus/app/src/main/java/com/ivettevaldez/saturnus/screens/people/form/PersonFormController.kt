@@ -9,6 +9,8 @@ import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
+import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.isValidName
+import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.isValidRfc
 
 class PersonFormController(
     private val context: Context,
@@ -22,11 +24,6 @@ class PersonFormController(
     private lateinit var viewMvc: IPersonFormViewMvc
 
     var rfc: String? = null
-
-    companion object {
-
-        const val MIN_NAME_LENGTH = 3
-    }
 
     fun bindView(viewMvc: IPersonFormViewMvc) {
         this.viewMvc = viewMvc
@@ -73,10 +70,10 @@ class PersonFormController(
 
     override fun onRfcChanged(rfc: String) {
         when (rfc.length) {
-            Constants.RFC_MORAL_PERSON_LENGTH -> {
+            PersonDataValidator.RFC_MORAL_PERSON_LENGTH -> {
                 viewMvc.setPersonType(Constants.MORAL_PERSON)
             }
-            Constants.RFC_PHYSICAL_PERSON_LENGTH -> {
+            PersonDataValidator.RFC_PHYSICAL_PERSON_LENGTH -> {
                 viewMvc.setPersonType(Constants.PHYSICAL_PERSON)
             }
             else -> {
@@ -87,16 +84,6 @@ class PersonFormController(
 
     override fun onSaveClicked() {
         validateFields()
-    }
-
-    private fun String.isValidName(): Boolean = this.length > MIN_NAME_LENGTH
-
-    // TODO: Move this function to standalone class.
-    private fun String.isValidRfc(): Boolean {
-        // TODO: Validate RFC format.
-        return (this.length == Constants.RFC_MORAL_PERSON_LENGTH ||
-                this.length == Constants.RFC_PHYSICAL_PERSON_LENGTH) &&
-                !this.contains(" ", true)
     }
 
     private fun validateFields() {

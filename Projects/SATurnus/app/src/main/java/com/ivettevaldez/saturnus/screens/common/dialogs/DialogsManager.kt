@@ -11,7 +11,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSe
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
-import com.ivettevaldez.saturnus.screens.people.form.PersonFormController
+import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator
 import javax.inject.Inject
 
 open class DialogsManager @Inject constructor(
@@ -60,7 +60,7 @@ open class DialogsManager @Inject constructor(
             getString(R.string.error_saving_title),
             String.format(
                 getString(R.string.error_invalid_person_name_template),
-                PersonFormController.MIN_NAME_LENGTH + 1
+                PersonDataValidator.NAME_MIN_LENGTH
             ),
             getString(R.string.action_ok)
         )
