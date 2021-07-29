@@ -78,6 +78,7 @@ class PersonFormControllerTest {
 
         ALL_FILLED_WITH_CORRECT_VALUES,
         LAST_FIELD_IS_BLANK,
+        SHORT_PERSON_NAME,
         INVALID_PERSON_NAME,
         INVALID_RFC
     }
@@ -222,6 +223,16 @@ class PersonFormControllerTest {
     }
 
     @Test
+    fun onSaveClicked_personNameTooShortError_invalidPersonNameErrorDialogIsShown() {
+        // Arrange
+        personNameTooShortError()
+        // Act
+        sut.onSaveClicked()
+        // Assert
+        verify(dialogsManager).showPersonNameTooShortError(null)
+    }
+
+    @Test
     fun onSaveClicked_invalidPersonNameError_invalidPersonNameErrorDialogIsShown() {
         // Arrange
         invalidPersonNameError()
@@ -309,6 +320,10 @@ class PersonFormControllerTest {
         setFieldsReturnValues(LAST_FIELD_IS_BLANK)
     }
 
+    private fun personNameTooShortError() {
+        setFieldsReturnValues(SHORT_PERSON_NAME)
+    }
+
     private fun invalidPersonNameError() {
         setFieldsReturnValues(INVALID_PERSON_NAME)
     }
@@ -335,7 +350,8 @@ class PersonFormControllerTest {
     private fun setFieldsReturnValues(fakeFieldValues: FakeFieldValues) {
         when (fakeFieldValues) {
             LAST_FIELD_IS_BLANK -> person.clientType = ""
-            INVALID_PERSON_NAME -> person.name = "X"
+            SHORT_PERSON_NAME -> person.name = "X"
+            INVALID_PERSON_NAME -> person.name = "1234567890"
             INVALID_RFC -> person.rfc = "X"
             ALL_FILLED_WITH_CORRECT_VALUES -> {
                 // Nothing to do here.

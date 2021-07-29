@@ -60,8 +60,11 @@
     <string name="error_saving_message">
         Ha ocurrido un error, revisa los datos e intenta de nuevo.
     </string>
-    <string name="error_invalid_person_name_template">
+    <string name="error_person_name_too_short_template">
         El nombre o razón social no puede contener menos de %d caracteres.
+    </string>
+    <string name="error_invalid_person_name">
+        El nombre o razón social debe contener al menos una letra.
     </string>
     <string name="error_invalid_rfc">El RFC ingresado es inválido.</string>
     <string name="error_folio_must_be_unique">El folio debe ser único.</string>

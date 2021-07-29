@@ -11,6 +11,7 @@ import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.isValidName
 import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.isValidRfc
+import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.nameHasValidLength
 
 class PersonFormController(
     private val context: Context,
@@ -95,6 +96,9 @@ class PersonFormController(
         when {
             name.isBlank() || rfc.isBlank() || personType.isBlank() || clientType.isBlank() -> {
                 dialogsManager.showMissingFieldsError(null)
+            }
+            !name.nameHasValidLength() -> {
+                dialogsManager.showPersonNameTooShortError(null)
             }
             !name.isValidName() -> {
                 dialogsManager.showInvalidPersonNameError(null)

@@ -55,13 +55,22 @@ open class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
-    open fun showInvalidPersonNameError(tag: String?) {
+    open fun showPersonNameTooShortError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_saving_title),
             String.format(
-                getString(R.string.error_invalid_person_name_template),
+                getString(R.string.error_person_name_too_short_template),
                 PersonDataValidator.NAME_MIN_LENGTH
             ),
+            getString(R.string.action_ok)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
+    open fun showInvalidPersonNameError(tag: String?) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.error_saving_title),
+            getString(R.string.error_invalid_person_name),
             getString(R.string.action_ok)
         )
         dialogFragment.show(fragmentManager, tag)

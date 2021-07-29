@@ -10,6 +10,7 @@ import io.realm.annotations.PrimaryKey
 import io.realm.annotations.RealmClass
 import java.util.*
 
+// TODO: Add an ID as PrimaryKey instead of the RFC.
 @RealmClass
 open class Person(
     @PrimaryKey var rfc: String = "",

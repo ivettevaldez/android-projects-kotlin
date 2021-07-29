@@ -2,6 +2,7 @@ package com.ivettevaldez.saturnus.screens.people.form
 
 import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.isValidName
 import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.isValidRfc
+import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator.nameHasValidLength
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -11,7 +12,7 @@ class PersonDataValidatorTest {
     companion object {
 
         private const val VALID_NAME = "Ivette Valdez"
-        private const val EMPTY_STRING = " "
+        private const val EMPTY_STRING = ""
         private const val ONE_CHAR_STRING = "X"
         private const val ONLY_DIGITS_STRING = "1234567890"
         private const val ONLY_SYMBOLS_STRING = "±!@#$%^&*()_+"
@@ -29,35 +30,35 @@ class PersonDataValidatorTest {
     }
 
     @Test
-    fun isValidName_emptyString_returnsFalse() {
+    fun nameHasValidLength_emptyString_returnsFalse() {
         // Arrange
         // Act
-        val result = EMPTY_STRING.isValidName()
+        val result = EMPTY_STRING.nameHasValidLength()
         // Assert
         assertFalse(result)
     }
 
     @Test
-    fun isValidName_oneCharString_returnsFalse() {
+    fun nameHasValidLength_oneCharString_returnsFalse() {
         // Arrange
         // Act
-        val result = ONE_CHAR_STRING.isValidName()
+        val result = ONE_CHAR_STRING.nameHasValidLength()
         // Assert
         assertFalse(result)
     }
 
     @Test
-    fun isValidName_minLengthMinusOneString_returnsFalse() {
+    fun nameHasValidLength_minLengthMinusOneString_returnsFalse() {
         // Arrange
         val name = getNameWithMinLengthMinusOne()
         // Act
-        val result = name.isValidName()
+        val result = name.nameHasValidLength()
         // Assert
         assertFalse(result)
     }
 
     @Test
-    fun isValidName_correctLengthButContainsOnlySymbols_returnsFalse() {
+    fun isValidName_onlySymbolsString_returnsFalse() {
         // Arrange
         // Act
         val result = ONLY_SYMBOLS_STRING.isValidName()
@@ -66,7 +67,7 @@ class PersonDataValidatorTest {
     }
 
     @Test
-    fun isValidName_correctLengthButContainsOnlyDigits_returnsFalse() {
+    fun isValidName_onlyDigitsString_returnsFalse() {
         // Arrange
         // Act
         val result = ONLY_DIGITS_STRING.isValidName()
