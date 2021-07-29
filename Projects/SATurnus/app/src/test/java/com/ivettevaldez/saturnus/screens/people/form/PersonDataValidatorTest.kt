@@ -10,18 +10,22 @@ class PersonDataValidatorTest {
 
     companion object {
 
+        private const val VALID_NAME = "Ivette Valdez"
         private const val EMPTY_STRING = " "
         private const val ONE_CHAR_STRING = "X"
-        private const val EXCEEDED_LENGTH_STRING = "XXXXXXXXXXXXXXX"
+        private const val ONLY_DIGITS_STRING = "1234567890"
         private const val ONLY_SYMBOLS_STRING = "±!@#$%^&*()_+"
-        private const val ONLY_SYMBOLS_MORAL_PERSON_RFC = "±!@#$%^&*()_"
-        private const val ONLY_SYMBOLS_PHYSICAL_PERSON_STRING = "±!@#$%^&*()_+"
-        private const val ONLY_NUMBERS_STRING = "1234567890"
-        private const val ONLY_NUMBERS_MORAL_PERSON_RFC = "123456789012"
-        private const val ONLY_NUMBERS_PHYSICAL_PERSON_RFC = "1234567890123"
-        private const val VALID_NAME = "Ivette Valdez"
-        private const val VALID_MORAL_PERSON_RFC = "HR&120903317"
-        private const val VALID_PHYSICAL_PERSON_RFC = "HR&1209033178"
+        private const val EXCEEDED_LENGTH_STRING = "XXXXXXXXXXXXXXX"
+
+        private const val VALID_RFC_MORAL_PERSON = "HR&120903317"
+        private const val RFC_MORAL_PERSON_WITH_ONLY_DIGITS = "123456789012"
+        private const val RFC_MORAL_PERSON_WITH_BLANK_SPACE = "HR&1 0903317"
+        private const val RFC_MORAL_PERSON_WITH_ONLY_SYMBOLS = "±!@#$%^&*()_"
+
+        private const val VALID_RFC_PHYSICAL_PERSON = "VAES000101XX0"
+        private const val RFC_PHYSICAL_PERSON_WITH_ONLY_DIGITS = "1234567890123"
+        private const val RFC_PHYSICAL_PERSON_WITH_BLANK_SPACE = "HR&1 09033178"
+        private const val RFC_PHYSICAL_PERSON_WITH_ONLY_SYMBOLS = "±!@#$%^&*()_+"
     }
 
     @Test
@@ -52,23 +56,23 @@ class PersonDataValidatorTest {
         assertFalse(result)
     }
 
-//    @Test
-//    fun isValidName_correctLengthButOnlySymbols_returnsFalse() {
-//        // Arrange
-//        // Act
-//        val result = ONLY_SYMBOLS_STRING.isValidName()
-//        // Assert
-//        assertFalse(result)
-//    }
-//
-//    @Test
-//    fun isValidName_correctLengthButOnlyNumbers_returnsFalse() {
-//        // Arrange
-//        // Act
-//        val result = ONLY_NUMBERS_STRING.isValidName()
-//        // Assert
-//        assertFalse(result)
-//    }
+    @Test
+    fun isValidName_correctLengthButContainsOnlySymbols_returnsFalse() {
+        // Arrange
+        // Act
+        val result = ONLY_SYMBOLS_STRING.isValidName()
+        // Assert
+        assertFalse(result)
+    }
+
+    @Test
+    fun isValidName_correctLengthButContainsOnlyDigits_returnsFalse() {
+        // Arrange
+        // Act
+        val result = ONLY_DIGITS_STRING.isValidName()
+        // Assert
+        assertFalse(result)
+    }
 
     @Test
     fun isValidName_validName_returnsTrue() {
@@ -107,56 +111,56 @@ class PersonDataValidatorTest {
         assertFalse(result)
     }
 
-//    @Test
-//    fun isValidRfc_moralPersonLengthButOnlySymbols_returnsFalse() {
-//        // Arrange
-//        // Act
-//        val result = ONLY_SYMBOLS_MORAL_PERSON_RFC.isValidRfc()
-//        // Assert
-//        assertFalse(result)
-//    }
-//
-//    @Test
-//    fun isValidRfc_moralPersonLengthButOnlyNumbers_returnsFalse() {
-//        // Arrange
-//        // Act
-//        val result = ONLY_NUMBERS_MORAL_PERSON_RFC.isValidRfc()
-//        // Assert
-//        assertFalse(result)
-//    }
+    @Test
+    fun isValidRfc_moralPersonLengthButContainsOnlySymbols_returnsFalse() {
+        // Arrange
+        // Act
+        val result = RFC_MORAL_PERSON_WITH_ONLY_SYMBOLS.isValidRfc()
+        // Assert
+        assertFalse(result)
+    }
+
+    @Test
+    fun isValidRfc_moralPersonLengthButContainsOnlyDigits_returnsFalse() {
+        // Arrange
+        // Act
+        val result = RFC_MORAL_PERSON_WITH_ONLY_DIGITS.isValidRfc()
+        // Assert
+        assertFalse(result)
+    }
 
     @Test
     fun isValidRfc_validMoralPersonRfc_returnsTrue() {
         // Arrange
         // Act
-        val result = VALID_MORAL_PERSON_RFC.isValidRfc()
+        val result = VALID_RFC_MORAL_PERSON.isValidRfc()
         // Assert
         assertTrue(result)
     }
 
-//    @Test
-//    fun isValidRfc_physicalPersonLengthButOnlySymbols_returnsFalse() {
-//        // Arrange
-//        // Act
-//        val result = ONLY_SYMBOLS_PHYSICAL_PERSON_STRING.isValidRfc()
-//        // Assert
-//        assertFalse(result)
-//    }
-//
-//    @Test
-//    fun isValidRfc_physicalPersonLengthButOnlyNumbers_returnsFalse() {
-//        // Arrange
-//        // Act
-//        val result = ONLY_NUMBERS_PHYSICAL_PERSON_RFC.isValidRfc()
-//        // Assert
-//        assertFalse(result)
-//    }
+    @Test
+    fun isValidRfc_physicalPersonLengthButContainsOnlySymbols_returnsFalse() {
+        // Arrange
+        // Act
+        val result = RFC_PHYSICAL_PERSON_WITH_ONLY_SYMBOLS.isValidRfc()
+        // Assert
+        assertFalse(result)
+    }
+
+    @Test
+    fun isValidRfc_physicalPersonLengthButContainsOnlyDigits_returnsFalse() {
+        // Arrange
+        // Act
+        val result = RFC_PHYSICAL_PERSON_WITH_ONLY_DIGITS.isValidRfc()
+        // Assert
+        assertFalse(result)
+    }
 
     @Test
     fun isValidRfc_validPhysicalPersonRfc_returnsTrue() {
         // Arrange
         // Act
-        val result = VALID_PHYSICAL_PERSON_RFC.isValidRfc()
+        val result = VALID_RFC_PHYSICAL_PERSON.isValidRfc()
         // Assert
         assertTrue(result)
     }
@@ -166,6 +170,24 @@ class PersonDataValidatorTest {
         // Arrange
         // Act
         val result = EXCEEDED_LENGTH_STRING.isValidRfc()
+        // Assert
+        assertFalse(result)
+    }
+
+    @Test
+    fun isValidRfc_moralPersonLengthButContainsBlankSpace_returnsFalse() {
+        // Arrange
+        // Act
+        val result = RFC_MORAL_PERSON_WITH_BLANK_SPACE.isValidRfc()
+        // Assert
+        assertFalse(result)
+    }
+
+    @Test
+    fun isValidRfc_physicalPersonLengthButContainsBlankSpace_returnsFalse() {
+        // Arrange
+        // Act
+        val result = RFC_PHYSICAL_PERSON_WITH_BLANK_SPACE.isValidRfc()
         // Assert
         assertFalse(result)
     }
