@@ -5,8 +5,8 @@ package com.ivettevaldez.saturnus.screens.invoices
 import android.content.Context
 import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.common.Constants
-import com.ivettevaldez.saturnus.common.dependencyinjection.presentation.PresentationScope
 import com.ivettevaldez.saturnus.common.datetime.DatesHelper.friendlyDate
+import com.ivettevaldez.saturnus.common.dependencyinjection.presentation.PresentationScope
 import java.util.*
 import javax.inject.Inject
 

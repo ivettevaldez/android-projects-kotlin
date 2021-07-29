@@ -11,8 +11,8 @@ import android.widget.Button
 import android.widget.FrameLayout
 import androidx.appcompat.widget.Toolbar
 import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.people.clienttype.ClientType
 import com.ivettevaldez.saturnus.people.Person
+import com.ivettevaldez.saturnus.people.clienttype.ClientType
 import com.ivettevaldez.saturnus.screens.common.fields.ISimpleTextInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.fields.ISpinnerInputViewMvc
 import com.ivettevaldez.saturnus.screens.common.toolbar.IToolbarViewMvc
