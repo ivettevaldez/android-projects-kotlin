@@ -3,7 +3,7 @@ package com.ivettevaldez.saturnus.screens.invoices.issuingpeople
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
-import com.ivettevaldez.saturnus.testdata.PeopleTestData
+import com.ivettevaldez.saturnus.testdata.PersonTestData
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +26,7 @@ class InvoiceIssuingPeopleControllerTest {
     @Mock
     private lateinit var personDaoMock: PersonDao
 
-    private val expectedPeople: List<Person> = PeopleTestData.getPeople()
+    private val expectedPeople: List<Person> = PersonTestData.getPeople()
 
     companion object {
 

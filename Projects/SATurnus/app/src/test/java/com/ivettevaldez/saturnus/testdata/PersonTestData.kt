@@ -4,7 +4,7 @@ import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.clienttype.ClientType
 
-object PeopleTestData {
+object PersonTestData {
 
     private const val RFC_1: String = "XXXXXXXXXXXXX"
     private const val NAME_1: String = "Rita Laura Segato"

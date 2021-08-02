@@ -20,13 +20,13 @@ open class DatePickerManager @Inject constructor(private val fragmentManager: Fr
         listener: DatePickerDialog.OnDateSetListener,
         tag: String?
     ) {
-        val dialog: DatePickerDialog = DatePickerDialog.newInstance(
+        val datePickerDialog = DatePickerDialog.newInstance(
             listener,
             date.get(Calendar.YEAR),
             date.get(Calendar.MONTH),
             date.get(Calendar.DAY_OF_MONTH)
         )
-        dialog.version = DatePickerDialog.Version.VERSION_1
-        dialog.show(fragmentManager, tag)
+        datePickerDialog.version = DatePickerDialog.Version.VERSION_1
+        datePickerDialog.show(fragmentManager, tag)
     }
 }

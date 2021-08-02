@@ -8,7 +8,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogEvent
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialogEvent
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
-import com.ivettevaldez.saturnus.testdata.PeopleTestData
+import com.ivettevaldez.saturnus.testdata.PersonTestData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -49,8 +49,8 @@ class PeopleListControllerTest {
     @Mock
     private lateinit var personOptionsDialogEventMock: PromptBottomSheetDialogEvent
 
-    private val issuingPeople: List<Person> = PeopleTestData.getAllIssuing()
-    private val receivers: List<Person> = PeopleTestData.getAllReceivers()
+    private val issuingPeople: List<Person> = PersonTestData.getAllIssuing()
+    private val receivers: List<Person> = PersonTestData.getAllReceivers()
 
     companion object {
 

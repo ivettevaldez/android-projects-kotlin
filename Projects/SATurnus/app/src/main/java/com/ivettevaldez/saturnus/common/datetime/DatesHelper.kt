@@ -10,7 +10,7 @@ import java.util.*
 object DatesHelper {
 
     private val objectTag: String = this::class.java.simpleName
-    private val dateProvider = DateProvider()
+    private val dateProvider = DateTimeProvider()
 
     fun String.calendar(): Calendar = try {
         val calendar = getCalendar()

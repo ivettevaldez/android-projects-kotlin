@@ -7,7 +7,7 @@ import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.testdata.InvoiceTestData
-import com.ivettevaldez.saturnus.testdata.PeopleTestData
+import com.ivettevaldez.saturnus.testdata.PersonTestData
 import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Test
@@ -39,8 +39,8 @@ class InvoicesListControllerTest {
     private lateinit var invoiceDaoMock: InvoiceDao
 
     private val expectedInvoices: List<Invoice> = InvoiceTestData.getInvoicesList()
-    private val expectedPerson: Person = PeopleTestData.getPhysicalPerson()
-    private val expectedReceivers: List<Person> = PeopleTestData.getPeople()
+    private val expectedPerson: Person = PersonTestData.getPhysicalPerson()
+    private val expectedReceivers: List<Person> = PersonTestData.getPeople()
     private val rfc: String = expectedPerson.rfc
 
     companion object {

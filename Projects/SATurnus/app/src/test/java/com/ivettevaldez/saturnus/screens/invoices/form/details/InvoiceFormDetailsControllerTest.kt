@@ -15,7 +15,7 @@ import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
 import com.ivettevaldez.saturnus.testdata.InvoiceTestData
-import com.ivettevaldez.saturnus.testdata.PeopleTestData
+import com.ivettevaldez.saturnus.testdata.PersonTestData
 import com.stepstone.stepper.VerificationError
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import org.junit.Assert.*
@@ -74,8 +74,8 @@ class InvoiceFormDetailsControllerTest {
         ArgumentCaptor.forClass(InvoiceFormDetailsFragmentEvent::class.java)
 
     private val fakeInvoice: Invoice = InvoiceTestData.getInvoice()
-    private val fakeIssuingPerson: Person = PeopleTestData.getPhysicalPerson()
-    private val fakeReceiverPerson: Person = PeopleTestData.getMoralPerson()
+    private val fakeIssuingPerson: Person = PersonTestData.getPhysicalPerson()
+    private val fakeReceiverPerson: Person = PersonTestData.getMoralPerson()
 
     private val issuingRfc: String = fakeIssuingPerson.rfc
     private val receiverRfc: String = fakeReceiverPerson.rfc

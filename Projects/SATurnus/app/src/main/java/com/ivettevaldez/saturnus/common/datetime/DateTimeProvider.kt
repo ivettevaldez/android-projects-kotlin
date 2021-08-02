@@ -5,7 +5,7 @@ package com.ivettevaldez.saturnus.common.datetime
 import java.text.SimpleDateFormat
 import java.util.*
 
-open class DateProvider {
+open class DateTimeProvider {
 
     private val locale = Locale.getDefault()
 
@@ -18,4 +18,6 @@ open class DateProvider {
 
     open fun getUserFriendlyFormat(): SimpleDateFormat =
         SimpleDateFormat(USER_FRIENDLY_FORMAT, locale)
+
+    open fun getCurrentTimestamp(): Long = System.currentTimeMillis()
 }

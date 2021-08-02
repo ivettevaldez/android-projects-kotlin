@@ -15,8 +15,8 @@ object InvoiceTestData {
     )
 
     fun getInvoice(): Invoice = Invoice(
-        issuing = PeopleTestData.getPhysicalPerson(),
-        receiver = PeopleTestData.getMoralPerson(),
+        issuing = PersonTestData.getPhysicalPerson(),
+        receiver = PersonTestData.getMoralPerson(),
         issuedAt = Date(),
         certificatedAt = Date(),
         payment = getPayment()

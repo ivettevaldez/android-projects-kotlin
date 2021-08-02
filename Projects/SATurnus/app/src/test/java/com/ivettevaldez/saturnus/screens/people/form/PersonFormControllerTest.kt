@@ -13,7 +13,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
 import com.ivettevaldez.saturnus.screens.people.form.PersonFormControllerTest.FakeFieldValues.*
-import com.ivettevaldez.saturnus.testdata.PeopleTestData
+import com.ivettevaldez.saturnus.testdata.PersonTestData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -61,7 +61,7 @@ class PersonFormControllerTest {
     @Captor
     private val personCaptor: ArgumentCaptor<Person> = ArgumentCaptor.forClass(Person::class.java)
 
-    private val person: Person = PeopleTestData.getPhysicalPerson()
+    private val person: Person = PersonTestData.getPhysicalPerson()
 
     companion object {
 

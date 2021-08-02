@@ -34,9 +34,9 @@ class DatesHelperTest {
 
     @Before
     fun setUp() {
-        val dateProvider = DateProvider()
-        calendar = dateProvider.getCalendar()
-        dateFormat = dateProvider.getUserFriendlyFormat()
+        val dateTimeProvider = DateTimeProvider()
+        calendar = dateTimeProvider.getCalendar()
+        dateFormat = dateTimeProvider.getUserFriendlyFormat()
     }
 
     @Test
