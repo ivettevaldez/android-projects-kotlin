@@ -8,6 +8,7 @@ import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
+import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogController
 import com.ivettevaldez.saturnus.screens.common.main.MainController
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
@@ -128,5 +129,9 @@ class ControllerFactory @Inject constructor(
             uiHandler.get(),
             personDao.get()
         )
+    }
+
+    fun newInfoDialogController(): InfoDialogController {
+        return InfoDialogController()
     }
 }

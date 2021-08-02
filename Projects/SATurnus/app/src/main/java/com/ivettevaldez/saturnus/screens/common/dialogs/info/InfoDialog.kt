@@ -2,20 +2,20 @@ package com.ivettevaldez.saturnus.screens.common.dialogs.info
 
 import android.app.Dialog
 import android.os.Bundle
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.dialogs.BaseDialog
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class InfoDialog : BaseDialog(),
-    IInfoDialogViewMvc.Listener {
+class InfoDialog : BaseDialog() {
+
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    private lateinit var viewMvc: IInfoDialogViewMvc
-    private lateinit var title: String
-    private lateinit var message: String
-    private lateinit var buttonCaption: String
+    private lateinit var controller: InfoDialogController
 
     companion object {
 
@@ -38,39 +38,39 @@ class InfoDialog : BaseDialog(),
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        requireArguments().let {
-            title = it.getString(ARG_TITLE)!!
-            message = it.getString(ARG_MESSAGE)!!
-            buttonCaption = it.getString(ARG_BUTTON_CAPTION)!!
-        }
+        controller = controllerFactory.newInfoDialogController()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        viewMvc = viewMvcFactory.newInfoDialogViewMvc(null)
+        val viewMvc = viewMvcFactory.newInfoDialogViewMvc(null)
 
         val dialog = Dialog(requireContext())
-        dialog.setContentView(viewMvc.getRootView())
-
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
 
-        viewMvc.setTitle(title)
-        viewMvc.setMessage(message)
-        viewMvc.setButtonCaption(buttonCaption)
+        controller.bindDialogAndView(dialog, viewMvc)
+
+        bindData()
 
         return dialog
     }
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        viewMvc.unregisterListener(this)
+        controller.onStop()
     }
 
-    override fun onButtonClicked() {
-        dismiss()
+    private fun bindData() {
+        requireArguments().let {
+            val title = it.getString(ARG_TITLE)!!
+            val message = it.getString(ARG_MESSAGE)!!
+            val buttonCaption = it.getString(ARG_BUTTON_CAPTION)!!
+
+            controller.bindData(title, message, buttonCaption)
+        }
     }
 }
