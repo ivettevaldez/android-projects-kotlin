@@ -12,7 +12,7 @@ open class DialogsEventBus @Inject constructor() : BaseObservable<DialogsEventBu
         fun onDialogEvent(event: Any)
     }
 
-    fun postEvent(event: Any) {
+    open fun postEvent(event: Any) {
         for (listener in listeners) {
             listener.onDialogEvent(event)
         }

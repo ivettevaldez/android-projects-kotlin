@@ -2,25 +2,20 @@ package com.ivettevaldez.saturnus.screens.common.dialogs.prompt
 
 import android.app.Dialog
 import android.os.Bundle
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.dialogs.BaseDialog
-import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class PromptDialog : BaseDialog(),
-    IPromptDialogViewMvc.Listener {
+class PromptDialog : BaseDialog() {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
     @Inject
-    lateinit var dialogsEventBus: DialogsEventBus
+    lateinit var controllerFactory: ControllerFactory
 
-    private lateinit var viewMvc: IPromptDialogViewMvc
-    private lateinit var title: String
-    private lateinit var message: String
-    private lateinit var positiveCaption: String
-    private lateinit var negativeCaption: String
+    private lateinit var controller: PromptDialogController
 
     companion object {
 
@@ -34,68 +29,54 @@ class PromptDialog : BaseDialog(),
             message: String,
             positiveCaption: String,
             negativeCaption: String
-        ): PromptDialog =
-            PromptDialog().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_TITLE, title)
-                    putString(ARG_MESSAGE, message)
-                    putString(ARG_POSITIVE_CAPTION, positiveCaption)
-                    putString(ARG_NEGATIVE_CAPTION, negativeCaption)
-                }
+        ): PromptDialog = PromptDialog().apply {
+            arguments = Bundle().apply {
+                putString(ARG_TITLE, title)
+                putString(ARG_MESSAGE, message)
+                putString(ARG_POSITIVE_CAPTION, positiveCaption)
+                putString(ARG_NEGATIVE_CAPTION, negativeCaption)
             }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        requireArguments().let {
-            title = it.getString(ARG_TITLE)!!
-            message = it.getString(ARG_MESSAGE)!!
-            positiveCaption = it.getString(ARG_POSITIVE_CAPTION)!!
-            negativeCaption = it.getString(ARG_NEGATIVE_CAPTION)!!
-        }
+        controller = controllerFactory.newPromptDialogController()
+
+        bindArguments()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        viewMvc = viewMvcFactory.newPromptDialogViewMvc(null)
+        val viewMvc = viewMvcFactory.newPromptDialogViewMvc(null)
 
         val dialog = Dialog(requireContext())
-        dialog.setContentView(viewMvc.getRootView())
-
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
 
-        viewMvc.setTitle(title)
-        viewMvc.setMessage(message)
-        viewMvc.setPositiveCaption(positiveCaption)
-        viewMvc.setNegativeCaption(negativeCaption)
+        controller.bindDialogAndView(dialog, viewMvc)
 
         return dialog
     }
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        viewMvc.unregisterListener(this)
+        controller.onStop()
     }
 
-    override fun onPositiveButtonClicked() {
-        dismiss()
+    private fun bindArguments() {
+        requireArguments().let {
+            val title = it.getString(ARG_TITLE)!!
+            val message = it.getString(ARG_MESSAGE)!!
+            val positiveCaption = it.getString(ARG_POSITIVE_CAPTION)!!
+            val negativeCaption = it.getString(ARG_NEGATIVE_CAPTION)!!
 
-        dialogsEventBus.postEvent(
-            PromptDialogEvent(PromptDialogEvent.Button.POSITIVE)
-        )
-    }
-
-    override fun onNegativeButtonClicked() {
-        dismiss()
-
-        dialogsEventBus.postEvent(
-            PromptDialogEvent(PromptDialogEvent.Button.NEGATIVE)
-        )
+            controller.bindArguments(title, message, positiveCaption, negativeCaption)
+        }
     }
 }
