@@ -247,7 +247,7 @@ class InvoiceFormDetailsControllerTest {
         // Act
         sut.onSelectReceiverClicked()
         // Assert
-        verify(dialogsManagerMock).showPersonSelectorDialog(null, sut)
+        verify(dialogsManagerMock).showReceiverPersonSelectorDialog(null, sut)
     }
 
     @Test

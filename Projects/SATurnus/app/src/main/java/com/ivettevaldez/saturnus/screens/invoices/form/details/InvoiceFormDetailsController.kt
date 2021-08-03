@@ -99,7 +99,7 @@ class InvoiceFormDetailsController(
     }
 
     override fun onSelectReceiverClicked() {
-        dialogsManager.showPersonSelectorDialog(null, this)
+        dialogsManager.showReceiverPersonSelectorDialog(null, this)
     }
 
     override fun onPersonSelected(rfc: String) {

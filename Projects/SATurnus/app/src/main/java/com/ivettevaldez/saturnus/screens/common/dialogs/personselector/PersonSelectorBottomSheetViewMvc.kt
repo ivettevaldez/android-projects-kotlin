@@ -19,7 +19,7 @@ interface IPersonSelectorBottomSheetViewMvc :
         fun onPersonSelected(rfc: String)
     }
 
-    fun setTitle(title: String)
+    fun bindTitle(title: String)
     fun bindPeople(people: List<Person>)
 }
 
@@ -45,7 +45,7 @@ class PersonSelectorBottomSheetViewMvcImpl(
         initRecycler()
     }
 
-    override fun setTitle(title: String) {
+    override fun bindTitle(title: String) {
         textTitle.text = title
     }
 

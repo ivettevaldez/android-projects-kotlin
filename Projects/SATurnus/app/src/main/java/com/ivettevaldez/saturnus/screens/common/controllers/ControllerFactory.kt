@@ -9,6 +9,9 @@ import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogController
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog.PersonType
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialogController
 import com.ivettevaldez.saturnus.screens.common.main.MainController
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
@@ -133,5 +136,17 @@ class ControllerFactory @Inject constructor(
 
     fun newInfoDialogController(): InfoDialogController {
         return InfoDialogController()
+    }
+
+    fun newPersonSelectorBottomSheetDialogController(
+        personType: PersonType,
+        listener: IPersonSelectorBottomSheetViewMvc.Listener
+    ): PersonSelectorBottomSheetDialogController {
+        return PersonSelectorBottomSheetDialogController(
+            personType,
+            listener,
+            context.get(),
+            personDao.get()
+        )
     }
 }

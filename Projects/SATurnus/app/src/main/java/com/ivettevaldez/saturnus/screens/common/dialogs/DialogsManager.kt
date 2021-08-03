@@ -9,6 +9,7 @@ import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog
+import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog.PersonType
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetDialog
 import com.ivettevaldez.saturnus.screens.people.form.PersonDataValidator
@@ -116,12 +117,15 @@ open class DialogsManager @Inject constructor(
         bottomSheetDialog.show(fragmentManager, tag)
     }
 
-    open fun showPersonSelectorDialog(
+    open fun showReceiverPersonSelectorDialog(
         tag: String?,
         listener: IPersonSelectorBottomSheetViewMvc.Listener
     ) {
         val bottomSheetDialog: BottomSheetDialogFragment =
-            PersonSelectorBottomSheetDialog.newPersonSelectorBottomSheetDialog(listener)
+            PersonSelectorBottomSheetDialog.newPersonSelectorBottomSheetDialog(
+                PersonType.RECEIVER,
+                listener
+            )
         bottomSheetDialog.show(fragmentManager, tag)
     }
 

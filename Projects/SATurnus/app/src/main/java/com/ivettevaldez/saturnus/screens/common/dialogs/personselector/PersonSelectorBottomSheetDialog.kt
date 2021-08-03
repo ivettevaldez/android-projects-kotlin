@@ -3,69 +3,76 @@ package com.ivettevaldez.saturnus.screens.common.dialogs.personselector
 import android.app.Dialog
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.ivettevaldez.saturnus.R
-import com.ivettevaldez.saturnus.people.Person
-import com.ivettevaldez.saturnus.people.PersonDao
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.dialogs.BaseBottomSheetDialog
-import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
+import java.io.Serializable
 import javax.inject.Inject
 
 class PersonSelectorBottomSheetDialog(
     private val listener: IPersonSelectorBottomSheetViewMvc.Listener
-) : BaseBottomSheetDialog(),
-    IPersonSelectorBottomSheetViewMvc.Listener {
+) : BaseBottomSheetDialog() {
+
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    @Inject
-    lateinit var dialogsEventBus: DialogsEventBus
+    private lateinit var controller: PersonSelectorBottomSheetDialogController
 
-    @Inject
-    lateinit var personDao: PersonDao
+    enum class PersonType : Serializable {
 
-    private lateinit var viewMvc: IPersonSelectorBottomSheetViewMvc
+        RECEIVER
+    }
 
     companion object {
 
+        private const val ARG_PERSON_TYPE: String = "ARG_PERSON_TYPE"
+
         @JvmStatic
         fun newPersonSelectorBottomSheetDialog(
+            personType: PersonType,
             listener: IPersonSelectorBottomSheetViewMvc.Listener
-        ) = PersonSelectorBottomSheetDialog(listener)
+        ): PersonSelectorBottomSheetDialog {
+            return PersonSelectorBottomSheetDialog(listener).apply {
+                arguments = Bundle().apply {
+                    putSerializable(ARG_PERSON_TYPE, personType)
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
+
+        controller = controllerFactory.newPersonSelectorBottomSheetDialogController(
+            getPersonType(),
+            listener
+        )
+
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        viewMvc = viewMvcFactory.newPersonSelectorBottomSheetDialogViewMvc(null)
-
+        val viewMvc = viewMvcFactory.newPersonSelectorBottomSheetDialogViewMvc(null)
         val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(viewMvc.getRootView())
 
-        viewMvc.setTitle(getString(R.string.action_select_person))
-        viewMvc.bindPeople(getReceivers())
+        controller.bindDialogAndView(dialog, viewMvc)
 
         return dialog
     }
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        viewMvc.unregisterListener(this)
+        controller.onStop()
     }
 
-    override fun onPersonSelected(rfc: String) {
-        dismiss()
-        listener.onPersonSelected(rfc)
-    }
-
-    private fun getReceivers(): List<Person> = personDao.findAllReceivers()
+    private fun getPersonType(): PersonType =
+        requireArguments().getSerializable(ARG_PERSON_TYPE) as PersonType
 }
