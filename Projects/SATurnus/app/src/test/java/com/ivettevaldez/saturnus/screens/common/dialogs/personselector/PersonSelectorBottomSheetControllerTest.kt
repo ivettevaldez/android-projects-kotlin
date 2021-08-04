@@ -17,9 +17,9 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-class PersonSelectorBottomSheetDialogControllerTest {
+class PersonSelectorBottomSheetControllerTest {
 
-    private lateinit var sut: PersonSelectorBottomSheetDialogController
+    private lateinit var sut: PersonSelectorBottomSheetController
 
     @Mock
     private lateinit var bottomSheetDialogMock: BottomSheetDialog
@@ -115,16 +115,12 @@ class PersonSelectorBottomSheetDialogControllerTest {
     // -----------------------------------------------------------------------------------------
 
     private fun setReceiverPersonType() {
-        sut = PersonSelectorBottomSheetDialogController(
+        sut = PersonSelectorBottomSheetController(
             typeReceiver,
             listenerMock,
             contextMock,
             personDao
         )
-    }
-
-    private fun getRootView() {
-        `when`(viewMvcMock.getRootView()).thenReturn(viewMock)
     }
 
     private fun getReceiversTitle() {
@@ -133,6 +129,10 @@ class PersonSelectorBottomSheetDialogControllerTest {
 
     private fun getReceivers() {
         `when`(personDao.findAllReceivers()).thenReturn(receivers)
+    }
+
+    private fun getRootView() {
+        `when`(viewMvcMock.getRootView()).thenReturn(viewMock)
     }
 
     private fun bindDialogAndView() {

@@ -14,12 +14,12 @@ class PersonSelectorBottomSheetDialog(
 ) : BaseBottomSheetDialog() {
 
     @Inject
-    lateinit var controllerFactory: ControllerFactory
-
-    @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    private lateinit var controller: PersonSelectorBottomSheetDialogController
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
+
+    private lateinit var controller: PersonSelectorBottomSheetController
 
     enum class PersonType : Serializable {
 
@@ -46,7 +46,7 @@ class PersonSelectorBottomSheetDialog(
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
 
-        controller = controllerFactory.newPersonSelectorBottomSheetDialogController(
+        controller = controllerFactory.newPersonSelectorBottomSheetController(
             getPersonType(),
             listener
         )
@@ -55,7 +55,7 @@ class PersonSelectorBottomSheetDialog(
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val viewMvc = viewMvcFactory.newPersonSelectorBottomSheetDialogViewMvc(null)
+        val viewMvc = viewMvcFactory.newPersonSelectorBottomSheetViewMvc(null)
         val dialog = BottomSheetDialog(requireContext())
 
         controller.bindDialogAndView(dialog, viewMvc)

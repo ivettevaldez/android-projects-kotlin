@@ -7,7 +7,7 @@ import com.ivettevaldez.saturnus.people.Person
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog.PersonType
 
-class PersonSelectorBottomSheetDialogController(
+class PersonSelectorBottomSheetController(
     val personType: PersonType,
     private val listener: IPersonSelectorBottomSheetViewMvc.Listener,
     private val context: Context,

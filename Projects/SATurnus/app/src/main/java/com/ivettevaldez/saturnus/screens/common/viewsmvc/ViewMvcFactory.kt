@@ -85,7 +85,7 @@ class ViewMvcFactory @Inject constructor(
         return PromptBottomSheetViewMvcImpl(inflater.get(), parent)
     }
 
-    fun newPersonSelectorBottomSheetDialogViewMvc(parent: ViewGroup?):
+    fun newPersonSelectorBottomSheetViewMvc(parent: ViewGroup?):
             IPersonSelectorBottomSheetViewMvc {
         return PersonSelectorBottomSheetViewMvcImpl(inflater.get(), parent, this)
     }
