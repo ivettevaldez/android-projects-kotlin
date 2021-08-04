@@ -3,12 +3,12 @@ package com.ivettevaldez.saturnus.screens.common.dialogs.prompt
 import android.app.Dialog
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 
-class PromptDialogController(
+class PromptController(
     private val dialogsEventBus: DialogsEventBus
-) : IPromptDialogViewMvc.Listener {
+) : IPromptViewMvc.Listener {
 
     lateinit var dialog: Dialog
-    lateinit var viewMvc: IPromptDialogViewMvc
+    lateinit var viewMvc: IPromptViewMvc
 
     lateinit var title: String
     lateinit var message: String
@@ -27,7 +27,7 @@ class PromptDialogController(
         this.negativeCaption = negativeCaption
     }
 
-    fun bindDialogAndView(dialog: Dialog, viewMvc: IPromptDialogViewMvc) {
+    fun bindDialogAndView(dialog: Dialog, viewMvc: IPromptViewMvc) {
         this.dialog = dialog
         this.viewMvc = viewMvc
 

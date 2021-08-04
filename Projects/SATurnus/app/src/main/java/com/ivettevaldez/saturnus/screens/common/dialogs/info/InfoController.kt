@@ -9,7 +9,7 @@ class InfoController : IInfoViewMvc.Listener {
 
     lateinit var title: String
     lateinit var message: String
-    lateinit var positiveButtonCaption: String
+    lateinit var positiveCaption: String
 
     fun bindDialogAndView(dialog: Dialog, viewMvc: IInfoViewMvc) {
         this.viewMvc = viewMvc
@@ -18,10 +18,10 @@ class InfoController : IInfoViewMvc.Listener {
         dialog.setContentView(viewMvc.getRootView())
     }
 
-    fun bindArguments(title: String, message: String, positiveButtonCaption: String) {
+    fun bindArguments(title: String, message: String, positiveCaption: String) {
         this.title = title
         this.message = message
-        this.positiveButtonCaption = positiveButtonCaption
+        this.positiveCaption = positiveCaption
     }
 
     fun onStart() {
@@ -41,6 +41,6 @@ class InfoController : IInfoViewMvc.Listener {
     private fun bindData() {
         viewMvc.setTitle(title)
         viewMvc.setMessage(message)
-        viewMvc.setPositiveButtonCaption(positiveButtonCaption)
+        viewMvc.setPositiveButtonCaption(positiveCaption)
     }
 }

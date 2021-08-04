@@ -15,15 +15,15 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-class PromptDialogControllerTest {
+class PromptControllerTest {
 
-    private lateinit var sut: PromptDialogController
+    private lateinit var sut: PromptController
 
     @Mock
     private lateinit var dialogMock: Dialog
 
     @Mock
-    private lateinit var viewMvcMock: IPromptDialogViewMvc
+    private lateinit var viewMvcMock: IPromptViewMvc
 
     @Mock
     private lateinit var dialogsEventBusMock: DialogsEventBus
@@ -37,22 +37,22 @@ class PromptDialogControllerTest {
 
     companion object {
 
-        private const val TITLE: String = ""
-        private const val MESSAGE: String = ""
-        private const val POSITIVE_CAPTION: String = ""
-        private const val NEGATIVE_CAPTION: String = ""
+        private const val TITLE: String = "title"
+        private const val MESSAGE: String = "message"
+        private const val POSITIVE_CAPTION: String = "positiveCaption"
+        private const val NEGATIVE_CAPTION: String = "negativeCaption"
     }
 
     @Before
     fun setUp() {
-        sut = PromptDialogController(dialogsEventBusMock)
+        sut = PromptController(dialogsEventBusMock)
     }
 
     @Test
     fun bindArguments_argumentsAreBound() {
         // Arrange
         // Act
-        sut.bindArguments(TITLE, MESSAGE, POSITIVE_CAPTION, NEGATIVE_CAPTION)
+        bindArguments()
         // Assert
         assertEquals(sut.title, TITLE)
         assertEquals(sut.message, MESSAGE)

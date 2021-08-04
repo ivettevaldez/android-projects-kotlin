@@ -8,7 +8,7 @@ import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
 
-interface IPromptDialogViewMvc : IObservableViewMvc<IPromptDialogViewMvc.Listener> {
+interface IPromptViewMvc : IObservableViewMvc<IPromptViewMvc.Listener> {
 
     interface Listener {
 
@@ -22,14 +22,14 @@ interface IPromptDialogViewMvc : IObservableViewMvc<IPromptDialogViewMvc.Listene
     fun setNegativeCaption(caption: String)
 }
 
-class PromptDialogViewMvcImpl(
+class PromptViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
-) : BaseObservableViewMvc<IPromptDialogViewMvc.Listener>(
+) : BaseObservableViewMvc<IPromptViewMvc.Listener>(
     inflater,
     parent,
     R.layout.dialog_prompt
-), IPromptDialogViewMvc {
+), IPromptViewMvc {
 
     private val textTitle: TextView = findViewById(R.id.prompt_text_title)
     private val textMessage: TextView = findViewById(R.id.prompt_text_message)

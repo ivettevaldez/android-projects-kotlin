@@ -15,7 +15,7 @@ class PromptDialog : BaseDialog() {
     @Inject
     lateinit var controllerFactory: ControllerFactory
 
-    private lateinit var controller: PromptDialogController
+    private lateinit var controller: PromptController
 
     companion object {
 
@@ -43,13 +43,13 @@ class PromptDialog : BaseDialog() {
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        controller = controllerFactory.newPromptDialogController()
+        controller = controllerFactory.newPromptController()
 
         bindArguments()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val viewMvc = viewMvcFactory.newPromptDialogViewMvc(null)
+        val viewMvc = viewMvcFactory.newPromptViewMvc(null)
 
         val dialog = Dialog(requireContext())
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)

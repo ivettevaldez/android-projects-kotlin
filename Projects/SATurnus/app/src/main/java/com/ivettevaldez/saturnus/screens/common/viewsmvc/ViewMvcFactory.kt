@@ -9,7 +9,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSe
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorListItemViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorListItemViewMvcImpl
-import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.IPromptBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.fields.ISpinnerInputViewMvc
@@ -77,8 +77,8 @@ class ViewMvcFactory @Inject constructor(
         return InfoViewMvcImpl(inflater.get(), parent)
     }
 
-    fun newPromptDialogViewMvc(parent: ViewGroup?): PromptDialogViewMvcImpl {
-        return PromptDialogViewMvcImpl(inflater.get(), parent)
+    fun newPromptViewMvc(parent: ViewGroup?): PromptViewMvcImpl {
+        return PromptViewMvcImpl(inflater.get(), parent)
     }
 
     fun newPromptBottomSheetDialogViewMvc(parent: ViewGroup?): IPromptBottomSheetViewMvc {

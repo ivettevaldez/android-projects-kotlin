@@ -56,7 +56,7 @@ class InfoControllerTest {
         // Assert
         assertEquals(sut.title, TITLE)
         assertEquals(sut.message, MESSAGE)
-        assertEquals(sut.positiveButtonCaption, BUTTON_CAPTION)
+        assertEquals(sut.positiveCaption, BUTTON_CAPTION)
     }
 
     @Test

@@ -12,7 +12,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoController
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog.PersonType
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialogController
-import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptDialogController
+import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptController
 import com.ivettevaldez.saturnus.screens.common.main.MainController
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
@@ -139,8 +139,8 @@ class ControllerFactory @Inject constructor(
         return InfoController()
     }
 
-    fun newPromptDialogController(): PromptDialogController {
-        return PromptDialogController(
+    fun newPromptController(): PromptController {
+        return PromptController(
             dialogsEventBus.get()
         )
     }
