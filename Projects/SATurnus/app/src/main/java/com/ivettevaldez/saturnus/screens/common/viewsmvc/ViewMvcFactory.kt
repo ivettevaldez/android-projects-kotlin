@@ -81,7 +81,7 @@ class ViewMvcFactory @Inject constructor(
         return PromptViewMvcImpl(inflater.get(), parent)
     }
 
-    fun newPromptBottomSheetDialogViewMvc(parent: ViewGroup?): IPromptBottomSheetViewMvc {
+    fun newPromptBottomSheetViewMvc(parent: ViewGroup?): IPromptBottomSheetViewMvc {
         return PromptBottomSheetViewMvcImpl(inflater.get(), parent)
     }
 

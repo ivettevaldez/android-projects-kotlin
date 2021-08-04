@@ -13,6 +13,7 @@ import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSe
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetController
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetDialog.PersonType
 import com.ivettevaldez.saturnus.screens.common.dialogs.prompt.PromptController
+import com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet.PromptBottomSheetController
 import com.ivettevaldez.saturnus.screens.common.main.MainController
 import com.ivettevaldez.saturnus.screens.common.messages.MessagesHelper
 import com.ivettevaldez.saturnus.screens.common.navigation.ScreensNavigator
@@ -141,6 +142,12 @@ class ControllerFactory @Inject constructor(
 
     fun newPromptController(): PromptController {
         return PromptController(
+            dialogsEventBus.get()
+        )
+    }
+
+    fun newPromptBottomSheetController(): PromptBottomSheetController {
+        return PromptBottomSheetController(
             dialogsEventBus.get()
         )
     }

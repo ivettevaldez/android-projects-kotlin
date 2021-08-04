@@ -3,24 +3,20 @@ package com.ivettevaldez.saturnus.screens.common.dialogs.promptbottomsheet
 import android.app.Dialog
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ivettevaldez.saturnus.screens.common.controllers.ControllerFactory
 import com.ivettevaldez.saturnus.screens.common.dialogs.BaseBottomSheetDialog
-import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.ViewMvcFactory
 import javax.inject.Inject
 
-class PromptBottomSheetDialog : BaseBottomSheetDialog(),
-    IPromptBottomSheetViewMvc.Listener {
+class PromptBottomSheetDialog : BaseBottomSheetDialog() {
 
     @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
     @Inject
-    lateinit var dialogsEventBus: DialogsEventBus
+    lateinit var controllerFactory: ControllerFactory
 
-    private lateinit var viewMvc: IPromptBottomSheetViewMvc
-    private lateinit var title: String
-    private lateinit var optionOneCaption: String
-    private lateinit var optionTwoCaption: String
+    private lateinit var controller: PromptBottomSheetController
 
     companion object {
 
@@ -47,49 +43,37 @@ class PromptBottomSheetDialog : BaseBottomSheetDialog(),
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        requireArguments().let {
-            title = it.getString(ARG_TITLE)!!
-            optionOneCaption = it.getString(ARG_OPTION_ONE_CAPTION)!!
-            optionTwoCaption = it.getString(ARG_OPTION_TWO_CAPTION)!!
-        }
+        controller = controllerFactory.newPromptBottomSheetController()
+
+        bindArguments()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        viewMvc = viewMvcFactory.newPromptBottomSheetDialogViewMvc(null)
-
+        val viewMvc = viewMvcFactory.newPromptBottomSheetViewMvc(null)
         val dialog = BottomSheetDialog(requireContext())
-        dialog.setContentView(viewMvc.getRootView())
 
-        viewMvc.setTitle(title)
-        viewMvc.setOptionOneCaption(optionOneCaption)
-        viewMvc.setOptionTwoCaption(optionTwoCaption)
+        controller.bindDialogAndView(dialog, viewMvc)
 
         return dialog
     }
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this)
+        controller.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        viewMvc.unregisterListener(this)
+        controller.onStop()
     }
 
-    override fun onOptionOneClicked() {
-        dismiss()
+    private fun bindArguments() {
+        requireArguments().let {
+            val title = it.getString(ARG_TITLE)!!
+            val optionOneCaption = it.getString(ARG_OPTION_ONE_CAPTION)!!
+            val optionTwoCaption = it.getString(ARG_OPTION_TWO_CAPTION)!!
 
-        dialogsEventBus.postEvent(
-            PromptBottomSheetDialogEvent(PromptBottomSheetDialogEvent.Button.OPTION_ONE)
-        )
-    }
-
-    override fun onOptionTwoClicked() {
-        dismiss()
-
-        dialogsEventBus.postEvent(
-            PromptBottomSheetDialogEvent(PromptBottomSheetDialogEvent.Button.OPTION_TWO)
-        )
+            controller.bindArguments(title, optionOneCaption, optionTwoCaption)
+        }
     }
 }
