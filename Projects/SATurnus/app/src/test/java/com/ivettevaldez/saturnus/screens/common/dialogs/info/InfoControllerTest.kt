@@ -12,15 +12,15 @@ import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-class InfoDialogControllerTest {
+class InfoControllerTest {
 
-    private lateinit var sut: InfoDialogController
+    private lateinit var sut: InfoController
 
     @Mock
     private lateinit var dialogMock: Dialog
 
     @Mock
-    private lateinit var viewMvcMock: IInfoDialogViewMvc
+    private lateinit var viewMvcMock: IInfoViewMvc
 
     @Mock
     private lateinit var viewMock: View
@@ -34,7 +34,7 @@ class InfoDialogControllerTest {
 
     @Before
     fun setUp() {
-        sut = InfoDialogController()
+        sut = InfoController()
     }
 
     @Test
@@ -49,21 +49,34 @@ class InfoDialogControllerTest {
     }
 
     @Test
-    fun bindData_dataIsBoundToView() {
+    fun bindArguments_argumentsAreBound() {
+        // Arrange
+        // Act
+        bindArguments()
+        // Assert
+        assertEquals(sut.title, TITLE)
+        assertEquals(sut.message, MESSAGE)
+        assertEquals(sut.positiveButtonCaption, BUTTON_CAPTION)
+    }
+
+    @Test
+    fun onStart_dataIsBoundToView() {
         // Arrange
         bindDialogAndView()
+        bindArguments()
         // Act
-        sut.bindData(TITLE, MESSAGE, BUTTON_CAPTION)
+        sut.onStart()
         // Assert
         verify(viewMvcMock).setTitle(TITLE)
         verify(viewMvcMock).setMessage(MESSAGE)
-        verify(viewMvcMock).setButtonCaption(BUTTON_CAPTION)
+        verify(viewMvcMock).setPositiveButtonCaption(BUTTON_CAPTION)
     }
 
     @Test
     fun onStart_listenersRegistered() {
         // Arrange
         bindDialogAndView()
+        bindArguments()
         // Act
         sut.onStart()
         // Assert
@@ -85,7 +98,7 @@ class InfoDialogControllerTest {
         // Arrange
         bindDialogAndView()
         // Act
-        sut.onButtonClicked()
+        sut.onPositiveButtonClicked()
         // Assert
         verify(dialogMock).dismiss()
     }
@@ -101,5 +114,9 @@ class InfoDialogControllerTest {
     private fun bindDialogAndView() {
         getRootView()
         sut.bindDialogAndView(dialogMock, viewMvcMock)
+    }
+
+    private fun bindArguments() {
+        sut.bindArguments(TITLE, MESSAGE, BUTTON_CAPTION)
     }
 }

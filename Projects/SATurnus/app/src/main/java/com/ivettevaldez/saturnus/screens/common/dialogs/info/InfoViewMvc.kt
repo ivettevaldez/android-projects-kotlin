@@ -8,26 +8,26 @@ import com.ivettevaldez.saturnus.R
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.BaseObservableViewMvc
 import com.ivettevaldez.saturnus.screens.common.viewsmvc.IObservableViewMvc
 
-interface IInfoDialogViewMvc : IObservableViewMvc<IInfoDialogViewMvc.Listener> {
+interface IInfoViewMvc : IObservableViewMvc<IInfoViewMvc.Listener> {
 
     interface Listener {
 
-        fun onButtonClicked()
+        fun onPositiveButtonClicked()
     }
 
     fun setTitle(title: String)
     fun setMessage(message: String)
-    fun setButtonCaption(caption: String)
+    fun setPositiveButtonCaption(caption: String)
 }
 
-class InfoDialogViewMvcImpl(
+class InfoViewMvcImpl(
     inflater: LayoutInflater,
     parent: ViewGroup?
-) : BaseObservableViewMvc<IInfoDialogViewMvc.Listener>(
+) : BaseObservableViewMvc<IInfoViewMvc.Listener>(
     inflater,
     parent,
     R.layout.dialog_info
-), IInfoDialogViewMvc {
+), IInfoViewMvc {
 
     private val textTitle: TextView = findViewById(R.id.info_text_title)
     private val textMessage: TextView = findViewById(R.id.info_text_message)
@@ -46,14 +46,14 @@ class InfoDialogViewMvcImpl(
         textMessage.text = message
     }
 
-    override fun setButtonCaption(caption: String) {
+    override fun setPositiveButtonCaption(caption: String) {
         buttonPositive.text = caption
     }
 
     private fun setListenerEvents() {
         buttonPositive.setOnClickListener {
             for (listener in listeners) {
-                listener.onButtonClicked()
+                listener.onPositiveButtonClicked()
             }
         }
     }

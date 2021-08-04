@@ -10,12 +10,12 @@ import javax.inject.Inject
 class InfoDialog : BaseDialog() {
 
     @Inject
-    lateinit var controllerFactory: ControllerFactory
-
-    @Inject
     lateinit var viewMvcFactory: ViewMvcFactory
 
-    private lateinit var controller: InfoDialogController
+    @Inject
+    lateinit var controllerFactory: ControllerFactory
+
+    private lateinit var controller: InfoController
 
     companion object {
 
@@ -38,18 +38,18 @@ class InfoDialog : BaseDialog() {
         injector.inject(this)
         super.onCreate(savedInstanceState)
 
-        controller = controllerFactory.newInfoDialogController()
+        controller = controllerFactory.newInfoController()
+
+        bindArguments()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val viewMvc = viewMvcFactory.newInfoDialogViewMvc(null)
+        val viewMvc = viewMvcFactory.newInfoViewMvc(null)
 
         val dialog = Dialog(requireContext())
         setStyle(STYLE_NORMAL, android.R.style.Theme_Material_Dialog)
 
         controller.bindDialogAndView(dialog, viewMvc)
-
-        bindData()
 
         return dialog
     }
@@ -64,13 +64,13 @@ class InfoDialog : BaseDialog() {
         controller.onStop()
     }
 
-    private fun bindData() {
+    private fun bindArguments() {
         requireArguments().let {
             val title = it.getString(ARG_TITLE)!!
             val message = it.getString(ARG_MESSAGE)!!
             val buttonCaption = it.getString(ARG_BUTTON_CAPTION)!!
 
-            controller.bindData(title, message, buttonCaption)
+            controller.bindArguments(title, message, buttonCaption)
         }
     }
 }

@@ -4,7 +4,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoDialogViewMvcImpl
+import com.ivettevaldez.saturnus.screens.common.dialogs.info.InfoViewMvcImpl
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorBottomSheetViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.IPersonSelectorListItemViewMvc
 import com.ivettevaldez.saturnus.screens.common.dialogs.personselector.PersonSelectorBottomSheetViewMvcImpl
@@ -73,8 +73,8 @@ class ViewMvcFactory @Inject constructor(
         return SpinnerInputViewMvcImpl(inflater.get(), parent)
     }
 
-    fun newInfoDialogViewMvc(parent: ViewGroup?): InfoDialogViewMvcImpl {
-        return InfoDialogViewMvcImpl(inflater.get(), parent)
+    fun newInfoViewMvc(parent: ViewGroup?): InfoViewMvcImpl {
+        return InfoViewMvcImpl(inflater.get(), parent)
     }
 
     fun newPromptDialogViewMvc(parent: ViewGroup?): PromptDialogViewMvcImpl {
