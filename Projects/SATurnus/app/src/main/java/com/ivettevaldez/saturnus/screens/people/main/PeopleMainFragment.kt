@@ -13,10 +13,10 @@ import javax.inject.Inject
 class PeopleMainFragment : BaseFragment() {
 
     @Inject
-    lateinit var controllerFactory: ControllerFactory
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     @Inject
-    lateinit var viewMvcFactory: ViewMvcFactory
+    lateinit var controllerFactory: ControllerFactory
 
     private lateinit var controller: PeopleMainController
 
@@ -28,10 +28,9 @@ class PeopleMainFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(this)
+        super.onCreate(savedInstanceState)
 
         controller = controllerFactory.newPeopleMainController()
-
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(

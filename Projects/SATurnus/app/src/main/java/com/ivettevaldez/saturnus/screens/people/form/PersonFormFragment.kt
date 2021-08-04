@@ -12,10 +12,10 @@ import javax.inject.Inject
 class PersonFormFragment : BaseFragment() {
 
     @Inject
-    lateinit var controllerFactory: ControllerFactory
+    lateinit var viewMvcFactory: ViewMvcFactory
 
     @Inject
-    lateinit var viewMvcFactory: ViewMvcFactory
+    lateinit var controllerFactory: ControllerFactory
 
     private lateinit var controller: PersonFormController
 
