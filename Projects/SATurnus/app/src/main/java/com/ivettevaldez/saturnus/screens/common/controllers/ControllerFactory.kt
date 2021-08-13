@@ -3,7 +3,7 @@ package com.ivettevaldez.saturnus.screens.common.controllers
 import android.content.Context
 import android.os.Handler
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
-import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
+import com.ivettevaldez.saturnus.invoices.payment.calculator.InvoicePaymentCalculatorFactory
 import com.ivettevaldez.saturnus.people.PersonDao
 import com.ivettevaldez.saturnus.screens.common.datepicker.DatePickerManager
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsEventBus
@@ -40,7 +40,7 @@ class ControllerFactory @Inject constructor(
     private val uiHandler: Provider<Handler>,
     private val personDao: Provider<PersonDao>,
     private val invoiceDao: Provider<InvoiceDao>,
-    private val generateInvoicePaymentUseCase: Provider<GenerateInvoicePaymentUseCase>
+    private val invoicePaymentCalculatorFactory: Provider<InvoicePaymentCalculatorFactory>
 ) {
 
     fun newMainController(): MainController {
@@ -93,8 +93,8 @@ class ControllerFactory @Inject constructor(
         return InvoiceFormPaymentController(
             context.get(),
             dialogsManager.get(),
-            generateInvoicePaymentUseCase.get(),
             fragmentsEventBus.get(),
+            invoicePaymentCalculatorFactory.get(),
             invoiceDao.get()
         )
     }

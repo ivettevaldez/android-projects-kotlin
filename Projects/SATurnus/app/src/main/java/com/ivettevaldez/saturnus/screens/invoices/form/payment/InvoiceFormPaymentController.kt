@@ -7,8 +7,9 @@ import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toDoubleValue
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
-import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
 import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
+import com.ivettevaldez.saturnus.invoices.payment.calculator.InvoicePaymentCalculator
+import com.ivettevaldez.saturnus.invoices.payment.calculator.InvoicePaymentCalculatorFactory
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.invoices.form.details.InvoiceFormDetailsFragmentEvent
@@ -17,8 +18,8 @@ import com.stepstone.stepper.VerificationError
 class InvoiceFormPaymentController(
     private val context: Context,
     private val dialogsManager: DialogsManager,
-    private val generateInvoicePaymentUseCase: GenerateInvoicePaymentUseCase,
     private val fragmentsEventBus: FragmentsEventBus,
+    private val invoicePaymentCalculatorFactory: InvoicePaymentCalculatorFactory,
     private val invoiceDao: InvoiceDao
 ) : IInvoiceFormPaymentViewMvc.Listener,
     FragmentsEventBus.Listener {
@@ -28,6 +29,7 @@ class InvoiceFormPaymentController(
     var invoice: Invoice? = null
     var invoicePayment: InvoicePayment? = null
     var receiverPersonType: String? = null
+    var invoicePaymentCalculator: InvoicePaymentCalculator? = null
 
     var newInvoice: Boolean = false
     var editingInvoice: Boolean = false
@@ -101,13 +103,10 @@ class InvoiceFormPaymentController(
         val defaultZero = context.getString(R.string.default_zero).toCurrency()
 
         if (subtotal.isBlank() || subtotal == defaultZero) {
-            showSavingErrorDialog(context.getString(R.string.error_missing_subtotal))
+            dialogsManager.showMissingSubtotalError(null)
         } else {
             val subtotalDouble = subtotal.toDoubleValue()
-            invoicePayment = generateInvoicePaymentUseCase.generatePayment(
-                subtotalDouble,
-                receiverPersonType!!
-            )
+            invoicePayment = invoicePaymentCalculator!!.calculatePayment(subtotalDouble)
 
             bindPayment()
 
@@ -119,6 +118,8 @@ class InvoiceFormPaymentController(
         if (event is InvoiceFormDetailsFragmentEvent) {
             invoice = event.invoice
             receiverPersonType = invoice!!.receiver!!.personType
+            invoicePaymentCalculator =
+                invoicePaymentCalculatorFactory.newInvoicePaymentCalculator(receiverPersonType!!)
 
             if (editingInvoice) {
                 onCalculateClicked(viewMvc.getSubtotal())
@@ -137,7 +138,7 @@ class InvoiceFormPaymentController(
     }
 
     fun onError(error: VerificationError) {
-        showSavingErrorDialog(error.errorMessage)
+        dialogsManager.showGenericSavingError(null, error.errorMessage)
     }
 
     private fun hasFormErrors(): String? {
@@ -153,10 +154,6 @@ class InvoiceFormPaymentController(
         } else {
             null
         }
-    }
-
-    private fun showSavingErrorDialog(error: String) {
-        dialogsManager.showGenericSavingError(null, error)
     }
 
     private fun setDefaults() {

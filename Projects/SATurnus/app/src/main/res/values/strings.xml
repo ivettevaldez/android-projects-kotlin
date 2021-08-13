@@ -56,6 +56,7 @@
     <string name="error_missing_recalculation">
         Debes confirmar el cálculo pulsando el botón \"calcular\" para poder continuar.
     </string>
+    <string name="error_calculating_title">Problema al calcular</string>
     <string name="error_saving_title">Problema al guardar</string>
     <string name="error_saving_message">
         Ha ocurrido un error, revisa los datos e intenta de nuevo.

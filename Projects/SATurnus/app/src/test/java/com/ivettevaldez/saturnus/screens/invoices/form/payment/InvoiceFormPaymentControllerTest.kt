@@ -8,8 +8,9 @@ import com.ivettevaldez.saturnus.common.Constants
 import com.ivettevaldez.saturnus.common.currency.CurrencyHelper.toCurrency
 import com.ivettevaldez.saturnus.invoices.Invoice
 import com.ivettevaldez.saturnus.invoices.InvoiceDao
-import com.ivettevaldez.saturnus.invoices.payment.GenerateInvoicePaymentUseCase
 import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
+import com.ivettevaldez.saturnus.invoices.payment.calculator.InvoicePaymentCalculator
+import com.ivettevaldez.saturnus.invoices.payment.calculator.InvoicePaymentCalculatorFactory
 import com.ivettevaldez.saturnus.screens.common.controllers.FragmentsEventBus
 import com.ivettevaldez.saturnus.screens.common.dialogs.DialogsManager
 import com.ivettevaldez.saturnus.screens.invoices.form.InvoiceFormChangeFragmentEvent
@@ -49,7 +50,7 @@ class InvoiceFormPaymentControllerTest {
     private lateinit var fragmentsEventBusMock: FragmentsEventBus
 
     @Mock
-    private lateinit var generateInvoicePaymentUseCaseMock: GenerateInvoicePaymentUseCase
+    private lateinit var invoicePaymentCalculatorFactoryMock: InvoicePaymentCalculatorFactory
 
     @Mock
     private lateinit var invoiceDaoMock: InvoiceDao
@@ -62,6 +63,9 @@ class InvoiceFormPaymentControllerTest {
 
     @Mock
     private lateinit var verificationErrorMock: VerificationError
+
+    @Mock
+    private lateinit var invoicePaymentCalculatorMock: InvoicePaymentCalculator
 
     @Captor
     private val paymentEventCaptor: ArgumentCaptor<InvoiceFormPaymentFragmentEvent> =
@@ -97,8 +101,8 @@ class InvoiceFormPaymentControllerTest {
         sut = InvoiceFormPaymentController(
             contextMock,
             dialogsManagerMock,
-            generateInvoicePaymentUseCaseMock,
             fragmentsEventBusMock,
+            invoicePaymentCalculatorFactoryMock,
             invoiceDaoMock
         )
 
@@ -212,6 +216,7 @@ class InvoiceFormPaymentControllerTest {
         // Assert
         assertNull(sut.invoice)
         assertNull(sut.receiverPersonType)
+        assertNull(sut.invoicePaymentCalculator)
         assertNull(sut.invoicePayment)
         verifyNoInteractions(viewMvcMock)
     }
@@ -220,11 +225,13 @@ class InvoiceFormPaymentControllerTest {
     fun onFragmentEvent_newInvoiceWithInvoiceFormDetailsFragmentEvent_onlyInvoiceAndReceiverPersonTypeAreBound() {
         // Arrange
         setInvoiceFormDetailsFragmentEvent()
+        getInvoicePaymentCalculator()
         // Act
         sut.onFragmentEvent(invoiceFormDetailsFragmentEventMock)
         // Assert
         assertNotNull(sut.invoice)
         assertNotNull(sut.receiverPersonType)
+        assertNotNull(sut.invoicePaymentCalculator)
         verifyNoInteractions(viewMvcMock)
     }
 
@@ -262,18 +269,15 @@ class InvoiceFormPaymentControllerTest {
     fun onCalculateClicked_emptySubtotal_genericSavingErrorDialogIsShown() {
         // Arrange
         getDefaultZeroString()
-        getMissingSubtotalString()
         // Act
         sut.onCalculateClicked("")
         // Assert
-        verify(contextMock).getString(ERROR_MISSING_SUBTOTAL_ID)
-        verify(dialogsManagerMock).showGenericSavingError(any(), anyString())
+        verify(dialogsManagerMock).showMissingSubtotalError(any())
     }
 
     @Test
     fun onCalculateClicked_physicalReceiver_generatedPaymentIsBoundToViewWithDefaultWithholdings() {
         // Arrange
-        getDefaultZeroString()
         generateInvoicePayment(Constants.PHYSICAL_PERSON)
         // Act
         sut.onCalculateClicked(SUBTOTAL)
@@ -293,7 +297,6 @@ class InvoiceFormPaymentControllerTest {
     @Test
     fun onCalculateClicked_moralReceiver_generatedPaymentIsBoundToView() {
         // Arrange
-        getDefaultZeroString()
         generateInvoicePayment(Constants.MORAL_PERSON)
         // Act
         sut.onCalculateClicked(SUBTOTAL)
@@ -423,10 +426,10 @@ class InvoiceFormPaymentControllerTest {
 
     private fun editingInvoiceWithInvoiceFormDetailsFragmentEvent() {
         editingInvoiceWithPhysicalReceiver()
+        getInvoicePaymentCalculator()
         generateInvoicePayment(sut.receiverPersonType!!)
         setInvoiceFormDetailsFragmentEvent()
         getSubtotal()
-        getDefaultZeroString()
     }
 
     private fun editingInvoiceWithMoralReceiver() {
@@ -442,18 +445,27 @@ class InvoiceFormPaymentControllerTest {
         `when`(invoiceFormDetailsFragmentEventMock.invoice).thenReturn(fakeInvoice)
     }
 
+    private fun getInvoicePaymentCalculator() {
+        `when`(
+            invoicePaymentCalculatorFactoryMock.newInvoicePaymentCalculator(anyString())
+        ).thenReturn(
+            invoicePaymentCalculatorMock
+        )
+    }
+
     private fun generateInvoicePayment(receiverPersonType: String) {
         sut.receiverPersonType = receiverPersonType
+        sut.invoicePaymentCalculator = invoicePaymentCalculatorMock
 
         editingInvoice()
         getUnavailableString()
+        getDefaultZeroString()
 
         `when`(
-            generateInvoicePaymentUseCaseMock.generatePayment(
-                anyDouble(),
-                anyString()
-            )
-        ).thenReturn(fakeInvoicePayment)
+            invoicePaymentCalculatorMock.calculatePayment(anyDouble())
+        ).thenReturn(
+            fakeInvoicePayment
+        )
     }
 
     private fun getSubtotal() {
@@ -466,10 +478,6 @@ class InvoiceFormPaymentControllerTest {
 
     private fun getDefaultZeroString() {
         `when`(contextMock.getString(DEFAULT_ZERO_ID)).thenReturn(DEFAULT_ZERO_VALUE)
-    }
-
-    private fun getMissingSubtotalString() {
-        `when`(contextMock.getString(ERROR_MISSING_SUBTOTAL_ID)).thenReturn("")
     }
 
     private fun getVerificationErrorMessage() {

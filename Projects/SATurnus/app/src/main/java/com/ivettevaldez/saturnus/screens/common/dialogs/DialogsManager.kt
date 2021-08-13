@@ -38,6 +38,15 @@ open class DialogsManager @Inject constructor(
         dialogFragment.show(fragmentManager, tag)
     }
 
+    open fun showMissingSubtotalError(tag: String?) {
+        val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
+            getString(R.string.error_calculating_title),
+            getString(R.string.error_missing_subtotal),
+            getString(R.string.action_ok)
+        )
+        dialogFragment.show(fragmentManager, tag)
+    }
+
     open fun showMissingReceiversError(tag: String?) {
         val dialogFragment: DialogFragment = InfoDialog.newInfoDialog(
             getString(R.string.error_oops_title),

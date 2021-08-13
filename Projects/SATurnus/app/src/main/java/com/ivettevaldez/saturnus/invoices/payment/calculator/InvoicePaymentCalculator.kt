@@ -1,4 +1,6 @@
-package com.ivettevaldez.saturnus.invoices.payment
+package com.ivettevaldez.saturnus.invoices.payment.calculator
+
+import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
 
 abstract class InvoicePaymentCalculator {
 

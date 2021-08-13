@@ -1,5 +1,6 @@
 package com.ivettevaldez.saturnus.invoices.payment
 
+import com.ivettevaldez.saturnus.invoices.payment.calculator.InvoicePaymentCalculatorPhysicalPerson
 import com.ivettevaldez.saturnus.testdata.InvoiceTestData
 import org.junit.Assert.assertEquals
 import org.junit.Before

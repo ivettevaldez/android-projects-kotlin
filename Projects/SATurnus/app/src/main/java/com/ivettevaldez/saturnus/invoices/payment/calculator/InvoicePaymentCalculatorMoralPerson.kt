@@ -1,6 +1,8 @@
-package com.ivettevaldez.saturnus.invoices.payment
+package com.ivettevaldez.saturnus.invoices.payment.calculator
 
-class InvoicePaymentCalculatorMoralPerson : InvoicePaymentCalculator() {
+import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
+
+open class InvoicePaymentCalculatorMoralPerson : InvoicePaymentCalculator() {
 
     companion object {
 

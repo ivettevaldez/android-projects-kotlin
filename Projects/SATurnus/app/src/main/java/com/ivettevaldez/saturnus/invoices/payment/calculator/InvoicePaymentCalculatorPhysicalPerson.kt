@@ -1,6 +1,8 @@
-package com.ivettevaldez.saturnus.invoices.payment
+package com.ivettevaldez.saturnus.invoices.payment.calculator
 
-class InvoicePaymentCalculatorPhysicalPerson : InvoicePaymentCalculator() {
+import com.ivettevaldez.saturnus.invoices.payment.InvoicePayment
+
+open class InvoicePaymentCalculatorPhysicalPerson : InvoicePaymentCalculator() {
 
     override fun calculatePayment(subtotal: Double): InvoicePayment {
         val isrWithholding = 0.0
