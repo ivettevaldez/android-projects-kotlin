@@ -19,10 +19,26 @@ object InvoiceTestData {
         receiver = PersonTestData.getMoralPerson(),
         issuedAt = Date(),
         certificatedAt = Date(),
-        payment = getPayment()
+        payment = getDefaultPayment()
     )
 
-    private fun getPayment(): InvoicePayment = InvoicePayment(
+    fun getPhysicalPersonPayment(): InvoicePayment = InvoicePayment(
+        subtotal = 10000.0,
+        iva = 1600.0,
+        ivaWithholding = 0.0,
+        isrWithholding = 0.0,
+        total = 11600.0
+    )
+
+    fun getMoralPersonPayment(): InvoicePayment = InvoicePayment(
+        subtotal = 10000.0,
+        iva = 1600.0,
+        ivaWithholding = 1066.67,
+        isrWithholding = 1000.0,
+        total = 9533.33
+    )
+
+    private fun getDefaultPayment(): InvoicePayment = InvoicePayment(
         subtotal = 666.0,
         iva = 666.0,
         ivaWithholding = 666.0,
