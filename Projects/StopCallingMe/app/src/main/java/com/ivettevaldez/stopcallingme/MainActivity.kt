@@ -1,8 +1,10 @@
 package com.ivettevaldez.stopcallingme
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -14,15 +16,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED ||
-            checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED
-        ) {
-            val permissions = arrayOf(
-                Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.CALL_PHONE
-            )
-            requestPermissions(permissions, permissionCodeReadPhoneState)
-        }
+        requestPermissions()
+        setListenerEvents()
     }
 
     override fun onRequestPermissionsResult(
@@ -49,5 +44,29 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun requestPermissions() {
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED ||
+            checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_DENIED
+        ) {
+            val permissions = arrayOf(
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.CALL_PHONE
+            )
+            requestPermissions(permissions, permissionCodeReadPhoneState)
+        }
+    }
+
+    private fun setListenerEvents() {
+        val button = findViewById<Button>(R.id.main_button_call_logs)
+        button.setOnClickListener {
+            goToCallLogsScreen()
+        }
+    }
+
+    private fun goToCallLogsScreen() {
+        val intent = Intent(this, CallLogsActivity::class.java)
+        startActivity(intent)
     }
 }
