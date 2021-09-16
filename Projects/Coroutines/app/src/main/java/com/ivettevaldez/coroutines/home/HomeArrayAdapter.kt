@@ -18,7 +18,7 @@ class HomeArrayAdapter(context: Context, private val listener: Listener) :
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val newConvertView = convertView ?: LayoutInflater.from(context).inflate(
-            R.layout.list_item_screen_reachable_from_home,
+            R.layout.item_screen_reachable_from_home,
             parent,
             false
         )

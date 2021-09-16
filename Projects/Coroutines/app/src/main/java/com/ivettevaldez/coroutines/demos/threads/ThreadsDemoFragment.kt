@@ -1,4 +1,4 @@
-package com.ivettevaldez.coroutines.demos
+package com.ivettevaldez.coroutines.demos.threads
 
 import android.os.Bundle
 import android.os.Handler
@@ -28,11 +28,6 @@ class ThreadsDemoFragment : BaseFragment() {
 
         @JvmStatic
         fun newInstance(): Fragment = ThreadsDemoFragment()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
