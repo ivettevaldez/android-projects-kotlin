@@ -39,7 +39,7 @@ class HomeFragment : BaseFragment(), HomeArrayAdapter.Listener {
 
         adapterScreensReachableFromHome = HomeArrayAdapter(requireContext(), this)
 
-        listScreensReachableFromHome = view.findViewById(R.id.list_screens)
+        listScreensReachableFromHome = view.findViewById(R.id.home_list_screens)
         listScreensReachableFromHome.adapter = adapterScreensReachableFromHome
 
         adapterScreensReachableFromHome.addAll(*ScreenReachableFromHome.values())
@@ -49,6 +49,8 @@ class HomeFragment : BaseFragment(), HomeArrayAdapter.Listener {
     }
 
     override fun onScreenClicked(screenReachableFromHome: ScreenReachableFromHome) {
-        // TODO:
+        when (screenReachableFromHome) {
+            ScreenReachableFromHome.THREADS_DEMO -> screensNavigator.toThreadsDemo()
+        }
     }
 }

@@ -26,7 +26,7 @@ class HomeArrayAdapter(context: Context, private val listener: Listener) :
         val screenReachableFromHome = getItem(position)!!
 
         // Display screen name
-        val textName = newConvertView.findViewById<TextView>(R.id.text_screen_name)
+        val textName = newConvertView.findViewById<TextView>(R.id.item_screen_text_screen_name)
         textName.text = screenReachableFromHome.description
 
         // Set click listener on individual item view

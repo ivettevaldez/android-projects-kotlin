@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity(), ToolbarDelegate {
         screensNavigator = compositionRoot.screensNavigator
         screensNavigator.init(savedInstanceState)
 
-        buttonBack = findViewById(R.id.btn_back)
+        buttonBack = findViewById(R.id.main_button_back)
         buttonBack.setOnClickListener { screensNavigator.navigateUp() }
 
-        textScreenTitle = findViewById(R.id.txt_screen_title)
+        textScreenTitle = findViewById(R.id.main_text_screen_title)
     }
 
     override fun setScreenTitle(title: String) {

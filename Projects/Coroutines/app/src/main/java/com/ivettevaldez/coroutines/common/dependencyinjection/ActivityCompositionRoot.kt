@@ -15,7 +15,7 @@ class ActivityCompositionRoot(
 
     private val fragmentManager get() = activity.supportFragmentManager
 
-    private val fragNavController get() = FragNavController(fragmentManager, R.id.frame_content)
+    private val fragNavController get() = FragNavController(fragmentManager, R.id.main_frame_content)
 
     val screensNavigator: ScreensNavigator by lazy {
         ScreensNavigator(fragNavController)
