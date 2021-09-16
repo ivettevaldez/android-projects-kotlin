@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Coroutines</string>
+
+    <string name="home_title">@string/app_name</string>
 </resources>
