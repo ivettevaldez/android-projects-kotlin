@@ -1,6 +1,7 @@
 package com.ivettevaldez.coroutines.home
 
 enum class ScreenReachableFromHome(val description: String) {
-    THREADS_DEMO("Threads"),
-    BASIC_COROUTINE_DEMO("Basic Coroutine")
+    DEMO_THREADS("Threads"),
+    DEMO_BASIC_COROUTINE("Basic Coroutine"),
+    EXERCISE_1("Exercise 1")
 }

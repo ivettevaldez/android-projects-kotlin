@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Coroutines</string>
 
-    <string name="home_title">@string/app_name</string>
+    <string name="demo_threads_start_benchmark">Start benchmark</string>
 
-    <string name="threads_start_benchmark">Start benchmark</string>
+    <string name="exercise1_user_id">User ID</string>
+    <string name="exercise1_get_reputation">Get reputation</string>
 </resources>

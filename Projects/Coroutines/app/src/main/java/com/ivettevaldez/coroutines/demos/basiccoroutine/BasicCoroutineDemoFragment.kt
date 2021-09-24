@@ -21,7 +21,7 @@ import kotlinx.coroutines.withContext
 
 class BasicCoroutineDemoFragment : BaseFragment() {
 
-    override val screenTitle get() = ScreenReachableFromHome.THREADS_DEMO.description
+    override val screenTitle get() = ScreenReachableFromHome.DEMO_BASIC_COROUTINE.description
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 

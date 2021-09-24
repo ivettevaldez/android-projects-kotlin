@@ -12,7 +12,7 @@ import com.ivettevaldez.coroutines.common.BaseFragment
 class HomeFragment : BaseFragment(), HomeArrayAdapter.Listener {
 
     override val screenTitle: String
-        get() = resources.getString(R.string.home_title)
+        get() = resources.getString(R.string.app_name)
 
     private lateinit var listScreensReachableFromHome: ListView
     private lateinit var adapterScreensReachableFromHome: HomeArrayAdapter
@@ -50,8 +50,9 @@ class HomeFragment : BaseFragment(), HomeArrayAdapter.Listener {
 
     override fun onScreenClicked(screenReachableFromHome: ScreenReachableFromHome) {
         when (screenReachableFromHome) {
-            ScreenReachableFromHome.THREADS_DEMO -> screensNavigator.toThreadsDemo()
-            ScreenReachableFromHome.BASIC_COROUTINE_DEMO -> screensNavigator.toBasicCoroutineDemo()
+            ScreenReachableFromHome.DEMO_THREADS -> screensNavigator.toThreadsDemo()
+            ScreenReachableFromHome.DEMO_BASIC_COROUTINE -> screensNavigator.toBasicCoroutineDemo()
+            ScreenReachableFromHome.EXERCISE_1 -> screensNavigator.toExercise1()
         }
     }
 }

@@ -9,7 +9,7 @@
         android:id="@+id/basic_coroutine_button_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/threads_start_benchmark" />
+        android:text="@string/demo_threads_start_benchmark" />
 
     <TextView
         android:id="@+id/basic_coroutine_text_remaining_time"

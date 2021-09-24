@@ -17,7 +17,7 @@ import com.ivettevaldez.coroutines.home.ScreenReachableFromHome
 
 class ThreadsDemoFragment : BaseFragment() {
 
-    override val screenTitle get() = ScreenReachableFromHome.THREADS_DEMO.description
+    override val screenTitle get() = ScreenReachableFromHome.DEMO_THREADS.description
 
     private lateinit var textRemainingTime: TextView
     private lateinit var buttonStart: Button
