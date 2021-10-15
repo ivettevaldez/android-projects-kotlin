@@ -64,7 +64,6 @@ class Exercise1Fragment : BaseFragment() {
 
             job = coroutineScope.launch {
                 buttonGetReputation.isEnabled = false
-                editUserId.isEnabled = false
 
                 val id = editUserId.text.toString()
                 val reputation = getReputationForUser(id)
@@ -72,7 +71,6 @@ class Exercise1Fragment : BaseFragment() {
                 showReputationMessage(reputation)
 
                 buttonGetReputation.isEnabled = true
-                editUserId.isEnabled = true
             }
         }
 
@@ -84,7 +82,6 @@ class Exercise1Fragment : BaseFragment() {
         super.onStop()
 
         job?.cancel()
-        editUserId.isEnabled = true
         buttonGetReputation.isEnabled = true
     }
 
