@@ -14,10 +14,7 @@ import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.BaseFragment
 import com.ivettevaldez.coroutines.common.ThreadInfoLogger
 import com.ivettevaldez.coroutines.home.ScreenReachableFromHome
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.*
 
 class BasicCoroutineDemoFragment : BaseFragment() {
@@ -28,6 +25,8 @@ class BasicCoroutineDemoFragment : BaseFragment() {
 
     private lateinit var textRemainingTime: TextView
     private lateinit var buttonStart: Button
+
+    private var job: Job? = null
 
     companion object {
 
@@ -50,7 +49,7 @@ class BasicCoroutineDemoFragment : BaseFragment() {
         buttonStart.setOnClickListener {
             logThreadInfo("Button callback")
 
-            coroutineScope.launch {
+            job = coroutineScope.launch {
                 buttonStart.isEnabled = false
 
                 val iterationsCount = executeBenchmark()
@@ -61,6 +60,14 @@ class BasicCoroutineDemoFragment : BaseFragment() {
         }
 
         return view
+    }
+
+    override fun onStop() {
+        logThreadInfo("onStop()")
+        super.onStop()
+
+        job?.cancel()
+        buttonStart.isEnabled = true
     }
 
     private fun logThreadInfo(message: String) {
