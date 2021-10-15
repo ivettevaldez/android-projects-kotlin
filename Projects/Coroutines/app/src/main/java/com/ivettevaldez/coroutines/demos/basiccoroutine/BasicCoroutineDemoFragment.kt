@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class BasicCoroutineDemoFragment : BaseFragment() {
 
@@ -53,12 +54,7 @@ class BasicCoroutineDemoFragment : BaseFragment() {
                 buttonStart.isEnabled = false
 
                 val iterationsCount = executeBenchmark()
-
-                Toast.makeText(
-                    requireContext(),
-                    "Iterations: $iterationsCount",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showIterationsCountMessage(iterationsCount)
 
                 buttonStart.isEnabled = true
             }
@@ -71,17 +67,30 @@ class BasicCoroutineDemoFragment : BaseFragment() {
         ThreadInfoLogger.logThreadInfo(message)
     }
 
+    private fun showIterationsCountMessage(iterationsCount: Long) {
+        val message = String.format(
+            Locale.getDefault(),
+            getString(R.string.template_iterations_count),
+            iterationsCount
+        )
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun updateRemainingTime(remainingSeconds: Int) {
         logThreadInfo("updateRemainingTime: $remainingSeconds seconds")
 
         if (remainingSeconds > 0) {
-            textRemainingTime.text = "$remainingSeconds seconds remaining"
+            textRemainingTime.text = String.format(
+                Locale.getDefault(),
+                getString(R.string.template_remaining_time),
+                remainingSeconds
+            )
 
             Handler(Looper.getMainLooper()).postDelayed({
                 updateRemainingTime(remainingSeconds - 1)
             }, 1000)
         } else {
-            textRemainingTime.text = "Done!"
+            textRemainingTime.text = getString(R.string.message_done)
         }
     }
 

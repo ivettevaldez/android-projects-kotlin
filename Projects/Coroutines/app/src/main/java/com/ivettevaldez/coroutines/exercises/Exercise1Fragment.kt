@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class Exercise1Fragment : BaseFragment() {
 
@@ -45,7 +46,7 @@ class Exercise1Fragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         val view = inflater.inflate(R.layout.fragment_exercise1, container, false)
 
         editUserId = view.findViewById(R.id.exercise1_edit_user_id)
@@ -65,21 +66,32 @@ class Exercise1Fragment : BaseFragment() {
 
             coroutineScope.launch {
                 buttonGetReputation.isEnabled = false
+                editUserId.isEnabled = false
 
                 val id = editUserId.text.toString()
                 val reputation = getReputationForUser(id)
 
-                Toast.makeText(
-                    requireContext(),
-                    "Reputation: $reputation",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showReputationMessage(reputation)
 
                 buttonGetReputation.isEnabled = true
+                editUserId.isEnabled = true
             }
         }
 
         return view
+    }
+
+    private fun logThreadInfo(message: String) {
+        ThreadInfoLogger.logThreadInfo(message)
+    }
+
+    private fun showReputationMessage(reputation: Int) {
+        val message = String.format(
+            Locale.getDefault(),
+            getString(R.string.template_reputation),
+            reputation
+        )
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private suspend fun getReputationForUser(userId: String): Int {
@@ -87,9 +99,5 @@ class Exercise1Fragment : BaseFragment() {
             logThreadInfo("getReputation()")
             getReputationEndpoint.getReputation(userId)
         }
-    }
-
-    private fun logThreadInfo(message: String) {
-        ThreadInfoLogger.logThreadInfo(message)
     }
 }

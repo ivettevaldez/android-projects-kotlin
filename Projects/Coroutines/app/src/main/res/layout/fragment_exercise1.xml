@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:width="100dp"
         android:gravity="center"
-        android:hint="@string/exercise1_user_id"
+        android:hint="@string/hint_user_id"
         android:textColorHint="#546E7A"
         android:importantForAutofill="no"
         android:inputType="text"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="@string/exercise1_get_reputation"
+        android:text="@string/action_get_reputation"
         android:enabled="false"/>
 
 </LinearLayout>

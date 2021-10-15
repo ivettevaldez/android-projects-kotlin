@@ -7,7 +7,4 @@ class CustomApplication : Application() {
 
     val applicationCompositionRoot = ApplicationCompositionRoot()
 
-    override fun onCreate() {
-        super.onCreate()
-    }
 }

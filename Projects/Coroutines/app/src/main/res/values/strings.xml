@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">Coroutines</string>
 
-    <string name="demo_threads_start_benchmark">Start benchmark</string>
+    <string name="action_start_benchmark">Start benchmark</string>
+    <string name="action_get_reputation">Get reputation</string>
 
-    <string name="exercise1_user_id">User ID</string>
-    <string name="exercise1_get_reputation">Get reputation</string>
+    <string name="message_done">Done!</string>
+
+    <string name="hint_user_id">User ID</string>
+
+    <string name="template_remaining_time">%d seconds remaining</string>
+    <string name="template_iterations_count">Iterations: %d</string>
+    <string name="template_reputation">Reputation: %d</string>
 </resources>

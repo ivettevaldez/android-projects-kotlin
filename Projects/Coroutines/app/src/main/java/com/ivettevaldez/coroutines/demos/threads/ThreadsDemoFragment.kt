@@ -14,6 +14,7 @@ import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.BaseFragment
 import com.ivettevaldez.coroutines.common.ThreadInfoLogger
 import com.ivettevaldez.coroutines.home.ScreenReachableFromHome
+import java.util.*
 
 class ThreadsDemoFragment : BaseFragment() {
 
@@ -45,7 +46,6 @@ class ThreadsDemoFragment : BaseFragment() {
 
             buttonStart.isEnabled = false
             executeBenchmark()
-            buttonStart.isEnabled = true
         }
 
         return view
@@ -55,17 +55,30 @@ class ThreadsDemoFragment : BaseFragment() {
         ThreadInfoLogger.logThreadInfo(message)
     }
 
+    private fun showIterationsCountMessage(iterationsCount: Long) {
+        val message = String.format(
+            Locale.getDefault(),
+            getString(R.string.template_iterations_count),
+            iterationsCount
+        )
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun updateRemainingTime(remainingSeconds: Int) {
         logThreadInfo("updateRemainingTime: $remainingSeconds seconds")
 
         if (remainingSeconds > 0) {
-            textRemainingTime.text = "$remainingSeconds seconds remaining"
+            textRemainingTime.text = String.format(
+                Locale.getDefault(),
+                getString(R.string.template_remaining_time),
+                remainingSeconds
+            )
 
             Handler(Looper.getMainLooper()).postDelayed({
                 updateRemainingTime(remainingSeconds - 1)
             }, 1000)
         } else {
-            textRemainingTime.text = "Done!"
+            textRemainingTime.text = getString(R.string.message_done)
         }
     }
 
@@ -87,11 +100,8 @@ class ThreadsDemoFragment : BaseFragment() {
             logThreadInfo("Benchmark completed")
 
             Handler(Looper.getMainLooper()).post {
-                Toast.makeText(
-                    requireContext(),
-                    "Iterations: $iterationsCount",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showIterationsCountMessage(iterationsCount)
+                buttonStart.isEnabled = true
             }
         }.start()
     }
