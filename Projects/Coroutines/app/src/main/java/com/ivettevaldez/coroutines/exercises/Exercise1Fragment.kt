@@ -13,10 +13,7 @@ import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.BaseFragment
 import com.ivettevaldez.coroutines.common.ThreadInfoLogger
 import com.ivettevaldez.coroutines.home.ScreenReachableFromHome
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.*
 
 class Exercise1Fragment : BaseFragment() {
@@ -27,8 +24,9 @@ class Exercise1Fragment : BaseFragment() {
 
     private lateinit var editUserId: EditText
     private lateinit var buttonGetReputation: Button
-
     private lateinit var getReputationEndpoint: GetReputationEndpoint
+
+    private var job: Job? = null
 
     companion object {
 
@@ -64,7 +62,7 @@ class Exercise1Fragment : BaseFragment() {
         buttonGetReputation.setOnClickListener {
             logThreadInfo("Button callback")
 
-            coroutineScope.launch {
+            job = coroutineScope.launch {
                 buttonGetReputation.isEnabled = false
                 editUserId.isEnabled = false
 
@@ -79,6 +77,15 @@ class Exercise1Fragment : BaseFragment() {
         }
 
         return view
+    }
+
+    override fun onStop() {
+        logThreadInfo("onStart()")
+        super.onStop()
+
+        job?.cancel()
+        editUserId.isEnabled = true
+        buttonGetReputation.isEnabled = true
     }
 
     private fun logThreadInfo(message: String) {
