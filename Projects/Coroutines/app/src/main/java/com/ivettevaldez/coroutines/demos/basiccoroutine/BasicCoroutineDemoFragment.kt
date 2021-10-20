@@ -1,8 +1,6 @@
 package com.ivettevaldez.coroutines.demos.basiccoroutine
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +24,7 @@ class BasicCoroutineDemoFragment : BaseFragment() {
     private lateinit var textRemainingTime: TextView
     private lateinit var buttonStart: Button
 
+    private var jobCounter: Job? = null
     private var job: Job? = null
 
     companion object {
@@ -49,10 +48,16 @@ class BasicCoroutineDemoFragment : BaseFragment() {
         buttonStart.setOnClickListener {
             logThreadInfo("Button callback")
 
+            val benchmarkDurationSeconds = 5
+
+            jobCounter = coroutineScope.launch {
+                updateRemainingTime(benchmarkDurationSeconds)
+            }
+
             job = coroutineScope.launch {
                 buttonStart.isEnabled = false
 
-                val iterationsCount = executeBenchmark()
+                val iterationsCount = executeBenchmark(benchmarkDurationSeconds)
                 showIterationsCountMessage(iterationsCount)
 
                 buttonStart.isEnabled = true
@@ -67,6 +72,11 @@ class BasicCoroutineDemoFragment : BaseFragment() {
         super.onStop()
 
         job?.cancel()
+        jobCounter?.apply {
+            cancel()
+            textRemainingTime.text = getString(R.string.message_done)
+        }
+
         buttonStart.isEnabled = true
     }
 
@@ -83,30 +93,26 @@ class BasicCoroutineDemoFragment : BaseFragment() {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun updateRemainingTime(remainingSeconds: Int) {
-        logThreadInfo("updateRemainingTime: $remainingSeconds seconds")
+    private suspend fun updateRemainingTime(remainingSeconds: Int) {
+        for (time in remainingSeconds downTo 0) {
+            if (time > 0) {
+                logThreadInfo("updateRemainingTime: $time seconds")
 
-        if (remainingSeconds > 0) {
-            textRemainingTime.text = String.format(
-                Locale.getDefault(),
-                getString(R.string.template_remaining_time),
-                remainingSeconds
-            )
+                textRemainingTime.text = String.format(
+                    Locale.getDefault(),
+                    getString(R.string.template_remaining_time),
+                    time
+                )
 
-            Handler(Looper.getMainLooper()).postDelayed({
-                updateRemainingTime(remainingSeconds - 1)
-            }, 1000)
-        } else {
-            textRemainingTime.text = getString(R.string.message_done)
+                delay(1000)
+            } else {
+                textRemainingTime.text = getString(R.string.message_done)
+            }
         }
     }
 
-    private suspend fun executeBenchmark(): Long {
-        val benchmarkDurationSeconds = 5
-
-        updateRemainingTime(benchmarkDurationSeconds)
-
-        return withContext(Dispatchers.Default) {
+    private suspend fun executeBenchmark(benchmarkDurationSeconds: Int): Long =
+        withContext(Dispatchers.Default) {
             logThreadInfo("Benchmark started")
 
             val stopTimeNano = System.nanoTime() + benchmarkDurationSeconds * SECOND
@@ -120,5 +126,4 @@ class BasicCoroutineDemoFragment : BaseFragment() {
 
             iterationsCount
         }
-    }
 }
