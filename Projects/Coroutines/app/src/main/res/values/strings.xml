@@ -11,4 +11,5 @@
     <string name="template_remaining_time">%d seconds remaining</string>
     <string name="template_iterations_count">Iterations: %d</string>
     <string name="template_reputation">Reputation: %d</string>
+    <string name="template_elapsed_time">Elapsed time: %d ms</string>
 </resources>

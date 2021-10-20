@@ -53,6 +53,7 @@ class HomeFragment : BaseFragment(), HomeArrayAdapter.Listener {
             ScreenReachableFromHome.DEMO_THREADS -> screensNavigator.toThreadsDemo()
             ScreenReachableFromHome.DEMO_BASIC_COROUTINE -> screensNavigator.toBasicCoroutineDemo()
             ScreenReachableFromHome.EXERCISE_1 -> screensNavigator.toExercise1()
+            ScreenReachableFromHome.EXERCISE_2 -> screensNavigator.toExercise2()
         }
     }
 }

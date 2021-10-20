@@ -1,4 +1,4 @@
-package com.ivettevaldez.coroutines.exercises
+package com.ivettevaldez.coroutines.exercises.exercise1
 
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.BaseFragment
 import com.ivettevaldez.coroutines.common.ThreadInfoLogger
+import com.ivettevaldez.coroutines.exercises.GetReputationEndpoint
 import com.ivettevaldez.coroutines.home.ScreenReachableFromHome
 import kotlinx.coroutines.*
 import java.util.*

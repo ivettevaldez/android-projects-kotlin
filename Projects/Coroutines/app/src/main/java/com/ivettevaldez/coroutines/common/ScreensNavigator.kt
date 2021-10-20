@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.ivettevaldez.coroutines.demos.basiccoroutine.BasicCoroutineDemoFragment
 import com.ivettevaldez.coroutines.demos.threads.ThreadsDemoFragment
-import com.ivettevaldez.coroutines.exercises.Exercise1Fragment
+import com.ivettevaldez.coroutines.exercises.exercise1.Exercise1Fragment
+import com.ivettevaldez.coroutines.exercises.exercise2.Exercise2Fragment
 import com.ivettevaldez.coroutines.home.HomeFragment
 import com.ncapdevi.fragnav.FragNavController
 
@@ -54,5 +55,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toExercise1() {
         fragNavController.pushFragment(Exercise1Fragment.newInstance())
+    }
+
+    fun toExercise2() {
+        fragNavController.pushFragment(Exercise2Fragment.newInstance())
     }
 }
