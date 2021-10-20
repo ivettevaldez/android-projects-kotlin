@@ -24,8 +24,10 @@ class BasicCoroutineDemoFragment : BaseFragment() {
     private lateinit var textRemainingTime: TextView
     private lateinit var buttonStart: Button
 
-    private var jobCounter: Job? = null
-    private var job: Job? = null
+//    private var jobCounter: Job? = null
+//    private var job: Job? = null
+
+    private var hasBenchmarkBeenStartedOnce: Boolean = false
 
     companion object {
 
@@ -50,11 +52,11 @@ class BasicCoroutineDemoFragment : BaseFragment() {
 
             val benchmarkDurationSeconds = 5
 
-            jobCounter = coroutineScope.launch {
+            coroutineScope.launch {
                 updateRemainingTime(benchmarkDurationSeconds)
             }
 
-            job = coroutineScope.launch {
+            coroutineScope.launch {
                 buttonStart.isEnabled = false
 
                 val iterationsCount = executeBenchmark(benchmarkDurationSeconds)
@@ -62,6 +64,8 @@ class BasicCoroutineDemoFragment : BaseFragment() {
 
                 buttonStart.isEnabled = true
             }
+
+            hasBenchmarkBeenStartedOnce = true
         }
 
         return view
@@ -71,13 +75,19 @@ class BasicCoroutineDemoFragment : BaseFragment() {
         logThreadInfo("onStop()")
         super.onStop()
 
-        job?.cancel()
-        jobCounter?.apply {
-            cancel()
+//        job?.cancel()
+//        jobCounter?.apply {
+//            cancel()
+//            textRemainingTime.text = getString(R.string.message_done)
+//        }
+//        buttonStart.isEnabled = true
+
+        coroutineScope.coroutineContext.cancelChildren()
+
+        if (hasBenchmarkBeenStartedOnce) {
+            buttonStart.isEnabled = true
             textRemainingTime.text = getString(R.string.message_done)
         }
-
-        buttonStart.isEnabled = true
     }
 
     private fun logThreadInfo(message: String) {
