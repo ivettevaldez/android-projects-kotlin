@@ -124,7 +124,7 @@ class Exercise2Fragment : BaseFragment() {
 
             textElapsedTime.text = String.format(
                 Locale.getDefault(),
-                getString(R.string.template_elapsed_time),
+                getString(R.string.template_elapsed_time_ms),
                 elapsedTimeMs
             )
             delay(100)

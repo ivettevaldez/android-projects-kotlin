@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import com.ivettevaldez.coroutines.demos.basiccoroutine.BasicCoroutineDemoFragment
 import com.ivettevaldez.coroutines.demos.scopecancellation.ScopeCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.threads.ThreadsDemoFragment
+import com.ivettevaldez.coroutines.demos.viewmodel.ViewModelDemoFragment
 import com.ivettevaldez.coroutines.exercises.exercise1.Exercise1Fragment
 import com.ivettevaldez.coroutines.exercises.exercise2.Exercise2Fragment
 import com.ivettevaldez.coroutines.home.HomeFragment
@@ -64,5 +65,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toScopeCancellationDemo() {
         fragNavController.pushFragment(ScopeCancellationDemoFragment.newInstance())
+    }
+
+    fun toViewModelDemo() {
+        fragNavController.pushFragment(ViewModelDemoFragment.newInstance())
     }
 }
