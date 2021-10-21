@@ -33,6 +33,9 @@ class Exercise2Fragment : BaseFragment() {
 
     companion object {
 
+        private const val MILLISECOND: Long = 1_000_000L
+        private const val DELAY: Long = 100L
+
         @JvmStatic
         fun newInstance() = Exercise2Fragment()
     }
@@ -119,15 +122,14 @@ class Exercise2Fragment : BaseFragment() {
         val startTimeNano = System.nanoTime()
 
         while (true) {
-            val elapsedTime = System.nanoTime() - startTimeNano
-            val elapsedTimeMs = elapsedTime / 1000000
+            val elapsedTime = (System.nanoTime() - startTimeNano) / MILLISECOND
 
             textElapsedTime.text = String.format(
                 Locale.getDefault(),
                 getString(R.string.template_elapsed_time_ms),
-                elapsedTimeMs
+                elapsedTime
             )
-            delay(100)
+            delay(DELAY)
         }
     }
 }
