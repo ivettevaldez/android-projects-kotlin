@@ -3,6 +3,7 @@ package com.ivettevaldez.coroutines.common
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.ivettevaldez.coroutines.demos.basiccoroutine.BasicCoroutineDemoFragment
+import com.ivettevaldez.coroutines.demos.scopecancellation.ScopeCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.threads.ThreadsDemoFragment
 import com.ivettevaldez.coroutines.exercises.exercise1.Exercise1Fragment
 import com.ivettevaldez.coroutines.exercises.exercise2.Exercise2Fragment
@@ -59,5 +60,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toExercise2() {
         fragNavController.pushFragment(Exercise2Fragment.newInstance())
+    }
+
+    fun toScopeCancellationDemo() {
+        fragNavController.pushFragment(ScopeCancellationDemoFragment.newInstance())
     }
 }
