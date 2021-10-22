@@ -4,11 +4,6 @@ import java.math.BigInteger;
 
 public class FibonacciUseCaseAsync {
 
-    public interface Callback {
-
-        void onFibonacciComputed(BigInteger result);
-    }
-
     public void computeFibonacci(int index, Callback callback) {
         new Thread(() -> {
             BigInteger result = computeFibonacciBg(index);
@@ -24,5 +19,10 @@ public class FibonacciUseCaseAsync {
         } else {
             return computeFibonacciBg(index - 1).add(computeFibonacciBg(index - 2));
         }
+    }
+
+    public interface Callback {
+
+        void onFibonacciComputed(BigInteger result);
     }
 }
