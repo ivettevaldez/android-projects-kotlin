@@ -1,0 +1,3 @@
+package com.ivettevaldez.coroutines.common.dependencyinjection
+
+class ApplicationCompositionRoot
