@@ -7,7 +7,10 @@ import com.ivettevaldez.coroutines.common.ScreensNavigator
 import com.ivettevaldez.coroutines.common.ToolbarDelegate
 import com.ncapdevi.fragnav.FragNavController
 
-class ActivityCompositionRoot(private val activity: FragmentActivity) {
+class ActivityCompositionRoot(
+    private val activity: FragmentActivity,
+    private val applicationCompositionRoot: ApplicationCompositionRoot
+) {
 
     val toolbarManipulator get() = activity as ToolbarDelegate
 
