@@ -2,6 +2,7 @@ package com.ivettevaldez.coroutines.common
 
 import android.os.Bundle
 import com.ivettevaldez.coroutines.demos.backgroundthread.BackgroundThreadDemoFragment
+import com.ivettevaldez.coroutines.demos.basiccoroutines.BasicCoroutinesDemoFragment
 import com.ivettevaldez.coroutines.demos.uithread.UiThreadDemoFragment
 import com.ivettevaldez.coroutines.home.HomeFragment
 import com.ncapdevi.fragnav.FragNavController
@@ -41,5 +42,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toBackgroundThreadDemo() {
         fragNavController.pushFragment(BackgroundThreadDemoFragment.newInstance())
+    }
+
+    fun toBasicCoroutinesDemo() {
+        fragNavController.pushFragment(BasicCoroutinesDemoFragment.newInstance())
     }
 }
