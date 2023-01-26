@@ -1,4 +1,4 @@
-package com.ivettevaldez.coroutines.demos
+package com.ivettevaldez.coroutines.demos.backgroundthread
 
 import android.os.Bundle
 import android.os.Handler
@@ -14,10 +14,10 @@ import com.ivettevaldez.coroutines.common.BaseFragment
 import com.ivettevaldez.coroutines.home.ScreenReachableFromHome
 import com.ivettevaldez.coroutines.common.ThreadInfoLogger as logger
 
-class UiThreadDemoFragment : BaseFragment() {
+class BackgroundThreadDemoFragment : BaseFragment() {
 
     override val screenTitle: String
-        get() = ScreenReachableFromHome.UI_THREAD_DEMO.description
+        get() = ScreenReachableFromHome.BACKGROUND_THREAD_DEMO.description
 
     private lateinit var btnStart: Button
     private lateinit var txtRemainingTime: TextView
@@ -27,14 +27,14 @@ class UiThreadDemoFragment : BaseFragment() {
         private const val BENCHMARK_DURATION_SECONDS: Int = 5
         private const val VALUE_SECOND: Long = 1_000_000_000L
 
-        fun newInstance() = UiThreadDemoFragment()
+        fun newInstance() = BackgroundThreadDemoFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_ui_thread_demo, container, false)
+        val view = inflater.inflate(R.layout.fragment_loop_iterations_demo, container, false)
 
         txtRemainingTime = view.findViewById(R.id.txt_remaining_time)
 
@@ -66,20 +66,24 @@ class UiThreadDemoFragment : BaseFragment() {
     }
 
     private fun executeBenchmark() {
-        updateRemainingTime(BENCHMARK_DURATION_SECONDS)
         logger.logThreadInfo("benchmark started")
+        updateRemainingTime(BENCHMARK_DURATION_SECONDS)
 
-        val stopTimeNano = System.nanoTime() + BENCHMARK_DURATION_SECONDS * VALUE_SECOND
+        Thread {
+            val stopTimeNano = System.nanoTime() + BENCHMARK_DURATION_SECONDS * VALUE_SECOND
 
-        var iterationsCount: Long = 0
-        while (System.nanoTime() < stopTimeNano) {
-            iterationsCount++
-        }
+            var iterationsCount: Long = 0
+            while (System.nanoTime() < stopTimeNano) {
+                iterationsCount++
+            }
 
-        logger.logThreadInfo("benchmark completed")
+            logger.logThreadInfo("benchmark completed")
 
-        Toast.makeText(
-            requireContext(), "Iterations: $iterationsCount", Toast.LENGTH_SHORT
-        ).show()
+            Handler(Looper.getMainLooper()).post {
+                Toast.makeText(
+                    requireContext(), "Iterations: $iterationsCount", Toast.LENGTH_SHORT
+                ).show()
+            }
+        }.start()
     }
 }

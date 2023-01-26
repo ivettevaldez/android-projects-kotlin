@@ -44,6 +44,7 @@ class HomeFragment : BaseFragment(), HomeArrayAdapter.Listener {
     override fun onScreenClicked(screenReachableFromHome: ScreenReachableFromHome) {
         when (screenReachableFromHome) {
             ScreenReachableFromHome.UI_THREAD_DEMO -> screensNavigator.toUiThreadDemo()
+            ScreenReachableFromHome.BACKGROUND_THREAD_DEMO -> screensNavigator.toBackgroundThreadDemo()
         }
     }
 }
