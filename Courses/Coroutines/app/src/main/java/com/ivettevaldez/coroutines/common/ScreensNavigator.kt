@@ -1,6 +1,7 @@
 package com.ivettevaldez.coroutines.common
 
 import android.os.Bundle
+import com.ivettevaldez.coroutines.demos.UiThreadDemoFragment
 import com.ivettevaldez.coroutines.home.HomeFragment
 import com.ncapdevi.fragnav.FragNavController
 import com.ncapdevi.fragnav.FragNavController.RootFragmentListener
