@@ -67,15 +67,14 @@ class UiThreadDemoFragment : BaseFragment() {
 
     private fun executeBenchmark() {
         updateRemainingTime(BENCHMARK_DURATION_SECONDS)
-        logger.logThreadInfo("benchmark started")
 
+        logger.logThreadInfo("benchmark started")
         val stopTimeNano = System.nanoTime() + BENCHMARK_DURATION_SECONDS * VALUE_SECOND
 
         var iterationsCount: Long = 0
         while (System.nanoTime() < stopTimeNano) {
             iterationsCount++
         }
-
         logger.logThreadInfo("benchmark completed")
 
         Toast.makeText(

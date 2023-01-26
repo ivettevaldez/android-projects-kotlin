@@ -66,20 +66,22 @@ class BackgroundThreadDemoFragment : BaseFragment() {
     }
 
     private fun executeBenchmark() {
-        logger.logThreadInfo("benchmark started")
+        // This must be executed on the Main thread
         updateRemainingTime(BENCHMARK_DURATION_SECONDS)
 
+        // Background thread starts here
         Thread {
+            logger.logThreadInfo("benchmark started")
             val stopTimeNano = System.nanoTime() + BENCHMARK_DURATION_SECONDS * VALUE_SECOND
 
             var iterationsCount: Long = 0
             while (System.nanoTime() < stopTimeNano) {
                 iterationsCount++
             }
-
             logger.logThreadInfo("benchmark completed")
 
             Handler(Looper.getMainLooper()).post {
+                // This must be executed on the Main thread
                 Toast.makeText(
                     requireContext(), "Iterations: $iterationsCount", Toast.LENGTH_SHORT
                 ).show()
