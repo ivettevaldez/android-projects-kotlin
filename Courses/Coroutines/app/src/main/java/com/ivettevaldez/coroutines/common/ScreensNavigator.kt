@@ -32,4 +32,8 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
     fun navigateUp() {
         fragNavController.popFragment()
     }
+
+    fun toUiThreadDemo() {
+        fragNavController.pushFragment(UiThreadDemoFragment.newInstance())
+    }
 }

@@ -10,10 +10,10 @@ open class BaseFragment : Fragment() {
 
     protected open val screenTitle: String = ""
 
+    protected lateinit var screensNavigator: ScreensNavigator
+
     private val compositionRoot
         get(): ActivityCompositionRoot = (requireActivity() as MainActivity).compositionRoot
-
-    private lateinit var screensNavigator: ScreensNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
