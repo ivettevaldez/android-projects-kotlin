@@ -1,4 +1,4 @@
-package com.ivettevaldez.coroutines.exercises
+package com.ivettevaldez.coroutines.exercises.exercise1
 
 import kotlin.random.Random
 import com.ivettevaldez.coroutines.common.ThreadInfoLogger as logger

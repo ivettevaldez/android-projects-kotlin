@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.ScreensNavigator
 import com.ivettevaldez.coroutines.common.ToolbarDelegate
-import com.ivettevaldez.coroutines.exercises.GetReputationEndpoint
+import com.ivettevaldez.coroutines.exercises.exercise1.GetReputationEndpoint
 import com.ncapdevi.fragnav.FragNavController
 
 class ActivityCompositionRoot(

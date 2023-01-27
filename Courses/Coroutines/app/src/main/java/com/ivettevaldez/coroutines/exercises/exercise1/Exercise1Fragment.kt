@@ -1,4 +1,4 @@
-package com.ivettevaldez.coroutines.exercises
+package com.ivettevaldez.coroutines.exercises.exercise1
 
 import android.os.Bundle
 import android.text.Editable

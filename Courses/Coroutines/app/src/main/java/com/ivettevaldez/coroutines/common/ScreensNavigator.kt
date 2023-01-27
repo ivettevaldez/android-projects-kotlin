@@ -5,7 +5,8 @@ import com.ivettevaldez.coroutines.demos.backgroundthread.BackgroundThreadDemoFr
 import com.ivettevaldez.coroutines.demos.basiccoroutines.BasicCoroutinesDemoFragment
 import com.ivettevaldez.coroutines.demos.coroutinescancellation.CoroutinesCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.uithread.UiThreadDemoFragment
-import com.ivettevaldez.coroutines.exercises.Exercise1Fragment
+import com.ivettevaldez.coroutines.exercises.exercise1.Exercise1Fragment
+import com.ivettevaldez.coroutines.exercises.exercise2.Exercise2Fragment
 import com.ivettevaldez.coroutines.home.HomeFragment
 import com.ncapdevi.fragnav.FragNavController
 import com.ncapdevi.fragnav.FragNavController.RootFragmentListener
@@ -50,11 +51,15 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
         fragNavController.pushFragment(BasicCoroutinesDemoFragment.newInstance())
     }
 
+    fun toExercise1() {
+        fragNavController.pushFragment(Exercise1Fragment.newInstance())
+    }
+
     fun toCoroutinesCancellationDemo() {
         fragNavController.pushFragment(CoroutinesCancellationDemoFragment.newInstance())
     }
 
-    fun toExercise1() {
-        fragNavController.pushFragment(Exercise1Fragment.newInstance())
+    fun toExercise2() {
+        fragNavController.pushFragment(Exercise2Fragment.newInstance())
     }
 }
