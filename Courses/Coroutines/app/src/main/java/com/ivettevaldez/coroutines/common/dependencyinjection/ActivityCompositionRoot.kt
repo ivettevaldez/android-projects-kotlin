@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager
 import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.ScreensNavigator
 import com.ivettevaldez.coroutines.common.ToolbarDelegate
+import com.ivettevaldez.coroutines.exercises.GetReputationEndpoint
 import com.ncapdevi.fragnav.FragNavController
 
 class ActivityCompositionRoot(
@@ -21,4 +22,6 @@ class ActivityCompositionRoot(
     private val fragmentManager: FragmentManager get() = activity.supportFragmentManager
 
     private val fragNavController get() = FragNavController(fragmentManager, R.id.frame_content)
+
+    val getReputationEndpoint get() = GetReputationEndpoint()
 }

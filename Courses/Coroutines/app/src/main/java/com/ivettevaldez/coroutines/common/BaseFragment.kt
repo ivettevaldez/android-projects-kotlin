@@ -12,7 +12,7 @@ open class BaseFragment : Fragment() {
 
     protected lateinit var screensNavigator: ScreensNavigator
 
-    private val compositionRoot
+    protected val compositionRoot
         get(): ActivityCompositionRoot = (requireActivity() as MainActivity).compositionRoot
 
     override fun onCreate(savedInstanceState: Bundle?) {
