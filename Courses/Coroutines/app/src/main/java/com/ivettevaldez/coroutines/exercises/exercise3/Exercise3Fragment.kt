@@ -116,7 +116,7 @@ class Exercise3Fragment : BaseFragment() {
             delay(ELAPSED_TIME_UPDATE_MILLIS)
             val elapsedTimeMillis = (System.nanoTime() - startTimeNano) / MS_VALUE
             textElapsedTime.text = getString(
-                R.string.elapsed_time_template,
+                R.string.elapsed_time_ms_template,
                 elapsedTimeMillis.toString()
             )
         }

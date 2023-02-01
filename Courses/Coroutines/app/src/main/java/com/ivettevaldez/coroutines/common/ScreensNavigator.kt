@@ -8,6 +8,7 @@ import com.ivettevaldez.coroutines.demos.coroutinescancellation.CoroutinesCancel
 import com.ivettevaldez.coroutines.demos.scopecancellation.ScopeCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.scopechildrencancellation.ScopeChildrenCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.uithread.UiThreadDemoFragment
+import com.ivettevaldez.coroutines.demos.viewmodel.ViewModelDemoFragment
 import com.ivettevaldez.coroutines.exercises.exercise1.Exercise1Fragment
 import com.ivettevaldez.coroutines.exercises.exercise2.Exercise2Fragment
 import com.ivettevaldez.coroutines.exercises.exercise3.Exercise3Fragment
@@ -81,5 +82,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toScopeCancellationDemo() {
         fragNavController.pushFragment(ScopeCancellationDemoFragment.newInstance())
+    }
+
+    fun toViewModelDemo() {
+        fragNavController.pushFragment(ViewModelDemoFragment.newInstance())
     }
 }

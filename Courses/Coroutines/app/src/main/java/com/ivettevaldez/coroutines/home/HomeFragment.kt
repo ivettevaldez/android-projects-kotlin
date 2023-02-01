@@ -53,6 +53,7 @@ class HomeFragment : BaseFragment(), HomeArrayAdapter.Listener {
             ScreenReachableFromHome.SCOPE_CHILDREN_CANCELLATION_DEMO -> screensNavigator.toScopeChildrenCancellationDemo()
             ScreenReachableFromHome.EXERCISE_3 -> screensNavigator.toExercise3()
             ScreenReachableFromHome.SCOPE_CANCELLATION_DEMO -> screensNavigator.toScopeCancellationDemo()
+            ScreenReachableFromHome.VIEW_MODEL_DEMO -> screensNavigator.toViewModelDemo()
         }
     }
 }
