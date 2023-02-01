@@ -1,4 +1,4 @@
-package com.ivettevaldez.coroutines.exercises.exercise2
+package com.ivettevaldez.coroutines.exercises.exercise3
 
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.BaseFragment
@@ -16,23 +17,27 @@ import com.ivettevaldez.coroutines.home.ScreenReachableFromHome
 import kotlinx.coroutines.*
 import com.ivettevaldez.coroutines.common.ThreadInfoLogger as logger
 
-class Exercise2Fragment : BaseFragment() {
+class Exercise3Fragment : BaseFragment() {
 
     override val screenTitle: String
-        get() = ScreenReachableFromHome.EXERCISE_2.description
+        get() = ScreenReachableFromHome.EXERCISE_3.description
 
     private lateinit var editUserId: EditText
     private lateinit var buttonGetReputation: Button
+    private lateinit var textElapsedTime: TextView
 
     private lateinit var getReputationEndpoint: GetReputationEndpoint
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
-    private var job: Job? = null
+    private var jobElapsedTime: Job? = null
 
     companion object {
 
-        fun newInstance() = Exercise2Fragment()
+        private const val ELAPSED_TIME_UPDATE_MILLIS: Long = 100L
+        private const val MS_VALUE: Long = 1_000_000L
+
+        fun newInstance() = Exercise3Fragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +49,7 @@ class Exercise2Fragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_exercise_2, container, false)
+        val view = inflater.inflate(R.layout.fragment_exercise_3, container, false)
 
         editUserId = view.findViewById(R.id.edt_user_id)
         editUserId.addTextChangedListener(object : TextWatcher {
@@ -57,11 +62,18 @@ class Exercise2Fragment : BaseFragment() {
             override fun afterTextChanged(p0: Editable?) {}
         })
 
+        textElapsedTime = view.findViewById(R.id.txt_elapsed_time)
+
         buttonGetReputation = view.findViewById(R.id.btn_get_reputation)
         buttonGetReputation.setOnClickListener {
             logger.logThreadInfo("button callback")
 
-            job = coroutineScope.launch {
+            jobElapsedTime = coroutineScope.launch {
+                updateElapsedTime()
+                this.cancel()
+            }
+
+            coroutineScope.launch {
                 // This must be executed on the Main thread
                 buttonGetReputation.isEnabled = false
 
@@ -73,6 +85,8 @@ class Exercise2Fragment : BaseFragment() {
                     requireContext(), "reputation: $reputation", Toast.LENGTH_SHORT
                 ).show()
                 buttonGetReputation.isEnabled = true
+
+                jobElapsedTime?.cancel()
             }
         }
 
@@ -83,7 +97,7 @@ class Exercise2Fragment : BaseFragment() {
         logger.logThreadInfo("onStop()")
         super.onStop()
         // Cancel coroutine
-        job?.cancel()
+        coroutineScope.coroutineContext.cancelChildren()
         // Reset UI state
         buttonGetReputation.isEnabled = true
     }
@@ -92,6 +106,19 @@ class Exercise2Fragment : BaseFragment() {
         return withContext(Dispatchers.Default) {
             logger.logThreadInfo("")
             getReputationEndpoint.getReputation(userId)
+        }
+    }
+
+    private suspend fun updateElapsedTime() {
+        val startTimeNano = System.nanoTime()
+
+        while (true) {
+            delay(ELAPSED_TIME_UPDATE_MILLIS)
+            val elapsedTimeMillis = (System.nanoTime() - startTimeNano) / MS_VALUE
+            textElapsedTime.text = getString(
+                R.string.elapsed_time_template,
+                elapsedTimeMillis.toString()
+            )
         }
     }
 }

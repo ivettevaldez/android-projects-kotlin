@@ -6,4 +6,5 @@
     <string name="done">Done!</string>
     <string name="user_id">User ID</string>
     <string name="get_reputation">Get reputation</string>
+    <string name="elapsed_time_template">Elapsed time: %s ms</string>
 </resources>

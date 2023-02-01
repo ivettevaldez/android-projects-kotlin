@@ -44,7 +44,7 @@ class Exercise1Fragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_exercise1, container, false)
+        val view = inflater.inflate(R.layout.fragment_exercise_1, container, false)
 
         editUserId = view.findViewById(R.id.edt_user_id)
         editUserId.addTextChangedListener(object : TextWatcher {

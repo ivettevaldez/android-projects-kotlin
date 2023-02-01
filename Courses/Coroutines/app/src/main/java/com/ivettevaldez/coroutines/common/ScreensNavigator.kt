@@ -9,6 +9,7 @@ import com.ivettevaldez.coroutines.demos.scopechildrencancellation.ScopeChildren
 import com.ivettevaldez.coroutines.demos.uithread.UiThreadDemoFragment
 import com.ivettevaldez.coroutines.exercises.exercise1.Exercise1Fragment
 import com.ivettevaldez.coroutines.exercises.exercise2.Exercise2Fragment
+import com.ivettevaldez.coroutines.exercises.exercise3.Exercise3Fragment
 import com.ivettevaldez.coroutines.home.HomeFragment
 import com.ncapdevi.fragnav.FragNavController
 import com.ncapdevi.fragnav.FragNavController.RootFragmentListener
@@ -71,5 +72,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toScopeChildrenCancellationDemo() {
         fragNavController.pushFragment(ScopeChildrenCancellationDemoFragment.newInstance())
+    }
+
+    fun toExercise3() {
+        fragNavController.pushFragment(Exercise3Fragment.newInstance())
     }
 }
