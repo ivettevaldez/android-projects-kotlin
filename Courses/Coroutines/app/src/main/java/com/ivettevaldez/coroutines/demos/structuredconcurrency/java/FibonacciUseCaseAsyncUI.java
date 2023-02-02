@@ -1,0 +1,37 @@
+package com.ivettevaldez.coroutines.demos.structuredconcurrency.java;
+
+import android.os.Handler;
+import android.os.Looper;
+
+import androidx.annotation.WorkerThread;
+
+import java.math.BigInteger;
+
+public class FibonacciUseCaseAsyncUI {
+
+    public interface Callback {
+        void onFibonacciComputed(BigInteger result);
+    }
+
+    public void computeFibonacci(int index, Callback callback) {
+        new Thread(() -> {
+            BigInteger result = computeFibonacciBg(index);
+            notifyResult(result, callback);
+        }).start();
+    }
+
+    @WorkerThread
+    private BigInteger computeFibonacciBg(int index) {
+        if (index == 0) {
+            return new BigInteger("0");
+        } else if (index == 1) {
+            return new BigInteger("1");
+        } else {
+            return computeFibonacciBg(index - 1).add(computeFibonacciBg(index - 2));
+        }
+    }
+
+    private void notifyResult(BigInteger result, Callback callback) {
+        new Handler(Looper.getMainLooper()).post(() -> callback.onFibonacciComputed(result));
+    }
+}
