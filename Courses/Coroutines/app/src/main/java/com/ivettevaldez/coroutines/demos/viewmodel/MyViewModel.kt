@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -50,11 +49,5 @@ class MyViewModel : ViewModel() {
         logger.logThreadInfo("stopTracking()")
         _isTrackingTime.postValue(false)
         viewModelScope.coroutineContext.cancelChildren()
-    }
-
-    override fun onCleared() {
-        logger.logThreadInfo("onCleared()")
-        super.onCleared()
-        viewModelScope.cancel()
     }
 }
