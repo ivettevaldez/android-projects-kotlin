@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.math.BigInteger
 
-internal class FibonacciUseCaseUICoroutines() {
+internal class FibonacciUseCaseUICoroutines {
 
     suspend fun computeFibonacci(index: Int): BigInteger = withContext(Dispatchers.Default) {
         when (index) {

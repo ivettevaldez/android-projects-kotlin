@@ -10,4 +10,8 @@
     <string name="start_tracking">Start tracking</string>
     <string name="stop_tracking">Stop tracking</string>
     <string name="elapsed_time_sec_template">Elapsed time: %s sec</string>
+    <string name="argument">Argument</string>
+    <string name="timeout_ms_optional">Timeout ms (optional)</string>
+    <string name="compute_factorial">Compute factorial</string>
+    <string name="computation_timed_out">Computation timed out</string>
 </resources>
