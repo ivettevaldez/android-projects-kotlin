@@ -8,6 +8,7 @@ import com.ivettevaldez.coroutines.common.ToolbarDelegate
 import com.ivettevaldez.coroutines.demos.design.BenchmarkUseCase
 import com.ivettevaldez.coroutines.exercises.exercise1.GetReputationEndpoint
 import com.ivettevaldez.coroutines.exercises.exercise4.FactorialUseCase
+import com.ivettevaldez.coroutines.exercises.exercise5.GetReputationUseCase
 import com.ncapdevi.fragnav.FragNavController
 
 class ActivityCompositionRoot(
@@ -28,6 +29,8 @@ class ActivityCompositionRoot(
     val getReputationEndpoint get() = GetReputationEndpoint()
 
     val factorialUseCase: FactorialUseCase get() = FactorialUseCase()
-    
+
     val benchmarkUseCase: BenchmarkUseCase get() = BenchmarkUseCase()
+
+    val getReputationUseCase get() = GetReputationUseCase(getReputationEndpoint)
 }

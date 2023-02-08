@@ -14,6 +14,7 @@ import com.ivettevaldez.coroutines.exercises.exercise1.Exercise1Fragment
 import com.ivettevaldez.coroutines.exercises.exercise2.Exercise2Fragment
 import com.ivettevaldez.coroutines.exercises.exercise3.Exercise3Fragment
 import com.ivettevaldez.coroutines.exercises.exercise4.Exercise4Fragment
+import com.ivettevaldez.coroutines.exercises.exercise5.Exercise5Fragment
 import com.ivettevaldez.coroutines.home.HomeFragment
 import com.ncapdevi.fragnav.FragNavController
 import com.ncapdevi.fragnav.FragNavController.RootFragmentListener
@@ -96,5 +97,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toDesignDemo() {
         fragNavController.pushFragment(DesignDemoFragment.newInstance())
+    }
+
+    fun toExercise5() {
+        fragNavController.pushFragment(Exercise5Fragment.newInstance())
     }
 }
