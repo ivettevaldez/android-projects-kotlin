@@ -5,6 +5,7 @@ import com.ivettevaldez.coroutines.demos.backgroundthread.BackgroundThreadDemoFr
 import com.ivettevaldez.coroutines.demos.basiccoroutines.BasicCoroutinesDemoFragment
 import com.ivettevaldez.coroutines.demos.concurrentcoroutines.ConcurrentCoroutinesDemoFragment
 import com.ivettevaldez.coroutines.demos.coroutinescancellation.CoroutinesCancellationDemoFragment
+import com.ivettevaldez.coroutines.demos.design.DesignDemoFragment
 import com.ivettevaldez.coroutines.demos.scopecancellation.ScopeCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.scopechildrencancellation.ScopeChildrenCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.uithread.UiThreadDemoFragment
@@ -91,5 +92,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toExercise4() {
         fragNavController.pushFragment(Exercise4Fragment.newInstance())
+    }
+
+    fun toDesignDemo() {
+        fragNavController.pushFragment(DesignDemoFragment.newInstance())
     }
 }
