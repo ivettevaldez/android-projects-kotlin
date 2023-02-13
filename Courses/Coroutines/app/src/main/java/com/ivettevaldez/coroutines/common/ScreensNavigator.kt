@@ -6,6 +6,7 @@ import com.ivettevaldez.coroutines.demos.basiccoroutines.BasicCoroutinesDemoFrag
 import com.ivettevaldez.coroutines.demos.concurrentcoroutines.ConcurrentCoroutinesDemoFragment
 import com.ivettevaldez.coroutines.demos.coroutinescancellation.CoroutinesCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.coroutinescancellationcooperative.CoroutinesCancellationCooperativeDemoFragment
+import com.ivettevaldez.coroutines.demos.coroutinescancellationcooperative2.CoroutinesCancellationCooperative2DemoFragment
 import com.ivettevaldez.coroutines.demos.design.DesignDemoFragment
 import com.ivettevaldez.coroutines.demos.scopecancellation.ScopeCancellationDemoFragment
 import com.ivettevaldez.coroutines.demos.scopechildrencancellation.ScopeChildrenCancellationDemoFragment
@@ -106,5 +107,9 @@ class ScreensNavigator(private val fragNavController: FragNavController) {
 
     fun toCoroutinesCancellationCooperativeDemo() {
         fragNavController.pushFragment(CoroutinesCancellationCooperativeDemoFragment.newInstance())
+    }
+
+    fun toCoroutinesCancellationCooperative2Demo() {
+        fragNavController.pushFragment(CoroutinesCancellationCooperative2DemoFragment.newInstance())
     }
 }

@@ -6,6 +6,7 @@ import com.ivettevaldez.coroutines.R
 import com.ivettevaldez.coroutines.common.ScreensNavigator
 import com.ivettevaldez.coroutines.common.ToolbarDelegate
 import com.ivettevaldez.coroutines.demos.coroutinescancellationcooperative.CancellableBenchmarkUseCase
+import com.ivettevaldez.coroutines.demos.coroutinescancellationcooperative2.CancellableBenchmark2UseCase
 import com.ivettevaldez.coroutines.demos.design.BenchmarkUseCase
 import com.ivettevaldez.coroutines.exercises.exercise1.GetReputationEndpoint
 import com.ivettevaldez.coroutines.exercises.exercise4.FactorialUseCase
@@ -36,4 +37,6 @@ class ActivityCompositionRoot(
     val getReputationUseCase get() = GetReputationUseCase(getReputationEndpoint)
 
     val cancellableBenchmarkUseCase get() = CancellableBenchmarkUseCase()
+
+    val cancellableBenchmark2UseCase get() = CancellableBenchmark2UseCase()
 }
